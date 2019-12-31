@@ -1,0 +1,32 @@
+.remove {
+    position: absolute;
+    right: 7px;
+    top: 1px;
+    cursor: pointer;
+    z-index: 999;
+    display: none;
+}
+
+.grid-item {
+    position: absolute;
+}
+
+.grid-item:hover .remove {
+    display: inline-block;
+}
+
+.item {
+    font-size: 30px;
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+}
+.item:hover{
+    border: 1px solid #00000033;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
+}
+
+#map:hover .item{
+    border: 1px solid #00000033;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
+}

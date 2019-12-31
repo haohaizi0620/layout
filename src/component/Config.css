@@ -1,0 +1,21 @@
+.control-panel{
+    width: 265px;
+    height: 100%;
+    z-index: 90;
+    background: #1c1f25;
+    position: relative;
+    transition: width .25s ease-in-out;
+}
+
+.control-panel-header{
+    position: relative;
+    background-color: #ddd;
+    height: 34px;
+    line-height: 34px;
+}
+
+.control-panel-container{
+    position: relative;
+    background-color: antiquewhite;
+    padding: 10px 0;
+}

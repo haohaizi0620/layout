@@ -1,0 +1,23 @@
+
+.pro-item {
+    width: 100%;
+    display: flex;
+    position: relative;
+    padding: 6px;
+}
+
+.pro-item:first-child {
+    padding-top: 16px;
+}
+
+.pro-item-i {
+    display: block;
+    width: 6px;
+    margin-right: 4px;
+}
+
+.pro-item-text {
+    width: 100px;
+    height: 24px;
+    line-height: 24px;
+}

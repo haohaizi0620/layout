@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+<script>
+
+    axios({
+        method: 'get',
+        url: url1,
+        params: {
+            propertyName: "标准名称,所属区县,OBJECTID,shape",
+            VERSION: "2.0.0",
+            SERVICE: "WFS",
+            REQUEST: "GetFeature",
+            TYPENAME: "L4779",
+            Filter: filter,
+            MaxFeatures: 20000
+        },
+        /* transformRequest: [function (data, headers) {
+         debugger;
+         let ret = ''
+         for (let it in data) {
+         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+         }
+         return ret
+         return data;
+         }], */
+        paramsSerializer: function (params) {
+            debugger;
+            let ret = ''
+            for (let it in params) {
+                ret += it + '=' + encodeURIComponent(params[it]) + '&'
+            }
+            return ret
+        },
+    }).then(function (response) {
+        console.info(response.data);
+    });
+
+</script>
+</body>
+</html>

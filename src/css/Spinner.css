@@ -1,0 +1,61 @@
+.spinner {
+    width: 200px !important;
+    margin-left: -4px;
+    margin-right: -4px;
+    display: flex;
+    flex-flow: wrap;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.spinner-p {
+    padding: 0 4px;
+}
+
+.spinner-p-item{
+    display: flex;
+}
+
+.spinner-p-item-l{
+    line-height: 16px;
+    color: #a1aeb3;
+    width: 100%;
+    caret-color: #2483ff;
+    box-sizing: border-box;
+    box-shadow: none;
+    margin: 0;
+    outline: 0;
+    border-radius: 0;
+    font-size: 12px;
+    border: 1px solid #0b0c0d;
+    transition: border .2s ease-in-out,box-shadow .2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    height: 100%;
+    flex: 1;
+}
+.spinner-p-item-l input{
+    font-size: 12px;
+    color: #a1aeb3;
+    flex: 1;
+    background: 0 0;
+    display: block;
+    line-height: 16px;
+    resize: none;
+    padding: 0 7px;
+    border: none;
+    width: 30px;
+}
+
+.spinner-p-item-r{
+
+}
+.spinner-p-item-r add{
+
+}
+.spinner-p-item-r minus{
+
+}
