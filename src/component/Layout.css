@@ -9,5 +9,10 @@
 .custom-content-p{
     width: calc(100% - 450px);
     height: 100%;
-
+    border: 1px solid #00b8ff;
+    overflow: auto;
+}
+.custom-content-canvs{
+    height: 100%;
+    width:100%;
 }

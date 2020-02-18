@@ -80,6 +80,7 @@ html, body {
   display: block;
 }
 
+
 .custom-header-li-c {
   display: none;
   position: absolute;
@@ -159,7 +160,7 @@ html, body {
 .custom-header-menu-li-bg{
   overflow: hidden;
   width: 100%;
-  height: 80px;
+  height:80px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -169,6 +170,16 @@ html, body {
   box-sizing: content-box;
   pointer-events: none;
 }
+
+
+.custom-left-list .custom-header-menu-li-bg{
+  width: 55%;
+  height: 55px;
+  display: inline-block;
+  background-size: 100% 100%;
+}
+
+/* 
 .custom-header-menu-li .jbzt{
   background-image: url(img/chart/jbzt.png);
 }
@@ -235,6 +246,143 @@ html, body {
 .custom-header-menu-li .xxzt{
   background-image: url(img/chart/xxzt.png);
 }
+.custom-header-menu-li .generalPointStyle{
+  background-image: url(img/chart/generalPointStyle.png);
+}
+.custom-header-menu-li .generalLineStyle{
+  background-image: url(img/chart/generalLineStyle.png);
+}
+.custom-header-menu-li .generalSurfaceStyle{
+  background-image: url(img/chart/generalSurfaceStyle.png);
+}
+.custom-header-menu-li .mapPie{
+  background-image: url(img/chart/mapPie.png);
+}
+.custom-header-menu-li .mapFan{
+  background-image: url(img/chart/mapFan.png);
+}
+.custom-header-menu-li .mapBar{
+  background-image: url(img/chart/mapBar.png);
+}
+
+.custom-header-menu-li .moreRowText{
+  background-image: url(img/text/moreRowText.png);
+}
+
+.custom-header-menu-li .singleRowText{
+  background-image: url(img/text/singleRowText.png);
+}
+ */
+
+.jbztbg{
+  background-image: url(img/chart/jbzt.png);
+}
+.ddzztbg{
+  background-image: url(img/chart/ddzzt.png);
+}
+.ddtxtbg{
+  background-image: url(img/chart/ddtxt.png);
+}
+.zxztbg{
+  background-image: url(img/chart/zxzt.png);
+}
+.zftxtbg{
+  background-image: url(img/chart/zftxt.png);
+}
+.jtpbtbg{
+  background-image: url(img/chart/jtpbt.png);
+}
+.jbzxtbg{
+  background-image: url(img/chart/jbzxt.png);
+}
+.ddzxtbg{
+  background-image: url(img/chart/ddzxt.png);
+}
+.pbtbg{
+  background-image: url(img/chart/pbt.png);
+}
+.ysfdzxtbg{
+  background-image: url(img/chart/ysfdzxt.png);
+}
+.jbmjtbg{
+  background-image: url(img/chart/jbmjt.png);
+}
+.ddmjtbg{
+  background-image: url(img/chart/ddmjt.png);
+}
+.jbbtbg{
+  background-image: url(img/chart/jbbt.png);
+}
+.yhbtbg{
+  background-image: url(img/chart/yhbt.png);
+}
+.zbzbbtbg{
+  background-image: url(img/chart/zbzbbt.png);
+}
+.mgtbg{
+  background-image: url(img/chart/mgt.png);
+}
+.qptbg{
+  background-image: url(img/chart/qpt.png);
+}
+.sdtbg{
+  background-image: url(img/chart/sdt.png);
+}
+.ldtbg{
+  background-image: url(img/chart/ldt.png);
+}
+.ldotbg{
+  background-image: url(img/chart/ldot.png);
+}
+.ybpbg{
+  background-image: url(img/chart/ybp.png);
+}
+.xxztbg{
+  background-image: url(img/chart/xxzt.png);
+}
+.generalPointStylebg{
+  background-image: url(img/chart/generalPointStyle.png);
+}
+.generalLineStylebg{
+  background-image: url(img/chart/generalLineStyle.png);
+}
+.generalSurfaceStylebg{
+  background-image: url(img/chart/generalSurfaceStyle.png);
+}
+.mapPiebg{
+  background-image: url(img/chart/mapPie.png);
+}
+.mapFanbg{
+  background-image: url(img/chart/mapFan.png);
+}
+.mapBarbg{
+  background-image: url(img/chart/mapBar.png);
+}
+
+.moreRowTextbg{
+  background-image: url(img/text/moreRowText.png);
+}
+
+.singleRowTextbg{
+  background-image: url(img/text/singleRowText.png);
+}
+
+.singleBorderbg{
+  background-image: url(img/text/singleRowText.png);
+}
+
+.singleBorderbg{
+  background-image: url(img/text/singleRowText.png);
+}
+.iframeCenterbg{
+  background-image: url(img/text/singleRowText.png);
+}
+
+.breakLinebg{
+  background-image: url(img/text/singleRowText.png);
+}
+
+
 
 .custom-header-menu-li-txt{
   font-size: 12px;

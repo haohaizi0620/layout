@@ -1,0 +1,10 @@
+/* .singleChart:hover + div{
+    outline: 1px solid #18a6f9;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
+} */
+/* 
+.singleChart:hover :parent>div:first-child{
+    outline: 1px solid #18a6f9;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
+} */
+

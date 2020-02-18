@@ -1,0 +1,59 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-02-06 20:53:12
+ * @LastEditTime : 2020-02-06 21:02:38
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \test1\test.html
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="http://mockjs.com/dist/mock.js"></script>;
+	<title>地图展示</title>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>;
+</head>
+<body>
+	<div id="allmap"></div>
+	<pre><code id="json"></code></pre>
+</body>
+</html>
+<script type="text/javascript">
+
+let btn =document.querySelector('#json');
+let data = [{name:'tim', age: 23, grade: 3}];
+btn.textContent = JSON.stringify(data, null, '  ');
+    Mock.mock('https://www.test.com',{
+
+      "userInfo|4":[{    //生成|num个如下格式名字的数据
+
+          "id|+1":1,  //数字从当前数开始后续依次加一
+
+          "name":"@cname",    //名字为随机中文名字
+
+          "ago|18-28":25,    //年龄为18-28之间的随机数字
+
+          "sex|1":["男","女"],    //性别是数组中的一个，随机的
+
+          "job|1":["web","UI","python","php"]    //工作是数组中的一个
+
+      }]
+
+    })
+   $.get('https://www.test.com',function(data){
+
+        console.log(JSON.parse(data));
+
+    })
+// Mock.mock('http://www.test.com',{
+//
+//            "ListInfo|5":[{
+//
+//              "img":Mock.Random.image('200x100')
+//
+//            }]
+//
+//        });
+
+</script>

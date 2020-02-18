@@ -1,21 +1,37 @@
 .control-panel{
-    width: 265px;
+    width: 325px;
     height: 100%;
     z-index: 90;
     background: #1c1f25;
+    border: 1px solid #868585;
     position: relative;
+    color: white;
     transition: width .25s ease-in-out;
 }
 
 .control-panel-header{
     position: relative;
-    background-color: #ddd;
-    height: 34px;
+    /* background-color: #ddd; */
+    height: 68px;
     line-height: 34px;
 }
+.control-panel-header-bg{
+    text-align:center;
+    color: #bcc9d4;
+    background-color: #2e343c;
+}
+.control-panel-header-bg-title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
 
 .control-panel-container{
     position: relative;
-    background-color: antiquewhite;
-    padding: 10px 0;
+    /* padding: 10px 0; */
+    width: 100%;
+}
+
+.control-panel-container .ant-tabs{
+    color:white;
 }

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import fontawesome from '@fortawesome/fontawesome';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCheckSquare,
     faFont,
@@ -9,83 +9,240 @@ import {
     faChartLine,
     faChartPie,
     faChartArea,
-    faEllipsisH
+    faEllipsisH,
+    faMapPin,
+    faTextWidth,
+    faTextHeight,
+    faBus,
 } from '@fortawesome/fontawesome-free-solid';
 
-fontawesome.library.add(faCheckSquare, faFont, faBars, faChartBar, faChartLine, faChartPie,faChartArea,faEllipsisH)
+fontawesome.library.add(faCheckSquare, faFont, faBars, faChartBar, faChartLine, faChartPie, faChartArea, faEllipsisH, faMapPin, faTextWidth, faTextHeight, faBus)
 
 class Header extends Component {
+
     constructor(props) {
         super(props);
+        const tempCharsStr = 'chart';
+        const tempTextStr = 'text';
+        const tempBorderStr = 'border';
+        const tempIframeStr = 'iframe';
         this.state = {
-            otype:'chart',
-            ttype:'all',
-            chart:{
-                all:[
-                    {id:'jbzt',text:'基本柱图'},
-                    {id:'ddzzt',text:'堆叠柱状图'},
-                    {id:'ddtxt',text:'堆叠条形图'},
-                    {id:'zxzt',text:'折线柱图'},
-                    {id:'zftxt',text:'正负条形图'},
-                    {id:'jtpbt',text:'阶梯瀑布图'},
-                    {id:'jbzxt',text:'基本折线图'},
-                    {id:'ddzxt',text:'基本折线图'},
-                    {id:'pbt',text:'瀑布图'},
-                    {id:'ysfdzxt',text:'颜色分段折线图'},
-                    {id:'jbmjt',text:'基本面积图'},
-                    {id:'ddmjt',text:'堆叠面积图'},
-                    {id:'jbbt',text:'基本饼图'},
-                    {id:'yhbt',text:'圆环饼图'},
-                    {id:'zbzbbt',text:'指标占比饼图'},
-                    {id:'mgt',text:'玫瑰图'},
-                    {id:'qpt',text:'气泡图'},
-                    {id:'sdt',text:'散点图'},
-                    {id:'ldt',text:'雷达图'},
-                    {id:'ldot',text:'漏斗图'},
-                    {id:'ybp',text:'仪表盘'},
-                    {id:'xxzt',text:'象形柱图'}
+            otype: 'chart',
+            ttype: 'all',
+            chart: {
+                all: [
+                    { id: 'jbzt', text: '基本柱图', layerType: 'chart' },
+                    { id: 'ddzzt', text: '堆叠柱状图', layerType: 'chart' },
+                    { id: 'ddtxt', text: '堆叠条形图', layerType: 'chart' },
+                    { id: 'zxzt', text: '折线柱图', layerType: 'chart' },
+                    { id: 'zftxt', text: '正负条形图', layerType: 'chart' },
+                    { id: 'jtpbt', text: '阶梯瀑布图', layerType: 'chart' },
+                    { id: 'jbzxt', text: '基本折线图', layerType: 'chart' },
+                    { id: 'ddzxt', text: '基本折线图', layerType: 'chart' },
+                    { id: 'pbt', text: '瀑布图', layerType: 'chart' },
+                    { id: 'ysfdzxt', text: '颜色分段折线图', layerType: 'chart' },
+                    { id: 'jbmjt', text: '基本面积图', layerType: 'chart' },
+                    { id: 'ddmjt', text: '堆叠面积图', layerType: 'chart' },
+                    { id: 'jbbt', text: '基本饼图', layerType: 'chart' },
+                    { id: 'yhbt', text: '圆环饼图', layerType: 'chart' },
+                    { id: 'zbzbbt', text: '指标占比饼图', layerType: 'chart' },
+                    { id: 'mgt', text: '玫瑰图', layerType: 'chart' },
+                    { id: 'qpt', text: '气泡图', layerType: 'chart' },
+                    { id: 'sdt', text: '散点图', layerType: 'chart' },
+                    { id: 'ldt', text: '雷达图', layerType: 'chart' },
+                    { id: 'ldot', text: '漏斗图', layerType: 'chart' },
+                    { id: 'ybp', text: '仪表盘', layerType: 'chart' },
+                    { id: 'xxzt', text: '象形柱图', layerType: 'chart'  }
                 ],
-                bar:[
-                    {id:'jbzt',text:'基本柱图'},
-                    {id:'ddzzt',text:'堆叠柱状图'},
-                    {id:'ddtxt',text:'堆叠条形图'},
-                    {id:'zxzt',text:'折线柱图'},
-                    {id:'zftxt',text:'正负条形图'},
-                    {id:'jtpbt',text:'阶梯瀑布图'}
-                ],line:[
-                    {id:'jbzxt',text:'基本折线图'},
-                    {id:'ddzxt',text:'基本折线图'},
-                    {id:'pbt',text:'瀑布图'},
-                    {id:'ysfdzxt',text:'颜色分段折线图'}
-                ],area:[
-                    {id:'jbmjt',text:'基本面积图'},
-                    {id:'ddmjt',text:'堆叠面积图'}
-                ],pie:[
-                    {id:'jbbt',text:'基本饼图'},
-                    {id:'yhbt',text:'圆环饼图'},
-                    {id:'zbzbbt',text:'指标占比饼图'},
-                    {id:'mgt',text:'玫瑰图'}
-                ],other:[
-                    {id:'qpt',text:'气泡图'},
-                    {id:'sdt',text:'散点图'},
-                    {id:'ldt',text:'雷达图'},
-                    {id:'ldot',text:'漏斗图'},
-                    {id:'ybp',text:'仪表盘'},
-                    {id:'xxzt',text:'象形柱图'}
+                bar: [
+                    { id: 'jbzt', text: '基本柱图', layerType: 'chart' },
+                    { id: 'ddzzt', text: '堆叠柱状图', layerType: 'chart' },
+                    { id: 'ddtxt', text: '堆叠条形图', layerType: 'chart' },
+                    { id: 'zxzt', text: '折线柱图', layerType: 'chart' },
+                    { id: 'zftxt', text: '正负条形图', layerType: 'chart' },
+                    { id: 'jtpbt', text: '阶梯瀑布图' }
+                ], line: [
+                    { id: 'jbzxt', text: '基本折线图', layerType: 'chart' },
+                    { id: 'ddzxt', text: '基本折线图', layerType: 'chart' },
+                    { id: 'pbt', text: '瀑布图', layerType: 'chart' },
+                    { id: 'ysfdzxt', text: '颜色分段折线图' }
+                ], area: [
+                    { id: 'jbmjt', text: '基本面积图', layerType: 'chart' },
+                    { id: 'ddmjt', text: '堆叠面积图' }
+                ], pie: [
+                    { id: 'jbbt', text: '基本饼图', layerType: 'chart' },
+                    { id: 'yhbt', text: '圆环饼图', layerType: 'chart' },
+                    { id: 'zbzbbt', text: '指标占比饼图', layerType: 'chart' },
+                    { id: 'mgt', text: '玫瑰图' }
+                ], other: [
+                    { id: 'qpt', text: '气泡图', layerType: 'chart' },
+                    { id: 'sdt', text: '散点图', layerType: 'chart' },
+                    { id: 'ldt', text: '雷达图', layerType: 'chart' },
+                    { id: 'ldot', text: '漏斗图', layerType: 'chart' },
+                    { id: 'ybp', text: '仪表盘', layerType: 'chart' },
+                    { id: 'xxzt', text: '象形柱图' }
+                ], map: [
+                    { id: 'generalPointStyle', text: '点样式', layerType: 'map' },
+                    { id: 'generalLineStyle', text: '线样式', layerType: 'map' },
+                    { id: 'generalSurfaceStyle', text: '面样式', layerType: 'map' },
+                ], countMap: [
+                    { id: 'mapPie', text: '地图饼状图', layerType: 'chartMap' },
+                    { id: 'mapFan', text: '地图扇形图', layerType: 'chartMap' },
+                    { id: 'mapBar', text: '地图柱状图', layerType: 'chartMap' },
+                ],
+            },
+            text: {
+                textWidth: [
+                    { id: 'singleRowText', text: '单行文本', layerType: 'text' },
+                ],
+                textHeight: [
+                    { id: 'moreRowText', text: '多行文本', layerType: 'text' },
                 ]
-            }
+            },
+            border: {
+                borderWidth: [
+                    { id: 'singleBorder', text: '直线边框', layerType: 'border' },
+                ],
+                borderHeight: [
+                    { id: 'breakLine', text: '波浪线', layerType: 'border' },
+                ]
+            },
+            iframe:{
+                iframeCenter:[
+                    { id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' },
+                ]
+            },
+            //生成对应的UIstate
+            layerDatas: [
+                {
+                    typeName: 'chart',
+                    refName: 'basicChart',
+                    titleName: '基础图表',
+                    IconObj: faChartBar,
+                    leftIconLists: [
+                        {
+                            prevName: 'all',
+                            thisType: tempCharsStr,
+                            titleName: '所有',
+                            IconObj: faBars
+                        },
+                        {
+                            prevName: 'bar',
+                            thisType: tempCharsStr,
+                            titleName: '柱状图',
+                            IconObj: faChartBar
+                        },
+                        {
+                            prevName: 'line',
+                            thisType: tempCharsStr,
+                            titleName: '折线图',
+                            IconObj: faChartLine
+                        },
+                        {
+                            prevName: 'area',
+                            thisType: tempCharsStr,
+                            titleName: '面积图',
+                            IconObj: faChartArea
+                        },
+                        {
+                            prevName: 'pie',
+                            thisType: tempCharsStr,
+                            titleName: '饼状图',
+                            IconObj: faChartPie
+                        },
+                        {
+                            prevName: 'other',
+                            thisType: tempCharsStr,
+                            titleName: '其他',
+                            IconObj: faEllipsisH
+                        },
+                        {
+                            prevName: 'map',
+                            thisType: tempCharsStr,
+                            titleName: '地图',
+                            IconObj: faMapPin
+                        },
+                        {
+                            prevName: 'countMap',
+                            thisType: tempCharsStr,
+                            titleName: '统计地图',
+                            IconObj: faMapPin
+                        }
+                    ],
+                },
+                {
+                    typeName: 'text',
+                    refName: 'text',
+                    titleName: '文本',
+                    IconObj: faFont,
+                    leftIconLists: [
+                        {
+                            prevName: 'textWidth',
+                            thisType: tempTextStr,
+                            titleName: '文本宽度',
+                            IconObj: faTextWidth
+                        },
+                        {
+                            prevName: 'textHeight',
+                            thisType: tempTextStr,
+                            titleName: '文本高度',
+                            IconObj: faTextHeight
+                        }
+                    ]
+                },
+                {
+                    typeName: 'border',
+                    refName: 'border',
+                    titleName: '边框',
+                    IconObj: faBus,
+                    leftIconLists: [
+                        {
+                            prevName: 'borderWidth',
+                            thisType: tempBorderStr,
+                            titleName: '文本宽度',
+                            IconObj: faBus
+                        },
+                        {
+                            prevName: 'borderHeight',
+                            thisType: tempBorderStr,
+                            titleName: '文本高度',
+                            IconObj: faBus
+                        }
+                    ]
+                },
+                {
+                    typeName: 'iframe',
+                    refName: 'iframe',
+                    titleName: '嵌套页面',
+                    IconObj: faBus,
+                    leftIconLists: [
+                        {
+                            prevName: 'iframeCenter',
+                            thisType: tempIframeStr,
+                            titleName: '嵌套页面',
+                            IconObj: faBus
+                        }
+                    ]
+                }
+            ]
         }
     }
 
-    onClickAdd(props) {
-        this.props.onClickAdd(props);
+    /**
+     * @description: 添加一个图层到对应的生成content组件的数据里
+     * @param {type} 
+     * @return: 
+     */
+    onClickAdd(layerType, props) {
+        this.props.onClickAdd(layerType, props);
     }
 
-    handleChartMouseOver(obj){
-        const  t = obj.currentTarget.getAttribute('t');
+    handleChartMouseOver(obj) {
+        const t = obj.currentTarget.getAttribute('t');
+        const thisType = obj.currentTarget.getAttribute('thisType');
         this.setState({
-            otype:'chart',
-            ttype:t
+            otype: thisType,
+            ttype: t
         });
     }
 
@@ -94,57 +251,56 @@ class Header extends Component {
         return (
             <div className="custom-header">
                 <ul className="custom-header-ul">
-                    <li className="custom-header-li" title="基础图表">
-                        <FontAwesomeIcon icon={faChartBar}/>
-                        <div className="custom-header-li-c">
-                            <table className="custom-header-table">
-                                <tbody className="custom-header-tbody">
-                                <tr>
-                                    <td className="custom-header-sub-list left">
-                                        <ul className="custom-header-sub-ul">
-                                            <li className="custom-header-sub-li" t="all" title="所有" onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faBars}/></div>
-                                            </li>
-                                            <li className="custom-header-sub-li" t="bar" title="柱状图" onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faChartBar}/></div>
-                                            </li>
-                                            <li className="custom-header-sub-li" t="line" title="折线图" onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faChartLine}/></div>
-                                            </li>
-                                            <li className="custom-header-sub-li" t="area" title="面积图"  onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faChartArea}/></div>
-                                            </li>
-                                            <li className="custom-header-sub-li" t="pie" title="饼状图" onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faChartPie}/></div>
-                                            </li>
-                                            <li className="custom-header-sub-li" t="other" title="其他" onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                                <div><FontAwesomeIcon icon={faEllipsisH}/></div>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td className="custom-header-sub-list">
-                                        <div className="custom-header-menu-c">
-                                            <ul className="custom-header-menu-ul">
-                                                {
-                                                    this.state[this.state["otype"]][ttype].map((item, i) => {
-                                                        const c = `custom-header-menu-li-bg ${item.id}`;
-                                                        return (
-                                                            <li onClick={this.onClickAdd.bind(this)} className="custom-header-menu-li" type={this.state["otype"]} id={item.id} title={item.text} key={item.id}>
-                                                                <div className={c}></div>
-                                                                <p className="custom-header-menu-li-txt">{item.text}</p>
-                                                            </li>
-                                                        )
-                                                    })
-                                                }
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </li>
-                    <li className="custom-header-li" title="文本"><FontAwesomeIcon icon={faFont}/></li>
+                    {
+                        this.state.layerDatas.map((item, index) => {
+                            return (
+                                <li className="custom-header-li" ref={item.refName} title={item.titleName} >
+                                    <FontAwesomeIcon icon={item.IconObj} />
+                                    <div className="custom-header-li-c">
+                                        <table className="custom-header-table">
+                                            <tbody className="custom-header-tbody">
+                                                <tr>
+                                                    <td className="custom-header-sub-list left">
+                                                        <ul className="custom-header-sub-ul">
+                                                            {
+                                                                item.leftIconLists.map((iconItem, i) => {
+                                                                    return (
+                                                                        <li className="custom-header-sub-li" t={iconItem.prevName} thisType={iconItem.thisType} title={iconItem.titleName} onMouseOver={this.handleChartMouseOver.bind(this)}  >
+                                                                            <div><FontAwesomeIcon icon={iconItem.IconObj} /></div>
+                                                                        </li>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </ul>
+                                                    </td>
+                                                    <td className="custom-header-sub-list">
+                                                        <div className="custom-header-menu-c">
+                                                            <ul className="custom-header-menu-ul">
+                                                                {   
+                                                                        // this.state["otype"]==item.typeName?
+                                                                        this.state[this.state["otype"]][ttype].map((item, i) => {
+                                                                            const c = `custom-header-menu-li-bg ${item.id}bg`;
+                                                                            item['simpleType'] = ttype;
+                                                                            return (
+                                                                                <li onClick={this.onClickAdd.bind(this, item)} className="custom-header-menu-li" type={item.layerType} id={item.id} title={item.text} key={item.id}>
+                                                                                    <div className={c}></div>
+                                                                                    <p className="custom-header-menu-li-txt">{item.text}</p>
+                                                                                </li>
+                                                                            )
+                                                                        })
+                                                                        // :true
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
             </div>
         );

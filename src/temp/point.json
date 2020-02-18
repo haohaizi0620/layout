@@ -1,0 +1,2879 @@
+ {
+		"type": "FeatureCollection",
+		"features": [{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503466.347524171, 304573.807435652]
+			},
+			"properties": {
+				"objectid": "1",
+				"序号": "1",
+				"id": "1",
+				"title": "天安门",
+				"release_da": "2017-10-27 16:02:04",
+				"end_edit_d": "2017-10-27 16:02:05",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "天安门广场北",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [543642.73493384, 340870.41568911]
+			},
+			"properties": {
+				"objectid": "2",
+				"序号": "2",
+				"id": "2",
+				"title": "焦庄户地道战遗址",
+				"release_da": "2018-11-06 10:25:08",
+				"end_edit_d": "2018-11-06 10:25:08",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "1943年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "龙湾屯镇焦庄户村",
+				"ext_str4": "顺义区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [470894.029518527, 354036.09044011]
+			},
+			"properties": {
+				"objectid": "3",
+				"序号": "3",
+				"id": "3",
+				"title": "京张铁路南口段至八达岭段",
+				"release_da": "2018-10-19 15:47:26",
+				"end_edit_d": "2018-10-19 15:47:26",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "清至民国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "昌平区南口至延庆区八达岭",
+				"ext_str4": "NULL",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [451989.462331344, 365115.264936906]
+			},
+			"properties": {
+				"objectid": "4",
+				"序号": "4",
+				"id": "4",
+				"title": "延庆古崖居",
+				"release_da": "2018-10-19 15:43:45",
+				"end_edit_d": "2018-10-19 15:43:45",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "明以前",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "张山营镇东门营村",
+				"ext_str4": "延庆区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [506889.604821032, 303088.499063093]
+			},
+			"properties": {
+				"objectid": "5",
+				"序号": "5",
+				"id": "5",
+				"title": "袁崇焕墓和祠",
+				"release_da": "2018-10-19 15:40:52",
+				"end_edit_d": "2018-10-19 15:40:52",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "明至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "东城区东花市斜街52号",
+				"ext_str4": "东城区（原崇文区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500044.591463093, 301012.267836906]
+			},
+			"properties": {
+				"objectid": "6",
+				"序号": "6",
+				"id": "6",
+				"title": "国民政府财政部印刷局旧址",
+				"release_da": "2018-10-18 17:06:22",
+				"end_edit_d": "2018-10-18 17:06:22",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "清至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503277.781705156, 303140.852736905]
+			},
+			"properties": {
+				"objectid": "7",
+				"序号": "7",
+				"id": "7",
+				"title": "大栅栏商业建筑",
+				"release_da": "2018-10-18 17:01:57",
+				"end_edit_d": "2018-10-18 17:01:57",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "清至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500211.754917538, 302686.673539319]
+			},
+			"properties": {
+				"objectid": "8",
+				"序号": "8",
+				"id": "8",
+				"title": "报国寺",
+				"release_da": "2018-10-18 16:57:06",
+				"end_edit_d": "2018-10-18 16:57:06",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502231.024366665, 302875.936973368]
+			},
+			"properties": {
+				"objectid": "9",
+				"序号": "9",
+				"id": "9",
+				"title": "安徽会馆",
+				"release_da": "2018-10-18 16:54:18",
+				"end_edit_d": "2018-10-18 16:54:18",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [577979.599384031, 388753.25982244]
+			},
+			"properties": {
+				"objectid": "10",
+				"序号": "10",
+				"id": "10",
+				"title": "长城（司马台段）",
+				"release_da": "2018-10-18 16:47:23",
+				"end_edit_d": "2018-10-18 16:47:23",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "明",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市密云区",
+				"ext_str4": "密云区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503037.648941149, 301066.570602925]
+			},
+			"properties": {
+				"objectid": "11",
+				"序号": "11",
+				"id": "11",
+				"title": "先农坛",
+				"release_da": "2018-10-18 16:46:01",
+				"end_edit_d": "2018-10-18 16:46:01",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "明、清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "西城区东经路21号",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505175.164721145, 305208.890817569]
+			},
+			"properties": {
+				"objectid": "12",
+				"序号": "12",
+				"id": "12",
+				"title": "基督教中华圣经会北京分会旧址",
+				"release_da": "2018-10-18 10:38:11",
+				"end_edit_d": "2018-10-18 10:38:11",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "1928年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区东单北大街21号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [488910.493799945, 297815.301417327]
+			},
+			"properties": {
+				"objectid": "13",
+				"序号": "13",
+				"id": "13",
+				"title": "卢沟桥",
+				"release_da": "2018-10-17 14:48:50",
+				"end_edit_d": "2018-10-17 14:48:50",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "金",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "丰台区卢沟桥城南街77号",
+				"ext_str4": "丰台区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [470716.89885649, 354227.992773873]
+			},
+			"properties": {
+				"objectid": "14",
+				"序号": "14",
+				"id": "14",
+				"title": "万里长城——八达岭",
+				"release_da": "2018-10-17 14:43:38",
+				"end_edit_d": "2018-10-17 14:43:38",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "延庆区八达岭特区",
+				"ext_str4": "延庆区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [482611.383168419, 285286.773791688]
+			},
+			"properties": {
+				"objectid": "15",
+				"序号": "15",
+				"id": "15",
+				"title": "良乡多宝佛塔",
+				"release_da": "2018-10-08 15:02:25",
+				"end_edit_d": "2018-10-08 15:02:25",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "辽",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "良乡镇东关村",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504101.928925925, 306348.732103175]
+			},
+			"properties": {
+				"objectid": "16",
+				"序号": "16",
+				"id": "16",
+				"title": "北京大学红楼",
+				"release_da": "2018-05-10 14:28:43",
+				"end_edit_d": "2018-05-10 14:28:43",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "民初",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "东城区五四大街29号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501900.971790475, 307569.357632275]
+			},
+			"properties": {
+				"objectid": "17",
+				"序号": "17",
+				"id": "17",
+				"title": "梅兰芳旧居",
+				"release_da": "2018-01-16 11:28:54",
+				"end_edit_d": "2018-01-16 11:28:54",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "1951-1961年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区护国寺街9号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [475823.384049174, 347451.019020176]
+			},
+			"properties": {
+				"objectid": "18",
+				"序号": "18",
+				"id": "18",
+				"title": "长城",
+				"release_da": "2018-01-04 10:18:11",
+				"end_edit_d": "2018-01-04 10:18:11",
+				"ispage": "0",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "",
+				"ext_str1": "汉、魏晋南北朝、唐、明",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "平谷区、密云区、怀柔区、延庆区、昌平区、门头沟区",
+				"ext_str4": "NULL",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [532682.090465075, 301674.3933577]
+			},
+			"properties": {
+				"objectid": "19",
+				"序号": "19",
+				"id": "19",
+				"title": "大运河",
+				"release_da": "2017-10-27 16:00:48",
+				"end_edit_d": "2017-10-27 16:00:48",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "春秋至中华人民共和国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区、西城区、朝阳区、海淀区、昌平区、通州区",
+				"ext_str4": "NULL",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [452842.368089823, 267457.869858183]
+			},
+			"properties": {
+				"objectid": "20",
+				"序号": "20",
+				"id": "20",
+				"title": "房山大白玉塘采石场遗址",
+				"release_da": "2017-10-27 16:00:47",
+				"end_edit_d": "2017-10-27 16:00:47",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "隋至清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "大石窝镇高庄村西",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [518856.726523695, 302801.838966048]
+			},
+			"properties": {
+				"objectid": "21",
+				"序号": "26",
+				"id": "26",
+				"title": "四九一电台旧址",
+				"release_da": "2017-10-27 16:00:50",
+				"end_edit_d": "2017-10-27 16:00:50",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1918年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "朝阳区双桥街9号院",
+				"ext_str4": "朝阳区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500782.137819312, 304153.103451587]
+			},
+			"properties": {
+				"objectid": "22",
+				"序号": "25",
+				"id": "25",
+				"title": "李大钊旧居",
+				"release_da": "2017-10-27 16:00:50",
+				"end_edit_d": "2017-10-27 16:00:50",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1920-1924年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区文华胡同24号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [487197.018668488, 295162.702461501]
+			},
+			"properties": {
+				"objectid": "23",
+				"序号": "24",
+				"id": "24",
+				"title": "长辛店二七大罢工旧址",
+				"release_da": "2017-10-27 16:00:48",
+				"end_edit_d": "2017-10-27 16:00:48",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1923年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "丰台区长辛店",
+				"ext_str4": "丰台区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503941.37943816, 306478.801529981]
+			},
+			"properties": {
+				"objectid": "24",
+				"序号": "22",
+				"id": "22",
+				"title": "北京大学地质学馆旧址",
+				"release_da": "2017-10-27 16:00:49",
+				"end_edit_d": "2017-10-27 16:00:49",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1935年",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区沙滩北街15号院",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502492.282549141, 307242.245471891]
+			},
+			"properties": {
+				"objectid": "25",
+				"序号": "27",
+				"id": "27",
+				"title": "盛新中学与佑贞女中旧址",
+				"release_da": "2017-10-27 16:00:50",
+				"end_edit_d": "2017-10-27 16:00:50",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "民国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区教场胡同2、4号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502309.929412235, 307595.323887765]
+			},
+			"properties": {
+				"objectid": "26",
+				"序号": "28",
+				"id": "28",
+				"title": "辅仁大学本部旧址",
+				"release_da": "2017-10-27 16:00:52",
+				"end_edit_d": "2017-10-27 16:00:52",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区定阜街1号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503174.970469495, 303722.727536516]
+			},
+			"properties": {
+				"objectid": "27",
+				"序号": "29",
+				"id": "29",
+				"title": "西交民巷近代银行建筑群",
+				"release_da": "2017-10-27 16:00:52",
+				"end_edit_d": "2017-10-27 16:00:52",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区西交民巷",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [525450.182418916, 303586.807971531]
+			},
+			"properties": {
+				"objectid": "28",
+				"序号": "30",
+				"id": "30",
+				"title": "通州近代学校建筑群",
+				"release_da": "2017-10-27 16:00:51",
+				"end_edit_d": "2017-10-27 16:00:51",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "通州区玉带河西街南侧",
+				"ext_str4": "通州区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500963.335192739, 303811.851663536]
+			},
+			"properties": {
+				"objectid": "29",
+				"序号": "31",
+				"id": "31",
+				"title": "基督教中华圣公会教堂",
+				"release_da": "2017-10-27 16:00:53",
+				"end_edit_d": "2017-10-27 16:00:53",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区佟麟阁路85号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504693.431473005, 305545.597157668]
+			},
+			"properties": {
+				"objectid": "30",
+				"序号": "32",
+				"id": "32",
+				"title": "东堂",
+				"release_da": "2017-10-27 16:00:53",
+				"end_edit_d": "2017-10-27 16:00:53",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区王府井大街74号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501042.192024648, 304111.03255673]
+			},
+			"properties": {
+				"objectid": "31",
+				"序号": "33",
+				"id": "33",
+				"title": "克勤郡王府",
+				"release_da": "2017-10-27 16:00:53",
+				"end_edit_d": "2017-10-27 16:00:53",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区新文化街53号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504068.364074883, 305067.872407434]
+			},
+			"properties": {
+				"objectid": "32",
+				"序号": "34",
+				"id": "34",
+				"title": "普度寺",
+				"release_da": "2017-10-27 16:00:55",
+				"end_edit_d": "2017-10-27 16:00:55",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区普庆前巷35号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504557.005658607, 307591.746992566]
+			},
+			"properties": {
+				"objectid": "33",
+				"序号": "35",
+				"id": "35",
+				"title": "文天祥祠",
+				"release_da": "2017-10-27 16:00:55",
+				"end_edit_d": "2017-10-27 16:00:55",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东城区府学胡同63号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [494734.828712602, 306743.019895728]
+			},
+			"properties": {
+				"objectid": "34",
+				"序号": "36",
+				"id": "36",
+				"title": "慈寿寺塔",
+				"release_da": "2017-10-27 16:00:54",
+				"end_edit_d": "2017-10-27 16:00:54",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "海淀区八里庄街道西八里庄北里3号玲珑公园内",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [471862.316367511, 270939.986692824]
+			},
+			"properties": {
+				"objectid": "35",
+				"序号": "37",
+				"id": "37",
+				"title": "琉璃河大桥",
+				"release_da": "2017-10-27 16:00:54",
+				"end_edit_d": "2017-10-27 16:00:54",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "琉璃河镇琉璃河二街村",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [495135.395401719, 306631.586637897]
+			},
+			"properties": {
+				"objectid": "36",
+				"序号": "38",
+				"id": "38",
+				"title": "摩诃庵",
+				"release_da": "2017-10-27 16:00:54",
+				"end_edit_d": "2017-10-27 16:00:54",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "海淀区八里庄街7号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [476785.948437897, 295342.04032004]
+			},
+			"properties": {
+				"objectid": "37",
+				"序号": "39",
+				"id": "39",
+				"title": "姚广孝墓塔",
+				"release_da": "2017-10-27 16:00:56",
+				"end_edit_d": "2017-10-27 16:00:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "青龙湖镇常乐寺村",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505998.311046228, 303747.192463297]
+			},
+			"properties": {
+				"objectid": "38",
+				"序号": "40",
+				"id": "40",
+				"title": "明北京城城墙遗存",
+				"release_da": "2017-10-27 16:00:56",
+				"end_edit_d": "2017-10-27 16:00:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "东便门段、西便门段、左安门值房",
+				"ext_str4": "NULL",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501390.551562103, 306077.589692659]
+			},
+			"properties": {
+				"objectid": "39",
+				"序号": "41",
+				"id": "41",
+				"title": "万松老人塔",
+				"release_da": "2017-10-27 16:00:56",
+				"end_edit_d": "2017-10-27 16:00:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元、清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "西城区西四南大街43号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [440166.073582911, 317437.187841276]
+			},
+			"properties": {
+				"objectid": "40",
+				"序号": "42",
+				"id": "42",
+				"title": "灵岳寺",
+				"release_da": "2017-10-27 16:00:55",
+				"end_edit_d": "2017-10-27 16:00:55",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元至清",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "斋堂镇灵岳寺村",
+				"ext_str4": "门头沟区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [484000.092305156, 294221.649001719]
+			},
+			"properties": {
+				"objectid": "41",
+				"序号": "43",
+				"id": "43",
+				"title": "镇岗塔",
+				"release_da": "2017-10-27 16:00:58",
+				"end_edit_d": "2017-10-27 16:00:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "金",
+				"ext_str2": "第七批全国重点文物保护单位",
+				"ext_str3": "长辛店镇张家坟村",
+				"ext_str4": "丰台区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502466.080622295, 305253.891131765]
+			},
+			"properties": {
+				"objectid": "42",
+				"序号": "44",
+				"id": "44",
+				"title": "中南海",
+				"release_da": "2017-10-27 16:00:57",
+				"end_edit_d": "2017-10-27 16:00:57",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [499582.176853027, 305364.551592306]
+			},
+			"properties": {
+				"objectid": "43",
+				"序号": "45",
+				"id": "45",
+				"title": "月坛",
+				"release_da": "2017-10-27 16:00:59",
+				"end_edit_d": "2017-10-27 16:00:59",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "西城区月坛北街6号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504590.339385844, 312052.499198281]
+			},
+			"properties": {
+				"objectid": "44",
+				"序号": "46",
+				"id": "46",
+				"title": "元大都城墙遗址",
+				"release_da": "2017-10-27 16:00:58",
+				"end_edit_d": "2017-10-27 16:00:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市朝阳区、海淀区",
+				"ext_str4": "朝阳区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505410.808043781, 303929.434885844]
+			},
+			"properties": {
+				"objectid": "45",
+				"序号": "47",
+				"id": "47",
+				"title": "亚斯立堂",
+				"release_da": "2017-10-27 16:00:58",
+				"end_edit_d": "2017-10-27 16:00:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [484808.39902145, 320195.979324862]
+			},
+			"properties": {
+				"objectid": "46",
+				"序号": "48",
+				"id": "48",
+				"title": "辛亥滦州起义纪念园",
+				"release_da": "2017-10-27 16:01:00",
+				"end_edit_d": "2017-10-27 16:01:00",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504907.304179649, 304825.052677808]
+			},
+			"properties": {
+				"objectid": "47",
+				"序号": "49",
+				"id": "49",
+				"title": "协和医学院旧址",
+				"release_da": "2017-10-27 16:01:00",
+				"end_edit_d": "2017-10-27 16:01:00",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501863.920344133, 306426.842623818]
+			},
+			"properties": {
+				"objectid": "48",
+				"序号": "50",
+				"id": "50",
+				"title": "西什库教堂",
+				"release_da": "2017-10-27 16:00:59",
+				"end_edit_d": "2017-10-27 16:00:59",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [496069.315468944, 308750.533995722]
+			},
+			"properties": {
+				"objectid": "49",
+				"序号": "51",
+				"id": "51",
+				"title": "万寿寺",
+				"release_da": "2017-10-27 16:01:01",
+				"end_edit_d": "2017-10-27 16:01:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "海淀区西三环北路东侧",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504625.238630556, 307353.110982144]
+			},
+			"properties": {
+				"objectid": "50",
+				"序号": "52",
+				"id": "52",
+				"title": "孙中山行馆",
+				"release_da": "2017-10-27 16:01:01",
+				"end_edit_d": "2017-10-27 16:01:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1924～1925年",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [461601.214346948, 285547.906251961]
+			},
+			"properties": {
+				"objectid": "51",
+				"序号": "53",
+				"id": "53",
+				"title": "十字寺遗址",
+				"release_da": "2017-10-27 16:01:01",
+				"end_edit_d": "2017-10-27 16:01:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市房山区",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [507457.063126332, 305372.907077894]
+			},
+			"properties": {
+				"objectid": "52",
+				"序号": "54",
+				"id": "54",
+				"title": "日坛",
+				"release_da": "2017-10-27 16:01:00",
+				"end_edit_d": "2017-10-27 16:01:00",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "朝阳区日坛北路6号",
+				"ext_str4": "朝阳区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [497691.037454966, 308128.191860485]
+			},
+			"properties": {
+				"objectid": "53",
+				"序号": "55",
+				"id": "55",
+				"title": "清农事试验场旧址",
+				"release_da": "2017-10-27 16:01:03",
+				"end_edit_d": "2017-10-27 16:01:03",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "西城区西直门外大街137号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504928.640819062, 307422.943574988]
+			},
+			"properties": {
+				"objectid": "54",
+				"序号": "56",
+				"id": "56",
+				"title": "清陆军部和海军部旧址",
+				"release_da": "2017-10-27 16:01:02",
+				"end_edit_d": "2017-10-27 16:01:02",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [499270.927830656, 307042.508060329]
+			},
+			"properties": {
+				"objectid": "55",
+				"序号": "57",
+				"id": "57",
+				"title": "利玛窦和外国传教士墓地",
+				"release_da": "2017-10-27 16:01:02",
+				"end_edit_d": "2017-10-27 16:01:02",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [490801.325149026, 314692.606966588]
+			},
+			"properties": {
+				"objectid": "56",
+				"序号": "58",
+				"id": "58",
+				"title": "静明园",
+				"release_da": "2017-10-27 16:01:02",
+				"end_edit_d": "2017-10-27 16:01:02",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501167.190100857, 304105.552194353]
+			},
+			"properties": {
+				"objectid": "57",
+				"序号": "59",
+				"id": "59",
+				"title": "京师女子师范学堂旧址",
+				"release_da": "2017-10-27 16:01:04",
+				"end_edit_d": "2017-10-27 16:01:04",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503779.23861905, 306442.955801135]
+			},
+			"properties": {
+				"objectid": "58",
+				"序号": "60",
+				"id": "60",
+				"title": "京师大学堂分科大学旧址",
+				"release_da": "2017-10-27 16:01:03",
+				"end_edit_d": "2017-10-27 16:01:03",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501009.398555969, 303727.660734872]
+			},
+			"properties": {
+				"objectid": "59",
+				"序号": "75",
+				"id": "75",
+				"title": "北京国会旧址",
+				"release_da": "2017-10-27 16:01:08",
+				"end_edit_d": "2017-10-27 16:01:08",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清至民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [461741.75983744, 285768.157790196]
+			},
+			"properties": {
+				"objectid": "60",
+				"序号": "62",
+				"id": "62",
+				"title": "金陵",
+				"release_da": "2017-10-27 16:01:05",
+				"end_edit_d": "2017-10-27 16:01:05",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "金",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市房山区",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [487232.23500635, 313021.07833545]
+			},
+			"properties": {
+				"objectid": "61",
+				"序号": "63",
+				"id": "63",
+				"title": "健锐营演武厅",
+				"release_da": "2017-10-27 16:01:05",
+				"end_edit_d": "2017-10-27 16:01:05",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "海淀区香山南路红旗村1号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501549.12772275, 304702.313906351]
+			},
+			"properties": {
+				"objectid": "62",
+				"序号": "64",
+				"id": "64",
+				"title": "国立蒙藏学校旧址",
+				"release_da": "2017-10-27 16:01:04",
+				"end_edit_d": "2017-10-27 16:01:04",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501302.12663545, 306350.881764549]
+			},
+			"properties": {
+				"objectid": "63",
+				"序号": "65",
+				"id": "65",
+				"title": "广济寺",
+				"release_da": "2017-10-27 16:01:04",
+				"end_edit_d": "2017-10-27 16:01:04",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502451.53990635, 308717.75076455]
+			},
+			"properties": {
+				"objectid": "64",
+				"序号": "66",
+				"id": "66",
+				"title": "关岳庙",
+				"release_da": "2017-10-27 16:01:06",
+				"end_edit_d": "2017-10-27 16:01:06",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505022.033651187, 309482.370633793]
+			},
+			"properties": {
+				"objectid": "65",
+				"序号": "67",
+				"id": "67",
+				"title": "地坛",
+				"release_da": "2017-10-27 16:01:06",
+				"end_edit_d": "2017-10-27 16:01:06",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "东城区安定门外大街地坛公园",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501919.071768851, 309143.397128465]
+			},
+			"properties": {
+				"objectid": "66",
+				"序号": "68",
+				"id": "68",
+				"title": "德胜门箭楼",
+				"release_da": "2017-10-27 16:01:06",
+				"end_edit_d": "2017-10-27 16:01:06",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "西城区德胜门东大街9号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [478619.253473868, 320619.836152416]
+			},
+			"properties": {
+				"objectid": "67",
+				"序号": "69",
+				"id": "69",
+				"title": "大觉寺",
+				"release_da": "2017-10-27 16:01:07",
+				"end_edit_d": "2017-10-27 16:01:07",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "海淀区北安河乡",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [439125.211584139, 314770.699779003]
+			},
+			"properties": {
+				"objectid": "68",
+				"序号": "70",
+				"id": "70",
+				"title": "爨底下村古建筑群",
+				"release_da": "2017-10-27 16:01:07",
+				"end_edit_d": "2017-10-27 16:01:07",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "门头沟区斋堂镇川底下村",
+				"ext_str4": "门头沟区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502378.105442145, 308587.521005288]
+			},
+			"properties": {
+				"objectid": "69",
+				"序号": "71",
+				"id": "71",
+				"title": "醇亲王府",
+				"release_da": "2017-10-27 16:01:07",
+				"end_edit_d": "2017-10-27 16:01:07",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [483570.337231571, 307615.811405286]
+			},
+			"properties": {
+				"objectid": "70",
+				"序号": "72",
+				"id": "72",
+				"title": "承恩寺",
+				"release_da": "2017-10-27 16:01:09",
+				"end_edit_d": "2017-10-27 16:01:09",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市石景山区",
+				"ext_str4": "石景山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502407.103268429, 306224.258757855]
+			},
+			"properties": {
+				"objectid": "71",
+				"序号": "73",
+				"id": "73",
+				"title": "北平图书馆旧址",
+				"release_da": "2017-10-27 16:01:09",
+				"end_edit_d": "2017-10-27 16:01:09",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "民国",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500142.897879003, 306472.011468429]
+			},
+			"properties": {
+				"objectid": "72",
+				"序号": "74",
+				"id": "74",
+				"title": "北京鲁迅旧居",
+				"release_da": "2017-10-27 16:01:08",
+				"end_edit_d": "2017-10-27 16:01:08",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1924—1926年",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "西城区阜成门内宫门口二条19号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505337.436985945, 308660.820984226]
+			},
+			"properties": {
+				"objectid": "73",
+				"序号": "76",
+				"id": "76",
+				"title": "柏林寺",
+				"release_da": "2017-10-27 16:01:10",
+				"end_edit_d": "2017-10-27 16:01:10",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元、清",
+				"ext_str2": "第六批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [497154.403904471, 315291.817904165]
+			},
+			"properties": {
+				"objectid": "74",
+				"序号": "77",
+				"id": "77",
+				"title": "清华大学早期建筑",
+				"release_da": "2017-10-27 16:01:11",
+				"end_edit_d": "2017-10-27 16:01:11",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "近代",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [496123.964425781, 314194.560854906]
+			},
+			"properties": {
+				"objectid": "75",
+				"序号": "78",
+				"id": "78",
+				"title": "未名湖燕园建筑",
+				"release_da": "2017-10-27 16:01:11",
+				"end_edit_d": "2017-10-27 16:01:11",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "近代",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504355.745217856, 303913.297230819]
+			},
+			"properties": {
+				"objectid": "76",
+				"序号": "79",
+				"id": "79",
+				"title": "东交民巷使馆建筑群",
+				"release_da": "2017-10-27 16:01:11",
+				"end_edit_d": "2017-10-27 16:01:11",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "近代",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [497990.515290212, 309434.130283863]
+			},
+			"properties": {
+				"objectid": "77",
+				"序号": "82",
+				"id": "82",
+				"title": "大慧寺",
+				"release_da": "2017-10-27 16:01:11",
+				"end_edit_d": "2017-10-27 16:01:11",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [486039.281751587, 314431.106280687]
+			},
+			"properties": {
+				"objectid": "78",
+				"序号": "83",
+				"id": "83",
+				"title": "碧云寺",
+				"release_da": "2017-10-27 16:01:13",
+				"end_edit_d": "2017-10-27 16:01:13",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "海淀区香山公园北门",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501101.068019312, 301899.016219312]
+			},
+			"properties": {
+				"objectid": "79",
+				"序号": "84",
+				"id": "84",
+				"title": "法源寺",
+				"release_da": "2017-10-27 16:01:13",
+				"end_edit_d": "2017-10-27 16:01:13",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市宣武区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [468420.416654763, 291381.503848412]
+			},
+			"properties": {
+				"objectid": "80",
+				"序号": "85",
+				"id": "85",
+				"title": "万佛堂、孔水洞",
+				"release_da": "2017-10-27 16:01:12",
+				"end_edit_d": "2017-10-27 16:01:12",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "隋、唐至明",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市房山区河北镇",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [498872.318551587, 303570.229916138]
+			},
+			"properties": {
+				"objectid": "81",
+				"序号": "86",
+				"id": "86",
+				"title": "白云观",
+				"release_da": "2017-10-27 16:01:15",
+				"end_edit_d": "2017-10-27 16:01:15",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "西城区白云观街9号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503376.751069385, 306378.049891046]
+			},
+			"properties": {
+				"objectid": "82",
+				"序号": "87",
+				"id": "87",
+				"title": "景山",
+				"release_da": "2017-10-27 16:01:14",
+				"end_edit_d": "2017-10-27 16:01:14",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "西城区景山西街44号、西城区景山后街11号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505800.856875794, 306390.809727382]
+			},
+			"properties": {
+				"objectid": "83",
+				"序号": "88",
+				"id": "88",
+				"title": "孚王府",
+				"release_da": "2017-10-27 16:01:14",
+				"end_edit_d": "2017-10-27 16:01:14",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503888.138758827, 307650.18894574]
+			},
+			"properties": {
+				"objectid": "84",
+				"序号": "89",
+				"id": "89",
+				"title": "可园",
+				"release_da": "2017-10-27 16:01:14",
+				"end_edit_d": "2017-10-27 16:01:14",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [472141.187985987, 304265.878922487]
+			},
+			"properties": {
+				"objectid": "85",
+				"序号": "90",
+				"id": "90",
+				"title": "潭柘寺",
+				"release_da": "2017-10-27 16:01:16",
+				"end_edit_d": "2017-10-27 16:01:16",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "门头沟区潭柘寺镇潭柘寺景区",
+				"ext_str4": "门头沟区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [490504.259419312, 315260.933483862]
+			},
+			"properties": {
+				"objectid": "86",
+				"序号": "91",
+				"id": "91",
+				"title": "景泰陵",
+				"release_da": "2017-10-27 16:01:15",
+				"end_edit_d": "2017-10-27 16:01:15",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "北京市海淀区",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500162.422932013, 299485.352087038]
+			},
+			"properties": {
+				"objectid": "87",
+				"序号": "92",
+				"id": "92",
+				"title": "金中都水关遗址",
+				"release_da": "2017-10-27 16:01:15",
+				"end_edit_d": "2017-10-27 16:01:15",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "金",
+				"ext_str2": "第五批全国重点文物保护单位",
+				"ext_str3": "丰台区右安门外玉林小区甲40号",
+				"ext_str4": "丰台区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [498393.083351587, 311252.618416137]
+			},
+			"properties": {
+				"objectid": "88",
+				"序号": "93",
+				"id": "93",
+				"title": "觉生寺(大钟寺)",
+				"release_da": "2017-10-27 16:01:15",
+				"end_edit_d": "2017-10-27 16:01:15",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "海淀区北三环西路甲31号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [501534.252919312, 303660.102087038]
+			},
+			"properties": {
+				"objectid": "89",
+				"序号": "94",
+				"id": "94",
+				"title": "南堂",
+				"release_da": "2017-10-27 16:01:17",
+				"end_edit_d": "2017-10-27 16:01:17",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503313.420248531, 308130.207832237]
+			},
+			"properties": {
+				"objectid": "90",
+				"序号": "95",
+				"id": "95",
+				"title": "北京鼓楼、钟楼",
+				"release_da": "2017-10-27 16:01:17",
+				"end_edit_d": "2017-10-27 16:01:17",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "东城区钟楼湾临字9号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500880.632731547, 306442.22077189]
+			},
+			"properties": {
+				"objectid": "91",
+				"序号": "96",
+				"id": "96",
+				"title": "历代帝王庙",
+				"release_da": "2017-10-27 16:01:16",
+				"end_edit_d": "2017-10-27 16:01:16",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "西城区阜成门内大街131号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503089.243329828, 306224.372649141]
+			},
+			"properties": {
+				"objectid": "92",
+				"序号": "97",
+				"id": "97",
+				"title": "大高玄殿",
+				"release_da": "2017-10-27 16:01:16",
+				"end_edit_d": "2017-10-27 16:01:16",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "北京市西城区",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [488223.556908797, 328075.752010516]
+			},
+			"properties": {
+				"objectid": "93",
+				"序号": "98",
+				"id": "98",
+				"title": "北京东岳庙",
+				"release_da": "2017-10-27 16:01:18",
+				"end_edit_d": "2017-10-27 16:01:18",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元至清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "朝阳区朝外大街141号",
+				"ext_str4": "朝阳区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [476819.613649141, 300334.509270172]
+			},
+			"properties": {
+				"objectid": "94",
+				"序号": "99",
+				"id": "99",
+				"title": "戒台寺",
+				"release_da": "2017-10-27 16:01:18",
+				"end_edit_d": "2017-10-27 16:01:18",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "辽至清",
+				"ext_str2": "第四批全国重点文物保护单位",
+				"ext_str3": "门头沟区永定镇戒台寺",
+				"ext_str4": "门头沟区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [495502.385308797, 315776.154507078]
+			},
+			"properties": {
+				"objectid": "95",
+				"序号": "100",
+				"id": "100",
+				"title": "圆明园遗址",
+				"release_da": "2017-10-27 16:01:18",
+				"end_edit_d": "2017-10-27 16:01:18",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "海淀区清华西路28号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [474562.560489485, 272884.483270171]
+			},
+			"properties": {
+				"objectid": "96",
+				"序号": "101",
+				"id": "101",
+				"title": "琉璃河遗址",
+				"release_da": "2017-10-27 16:01:19",
+				"end_edit_d": "2017-10-27 16:01:19",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "西周",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "房山区琉璃河董家林村",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [497508.364789485, 350260.724589484]
+			},
+			"properties": {
+				"objectid": "97",
+				"序号": "102",
+				"id": "102",
+				"title": "银山塔林",
+				"release_da": "2017-10-27 16:01:19",
+				"end_edit_d": "2017-10-27 16:01:19",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "金至元",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "昌平兴寿镇下庄乡湖门村",
+				"ext_str4": "昌平区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [499073.642189485, 302974.622189485]
+			},
+			"properties": {
+				"objectid": "98",
+				"序号": "103",
+				"id": "103",
+				"title": "天宁寺塔",
+				"release_da": "2017-10-27 16:01:19",
+				"end_edit_d": "2017-10-27 16:01:19",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "辽",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "北京市宣武区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500598.045232715, 302036.226105478]
+			},
+			"properties": {
+				"objectid": "99",
+				"序号": "104",
+				"id": "104",
+				"title": "牛街礼拜寺",
+				"release_da": "2017-10-27 16:01:19",
+				"end_edit_d": "2017-10-27 16:01:19",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "北京市宣武区",
+				"ext_str4": "西城区（原宣武区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [483126.128962831, 308213.670011244]
+			},
+			"properties": {
+				"objectid": "100",
+				"序号": "105",
+				"id": "105",
+				"title": "法海寺",
+				"release_da": "2017-10-27 16:01:38",
+				"end_edit_d": "2017-10-27 16:01:38",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "石景山区模式口村北",
+				"ext_str4": "石景山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505390.224788756, 306966.894378969]
+			},
+			"properties": {
+				"objectid": "101",
+				"序号": "106",
+				"id": "106",
+				"title": "崇礼住宅",
+				"release_da": "2017-10-27 16:01:37",
+				"end_edit_d": "2017-10-27 16:01:37",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "北京市东城区",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504871.181540344, 308684.172514418]
+			},
+			"properties": {
+				"objectid": "102",
+				"序号": "107",
+				"id": "107",
+				"title": "北京孔庙",
+				"release_da": "2017-10-27 16:01:20",
+				"end_edit_d": "2017-10-27 16:01:20",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元至清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "东城区国子监街13号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503222.758753307, 304860.387740344]
+			},
+			"properties": {
+				"objectid": "103",
+				"序号": "108",
+				"id": "108",
+				"title": "社稷坛",
+				"release_da": "2017-10-27 16:01:20",
+				"end_edit_d": "2017-10-27 16:01:20",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "东城区天安门西侧",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503659.220698281, 304901.261246694]
+			},
+			"properties": {
+				"objectid": "104",
+				"序号": "109",
+				"id": "109",
+				"title": "太庙",
+				"release_da": "2017-10-27 16:01:56",
+				"end_edit_d": "2017-10-27 16:01:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "东城区天安门东侧",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503478.777625866, 303668.495970603]
+			},
+			"properties": {
+				"objectid": "105",
+				"序号": "110",
+				"id": "110",
+				"title": "正阳门",
+				"release_da": "2017-10-27 16:01:56",
+				"end_edit_d": "2017-10-27 16:01:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明至清",
+				"ext_str2": "第三批全国重点文物保护单位",
+				"ext_str3": "东城区天安门广场南侧",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502775.133749141, 307461.680212233]
+			},
+			"properties": {
+				"objectid": "106",
+				"序号": "111",
+				"id": "111",
+				"title": "郭沫若故居",
+				"release_da": "2017-10-27 16:01:56",
+				"end_edit_d": "2017-10-27 16:01:56",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1963年",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "西城区前海西街18号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502507.663134985, 307817.479349141]
+			},
+			"properties": {
+				"objectid": "107",
+				"序号": "112",
+				"id": "112",
+				"title": "恭王府及花园",
+				"release_da": "2017-10-27 16:01:58",
+				"end_edit_d": "2017-10-27 16:01:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "西城区前海西街17号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [506559.014331547, 303800.22742811]
+			},
+			"properties": {
+				"objectid": "108",
+				"序号": "113",
+				"id": "113",
+				"title": "北京城东南角楼",
+				"release_da": "2017-10-27 16:01:57",
+				"end_edit_d": "2017-10-27 16:01:57",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "崇文门东大街9号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [506609.06477887, 304466.317301956]
+			},
+			"properties": {
+				"objectid": "109",
+				"序号": "114",
+				"id": "114",
+				"title": "古观象台",
+				"release_da": "2017-10-27 16:01:57",
+				"end_edit_d": "2017-10-27 16:01:57",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "东城区东裱褙胡同2号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503961.882074337, 304705.703751588]
+			},
+			"properties": {
+				"objectid": "110",
+				"序号": "115",
+				"id": "115",
+				"title": "皇史宬",
+				"release_da": "2017-10-27 16:01:57",
+				"end_edit_d": "2017-10-27 16:01:57",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "东城区南池子大街136号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502247.406296563, 308677.738483862]
+			},
+			"properties": {
+				"objectid": "111",
+				"序号": "116",
+				"id": "116",
+				"title": "北京宋庆龄故居",
+				"release_da": "2017-10-27 16:01:59",
+				"end_edit_d": "2017-10-27 16:01:59",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1963年",
+				"ext_str2": "第二批全国重点文物保护单位",
+				"ext_str3": "西城区后海北沿46号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [463378.271267463, 280442.525542063]
+			},
+			"properties": {
+				"objectid": "112",
+				"序号": "117",
+				"id": "117",
+				"title": "周口店遗址",
+				"release_da": "2017-10-27 16:01:58",
+				"end_edit_d": "2017-10-27 16:01:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "旧石器时代",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "房山区周口店大街1号",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503419.814519313, 305511.534213512]
+			},
+			"properties": {
+				"objectid": "113",
+				"序号": "118",
+				"id": "118",
+				"title": "北京故宫",
+				"release_da": "2017-10-27 16:01:58",
+				"end_edit_d": "2017-10-27 16:01:58",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "北京市东城区景山前街4号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [488647.264328837, 343076.651383863]
+			},
+			"properties": {
+				"objectid": "114",
+				"序号": "119",
+				"id": "119",
+				"title": "十三陵",
+				"release_da": "2017-10-27 16:02:00",
+				"end_edit_d": "2017-10-27 16:02:00",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "昌平区十三陵特区办事处北",
+				"ext_str4": "昌平区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [493311.797606638, 313658.712291788]
+			},
+			"properties": {
+				"objectid": "115",
+				"序号": "120",
+				"id": "120",
+				"title": "颐和园",
+				"release_da": "2017-10-27 16:01:59",
+				"end_edit_d": "2017-10-27 16:01:59",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "海淀区新建宫门路19号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [505137.814314227, 308924.35448974]
+			},
+			"properties": {
+				"objectid": "116",
+				"序号": "121",
+				"id": "121",
+				"title": "雍和宫",
+				"release_da": "2017-10-27 16:01:59",
+				"end_edit_d": "2017-10-27 16:01:59",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "东城区雍和宫大街12号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504872.372167725, 308697.533999474]
+			},
+			"properties": {
+				"objectid": "117",
+				"序号": "122",
+				"id": "122",
+				"title": "国子监",
+				"release_da": "2017-10-27 16:02:01",
+				"end_edit_d": "2017-10-27 16:02:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "清",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "东城区国子监街15号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [506438.037503175, 305514.579167726]
+			},
+			"properties": {
+				"objectid": "118",
+				"序号": "123",
+				"id": "123",
+				"title": "智化寺",
+				"release_da": "2017-10-27 16:02:01",
+				"end_edit_d": "2017-10-27 16:02:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "东城区禄米仓胡同5号",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [502748.247145204, 306476.741526188]
+			},
+			"properties": {
+				"objectid": "119",
+				"序号": "124",
+				"id": "124",
+				"title": "北海及团城",
+				"release_da": "2017-10-27 16:02:01",
+				"end_edit_d": "2017-10-27 16:02:01",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明、清",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "西城区文津街1号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [504792.702072153, 301058.563441471]
+			},
+			"properties": {
+				"objectid": "120",
+				"序号": "125",
+				"id": "125",
+				"title": "天坛",
+				"release_da": "2017-10-27 16:02:00",
+				"end_edit_d": "2017-10-27 16:02:00",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "崇文区永定门内大街东侧",
+				"ext_str4": "东城区（原崇文区）",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [475708.025485124, 347369.421356981]
+			},
+			"properties": {
+				"objectid": "121",
+				"序号": "126",
+				"id": "126",
+				"title": "居庸关云台",
+				"release_da": "2017-10-27 16:02:02",
+				"end_edit_d": "2017-10-27 16:02:02",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "昌平区南口镇居庸关关城内",
+				"ext_str4": "昌平区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [497735.062509525, 308503.614993649]
+			},
+			"properties": {
+				"objectid": "122",
+				"序号": "127",
+				"id": "127",
+				"title": "真觉寺金刚宝座（五塔寺塔）",
+				"release_da": "2017-10-27 16:02:02",
+				"end_edit_d": "2017-10-27 16:02:02",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "明",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "海淀白石桥路五塔寺村24号",
+				"ext_str4": "海淀区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [500542.011332275, 306466.0968709]
+			},
+			"properties": {
+				"objectid": "123",
+				"序号": "128",
+				"id": "128",
+				"title": "妙应寺白塔",
+				"release_da": "2017-10-27 16:02:03",
+				"end_edit_d": "2017-10-27 16:02:03",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "元",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "西城区阜成门内大街171号",
+				"ext_str4": "西城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [449823.617557675, 271516.362835451]
+			},
+			"properties": {
+				"objectid": "124",
+				"序号": "129",
+				"id": "129",
+				"title": "房山云居寺塔及石经",
+				"release_da": "2017-10-27 16:02:03",
+				"end_edit_d": "2017-10-27 16:02:03",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "隋、唐、辽、金",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "房山区南尚乐镇水头村云居寺",
+				"ext_str4": "房山区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}, {
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [503471.89771083, 304129.29386104]
+			},
+			"properties": {
+				"objectid": "125",
+				"序号": "130",
+				"id": "130",
+				"title": "人民英雄纪念碑",
+				"release_da": "2017-10-27 16:02:03",
+				"end_edit_d": "2017-10-27 16:02:03",
+				"ispage": "null",
+				"parent_id": "null",
+				"parent_key": "null",
+				"title_imag": "null",
+				"ext_str1": "1958年",
+				"ext_str2": "第一批全国重点文物保护单位",
+				"ext_str3": "北京市天安门广场",
+				"ext_str4": "东城区",
+				"ext_str5": "北京地区全国重点文物保护单位"
+			}
+		}]
+	}
