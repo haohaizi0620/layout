@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 14:09:04
- * @LastEditTime : 2020-02-07 13:54:53
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-02-19 10:03:51
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \one-react\src\redux\actions\showLayerDatas.js
  */
@@ -15,6 +15,9 @@ export const REPLACEALLFIELDVAL = "REPLACEALLFIELDVAL";//将showDatas对象进�
 export const ADDCPTOPTIONSLIST = "ADDCPTOPTIONSLIST";//对保存所有的图表的option的数组进行添加
 export const DELCPTOPTIONSLIST = "DELCPTOPTIONSLIST";//对保存所有的图表的option的数组进行删除
 export const EDITCPTOPTIONSLIST = "EDITCPTOPTIONSLIST";//对保存所有的图表的option的数组进行编辑
+
+export const SAVESHOWPAGEDATA = "SAVESHOWPAGEDATA";//将当前页面展示的图表进行保存
+
 
 
 export function updateShowLayerFieldVal(updateFieldObj) {
@@ -39,4 +42,7 @@ export function editCptOptionsList(cptIndex,layerOptions) {
     return {type: EDITCPTOPTIONSLIST,layerOptions:layerOptions,cptIndex:cptIndex}
 }
 
+export function saveShowPageData(pageObj) {
+    return {type: SAVESHOWPAGEDATA,pageObj:pageObj}
+}
 

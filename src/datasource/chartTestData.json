@@ -978,4 +978,109 @@
 		"result": [],
 		"success": false
 	}
+}],[{
+	"legendInfo": {
+		"UPDATETIME": "",
+		"maxSize": "0",
+		"minSize": "0",
+		"reference": "",
+		"tiemType": ""
+	},
+	"mapInfor": {
+		"result": [{
+			"BASEMAP": "RESULTLAYER",
+			"CENTERX": "",
+			"CENTERY": "",
+			"CREATETIME": "2020-02-20 14:54:25",
+			"DESP": "",
+			"ID": "2",
+			"LEGTITLE": "",
+			"MAPLEVEL": "",
+			"NAME": "京津冀年卡景点20190",
+			"PARENTID": "1",
+			"REFMAPID": "",
+			"SEQ": "",
+			"SUBCLASSNAME": "",
+			"SUBTABLETYPE": "",
+			"TYPE": "THEMEPIE_CHART",
+			"VISITS": 0
+		}],
+		"success": true
+	},
+	"myDataSource": {
+		"result": [{
+			"DS_INFO": "public.京津冀年卡景点20190",
+			"SERVICENAME": "CCC",
+			"id": "2",
+			"jies": "",
+			"themeID": "2",
+			"uestype": "RESULTLAYER",
+			"updateTime": ""
+		}],
+		"success": true
+	},
+	"myLegend": {
+		"result": [{
+			"color": "#3bbcbd",
+			"faceStyle": "",
+			"fieldName": "北京市",
+			"id": "7",
+			"isText": "false",
+			"itemStyle": "",
+			"legTitle": "",
+			"legendPosition": "PROVINCE",
+			"maxval": "0",
+			"minval": "0",
+			"name": "北京市",
+			"sizeStyle": "",
+			"themeID": "2",
+			"titlePosition": "OBJECTID",
+			"unit": "g"
+		}, {
+			"color": "#a09dcc",
+			"faceStyle": "",
+			"fieldName": "天津市",
+			"id": "8",
+			"isText": "false",
+			"itemStyle": "",
+			"legTitle": "",
+			"legendPosition": "PROVINCE",
+			"maxval": "0",
+			"minval": "0",
+			"name": "天津市",
+			"sizeStyle": "",
+			"themeID": "2",
+			"titlePosition": "OBJECTID",
+			"unit": "g"
+		}, {
+			"color": "#6ba4db",
+			"faceStyle": "",
+			"fieldName": "河北省",
+			"id": "9",
+			"isText": "false",
+			"itemStyle": "",
+			"legTitle": "",
+			"legendPosition": "PROVINCE",
+			"maxval": "0",
+			"minval": "0",
+			"name": "河北省",
+			"sizeStyle": "",
+			"themeID": "2",
+			"titlePosition": "OBJECTID",
+			"unit": "g"
+		}],
+		"success": true
+	},
+	"myMapTable": {
+		"result": [],
+		"success": false
+	},
+	"myRefTableName": {
+		"result": [],
+		"success": false
+	},
+	"mySubTimeType": {
+		"result": [],
+		"success": false
+	}
 }]]

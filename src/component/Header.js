@@ -15,7 +15,8 @@ import {
     faTextHeight,
     faBus,
 } from '@fortawesome/fontawesome-free-solid';
-
+import { Button } from 'antd';
+import 'antd/dist/antd.css';
 fontawesome.library.add(faCheckSquare, faFont, faBars, faChartBar, faChartLine, faChartPie, faChartArea, faEllipsisH, faMapPin, faTextWidth, faTextHeight, faBus)
 
 class Header extends Component {
@@ -233,8 +234,8 @@ class Header extends Component {
      * @param {type} 
      * @return: 
      */
-    onClickAdd(layerType, props) {
-        this.props.onClickAdd(layerType, props);
+    onClickAdd(layerObj, props) {
+        this.props.onClickAdd(layerObj, props);
     }
 
     handleChartMouseOver(obj) {
@@ -244,6 +245,19 @@ class Header extends Component {
             otype: thisType,
             ttype: t
         });
+    }
+
+    /**
+     * @description: 用来保存当前编辑页面的所有图表的数据
+     * @param {type} 
+     * @return: 
+     */
+    saveLayoutData(){
+        this.props.saveLayoutData();
+    }
+
+    saveShowPageData(){
+        this.props.saveShowPageData();
     }
 
     render() {
@@ -302,6 +316,23 @@ class Header extends Component {
                         })
                     }
                 </ul>
+                <div   style={{
+                    position: 'relative',
+                    left: '67%',
+                    width:'18%'
+                }} >
+                    <div
+                        style={{
+                           height:'80%',
+                           top:'10%',
+                           position: 'relative'
+                        }}
+                    >
+                        <Button  type="primary" onClick={this.saveLayoutData.bind(this)}>保存</Button>
+                        <Button  type="primary" onClick={this.saveShowPageData.bind(this)}>预览</Button>
+                    </div>
+                    
+                </div>
             </div>
         );
     }

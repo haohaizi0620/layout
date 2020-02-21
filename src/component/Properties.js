@@ -775,7 +775,7 @@ class Properties extends Component {
                             }else{
                                 return (
                                     <EditSimpleMainInfo
-                                        key={item.name}
+                                        key={i}
                                         childer={item.childer}
                                         name={item.name}
                                         includeSelectFlag={item.includeSelect}

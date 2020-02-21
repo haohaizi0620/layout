@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-01-07 09:25:24
- * @LastEditTime : 2020-02-11 14:14:07
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-02-20 09:53:10
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\App.js
  */
@@ -11,7 +11,7 @@ import ReactDome from 'react-dom';
 import Layout from './component/Layout';
 
 function App() {
-    var script1 = document.createElement('script');
+  /*    var script1 = document.createElement('script');
     script1.type = 'text/javascript';
     script1.async = true;
     // script1.src = 'http://172.24.254.94:8082/TileServer/dmapgl/dmap-gl-dev.js';
@@ -44,7 +44,7 @@ function App() {
     script5.async = true;
     // script5.src = 'http://172.26.50.89/TileServer/dmapgl/dmapgl.js';
     script5.src = 'http://localhost/kshCharsTempJs/dmapgl.js';
-    document.head.appendChild(script5);
+    document.head.appendChild(script5); */
 
     /* var script6 = document.createElement('script');
     script6.type = 'text/javascript';
@@ -53,10 +53,9 @@ function App() {
     script6.src = 'http://localhost/kshCharsTempJs/dmap4.0.js';
     document.head.appendChild(script6); */
 
-
     return (
         <Fragment>
-            <Layout />
+            <Layout  />
         </Fragment>
     );
 }

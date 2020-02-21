@@ -3,27 +3,43 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import ComponentList from './ComponentList';
+
+import LeftComponentList from './leftComponents/LeftComponentList'
 import Config from './Config';
 import LoadChart from "./LoadChart";
 import store from '../redux/store';
-import { chartOption } from "../utils/chart";
+import { chartOption,saveChartsOption} from "../utils/chart";
+import {
+    Link,
+  } from "react-router-dom";
 import { notification,Modal, Button } from 'antd';
+import {selectMainLayer,addMainLayer,selectGetOneMainLayer} from '../api/api';
 // import Mock from 'mockjs'
-import { updateShowLayerFieldVal, replaceShowLayerFieldVal, replaceAllShowLayerFieldVal, delCptOptionsList, editCptOptionsList } from '../redux/actions/showLayerDatas';
+import { updateShowLayerFieldVal, replaceShowLayerFieldVal, replaceAllShowLayerFieldVal, delCptOptionsList, editCptOptionsList,saveShowPageData} from '../redux/actions/showLayerDatas';
+import {
+    Redirect
+  } from "react-router-dom";
+const chartData = require('../datasource/chartDatas.json');
 class Layout extends Component {
     constructor(props) {
         super(props);
+        console.log(window)
         this.state = {
             cptIndex: -1,
             cptType: '',
             cptKey: '',
             cptKeyList: [], //组件集合
             cptPropertyList: [],//所有组件定位集合
+            cptChartIdList:[],
             cptPropertyObj: store.getState().showLayerDatas.showDatas,
             globalBg: store.getState().showLayerDatas.bgFieldObj,
             deleteAffirmFlag:false,
             delIndex:-1,
+            showPageData:{},
+            isOpenNewWindowFlag:false,
+            leftComponents:[]
         }
+        this.initLeftData();
         // var data = Mock.mock({
         //     // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
         //     'list|1-10': [{
@@ -34,6 +50,32 @@ class Layout extends Component {
         // console.log(JSON.stringify(data, null, 4))
     }
 
+    initLeftData(){
+        /* let tempArr = [
+            {
+                data:'[{"id":1,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":0,"parentid":1,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"}]',
+                service:{
+                    id: 1,
+                    name: "CCC"
+                }
+            },
+            {
+                data:'[{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"村居委会","type":null,"service":"KSH","layername":"村居委会","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般面样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><SIMPLEPOLYGONSYMBOL antialiasing=\"true\" boundarycolor=\"0,255,0\" boundarytype=\"solid\" boundarywidth=\"1\" outline=\"0,255,0\" filltype=\"solid\" icon=\"\" fillcolor=\"255,0,0\" filltransparency=\"1\"/></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"kkk","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"qazwsx2","type":null,"service":"KSH","layername":"qazwsx2","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"0,0,0\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"0,0,0\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"1","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"养老机构","type":null,"service":"KSH","layername":"养老机构","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"51,255,0\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"51,255,0\" usecentroid=\"true\" width=\"14\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"fdg","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"}]',
+                service:{
+                    id: 2,
+                    name: "KSH"
+                }
+            }
+        ]
+        this.setState({
+            leftComponents:tempArr
+        },() => {
+            
+        }) */
+       /*    */
+        
+    }
+    
     handleScriptCreate(obj) {
         this.setState({ scriptLoaded: false })
     }
@@ -51,7 +93,7 @@ class Layout extends Component {
      * @param {type} 
      * @return: 
      */
-    onClickAdd(layerObj) {
+    onClickAdd(layerObj,addState) {
         const id = layerObj.id;
         const type = layerObj.layerType;
         const showTitle = layerObj.text;
@@ -77,21 +119,77 @@ class Layout extends Component {
         };
         //对当前基本内容的全部替换
         store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
+        let chartId = -1;
+        chartData.map(item => {
+            if (item.id == id) {
+                chartId =  item.chartId;
+            }
+        })
         this.setState({
             cptIndex: len,
             cptType: id,
             cptKey: key,
             cptKeyList: [...this.state.cptKeyList, cptkObj],
             cptPropertyList: [...this.state.cptPropertyList, cptpObj],
-            cptPropertyObj: cptpObj
+            cptPropertyObj: cptpObj,
+            cptChartIdList:[...this.state.cptChartIdList,chartId]
         }, () => {
-            // console.log(`这个组合:${this.state}`);
             {
-                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate");
+                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",addState);
                 this.updateGlobalEditData();
             }
         });
     }
+
+    onClickAddSpecialLayer(layerObj){
+        this.onClickAdd({
+            id:layerObj.THEMERING_CHART,
+            layerType:'chart',
+            text:layerObj.name,
+            simpleType:'all'
+        },'leftAdd')
+       /* let sendDataId =  layerObj.id;
+       let nameId = layerObj.THEMERING_CHART;
+       let type = 'chart';
+      let tempObj = {
+        id: layerObj.THEMERING_CHART, 
+        text: layerObj.name, 
+        layerType:type,
+        simpleType:'all'
+      }
+        const key = new Date().getTime().toString();
+        const cptkObj = { key: layerObj.name, id: sendDataId, title: layerObj.name,layerType:layerObj.thType,simpleType:''};
+        const len = this.state.cptKeyList.length;
+        let tempHeightValue = 350;
+        const cptpObj = {
+            cptBorderObj: {
+                width: 350,
+                height: tempHeightValue,
+                left: 450,
+                top: 160,
+                opacity: 1,
+            },
+            type: type,
+            cptType:nameId
+        };
+        //对当前基本内容的全部替换
+        store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
+        this.setState({
+            cptIndex: len,
+            cptType: nameId,
+            cptKey: key,
+            cptKeyList: [...this.state.cptKeyList, cptkObj],
+            cptPropertyList: [...this.state.cptPropertyList, cptpObj],
+            cptPropertyObj: cptpObj,
+            cptChartIdList:[...this.state.cptChartIdList,sendDataId]
+        }, () => {
+            {
+                saveChartsOption(sendDataId,key,type);
+                this.updateGlobalEditData();
+            }
+        }); */
+    }
+
 
     ondelItemPrev(layerIndex){
         this.setState({
@@ -502,15 +600,63 @@ class Layout extends Component {
         //更新编辑面板里面的数据
         this.refs.rightConfig.refs.editMainCenter.updateStateVal();
     }
+
+
+     /**
+     * @description: 用来保存当前编辑页面的所有图表的数据
+     * @param {type} 
+     * @return: 
+     */
+    async saveLayoutData(){
+        // const islogin = await selectGetOneMainLayer(1);
+        // const islogin = await selectMainLayer({layerId:1});
+        let {cptKeyList,cptPropertyList} = this.state;
+        store.dispatch(saveShowPageData({
+            cptKeyList:cptKeyList,
+            cptPropertyList:cptPropertyList
+        }));
+        console.log(store.getState().showLayerDatas.bgFieldObj)
+        const islogin = await addMainLayer({
+            layerid:14,
+            visualid:1,
+            layercname:JSON.stringify(this.state.cptKeyList),
+            layerename:JSON.stringify(store.getState().showLayerDatas.bgFieldObj),//JSON.stringify(this.state.cptChartIdList),
+            layerdatas:JSON.stringify(this.state.cptPropertyList),//所有组件定位集合
+            layerbasicset:JSON.stringify(store.getState().showLayerDatas.showPageData.cptOptionsList)
+        })
+        console.log(islogin)
+    }
+
+    saveShowPageData(){
+       
+        var data = '/test/15';
+        this.setState({
+            showPageData:data,
+            isOpenNewWindowFlag:true,
+        },() => {
+            var win = window.open('http://localhost:3000'+data, '_blank');
+            win.focus();  
+            // document.getElementById("shouPageTo").setAttribute("target","_blank");
+            // document.getElementById("shouPageTo").click();
+        })
+    }
+
     render() {
         return (
             <Fragment>
-                <Header   ref="Header"   onClickAdd={this.onClickAdd.bind(this)} />
+                <Header   ref="Header"   
+                    saveLayoutData={this.saveLayoutData.bind(this)}
+                    onClickAdd={this.onClickAdd.bind(this)} 
+                    saveShowPageData={this.saveShowPageData.bind(this)}
+                    />
                 <div className="custom-content">
-                    <ComponentList
+                    {/* <ComponentList
                         ComponentList={this.state.cptKeyList}
                         cptIndex={this.state.cptIndex}
                         selectCliclSingleLayer={this.selectCliclSingleLayer.bind(this)}
+                    /> */}
+                    <LeftComponentList
+                       onClickAddSpecialLayer={this.onClickAddSpecialLayer.bind(this)} 
                     />
                     <div className="custom-content-p" >
                         <div className="custom-content-canvs"
@@ -568,6 +714,10 @@ class Layout extends Component {
                         cptIndex={this.state.cptIndex} 
                         cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}/>
                 </div>
+                {
+                    this.state.isOpenNewWindowFlag?
+                    <Link to={this.state.showPageData }   id="shouPageTo"  /> :true
+                }
             </Fragment>
         );
     }

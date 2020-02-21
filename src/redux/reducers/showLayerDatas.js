@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 14:08:58
- * @LastEditTime : 2020-02-12 18:55:26
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-02-19 10:21:40
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \one-react\src\redux\reducers\counter.js
  */
@@ -12,7 +12,8 @@ import {
     REPLACEALLFIELDVAL,
     ADDCPTOPTIONSLIST,
     DELCPTOPTIONSLIST,
-    EDITCPTOPTIONSLIST
+    EDITCPTOPTIONSLIST,
+    SAVESHOWPAGEDATA
 } from '../actions/showLayerDatas';
 
 /*
@@ -52,6 +53,9 @@ const cptPropertyObj = {
         bgImageIntegerUrl:"",
         uploadImage:"",
     },
+    showPageData:{
+
+    }
 };
 /*
  * reducer
@@ -118,6 +122,16 @@ export default function reducer(state = cptPropertyObj, action) {
                 state.cptOptionsList[action.cptIndex] = action.layerOptions;
             }
             return state;
+        case SAVESHOWPAGEDATA:{
+            let {cptKeyList,cptPropertyList} =  action.pageObj
+            let cptOptionsList = state.cptOptionsList;
+            let showPageData = state.showPageData;
+            showPageData.cptKeyList = cptKeyList;
+            showPageData.cptPropertyList = cptPropertyList;
+            showPageData.cptOptionsList = cptOptionsList;
+            state.showPageData= showPageData;
+            return state;
+        }
         default:
             return state
     }
