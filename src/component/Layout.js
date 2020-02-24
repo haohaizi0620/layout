@@ -8,7 +8,7 @@ import LeftComponentList from './leftComponents/LeftComponentList'
 import Config from './Config';
 // import LoadChart from "./LoadChart";
 import store from '../redux/store';
-import  {chartOption,saveChartsOption} from "../utils/chart";
+import  {chartOption} from "../utils/chart";
 
 import {
     Link,
@@ -87,6 +87,9 @@ class Layout extends Component {
                 left: 450,
                 top: 160,
                 opacity: 1,
+                layerBorderWidth:0,
+                layerBorderStyle:'solid',
+                layerBorderColor:'rgb(0,0,0,1)',
             },
             type: type,
             cptType: id
@@ -109,12 +112,7 @@ class Layout extends Component {
             cptChartIdList:[...this.state.cptChartIdList,chartId]
         }, () => {
             {   
-                let addState = otherObj.State;
-                // if(addState=="leftAdd"){
-                //     saveChartsOption(key,otherObj.data);
-                // }else if(addState=="headerAdd"){
-                    chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",otherObj);
-                // }
+                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",otherObj);
                 this.updateGlobalEditData();
             }
         });
@@ -168,6 +166,9 @@ class Layout extends Component {
                 left: 450,
                 top: 160,
                 opacity: this.state.cptPropertyObj.cptBorderObj.opacity,
+                layerBorderWidth:0,
+                layerBorderStyle:'solid',
+                layerBorderColor:'rgb(0,0,0,1)',
             },
             type: 'bg',
             cptType: 'bg'
@@ -217,8 +218,12 @@ class Layout extends Component {
         // index = this.state.cptIndex;
         const width = e.rect.width;
         const height = e.rect.height;
-        const left = parseInt(e.target.parentNode.style.left);
-        const top = parseInt(e.target.parentNode.style.top);
+        var prevObjStyle = e.target.parentNode.style;
+        const left = parseInt(prevObjStyle.left);
+        const top = parseInt(prevObjStyle.top);
+        const layerBorderWidth = parseInt(prevObjStyle.borderWidth);
+        const layerBorderStyle = prevObjStyle.borderStyle;
+        const layerBorderColor = prevObjStyle.borderColor;
         // const left = parseInt(e.rect.left);
         // const top = parseInt(e.rect.top);
         const opacity = this.state.cptPropertyObj.cptBorderObj.opacity;
@@ -231,7 +236,10 @@ class Layout extends Component {
                 height,
                 left,
                 top,
-                opacity
+                opacity,
+                layerBorderWidth,
+                layerBorderStyle,
+                layerBorderColor,
             },
             type: type,
             cptType: t
@@ -256,8 +264,12 @@ class Layout extends Component {
         // index = this.state.cptIndex;
         const width = e.rect.width;
         const height = e.rect.height;
-        const left = parseInt(e.target.parentNode.style.left);
-        const top = parseInt(e.target.parentNode.style.top);
+        var prevObjStyle = e.target.parentNode.style;
+        const left = parseInt(prevObjStyle.left);
+        const top = parseInt(prevObjStyle.top);
+        const layerBorderWidth = parseInt(prevObjStyle.borderWidth);
+        const layerBorderStyle = prevObjStyle.borderStyle;
+        const layerBorderColor = prevObjStyle.borderColor;
         // const left = parseInt(e.rect.left);
         // const top = parseInt(e.rect.top);
         const opacity = this.state.cptPropertyObj.cptBorderObj.opacity;
@@ -270,7 +282,10 @@ class Layout extends Component {
                 height,
                 left,
                 top,
-                opacity
+                opacity,
+                layerBorderWidth,
+                layerBorderStyle,
+                layerBorderColor,
             },
             type: type,
             cptType: t
@@ -297,11 +312,14 @@ class Layout extends Component {
     selectCliclSingleLayer(layerData, layerIndex) {
         var id = layerData.key;
         var index = layerIndex;
-        var layerObj = document.getElementById(id).parentNode.parentNode;
-        const width = parseInt(layerObj.style.width);
-        const height = parseInt(layerObj.style.height);
-        const left = parseInt(layerObj.style.left);
-        const top = parseInt(layerObj.style.top);
+        var prevObjStyle = document.getElementById(id).parentNode.parentNode.style;
+        const width = parseInt(prevObjStyle.width);
+        const height = parseInt(prevObjStyle.height);
+        const left = parseInt(prevObjStyle.left);
+        const top = parseInt(prevObjStyle.top);
+        const layerBorderWidth = parseInt(prevObjStyle.borderWidth);
+        const layerBorderStyle = prevObjStyle.borderStyle;
+        const layerBorderColor = prevObjStyle.borderColor;
         const opacity = this.state.cptPropertyObj.cptBorderObj.opacity;
         let cptpList = this.state.cptPropertyList;
         const t = cptpList[index].cptType ? cptpList[index].cptType : 'bg';
@@ -312,7 +330,10 @@ class Layout extends Component {
                 height,
                 left,
                 top,
-                opacity
+                opacity,
+                layerBorderWidth,
+                layerBorderStyle,
+                layerBorderColor,
             },
             type: type,
             cptType: t
@@ -436,6 +457,7 @@ class Layout extends Component {
                         tempObj.getElementsByClassName("iframeObj")[0].src = fieldValue;
                     }
                 }else if (layerType == "chart") {
+                    tempObj = tempObj.parentNode;
                     if (fieldEname == "optionName") {
                         cptOptionObj.layerOption[0].mapInfor.result[0].NAME = fieldValue;
                     } else if (fieldEname == "legendName") {
@@ -459,7 +481,7 @@ class Layout extends Component {
                         cptOptionObj.layerOption[0].myMapTable.result = resultTable;
                     } else if (fieldEname == "legendColor") {
                         cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
-                    }
+                    } 
                 }
                 if(layerType == "chart"){
                     chartOption(this.state.cptType, this.state.cptKey, this, "update");
@@ -468,7 +490,7 @@ class Layout extends Component {
                 }
                 store.dispatch(editCptOptionsList(cptIndex, cptOptionObj));
             }
-            if(fieldEname=="width"||fieldEname=="height"||fieldEname=="left"||fieldEname=="top"||fieldEname=="opacity"){
+            if(fieldEname=="width"||fieldEname=="height"||fieldEname=="left"||fieldEname=="top"||fieldEname=="opacity"||fieldEname=="layerBorderWidth"||fieldEname=="layerBorderStyle"||fieldEname=="layerBorderColor"){
                 //更新strore里卖弄的数据
                 store.dispatch(updateShowLayerFieldVal(updateFieldObj));
                 var cptpObj = this.state.cptPropertyList[cptIndex];

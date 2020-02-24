@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-24 17:10:15
+ * @LastEditTime: 2020-02-24 17:02:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -11,7 +11,13 @@ import store from '../redux/store';
 import {
     addCptOptionsList
 } from '../redux/actions/showLayerDatas';
-
+import echarts from 'echarts' 
+//导入折线图
+import 'echarts/lib/chart/line';  //折线图是line,饼图改为pie,柱形图改为bar
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+import 'echarts/lib/component/legend';
+import 'echarts/lib/component/markPoint';
 let chartTestData = require('../datasource/chartTestData.json');
 let mapTestData = require('../datasource/mapTestData.json');
 // import 'http://172.26.50.89/TileServer/dmap4.0/css/dmap4.0.css';
@@ -123,8 +129,36 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                                     // }).catch(e => console.log("error", e));
                             }); */
                         } else if (layerType == "chart") {
+                           let tempOption =  {
+                                title:{
+                                  text:'用户骑行订单',
+                                  textStyle:{
+                                    color:'white'
+                                  }
+                                },
+                                tooltip:{   //展示数据
+                                  trigger:'axis'
+                                },
+                                xAxis:{
+                                  data:['周一','周二','周三','周四','周五','周六','周日']
+                                },
+                                yAxis:{
+                                  type:'value'
+                                },
+                                series:[
+                                  {
+                                    name:'订单量',
+                                    type:'bar',
+                                    data:[1000,2000,1500,3000,2000,1200,800]
+                                  }
+                                ]
+                            }
+                            var myChart;
                             if(otherObj.state=="leftAdd"){
-                                fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${otherObj.data.id}&user=public&password=public123`)
+                                myChart = echarts.init(document.getElementById(id)); 
+                                myChart.setOption(tempOption); 
+                                store.dispatch(addCptOptionsList(chartId, tempOption))
+                                /* fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${otherObj.data.id}&user=public&password=public123`)
                                 .then(response => response.json())
                                 .then(function (result) {
                                     if(result&&result[0]){
@@ -133,12 +167,14 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                                         });
                                         store.dispatch(addCptOptionsList(chartId, result))
                                     }
-                                 }).catch(e => console.log("error", e));
+                                 }).catch(e => console.log("error", e)); */
                             }else{
-                                a = new window.dmapgl.commonlyCharts(id, {
-                                    data: data
-                                });
-                                store.dispatch(addCptOptionsList(chartId, data))
+                                // a = new window.dmapgl.commonlyCharts(id, {
+                                //     data: data
+                                // });
+                                myChart = echarts.init(document.getElementById(id)); 
+                                myChart.setOption(tempOption); 
+                                store.dispatch(addCptOptionsList(chartId, tempOption))
                             }
                            
                         }

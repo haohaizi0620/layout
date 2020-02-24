@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 14:08:58
- * @LastEditTime: 2020-02-19 10:21:40
+ * @LastEditTime: 2020-02-24 16:44:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \one-react\src\redux\reducers\counter.js
@@ -37,9 +37,12 @@ const cptPropertyObj = {
             left: 450,
             top: 160,
             opacity: 1,
+            layerBorderWidth:0,
+            layerBorderStyle:'solid',
+            layerBorderColor:'rgba(0,0,0,1)'
         },
-        type: 'chart',//具体的类型：    text chart border
-        cptType: 'jbzt'//当前对应的图层的id名
+        type: 'bg',//具体的类型：    text chart border
+        cptType: ''//当前对应的图层的id名
     },
     cptOptionsList: [], //保存每个图层对应的数据 数据类型 {layerOption:{},layerIndex:1}
     cptIndex: 0,
@@ -92,7 +95,7 @@ export default function reducer(state = cptPropertyObj, action) {
                 }else{
                     state.bgFieldObj[fieldEname] = fieldValue     
                 }
-            } else if (updateLayer == "chart"||updateLayer == "text"||updateLayer == "border") {
+            } else if (updateLayer=="default"||updateLayer == "chart"||updateLayer == "text"||updateLayer == "border") {
                 state.showDatas.cptBorderObj[fieldEname] = fieldValue
             }else{
                 //state.showDatas.cptBorderObj[updateObj.fieldEname] = updateObj.fieldValue
