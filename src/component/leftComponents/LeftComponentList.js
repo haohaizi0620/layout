@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-24 14:04:47
+ * @LastEditTime: 2020-02-24 14:09:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ComponentList.js
@@ -37,7 +37,7 @@ class LeftComponentList extends Component {
     }
 
     initLeftDatas(){
-        /*  let tempArr = [
+         let tempArr = [
                 {
                     data: '[{"id":3,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
                     
@@ -70,8 +70,8 @@ class LeftComponentList extends Component {
                 this.setState({
                     componentData: tempArr,
                     nameData:nameData
-                }) */
-        fetch('http://localhost:8080/data/thematic/GetAllZTT.do', {
+                })
+       /*  fetch('http://localhost:8080/data/thematic/GetAllZTT.do', {
             method: "GET",    
         })
         .then(response => response.text())
@@ -102,7 +102,7 @@ class LeftComponentList extends Component {
                 })
             }).catch(function (e) {
                 console.log("fetch fail");
-            });
+            }); */
     }
 
 
