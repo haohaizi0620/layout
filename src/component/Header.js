@@ -234,8 +234,11 @@ class Header extends Component {
      * @param {type} 
      * @return: 
      */
-    onClickAdd(layerObj, props) {
-        this.props.onClickAdd(layerObj, props);
+    onClickAdd(layerObj) {
+        this.props.onClickAdd(layerObj, {
+            data:{},
+            State:"headerAdd"
+          });
     }
 
     handleChartMouseOver(obj) {

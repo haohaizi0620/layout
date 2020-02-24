@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-21 14:21:28
+ * @LastEditTime: 2020-02-24 12:32:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -25,7 +25,7 @@ const chartData = require('../datasource/chartDatas.json');
  * @param  {String} chartState 代表当前图表是改变数据还是不改变数据   noUpdate不改变数据   update 改变数据
  * @return:  正常添加一个图表,否则就是移动位置改变大小，如果没有找到当前图表对应的接口id直接返回
  */
-export function chartOption(chartName, id, _this, chartState,addState) {
+export function chartOption(chartName, id, _this, chartState,otherObj) {
     let layerType = "chart";
     let chartId = 101;
     chartData.map(item => {
@@ -94,14 +94,7 @@ export function chartOption(chartName, id, _this, chartState,addState) {
                         //将当前的图表数据保存起来
                         // chartTestData;mapTestData
                         let tempIndex = Math.ceil(Math.random()*3)-1;
-                        //tempIndex<=0?tempIndex=0:true
-                        if(addState=="leftAdd"){
-                            tempIndex = 3;
-                        }
-                        var data = [].concat(
-                            JSON.parse(JSON.stringify(chartTestData[tempIndex]))
-                          );
-                        store.dispatch(addCptOptionsList(chartId, data));
+                        var data = chartTestData[tempIndex];
                         var a;
                         var tempMap = null;
                         if (layerType == "map"||layerType=="chartMap") {
@@ -129,12 +122,24 @@ export function chartOption(chartName, id, _this, chartState,addState) {
                                     // }).catch(e => console.log("error", e));
                             }); */
                         } else if (layerType == "chart") {
-                            a = new window.dmapgl.commonlyCharts(id, {
-                                data: data
-                            });
-                            // a = dmapgl.commonlyCharts(id, {
-                            //     data: data
-                            // });
+                            if(otherObj.state=="leftAdd"){
+                                fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${otherObj.data.id}&user=public&password=public123`)
+                                .then(response => response.json())
+                                .then(function (result) {
+                                    if(result&&result[0]){
+                                        a = new window.dmapgl.commonlyCharts(id, {
+                                            data: result
+                                        });
+                                        store.dispatch(addCptOptionsList(chartId, result))
+                                    }
+                                 }).catch(e => console.log("error", e));
+                            }else{
+                                a = new window.dmapgl.commonlyCharts(id, {
+                                    data: data
+                                });
+                                store.dispatch(addCptOptionsList(chartId, data))
+                            }
+                           
                         }
                         arr.push(id);
                         mapObjArr.push({
@@ -186,51 +191,28 @@ export function chartOption(chartName, id, _this, chartState,addState) {
 
 
 
-export function saveChartsOption(chartId,timeId,layerType){
-     var a;
-     var arr = window.arr ? window.arr : [];
-     var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-     var flag = false; //是否存在
-     //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
-     if (arr) {
-         arr.forEach(function (e, item) {
-             if (e == timeId) {
-                 flag = true;
-                 return false;
-             }
-         });
-     }
-     if(!flag){
-        if(layerType=="chart"){
-            var url = `http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${chartId}&schema=public&user=public&password=public123`;
-            fetch(url)
-                .then(response => response.json())
-                .then(function (data) { 
-                    store.dispatch(addCptOptionsList(chartId, data));
-                    a = new window.dmapgl.commonlyCharts(timeId, {
-                        data: data
-                    });
-            }).catch(e => console.log("error", e));    
-        }
-            arr.push(timeId);
-            mapObjArr.push({
-                layerId: timeId,
-                layerMap: {}
-            });
-            window.arr = arr;
-            window.mapObjArr = mapObjArr;
-     }else{
-        /* let tempThisObj = document.getElementById(timeId);
-        if (layerType == "chart") {
-            var e_instance = tempThisObj.getAttribute("_echarts_instance_");
-            if (chartState == "update") {
-                new window.dmapgl.commonlyCharts(timeId, {
-                    data: newOptions
-                });
-            } else {
-                window.echarts.getInstanceById(e_instance).resize();
+export function saveChartsOption(OptionId,cptOptions){
+            let layerType = "chart";
+            var a;
+            if(layerType=="text"||layerType=="border"||layerType=="iframe"){
+                let tempSaveObj = {};
+                if(layerType=="border"){
+                    
+                }else if(layerType=="text"){
+                   
+                }else if(layerType=="iframe"){
+                   
+                }
+            }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
+                        //将当前的图表数据保存起来
+                        if (layerType == "map"||layerType=="chartMap") {
+                           
+                        } else if (layerType == "chart") {
+                               
+                           
+                        }
+            }else{
+                
             }
-        } */
-     }
          
 }

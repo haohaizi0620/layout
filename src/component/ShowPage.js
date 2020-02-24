@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 09:46:16
- * @LastEditTime: 2020-02-21 09:15:43
+ * @LastEditTime: 2020-02-24 11:21:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\Test.js
@@ -9,7 +9,6 @@
 import React, { Component } from 'react';
 import ShowContent from './ShowContent';
 import store from '../redux/store';
-import  {chartOption} from '../utils/showChart'
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import {
@@ -19,6 +18,7 @@ import {
 import {selectMainLayer,selectGetOneMainLayer} from '../api/api';
 import axios from 'axios';
 import Qs from 'qs';
+// import  chartOption from "../utils/chart";
 class ShowPage extends Component {
     constructor(props) {
         
@@ -52,7 +52,7 @@ class ShowPage extends Component {
                                             let showPageData = _this.state.showPageData;
                                             if(showPageData&&showPageData.cptKeyList){
                                                 showPageData.cptKeyList.map((item, index) => {
-                                                    chartOption(item.id,item.key,showPageData.cptOptionsList[index])
+                                                    // chartOption(item.id,item.key,showPageData.cptOptionsList[index])
                                                 })
                                             }
                                         })

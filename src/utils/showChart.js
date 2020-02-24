@@ -1,12 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-20 10:01:22
+ * @LastEditTime: 2020-02-24 10:57:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
  */
-const chartData = require('../datasource/chartDatas.json');
 /**
  * @description: 创建一个对应的图表
  * @param  {String} chartName 图标的拼音首字母小写
@@ -15,15 +14,9 @@ const chartData = require('../datasource/chartDatas.json');
  * @param  {String} chartState 代表当前图表是改变数据还是不改变数据   noUpdate不改变数据   update 改变数据
  * @return:  正常添加一个图表,否则就是移动位置改变大小，如果没有找到当前图表对应的接口id直接返回
  */
-export function chartOption(chartName, id,cptOptions) {
+export function saveChartsOption(chartName, id,cptOptions) {
+    
     let layerType = "chart";
-    let chartId = 101;
-    chartData.map(item => {
-        if (item.id == chartName) {
-            layerType = item.layerType;
-            chartId = item.chartId;
-        }
-    })
             if(layerType=="text"||layerType=="border"||layerType=="iframe"){
                 let tempSaveObj = {};
                 if(layerType=="border"){
@@ -38,9 +31,16 @@ export function chartOption(chartName, id,cptOptions) {
                         if (layerType == "map"||layerType=="chartMap") {
                            
                         } else if (layerType == "chart") {
-                           new window.dmapgl.commonlyCharts(id, {
-                                data: cptOptions.layerOption
-                            });
+                            fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${cptOptions.id}&user=testV4&password=testV4123`)
+                                    .then(response => response.json())
+                                    .then(function (data) {
+                                        if(data&&data[0]){
+                                            new window.dmapgl.commonlyCharts(id, {
+                                                data: data
+                                            });
+                                        }
+                                     }).catch(e => console.log("error", e));
+                           
                         }
             }else{
                 

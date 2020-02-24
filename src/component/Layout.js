@@ -6,14 +6,16 @@ import ComponentList from './ComponentList';
 
 import LeftComponentList from './leftComponents/LeftComponentList'
 import Config from './Config';
-import LoadChart from "./LoadChart";
+// import LoadChart from "./LoadChart";
 import store from '../redux/store';
-import { chartOption,saveChartsOption} from "../utils/chart";
+import  {chartOption,saveChartsOption} from "../utils/chart";
+
 import {
     Link,
   } from "react-router-dom";
 import { notification,Modal, Button } from 'antd';
-import {selectMainLayer,addMainLayer,selectGetOneMainLayer} from '../api/api';
+import {selectGetOneMainLayer,addMainLayer,selectPostOneMainLayer} from '../api/apiAxios';
+// import {selectGetOneMainLayer,addMainLayer,selectPostOneMainLayer} from '../api/api';
 // import Mock from 'mockjs'
 import { updateShowLayerFieldVal, replaceShowLayerFieldVal, replaceAllShowLayerFieldVal, delCptOptionsList, editCptOptionsList,saveShowPageData} from '../redux/actions/showLayerDatas';
 import {
@@ -39,42 +41,8 @@ class Layout extends Component {
             isOpenNewWindowFlag:false,
             leftComponents:[]
         }
-        this.initLeftData();
-        // var data = Mock.mock({
-        //     // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
-        //     'list|1-10': [{
-        //         // 属性 id 是一个自增数，起始值为 1，每次增 1
-        //         'id|+1': 1
-        //     }]
-        // })
-        // console.log(JSON.stringify(data, null, 4))
     }
 
-    initLeftData(){
-        /* let tempArr = [
-            {
-                data:'[{"id":1,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":0,"parentid":1,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"}]',
-                service:{
-                    id: 1,
-                    name: "CCC"
-                }
-            },
-            {
-                data:'[{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"村居委会","type":null,"service":"KSH","layername":"村居委会","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般面样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><SIMPLEPOLYGONSYMBOL antialiasing=\"true\" boundarycolor=\"0,255,0\" boundarytype=\"solid\" boundarywidth=\"1\" outline=\"0,255,0\" filltype=\"solid\" icon=\"\" fillcolor=\"255,0,0\" filltransparency=\"1\"/></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"kkk","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"qazwsx2","type":null,"service":"KSH","layername":"qazwsx2","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"0,0,0\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"0,0,0\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"1","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"},{"id":0,"parentid":2,"name":"养老机构","type":null,"service":"KSH","layername":"养老机构","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"51,255,0\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"51,255,0\" usecentroid=\"true\" width=\"14\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"fdg","isText":null,"showType":null,"realtimeupdate":"false","serialize":null,"show":"1"}]',
-                service:{
-                    id: 2,
-                    name: "KSH"
-                }
-            }
-        ]
-        this.setState({
-            leftComponents:tempArr
-        },() => {
-            
-        }) */
-       /*    */
-        
-    }
     
     handleScriptCreate(obj) {
         this.setState({ scriptLoaded: false })
@@ -93,7 +61,7 @@ class Layout extends Component {
      * @param {type} 
      * @return: 
      */
-    onClickAdd(layerObj,addState) {
+    onClickAdd(layerObj,otherObj) {
         const id = layerObj.id;
         const type = layerObj.layerType;
         const showTitle = layerObj.text;
@@ -134,61 +102,18 @@ class Layout extends Component {
             cptPropertyObj: cptpObj,
             cptChartIdList:[...this.state.cptChartIdList,chartId]
         }, () => {
-            {
-                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",addState);
+            {   
+                let addState = otherObj.State;
+                // if(addState=="leftAdd"){
+                //     saveChartsOption(key,otherObj.data);
+                // }else if(addState=="headerAdd"){
+                    chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",otherObj);
+                // }
                 this.updateGlobalEditData();
             }
         });
     }
 
-    onClickAddSpecialLayer(layerObj){
-        this.onClickAdd({
-            id:layerObj.THEMERING_CHART,
-            layerType:'chart',
-            text:layerObj.name,
-            simpleType:'all'
-        },'leftAdd')
-       /* let sendDataId =  layerObj.id;
-       let nameId = layerObj.THEMERING_CHART;
-       let type = 'chart';
-      let tempObj = {
-        id: layerObj.THEMERING_CHART, 
-        text: layerObj.name, 
-        layerType:type,
-        simpleType:'all'
-      }
-        const key = new Date().getTime().toString();
-        const cptkObj = { key: layerObj.name, id: sendDataId, title: layerObj.name,layerType:layerObj.thType,simpleType:''};
-        const len = this.state.cptKeyList.length;
-        let tempHeightValue = 350;
-        const cptpObj = {
-            cptBorderObj: {
-                width: 350,
-                height: tempHeightValue,
-                left: 450,
-                top: 160,
-                opacity: 1,
-            },
-            type: type,
-            cptType:nameId
-        };
-        //对当前基本内容的全部替换
-        store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
-        this.setState({
-            cptIndex: len,
-            cptType: nameId,
-            cptKey: key,
-            cptKeyList: [...this.state.cptKeyList, cptkObj],
-            cptPropertyList: [...this.state.cptPropertyList, cptpObj],
-            cptPropertyObj: cptpObj,
-            cptChartIdList:[...this.state.cptChartIdList,sendDataId]
-        }, () => {
-            {
-                saveChartsOption(sendDataId,key,type);
-                this.updateGlobalEditData();
-            }
-        }); */
-    }
 
 
     ondelItemPrev(layerIndex){
@@ -608,23 +533,42 @@ class Layout extends Component {
      * @return: 
      */
     async saveLayoutData(){
-        // const islogin = await selectGetOneMainLayer(1);
-        // const islogin = await selectMainLayer({layerId:1});
-        let {cptKeyList,cptPropertyList} = this.state;
-        store.dispatch(saveShowPageData({
-            cptKeyList:cptKeyList,
-            cptPropertyList:cptPropertyList
-        }));
-        console.log(store.getState().showLayerDatas.bgFieldObj)
-        const islogin = await addMainLayer({
-            layerid:14,
-            visualid:1,
-            layercname:JSON.stringify(this.state.cptKeyList),
-            layerename:JSON.stringify(store.getState().showLayerDatas.bgFieldObj),//JSON.stringify(this.state.cptChartIdList),
-            layerdatas:JSON.stringify(this.state.cptPropertyList),//所有组件定位集合
-            layerbasicset:JSON.stringify(store.getState().showLayerDatas.showPageData.cptOptionsList)
+        let s  = "a";
+       /*  fetch('http://127.0.0.1:8888/selectGetOneMainLayer/1', {
+            method: "GET",
+            mode: "cors",
+            headers:{
+                        'Accept':'application/json,text/plain,*'
+                    }
+    
         })
-        console.log(islogin)
+        .then(response => response.text())
+        .then(result => {
+
+        }).catch(function (e) {
+            console.log("fetch fail");
+        }); */
+        selectPostOneMainLayer({layerId:1}).then((result)=>{
+            console.log(result)
+        }).catch((error) => {
+            console.log(error);
+        });
+        // const islogin =  selectPostOneMainLayer({layerId:1});
+        // let {cptKeyList,cptPropertyList} = this.state;
+        // store.dispatch(saveShowPageData({
+        //     cptKeyList:cptKeyList,
+        //     cptPropertyList:cptPropertyList
+        // }));
+        // console.log(store.getState().showLayerDatas.bgFieldObj)
+        // const islogin = await addMainLayer({
+        //     layerid:14,
+        //     visualid:1,
+        //     layercname:JSON.stringify(this.state.cptKeyList),
+        //     layerename:JSON.stringify(store.getState().showLayerDatas.bgFieldObj),//JSON.stringify(this.state.cptChartIdList),
+        //     layerdatas:JSON.stringify(this.state.cptPropertyList),//所有组件定位集合
+        //     layerbasicset:JSON.stringify(store.getState().showLayerDatas.showPageData.cptOptionsList)
+        // })
+        // console.log(islogin)
     }
 
     saveShowPageData(){
@@ -656,7 +600,7 @@ class Layout extends Component {
                         selectCliclSingleLayer={this.selectCliclSingleLayer.bind(this)}
                     /> */}
                     <LeftComponentList
-                       onClickAddSpecialLayer={this.onClickAddSpecialLayer.bind(this)} 
+                       onClickAdd={this.onClickAdd.bind(this)} 
                     />
                     <div className="custom-content-p" >
                         <div className="custom-content-canvs"

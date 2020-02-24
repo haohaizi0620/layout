@@ -727,17 +727,17 @@ class Properties extends Component {
                                     <Collapse  expandIconPosition="right"  bordered={false} onChange={this.callback}  >
                                         <Panel header={item.name} key="1"    >
                                             {
-                                                item.childer.map((itemLayer,index) => {
+                                                item.childer.map((itemLayer,itemIndex) => {
                                                     {   
                                                         if(itemLayer.type=="Collapse"){
                                                             return (
                                                                 <Collapse  expandIconPosition="right"  bordered={false} >
                                                                     <Panel header={itemLayer.name} key="1"    >
                                                                         {
-                                                                            itemLayer.childer.map((itemTwo,index) => {
+                                                                            itemLayer.childer.map((itemTwo,layerIndex) => {
                                                                                 return (
                                                                                     <PropertiesSelectCenter
-                                                                                    key={itemTwo.name}
+                                                                                    key={layerIndex}
                                                                                     childer={itemTwo}
                                                                                     name={itemTwo.cname}
                                                                                     includeSelectFlag={itemTwo.includeSelect}
@@ -755,7 +755,7 @@ class Properties extends Component {
                                                         }else{
                                                             return (
                                                                 <PropertiesSelectCenter
-                                                                key={itemLayer.name}
+                                                                key={itemIndex}
                                                                 childer={itemLayer}
                                                                 name={itemLayer.cname}
                                                                 includeSelectFlag={itemLayer.includeSelect}
