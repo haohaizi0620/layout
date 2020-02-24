@@ -1,0 +1,64 @@
+[{
+	"id": 1,
+	"parentid": 1,
+	"name": "京津冀年卡景点20190",
+	"type": "THEMERING_CHART",
+	"service": null,
+	"layername": null,
+	"renderer": null,
+	"thType": "0",
+	"type2": null,
+	"desp": "",
+	"isText": null,
+	"showType": null,
+	"realtimeupdate": null,
+	"serialize": null,
+	"show": null
+}, {
+	"id": 2,
+	"parentid": 1,
+	"name": "京津冀年卡景点20190",
+	"type": "THEMEPIE_CHART",
+	"service": null,
+	"layername": null,
+	"renderer": null,
+	"thType": "0",
+	"type2": null,
+	"desp": "",
+	"isText": null,
+	"showType": null,
+	"realtimeupdate": null,
+	"serialize": null,
+	"show": null
+}, {
+	"id": 0,
+	"parentid": 1,
+	"name": "泥石流沟",
+	"type": null,
+	"service": "CCC",
+	"layername": "泥石流沟",
+    "renderer": "<GROUPRENDERER><SIMPLERENDERER name="一般点样式 "  minscale="1e-20 " maxscale="100000000000000000000"><GROUPRENDERER  styleName="
+	square " fuhaokuName=" 基础符号库 "><SIMPLEMARKERSYMBOL antialiasing=" true " color="
+	204,
+	255,
+	43 " overlap="
+	true " shadow="
+	0,
+	0,
+	0 " transparency="
+	1.0 " type="
+	square " outline="
+	204,
+	255,
+	43 " usecentroid="
+	true " width="
+	3 "></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
+	"thType": "1",
+	"type2": null,
+	"desp": "",
+	"isText": null,
+	"showType": null,
+	"realtimeupdate": "false",
+	"serialize": null,
+	"show": "1"
+}]
