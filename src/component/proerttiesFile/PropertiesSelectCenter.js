@@ -87,7 +87,7 @@ class PropertiesSelectCenter extends Component {
                             } else if (itemType == "Color") {
                                 return (
                                     <div className="pro-item-simple">
-                                        <ReactColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this)} />
+                                        <ReactColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this,item.ename)} />
                                     </div>
                                 )
                             } else if (itemType == "ImageUploading") {
@@ -224,8 +224,8 @@ class PropertiesSelectCenter extends Component {
      * @param {string}  colorObj  是一个rgba值
      * @return: 
      */
-    setBgColor(colorObj) {
-        this.props.setBgColor(colorObj);
+    setBgColor(eName,colorObj) {
+        this.props.setBgColor(eName,colorObj);
     }
     /**
      * @description: 在编辑面板上面修改一个单独的值,进行调用

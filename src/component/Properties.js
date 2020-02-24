@@ -48,6 +48,9 @@ class Properties extends Component {
             left: 450,
             top: 160,
             opacity: 1,
+            layerBorderWidth:0,
+            layerBorderStyle:'solid',
+            layerBorderColor:'rgb(0,0,0,1)',
             borderWidth: '1',
             borderStyle: 'solid',
             borderColor: 'rgba(255, 47, 3 ,1)',
@@ -65,7 +68,7 @@ class Properties extends Component {
                             "ename": "bjWidth",
                             "cname": "宽度",
                             "type": "InputNumber",
-                            "value": bgFieldObj.bjWidth
+                            "value": bgFieldObj.bjWidth,
                         },
                         {
                             "ename": "bjHeight",
@@ -73,7 +76,8 @@ class Properties extends Component {
                             "type": "InputNumber",
                             "value": bgFieldObj.bjHeight
                         }
-                    ]
+                    ],
+                    "layerType":'bg'
                 },
                 {
                     "ename": 'backgroundColor',
@@ -85,7 +89,8 @@ class Properties extends Component {
                         "cname": "背景颜色",
                         "type": "Color",
                         "value": bgFieldObj.bgColor
-                    }]
+                    }],
+                    "layerType":'bg'
                 },
                 {
                     "ename": 'bgImageName',
@@ -126,7 +131,8 @@ class Properties extends Component {
                         "type": "ImageUploading",
                         "value": bgFieldObj.uploadImage,
                         "optionFlag": false
-                    }]
+                    }],
+                    "layerType":'bg'
                 }
             ],
             chart: [
@@ -152,7 +158,8 @@ class Properties extends Component {
                             "maxNumber": 2000,
                             "minNumber": 80,
                         }
-                    ]
+                    ],
+                    "layerType":'default'
                 },
                 {
                     "ename": "chartPosition",
@@ -176,7 +183,8 @@ class Properties extends Component {
                             "maxNumber": 2000,
                             "minNumber": 80,
                         }
-                    ]
+                    ],
+                    "layerType":'default'
                 },
                 // {
                 //     "ename": "rotationAngle",
@@ -204,8 +212,51 @@ class Properties extends Component {
                             "type": "Slider",
                             "value": cptBorderObj.opacity
                         }
-                    ]
+                    ],
+                    "layerType":'default'
                 },
+                {
+                    "ename": "LayerBorder",
+                    "name": "边框",
+                    "includeSelect":false,
+                    "type":"Collapse",
+                    "childer": [
+                        {
+                            "ename": "layerBorderWidth",
+                            "cname": "边框宽度",
+                            "type": "InputNumber",
+                            "value": cptBorderObj.layerBorderWidth,
+                            "maxNumber": 30,
+                            "minNumber": 0,
+                        },
+                        {
+                                    "ename": "layerBorderStyle",
+                                    "cname": "边框样式",
+                                    "type": "Select",
+                                    "value": cptBorderObj.layerBorderStyle,
+                                    "defaultOption": "solid",
+                                    "optionValues": [
+                                        { "cname": '无样式', "value": 'none' },
+                                        { "cname": '隐藏', "value": 'hidden' },
+                                        { "cname": '点线', "value": 'dooted' },
+                                        { "cname": '虚线', "value": 'dashed' },
+                                        { "cname": '实线', "value": 'solid' },
+                                        { "cname": '双线', "value": 'double' },
+                                        { "cname": '凹槽', "value": 'groove' },
+                                        { "cname": '突脊', "value": 'ridge' },
+                                        { "cname": '内陷', "value": 'inset' },
+                                        { "cname": '外凸', "value": 'outset' },
+                                    ]
+                        },
+                        {
+                                "ename": "layerBorderColor",
+                                "cname": "边框颜色",
+                                "type": "Color",
+                                "value": cptBorderObj.layerBorderColor
+                        }
+                    ],
+                    "layerType":'default'
+                }
             ],
             text: [
                 {
@@ -219,7 +270,8 @@ class Properties extends Component {
                         "type": "Input",
                         "value": textFieldObj.textCenter,
                         "placeholder": "标题内容"
-                    }]
+                    }],
+                    "layerType":'text'
                 },
                 {
                     "ename": "fontStyle",
@@ -277,7 +329,8 @@ class Properties extends Component {
                                 { "cname": 'inherit', "value": 'inherit' },
                             ]
                         }
-                    ]
+                    ],
+                    "layerType":'text'
                 },
                 {
                     "ename": "textAlign",
@@ -296,7 +349,8 @@ class Properties extends Component {
                                 { "cname": '居中对齐', "value": 'center' },
                             ]
                         }
-                    ]
+                    ],
+                    "layerType":'text'
                 },
                 {
                     "ename": "writingMode",
@@ -314,7 +368,8 @@ class Properties extends Component {
                                 { "cname": '垂直', "value": 'vertical-rl' },
                             ]
                         },
-                    ]
+                    ],
+                    "layerType":'text'
                 },
                 {
                     "ename": "hyperlink",
@@ -334,7 +389,8 @@ class Properties extends Component {
                             "type": "Switch ",
                             "value": textFieldObj.textCenter,
                         }
-                    ]
+                    ],
+                    "layerType":'text'
                 },
             ],
             border: [
@@ -350,7 +406,8 @@ class Properties extends Component {
                         "value": textFieldObj.borderWidth,
                         "maxNumber": 30,
                         "minNumber": 0,
-                    }]
+                    }],
+                    "layerType":'border'
                 },
                 {
                     "ename": "borderStyle",
@@ -377,7 +434,8 @@ class Properties extends Component {
                                 { "cname": '外凸', "value": 'outset' },
                             ]
                         }
-                    ]
+                    ],
+                    "layerType":'border'
                 },
                 {
                     "ename": 'borderColor',
@@ -389,7 +447,8 @@ class Properties extends Component {
                         "cname": "边框颜色",
                         "type": "Color",
                         "value": textFieldObj.borderColor
-                    }]
+                    }],
+                    "layerType":'border'
                 },
             ],
             iframe:[
@@ -406,7 +465,8 @@ class Properties extends Component {
                             "value": textFieldObj.iframeUrl,
                             "placeholder": "页面地址"
                         }
-                    ]
+                    ],
+                    "layerType":'iframe'
                 }
             ],
             layerOneselfInfo: [
@@ -423,7 +483,8 @@ class Properties extends Component {
                             "value": '',
                             "placeholder": "图层名称"
                         }
-                    ]
+                    ],
+                    "layerType":'chart'
                 },
                 {
                     "ename": "optionLegend",
@@ -452,8 +513,9 @@ class Properties extends Component {
                                 },
                             ]
                         }
-                    ]
-                }
+                    ],
+                    "layerType":'chart'
+                },
             ],
             chartData:[
                 {
@@ -486,7 +548,8 @@ class Properties extends Component {
                             "value": {},
                             "placeholder":"请输入图层数据"
                         }
-                    ]
+                    ],
+                    "layerType":'chart'
                 }
             ],
             layerDataSource:[]
@@ -530,7 +593,7 @@ class Properties extends Component {
             let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
             let tempChartArr = this.state.chart;
             let tempChart = [];
-            for(let i=0;i<3;i++){
+            for(let i=0;i<4;i++){
                 tempChart.push(tempChartArr[i]);
             }
             tempChart[0].childer[0].value = cptBorderObj.width;
@@ -538,37 +601,40 @@ class Properties extends Component {
             tempChart[1].childer[0].value = cptBorderObj.left;
             tempChart[1].childer[1].value = cptBorderObj.top;
             tempChart[2].childer[0].value = cptBorderObj.opacity;
+            tempChart[3].childer[0].value = cptBorderObj.layerBorderWidth;
+            tempChart[3].childer[1].value = cptBorderObj.layerBorderStyle;
+            tempChart[3].childer[2].value = cptBorderObj.layerBorderColor;
             if (tempLayerType == "chart") {
                  tempLayer = this.state.layerOneselfInfo;
                 if (dataObj) {
-                    let layerOption = dataObj.layerOption[0];
-                    tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
-                    let legendResult = layerOption.myLegend.result;
-                    let tempLegendArr = [];
-                    legendResult.map((legendItem,itemIndex) => {
-                        tempLegendArr.push({
-                            "ename": "oneLegend",
-                            "name": "图例"+(itemIndex+1),
-                            "includeSelect":false,
-                            "type":"Collapse",
-                            "childer":[
-                                {
-                                    "ename": "legendName",
-                                    "cname": "图例名称",
-                                    "type": "Input",
-                                    "value":legendItem.fieldName,
-                                    "placeholder": "图例名称" 
-                                },
-                                {
-                                    "ename": 'legendColor',
-                                    "cname": "图例颜色",
-                                    "type": "Color",
-                                    "value": legendItem.color
-                                },
-                            ]
-                        })
-                    })
-                    tempLayer[1].childer = tempLegendArr;
+                    // let layerOption = dataObj.layerOption[0];
+                    // tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
+                    // let legendResult = layerOption.myLegend.result;
+                    // let tempLegendArr = [];
+                    // legendResult.map((legendItem,itemIndex) => {
+                    //     tempLegendArr.push({
+                    //         "ename": "oneLegend",
+                    //         "name": "图例"+(itemIndex+1),
+                    //         "includeSelect":false,
+                    //         "type":"Collapse",
+                    //         "childer":[
+                    //             {
+                    //                 "ename": "legendName",
+                    //                 "cname": "图例名称",
+                    //                 "type": "Input",
+                    //                 "value":legendItem.fieldName,
+                    //                 "placeholder": "图例名称" 
+                    //             },
+                    //             {
+                    //                 "ename": 'legendColor',
+                    //                 "cname": "图例颜色",
+                    //                 "type": "Color",
+                    //                 "value": legendItem.color
+                    //             },
+                    //         ]
+                    //     })
+                    // })
+                    // tempLayer[1].childer = tempLegendArr;
                 }
             } else if (tempLayerType == "text") {
                  tempLayer = this.state.text;
@@ -652,19 +718,8 @@ class Properties extends Component {
     }
 
 
-    setBgColor(rgbObj) {
-        let tempType = this.props.cptPropertyObj.type;
-        if (tempType == "text") {
-            this.props.param({ fieldValue: rgbObj, fieldEname: 'fontColor', thisIndex: this.props.cptIndex, layerType: "text", tabsKey: this.props.tabsKey })
-        } else if (tempType == "chart") {
-            this.props.param({ fieldValue: rgbObj, fieldEname: 'legendColor', thisIndex: this.props.cptIndex, layerType: "chart", tabsKey: this.props.tabsKey })
-        } else if (tempType == "border") {
-            this.props.param({ fieldValue: rgbObj, fieldEname: 'borderColor', thisIndex: this.props.cptIndex, layerType: "border", tabsKey: this.props.tabsKey })
-        }
-        let tempKeyVal = this.props.tabsKey;
-        if (tempKeyVal == 0) {
-            this.props.param({ fieldValue: rgbObj, fieldEname: 'bgColor', thisIndex: this.props.cptIndex, layerType: "bg", tabsKey: this.props.tabsKey })
-        }
+    setBgColor(layerType,eName,rgbObj) {
+        this.props.param({ fieldValue: rgbObj, fieldEname: eName, thisIndex: this.props.cptIndex, layerType: layerType, tabsKey: this.props.tabsKey })
     }
 
     setShowPreview(imageUrl) {
@@ -742,7 +797,7 @@ class Properties extends Component {
                                                                                     name={itemTwo.cname}
                                                                                     includeSelectFlag={itemTwo.includeSelect}
                                                                                     updateThisCharsField={this.updateThisCharsField.bind(this, this.props.cptPropertyObj.type)}
-                                                                                    setBgColor={this.setBgColor.bind(this)}
+                                                                                    setBgColor={this.setBgColor.bind(this,item.layerType)}
                                                                                     setShowPreview={this.setShowPreview.bind(this)}
                                                                                     deletePageBg={this.deletePageBg.bind(this)}></PropertiesSelectCenter>
                                                                                 )
@@ -760,7 +815,7 @@ class Properties extends Component {
                                                                 name={itemLayer.cname}
                                                                 includeSelectFlag={itemLayer.includeSelect}
                                                                 updateThisCharsField={this.updateThisCharsField.bind(this, this.props.cptPropertyObj.type)}
-                                                                setBgColor={this.setBgColor.bind(this)}
+                                                                setBgColor={this.setBgColor.bind(this,item.layerType)}
                                                                 setShowPreview={this.setShowPreview.bind(this)}
                                                                 deletePageBg={this.deletePageBg.bind(this)}></PropertiesSelectCenter>
                                                             )
@@ -780,7 +835,7 @@ class Properties extends Component {
                                         name={item.name}
                                         includeSelectFlag={item.includeSelect}
                                         updateThisCharsField={this.updateThisCharsField.bind(this, this.props.cptPropertyObj.type)}
-                                        setBgColor={this.setBgColor.bind(this)}
+                                        setBgColor={this.setBgColor.bind(this,item.layerType)}
                                         setShowPreview={this.setShowPreview.bind(this)}
                                         deletePageBg={this.deletePageBg.bind(this)}
                                     ></EditSimpleMainInfo>
@@ -874,7 +929,7 @@ class EditSimpleMainInfo extends Component {
                             } else if (itemType == "Color") {
                                 return (
                                     <div className="pro-item-simple">
-                                        <ReactColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this)} />
+                                        <ReactColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this,item.ename)} />
                                     </div>
                                 )
                             } else if (itemType == "ImageUploading") {
@@ -1018,8 +1073,8 @@ class EditSimpleMainInfo extends Component {
      * @param {string}  colorObj  是一个rgba值
      * @return: 
      */
-    setBgColor(colorObj) {
-        this.props.setBgColor(colorObj);
+    setBgColor(eName,colorObj) {
+        this.props.setBgColor(eName,colorObj);
     }
     /**
      * @description: 在编辑面板上面修改一个单独的值,进行调用

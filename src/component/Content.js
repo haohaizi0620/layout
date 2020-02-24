@@ -41,10 +41,10 @@ class Child1 extends Component {
                         }
                         {
 
-                            tempLayerType == 'map' || tempLayerType == 'chartMap' ?
+                           /*  tempLayerType == 'map' || tempLayerType == 'chartMap' ?
                                 <Mymap
                                     xWidth={this.props.cptObj.cptBorderObj.width - 20}
-                                    xHeight={this.props.cptObj.cptBorderObj.height - 25} ></Mymap> : ''
+                                    xHeight={this.props.cptObj.cptBorderObj.height - 25} ></Mymap> : '' */
                         }
                         {
                             tempLayerType == 'iframe'?
@@ -135,19 +135,22 @@ class Content extends Component {
     onRemoveItem() {
         this.props.del(this.props.delIndex);
     }
-
     render() {
+        let tempCptObj = this.props.obj.cptBorderObj;
         return (
             <div className="grid-item"
                 style={{
-                    opacity: this.props.obj.cptBorderObj.opacity,
-                    left: this.props.obj.cptBorderObj.left,
-                    top: this.props.obj.cptBorderObj.top,
-                    width: parseInt(this.props.obj.cptBorderObj.width),
-                    height: parseInt(this.props.obj.cptBorderObj.height)
+                    opacity: tempCptObj.opacity,
+                    left: tempCptObj.left,
+                    top: tempCptObj.top,
+                    width: parseInt(tempCptObj.width),
+                    height: parseInt(tempCptObj.height),
+                    borderStyle: tempCptObj.layerBorderStyle,
+                    borderWidth: tempCptObj.layerBorderWidth+'px',
+                    borderColor: tempCptObj.layerBorderColor,
                 }}>
                 <FontAwesomeIcon icon={faUserTimes} className='remove' title="移除"
-                    style={{ left: this.props.obj.cptBorderObj.width - 30 + 'px', top: 2 + 'px', width: '20px', color: 'white' }}
+                    style={{ left: tempCptObj.width - 30 + 'px', top: 2 + 'px', width: '20px', color: 'white' }}
                     onClick={this.onRemoveItem.bind(this)} />
                 <ReactableChild
                     draggable

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-18 09:22:02
- * @LastEditTime: 2020-02-24 11:20:19
+ * @LastEditTime: 2020-02-24 15:26:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\LoadChart.js
