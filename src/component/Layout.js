@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import ComponentList from './ComponentList';
-
+import { test } from '../api/api'
 import LeftComponentList from './leftComponents/LeftComponentList'
 import Config from './Config';
 // import LoadChart from "./LoadChart";
@@ -22,6 +22,8 @@ import {
     Redirect
   } from "react-router-dom";
 const chartData = require('../datasource/chartDatas.json');
+
+
 class Layout extends Component {
     constructor(props) {
         super(props);
@@ -41,6 +43,7 @@ class Layout extends Component {
             isOpenNewWindowFlag:false,
             leftComponents:[]
         }
+        
     }
 
     
@@ -62,6 +65,9 @@ class Layout extends Component {
      * @return: 
      */
     onClickAdd(layerObj,otherObj) {
+        test().then(res => {
+            console.info(res)
+        } )
         const id = layerObj.id;
         const type = layerObj.layerType;
         const showTitle = layerObj.text;
