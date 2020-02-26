@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-24 14:09:32
+ * @LastEditTime: 2020-02-26 16:28:24
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ComponentList.js
@@ -13,7 +13,8 @@ import React, { Component } from 'react';
 import { Collapse,Button } from 'antd';
 import * as html2canvas from 'html2canvas';
 import './LeftComponentList.css';
-
+import  { addOneLayer,addPageImage }from '../../api/api';
+import Qs from 'qs';
 const { Panel } = Collapse;
 
 /* 
@@ -37,6 +38,10 @@ class LeftComponentList extends Component {
     }
 
     initLeftDatas(){
+
+      
+
+
          let tempArr = [
                 {
                     data: '[{"id":3,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
@@ -89,10 +94,12 @@ class LeftComponentList extends Component {
         }).catch(function (e) {
             console.log("fetch fail");
         });
-    var shareid = window.parent.document.getElementById('shareID').value;
+    var shareid = 1;
+    if(window.parent&&window.parent.document.getElementById('shareID')){
+        shareid = window.parent.document.getElementById('shareID').value
+    }
     fetch('http://localhost:8080/data/share/getShareById.do?id='+shareid, {
                 method: "GET",
-        
             })
             .then(response => response.text())
             .then(result => {
@@ -123,51 +130,60 @@ class LeftComponentList extends Component {
     }
     
     addImg(base64,name){
-        this.postData('http://192.168.3.168:8080/data/share/saveImage.do', {
+        let PageImageObj = {
             base64: base64,
             name: name,
-        })
-        .then(data =>{
+        }
+       /*  addPageImage(PageImageObj).then(res => {
+            alert("图片保存成功,回到主页面");
             window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
-        })
-        .catch(error => {
+        }).catch(error => {
+            console.info(error);
             window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
-        })
-    }
+        }) */
+        // fetch("http://192.168.3.168:8080/data/share/saveImage.do", {
+        fetch("../../share/saveImage.do", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:  Qs.stringify(PageImageObj)
+          }).then(function(response) {
+            alert("图片保存成功,回到主页面");
+            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
+          }).catch(error => {
+            console.info(error);
+            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
+        });
 
-
-  
-     postData(url, data) {
-        // Default options are marked with *
-        return fetch(url, {
-        body: JSON.stringify(data), // must match 'Content-Type' header
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, same-origin, *omit
-        headers: {
-            'user-agent': 'Mozilla/4.0 MDN Example',
-            'content-type': 'application/json'
-        },
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, cors, *same-origin
-        redirect: 'follow', // manual, *follow, error
-        referrer: 'no-referrer', // *client, no-referrer
-        })
-        .then(response => response.json()) // parses response to JSON
     }
-    
     onClickAdd(layerObj){
-        /* let pageLayerObj = this.state.nameData[0];
-        let addLayerObj = {
-            type: layerObj.thType,
-            pid: 2,
+        let _this = this;
+        let pageLayerObj = this.state.nameData[0];
+        let thType = layerObj.thType;
+       /*   let addLayerObj = {
+            type: thType,
+            pid: window.parent.document.getElementById('kshID').value,
             kshname: pageLayerObj.KSHDETAIL,
             kshid: pageLayerObj.ID,
             v: layerObj.id,
         }
-        this.postData('http://192.168.3.168:8080/data/thematic/addKSHChart.do', addLayerObj)
-        .then(data => console.log(data))
-        .catch(error => console.error(error)) */
-        this.props.onClickAdd({
+       addOneLayer(addLayerObj).then(res => {
+            alert("添加图标成功")
+            _this.props.onClickAdd({
+                id:layerObj.THEMERING_CHART,
+                layerType:'chart',
+                text:layerObj.name,
+                simpleType:'all'
+            },{
+                data:layerObj,
+                state:"leftAdd"
+              })
+            console.info(res)
+        }).catch(error => {
+            console.info(error);
+        }) */
+        _this.props.onClickAdd({
             id:layerObj.THEMERING_CHART,
             layerType:'chart',
             text:layerObj.name,

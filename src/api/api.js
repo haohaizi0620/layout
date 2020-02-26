@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-02-25 16:49:24
+ * @LastEditTime: 2020-02-26 15:04:30
+ * @LastEditors: Please set LastEditors
+ * @Description: 用来进行提供调用的接口
+ * @FilePath: \layout - 副本 (2) - 副本\src\api\api.js
+ */
 import request from './request';
 import serviceUrl from './serviceAPI.config';
 import Qs from 'qs';
@@ -18,3 +26,47 @@ export function test() {
     method: 'get'
   });
 }
+
+export function getKSHChart() {
+  return request({
+    url: '../../thematic/GetKSHChart.do',
+    method: 'get'
+  });
+}
+
+export function addOneLayer(addLayerObj){
+  return request({
+    url: '../../thematic/addKSHChart.do',
+    method: 'post',
+    data:Qs.stringify(addLayerObj)
+  });
+}
+
+
+export function delOneLayer(delLayerObj){
+  return request({
+    url: '../../thematic/DelKSHChart.do',
+    method: 'post',
+    data:Qs.stringify(delLayerObj)
+  });
+}
+
+
+export function editOneLayer(editLayerObj){
+  return request({
+    url: '../../thematic/editKSHChart.do',
+    method: 'post',
+    data:Qs.stringify(editLayerObj)
+  });
+}
+
+
+export function addPageImage(PageImageObj){
+  return request({
+    url: '../../share/saveImage.do',
+    method: 'post',
+    data:Qs.stringify(PageImageObj)
+  });
+}
+
+

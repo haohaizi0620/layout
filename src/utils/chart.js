@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-24 17:10:15
+ * @LastEditTime: 2020-02-26 09:25:16
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -34,6 +34,9 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
             chartId = item.chartId;
         }
     })
+    if(otherObj&&otherObj.state=="leftAdd"){
+        chartId = otherObj.data.id;
+    }
         var arr = window.arr ? window.arr : [];
         var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
         var flag = false; //是否存在
@@ -124,7 +127,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                             }); */
                         } else if (layerType == "chart") {
                             if(otherObj.state=="leftAdd"){
-                                fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${otherObj.data.id}&user=public&password=public123`)
+                                fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${chartId}&user=public&password=public123`)
                                 .then(response => response.json())
                                 .then(function (result) {
                                     if(result&&result[0]){
