@@ -265,12 +265,13 @@ deleteDataBaseOneLayer(){
         str: {"delete":[{"id":queryId}]},
         name: kshPageName
     }
-    delOneLayer(delObj).then(res => {
+    _this.ondelItem(cptIndex);
+   /*  delOneLayer(delObj).then(res => {
         _this.ondelItem(cptIndex);
         alert("删除图表成功");
     }).catch(error => {
         console.info(error);
-    })
+    }) */
 }
   /**
    * @description: 删除指定的图层
