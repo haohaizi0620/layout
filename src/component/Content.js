@@ -161,8 +161,6 @@ class Content extends Component {
                     }}
                     onDragMove={this.handleDragMove}
                     onResizeMove={this.handleResizeMove}
-                    onResizeEnd={this.handleResizeEnd}
-                    onDown={this.handleDown}
                     cptIndex={this.props.cptIndex}
                     delIndex={this.props.delIndex}
                     cptObj={this.props.obj}
