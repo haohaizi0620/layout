@@ -141,6 +141,7 @@ class Content extends Component {
             <div className="grid-item"
                 style={{
                     opacity: tempCptObj.opacity,
+                    // transform: `translate(${tempCptObj.left}px,${tempCptObj.top}px)`,
                     left: tempCptObj.left,
                     top: tempCptObj.top,
                     width: parseInt(tempCptObj.width),

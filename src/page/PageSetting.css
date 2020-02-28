@@ -1,0 +1,32 @@
+.page-setting {
+  text-align: center;
+  width: 325px;
+}
+
+.page-setting span {
+  color: #bcc9d4;
+  font-size: 12px;
+}
+
+.page-setting-content {
+  margin-top: 10px;
+}
+
+.color-picker {
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  width: 89px;
+  height: 23px;
+  border-radius: 4px;
+}
+
+.config-manager-head {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  background: #2e343c;
+
+  text-align: center;
+  user-select: none;
+}

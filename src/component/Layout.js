@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import ComponentList from './ComponentList';
-import { test ,getKSHChart,delOneLayer} from '../api/api';
+import { test, getKSHChart, delOneLayer } from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 // import LoadChart from "./LoadChart";
@@ -24,6 +24,9 @@ import {
   saveShowPageData
 } from '../redux/actions/showLayerDatas';
 import { Redirect } from 'react-router-dom';
+
+import PageSetting from '../page/PageSetting';
+
 const chartData = require('../datasource/chartDatas.json');
 
 class Layout extends Component {
@@ -31,93 +34,101 @@ class Layout extends Component {
     super(props);
     console.log(window);
     this.state = {
-      cptIndex: -1,//当前选中的组件
-      cptType: '',//当前组件的类型
-      cptKey: '',//当前组件对应的时间戳的值
+      cptIndex: -1, //当前选中的组件
+      cptType: '', //当前组件的类型
+      cptKey: '', //当前组件对应的时间戳的值
       cptKeyList: [], //保存每个组件的基本信息,用来显示组件的先后顺序
-      cptPropertyList: [],//所有组件基本属性的数组
-      cptChartIdList:[],//保存所有前图层对应的接口的id值和cttype
-      cptPropertyObj: store.getState().showLayerDatas.showDatas,//当前点击的图层的基本属性
-      globalBg: store.getState().showLayerDatas.bgFieldObj,//中间dom的属性
-      deleteAffirmFlag:false,//控制是否显示删除提示框
-      delIndex:-1,//用来表示当前删除的是哪个id,方便提示框之后处理.
-      showPageData:'',//预览页面的路径
-      isOpenNewWindowFlag:false,//是否打开预览页面
-    }
+      cptPropertyList: [], //所有组件基本属性的数组
+      cptChartIdList: [], //保存所有前图层对应的接口的id值和cttype
+      cptPropertyObj: store.getState().showLayerDatas.showDatas, //当前点击的图层的基本属性
+      globalBg: store.getState().showLayerDatas.bgFieldObj, //中间dom的属性
+      deleteAffirmFlag: false, //控制是否显示删除提示框
+      delIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
+      showPageData: '', //预览页面的路径
+      isOpenNewWindowFlag: false //是否打开预览页面
+    };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.initLeftDatas();
-}
+  }
 
-initLeftDatas(){
-    getKSHChart().then(res => {
-        let tempTestData = [{
-            "id": 4,
-            "parentid": 2,
-            "name": "断裂分布图",
-            "type": "THEMEVERTBAR_SORT",
-            "service": "KSH",
-            "layername": "test",
-            "renderer": null,
-            "thType": "0",
-            "type2": null,
-            "desp": "",
-            "isText": null,
-            "showType": null,
-            "realtimeupdate": null,
-            "serialize": "{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}",
-            "show": null,
-            "layerPosition":'{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-        }, {
-            "id": 0,
-            "parentid": 2,
-            "name": "水污染",
-            "type": null,
-            "service": "KSH",
-            "layername": "testV4_水污染",
-            "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
-            "thType": "1",
-            "type2": null,
-            "desp": "",
-            "isText": null,
-            "showType": null,
-            "realtimeupdate": "false",
-            "serialize": "{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}",
-            "show": "1",
-            "layerPosition":'{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-        }, {
-            "id": 0,
-            "parentid": 2,
-            "name": "泥石流沟",
-            "type": null,
-            "service": "CCC",
-            "layername": "泥石流沟",
-            "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
-            "thType": "1",
-            "type2": null,
-            "desp": "",
-            "isText": null,
-            "showType": null,
-            "realtimeupdate": "false",
-            "serialize": "{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}",
-            "show": "1",
-            "layerPosition":'{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-        }]
+  initLeftDatas() {
+    getKSHChart()
+      .then(res => {
+        let tempTestData = [
+          {
+            id: 4,
+            parentid: 2,
+            name: '断裂分布图',
+            type: 'THEMEVERTBAR_SORT',
+            service: 'KSH',
+            layername: 'test',
+            renderer: null,
+            thType: '0',
+            type2: null,
+            desp: '',
+            isText: null,
+            showType: null,
+            realtimeupdate: null,
+            serialize: '{"col":1,"row":5,"size_x":2,"size_y":2}',
+            show: null,
+            layerPosition:
+              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
+          },
+          {
+            id: 0,
+            parentid: 2,
+            name: '水污染',
+            type: null,
+            service: 'KSH',
+            layername: 'testV4_水污染',
+            renderer:
+              '<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="circle" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="102,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="circle" outline="102,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>',
+            thType: '1',
+            type2: null,
+            desp: '',
+            isText: null,
+            showType: null,
+            realtimeupdate: 'false',
+            serialize: '{"col":1,"row":1,"size_x":3,"size_y":2}',
+            show: '1',
+            layerPosition:
+              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
+          },
+          {
+            id: 0,
+            parentid: 2,
+            name: '泥石流沟',
+            type: null,
+            service: 'CCC',
+            layername: '泥石流沟',
+            renderer:
+              '<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="square" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="204,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="square" outline="204,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>',
+            thType: '1',
+            type2: null,
+            desp: '',
+            isText: null,
+            showType: null,
+            realtimeupdate: 'false',
+            serialize: '{"col":4,"row":1,"size_x":2,"size_y":2}',
+            show: '1',
+            layerPosition:
+              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
+          }
+        ];
         let resultObj = {
-            username: "public",
-            data: '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}","show":"1"}]'
-        }
+          username: 'public',
+          data:
+            '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{"col":1,"row":5,"size_x":2,"size_y":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="circle" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="102,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="circle" outline="102,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{"col":1,"row":1,"size_x":3,"size_y":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="square" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="204,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="square" outline="204,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{"col":4,"row":1,"size_x":2,"size_y":2}","show":"1"}]'
+        };
         let showObjArr = JSON.parse(resultObj.data);
         let tempCptKeyList = [];
         let tempCptPropertyList = [];
         let tempCptChartIdList = [];
-        
-        tempTestData.map((item,index) => {
-            
-        })
-        
 
-      /*
+        tempTestData.map((item, index) => {});
+
+        /*
       let tempKey = { key: key, id: id, title: showTitle,layerType:type,simpleType:layerObj.simpleType}   
         this.setState({
             cptIndex: -1,
@@ -136,10 +147,11 @@ initLeftDatas(){
                 this.updateGlobalEditData();
             }
         }); */
-    }).catch(error => {
+      })
+      .catch(error => {
         console.info(error);
-    })
-}
+      });
+  }
 
   handleScriptCreate(obj) {
     this.setState({ scriptLoaded: false });
@@ -194,9 +206,9 @@ initLeftDatas(){
       type: type,
       cptType: id
     };
-    let thType = "0";
-    if(otherObj&&otherObj.state=="leftAdd"){
-        thType = otherObj.thType;
+    let thType = '0';
+    if (otherObj && otherObj.state == 'leftAdd') {
+      thType = otherObj.thType;
     }
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
@@ -214,10 +226,13 @@ initLeftDatas(){
         cptKeyList: [...this.state.cptKeyList, cptkObj],
         cptPropertyList: [...this.state.cptPropertyList, cptpObj],
         cptPropertyObj: cptpObj,
-        cptChartIdList: [...this.state.cptChartIdList, {
-          chartId:chartId,
-          thType:thType,
-      }]
+        cptChartIdList: [
+          ...this.state.cptChartIdList,
+          {
+            chartId: chartId,
+            thType: thType
+          }
+        ]
       },
       () => {
         {
@@ -235,7 +250,6 @@ initLeftDatas(){
     });
   }
 
- 
   deleteAffirmCancel = e => {
     this.setState({
       deleteAffirmFlag: false
@@ -243,36 +257,39 @@ initLeftDatas(){
   };
 
   deleteAffirmOk = e => {
-    this.setState({
-        deleteAffirmFlag: false,
-    },() => {
+    this.setState(
+      {
+        deleteAffirmFlag: false
+      },
+      () => {
         this.deleteDataBaseOneLayer();
-    });
-}
+      }
+    );
+  };
 
-deleteDataBaseOneLayer(){
+  deleteDataBaseOneLayer() {
     let _this = this;
     let cptIndex = this.state.delIndex;
     let queryId = store.getState().showLayerDatas.cptOptionsList[cptIndex].queryId;
     let kshPageName = '';
     let nameData = this.refs.leftComponentList.state.nameData;
-    if(nameData&&nameData[0]){
-        kshPageName = nameData[0].KSHDETAIL;
-    }else{
-        console.info("获取全局的页面名称失败")
+    if (nameData && nameData[0]) {
+      kshPageName = nameData[0].KSHDETAIL;
+    } else {
+      console.info('获取全局的页面名称失败');
     }
     let delObj = {
-        str: {"delete":[{"id":queryId}]},
-        name: kshPageName
-    }
+      str: { delete: [{ id: queryId }] },
+      name: kshPageName
+    };
     _this.ondelItem(cptIndex);
-   /*  delOneLayer(delObj).then(res => {
+    /*  delOneLayer(delObj).then(res => {
         _this.ondelItem(cptIndex);
         alert("删除图表成功");
     }).catch(error => {
         console.info(error);
     }) */
-}
+  }
   /**
    * @description: 删除指定的图层
    * @param {number} layerIndex 当前图层对应的index值
@@ -327,7 +344,7 @@ deleteDataBaseOneLayer(){
         cptKeyList: cptkList,
         cptPropertyList: cptpList,
         cptPropertyObj: cptpObj,
-        cptChartIdList:cptChartIdList,
+        cptChartIdList: cptChartIdList
       },
       () => {
         //{chartOption(this.state.cptType, this.state.cptKey,this,"noUpdate")}
@@ -429,99 +446,116 @@ deleteDataBaseOneLayer(){
       }
     } else if (tabsKey == 1) {
       // var queryId = cptOptionObj.queryId;
-      if(fieldEname=="width"||fieldEname=="height"||fieldEname=="left"||fieldEname=="top"||fieldEname=="opacity"||fieldEname=="layerBorderWidth"||fieldEname=="layerBorderStyle"||fieldEname=="layerBorderColor"){
+      if (
+        fieldEname == 'width' ||
+        fieldEname == 'height' ||
+        fieldEname == 'left' ||
+        fieldEname == 'top' ||
+        fieldEname == 'opacity' ||
+        fieldEname == 'layerBorderWidth' ||
+        fieldEname == 'layerBorderStyle' ||
+        fieldEname == 'layerBorderColor'
+      ) {
         //更新strore里卖弄的数据
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         var cptpObj = this.state.cptPropertyList[cptIndex];
         if (cptIndex != -1) {
-            // if(layerType=="chart"){
-            cptpObj.cptBorderObj[fieldEname] = fieldValue;
-            // }
-            cptpList[cptIndex] = cptpObj;
+          // if(layerType=="chart"){
+          cptpObj.cptBorderObj[fieldEname] = fieldValue;
+          // }
+          cptpList[cptIndex] = cptpObj;
         } else {
-            cptpObj = store.getState().showLayerDatas.showDatas;
+          cptpObj = store.getState().showLayerDatas.showDatas;
         }
-        this.setState({
+        this.setState(
+          {
             cptIndex: cptIndex,
             cptPropertyList: cptpList,
-            cptPropertyObj: cptpObj,
-        }, () => {
+            cptPropertyObj: cptpObj
+          },
+          () => {
             // console.log(`这个组合:${this.state}`);
             {
-                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate")
+              chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate');
             }
-        });
-    }else{
-        if (layerType == "text" || layerType == "border"||layerType == "iframe"||layerType == "chart") {
-            var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-            let tempLayerId = mapObjArr[cptIndex].layerId;
-            let tempObj = document.getElementById(tempLayerId);
-            if (layerType == "text") {
-                tempObj = tempObj.getElementsByClassName('textLayer')[0];
-                if (fieldEname == "textCenter") {
-                    tempObj.innerText = fieldValue;
-                } else if (fieldEname == "fontSize") {
-                    tempObj.style.fontSize = fieldValue+'px';
-                } else if (fieldEname == "fontColor") {
-                    tempObj.style.color = fieldValue;
-                } else if (fieldEname == "fontFamily") {
-                    tempObj.style.fontFamily = fieldValue;
-                } else if (fieldEname == "fontWeight") {
-                    tempObj.style.fontWeight = fieldValue;
-                } else if (fieldEname == "writingMode") {
-                    tempObj.style.writingMode = fieldValue;
-                }else if (fieldEname == "textAlign") {
-                    tempObj.parentNode.style.textAlign = fieldValue;
-                }else if (fieldEname == "hyperlinkCenter") {
-                    tempObj.href = fieldValue;
-                }else if (fieldEname == "isNewWindow") {
-                    let tempTargetVal = "_self";
-                    if(fieldValue){
-                        tempTargetVal = "_blank";
-                    }
-                    tempObj.target = tempTargetVal;
+          }
+        );
+      } else {
+        if (
+          layerType == 'text' ||
+          layerType == 'border' ||
+          layerType == 'iframe' ||
+          layerType == 'chart'
+        ) {
+          var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+          let tempLayerId = mapObjArr[cptIndex].layerId;
+          let tempObj = document.getElementById(tempLayerId);
+          if (layerType == 'text') {
+            tempObj = tempObj.getElementsByClassName('textLayer')[0];
+            if (fieldEname == 'textCenter') {
+              tempObj.innerText = fieldValue;
+            } else if (fieldEname == 'fontSize') {
+              tempObj.style.fontSize = fieldValue + 'px';
+            } else if (fieldEname == 'fontColor') {
+              tempObj.style.color = fieldValue;
+            } else if (fieldEname == 'fontFamily') {
+              tempObj.style.fontFamily = fieldValue;
+            } else if (fieldEname == 'fontWeight') {
+              tempObj.style.fontWeight = fieldValue;
+            } else if (fieldEname == 'writingMode') {
+              tempObj.style.writingMode = fieldValue;
+            } else if (fieldEname == 'textAlign') {
+              tempObj.parentNode.style.textAlign = fieldValue;
+            } else if (fieldEname == 'hyperlinkCenter') {
+              tempObj.href = fieldValue;
+            } else if (fieldEname == 'isNewWindow') {
+              let tempTargetVal = '_self';
+              if (fieldValue) {
+                tempTargetVal = '_blank';
+              }
+              tempObj.target = tempTargetVal;
+            }
+          } else if (layerType == 'border') {
+            tempObj = tempObj.parentNode;
+            if (fieldEname == 'borderWidth') {
+              tempObj.style.borderWidth = fieldValue + 'px';
+            } else if (fieldEname == 'borderStyle') {
+              tempObj.style.borderStyle = fieldValue;
+            } else if (fieldEname == 'borderColor') {
+              tempObj.style.borderColor = fieldValue;
+            }
+          } else if (layerType == 'iframe') {
+            if (fieldEname == 'iframeUrl') {
+              tempObj.getElementsByClassName('iframeObj')[0].src = fieldValue;
+            }
+          } else if (layerType == 'chart') {
+            tempObj = tempObj.parentNode;
+            if (fieldEname == 'optionName') {
+              cptOptionObj.layerOption[0].mapInfor.result[0].NAME = fieldValue;
+            } else if (fieldEname == 'legendName') {
+              let tempLegendName = cptOptionObj.layerOption[0].myLegend.result[0].fieldName;
+              cptOptionObj.layerOption[0].myLegend.result[0].fieldName = fieldValue;
+              cptOptionObj.layerOption[0].myLegend.result[0].name = fieldValue;
+              let resultTable = cptOptionObj.layerOption[0].myMapTable.result;
+              let keyMap = {
+                [tempLegendName]: fieldValue
+              };
+              for (var i = 0; i < resultTable.length; i++) {
+                var obj = resultTable[i];
+                for (var key in obj) {
+                  var newKey = keyMap[key];
+                  if (newKey) {
+                    obj[newKey] = obj[key];
+                    delete obj[key];
+                  }
                 }
-            } else if (layerType == "border") {
-                tempObj = tempObj.parentNode;
-                if (fieldEname == "borderWidth") {
-                    tempObj.style.borderWidth = fieldValue + 'px';
-                } else if (fieldEname == "borderStyle") {
-                    tempObj.style.borderStyle = fieldValue;
-                } else if (fieldEname == "borderColor") {
-                    tempObj.style.borderColor = fieldValue;
-                }
-            } else if (layerType == "iframe") {
-                if(fieldEname=="iframeUrl"){
-                    tempObj.getElementsByClassName("iframeObj")[0].src = fieldValue;
-                }
-            }else if (layerType == "chart") {
-                tempObj = tempObj.parentNode;
-                if (fieldEname == "optionName") {
-                    cptOptionObj.layerOption[0].mapInfor.result[0].NAME = fieldValue;
-                } else if (fieldEname == "legendName") {
-                    let tempLegendName = cptOptionObj.layerOption[0].myLegend.result[0].fieldName;
-                    cptOptionObj.layerOption[0].myLegend.result[0].fieldName = fieldValue;
-                    cptOptionObj.layerOption[0].myLegend.result[0].name = fieldValue;
-                    let resultTable = cptOptionObj.layerOption[0].myMapTable.result;
-                    let keyMap = {
-                        [tempLegendName]:fieldValue,
-                    }
-                    for(var i = 0;i < resultTable.length;i++){
-                        var obj = resultTable[i];
-                        for(var key in obj){
-                                   var newKey = keyMap[key];
-                                   if(newKey){
-                                            obj[newKey] = obj[key];
-                                            delete obj[key];
-                                     }
-                            }
-                }
-                    cptOptionObj.layerOption[0].myMapTable.result = resultTable;
-                } else if (fieldEname == "legendColor") {
-                    cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
-                } 
-                
-                /* fetch("../../thematic/Edit.do", {
+              }
+              cptOptionObj.layerOption[0].myMapTable.result = resultTable;
+            } else if (fieldEname == 'legendColor') {
+              cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
+            }
+
+            /* fetch("../../thematic/Edit.do", {
                     method: "POST",
                     headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -537,13 +571,13 @@ deleteDataBaseOneLayer(){
                 }).catch(error => {
                     console.info(error);
                 }); */
-            }
-            if(layerType == "chart"){
-                chartOption(this.state.cptType, this.state.cptKey, this, "update");
-            }else{
-                cptOptionObj.layerOption[fieldEname] = fieldValue;
-            }
-            store.dispatch(editCptOptionsList(cptIndex, cptOptionObj));
+          }
+          if (layerType == 'chart') {
+            chartOption(this.state.cptType, this.state.cptKey, this, 'update');
+          } else {
+            cptOptionObj.layerOption[fieldEname] = fieldValue;
+          }
+          store.dispatch(editCptOptionsList(cptIndex, cptOptionObj));
         }
       }
     } else if (tabsKey == 0) {
@@ -666,10 +700,11 @@ deleteDataBaseOneLayer(){
                         cptIndex={this.state.cptIndex}
                         selectCliclSingleLayer={this.selectCliclSingleLayer.bind(this)}
                     /> */}
-          <LeftComponentList 
-          ref="leftComponentList"
-          onClickAdd={this.onClickAdd.bind(this)} />
+          <LeftComponentList ref='leftComponentList' onClickAdd={this.onClickAdd.bind(this)} />
           <div className='custom-content-p'>
+            <div>
+              
+            </div>
             <div
               className='custom-content-canvs'
               style={{
@@ -719,13 +754,24 @@ deleteDataBaseOneLayer(){
               })}
             </div>
           </div>
-          <Config
-            ref='rightConfig'
-            changeProperties={this.changeProperties.bind(this)}
-            cptPropertyObj={this.state.cptPropertyObj}
-            cptIndex={this.state.cptIndex}
-            cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
-          />
+          {/* {
+            <Config
+              ref='rightConfig'
+              changeProperties={this.changeProperties.bind(this)}
+              cptPropertyObj={this.state.cptPropertyObj}
+              cptIndex={this.state.cptIndex}
+              cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
+            />
+          } */}
+
+          {
+            <PageSetting
+              ref='rightConfig'
+              changeProperties={this.changeProperties.bind(this)}
+              cptPropertyObj={this.state.cptPropertyObj}
+              cptIndex={this.state.cptIndex}
+              cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}></PageSetting>
+          }
         </div>
         {this.state.isOpenNewWindowFlag ? (
           <Link to={this.state.showPageData} id='shouPageTo' />

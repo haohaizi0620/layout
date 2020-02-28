@@ -19,9 +19,13 @@ import {
 import 'antd/dist/antd.css';
 import '../../css/Properties.css'
 import ImageUploading from '../globalCom/ImageUploading';
-import ReactColor from '../globalCom/ReactColor.js'
+import SketchColor from '../globalCom/SketchColor'
 const { Option } = Select;
 const { TextArea } = Input;
+
+/* 
+ *  
+*/
 class PropertiesSelectCenter extends Component {
     constructor(props) {
         super(props);
@@ -87,7 +91,7 @@ class PropertiesSelectCenter extends Component {
                             } else if (itemType == "Color") {
                                 return (
                                     <div className="pro-item-simple">
-                                        <ReactColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this,item.ename)} />
+                                        <SketchColor key={item.ename} colorVal={item.value} setBgColor={this.setBgColor.bind(this,item.ename)} />
                                     </div>
                                 )
                             } else if (itemType == "ImageUploading") {

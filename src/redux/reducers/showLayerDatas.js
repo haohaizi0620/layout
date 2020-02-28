@@ -48,7 +48,7 @@ const cptPropertyObj = {
     cptIndex: 0,
     specialField: {},
     bgFieldObj: {
-        bgColor: 'rgba(0,0,0,1)',
+        bgColor: 'rgba(15, 42, 67,1)',
         bjWidth: 1470,
         bjHeight: 937,
         bjImage:'none',

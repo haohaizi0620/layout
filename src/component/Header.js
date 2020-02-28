@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as html2canvas from 'html2canvas';
+import Qs from 'qs';
+// import { addOneLayer, addPageImage } from '../../api/api';
+
 import {
   faCheckSquare,
   faFont,
@@ -305,99 +309,140 @@ class Header extends Component {
     this.props.saveShowPageData();
   }
 
+  outRollbackPage() {
+    let _this = this;
+    html2canvas(document.querySelector('.custom-content-p')).then(canvas => {
+      _this.canvasToImage(canvas);
+    });
+  }
+
+  canvasToImage(canvas) {
+    var image = new Image();
+    image.src = canvas.toDataURL('image/png');
+    // var kshid = $('.title2-t').attr('id');
+    var kshid = this.state.nameData[0].ID;
+    var name = 'img' + kshid;
+    this.addImg(image.src, name);
+  }
+
+  addImg(base64, name) {
+    let PageImageObj = {
+      base64: base64,
+      name: name
+    };
+    /*  addPageImage(PageImageObj).then(res => {
+            alert("图片保存成功,回到主页面");
+            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
+        }).catch(error => {
+            console.info(error);
+            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
+        }) */
+    // fetch("http://192.168.3.168:8080/data/share/saveImage.do", {
+    fetch('../../share/saveImage.do', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: Qs.stringify(PageImageObj)
+    })
+      .then(function(response) {
+        alert('图片保存成功,回到主页面');
+        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
+      })
+      .catch(error => {
+        console.info(error);
+        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
+      });
+  }
+
   render() {
     const ttype = this.state.ttype;
     return (
       <div className='custom-header'>
-        <ul className='custom-header-ul'>
-          {this.state.layerDatas.map((item, index) => {
-            return (
-              /* 顶部目录栏 */
-              <li
-                className='custom-header-li'
-                onMouseEnter={e => {
-                  this.handleMenuMouseEnter(item);
-                }}
-                
-                ref={item.refName}
-                title={item.titleName}>
-                <FontAwesomeIcon icon={item.IconObj} />
-                <div className='custom-header-li-c'>
-                  <table className='custom-header-table'>
-                    <tbody className='custom-header-tbody'>
-                      <tr>
-                        <td className='custom-header-sub-list left'>
-                          <ul className='custom-header-sub-ul'>
-                            {item.leftIconLists.map((iconItem, i) => {
-                              return (
-                                /* 左侧tab栏 */
-                                <li
-                                  className='custom-header-sub-li'
-                                  t={iconItem.prevName}
-                                  thisType={iconItem.thisType}
-                                  title={iconItem.titleName}
-                                  onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                  <div>
-                                    <FontAwesomeIcon icon={iconItem.IconObj} />
-                                  </div>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </td>
-                        <td className='custom-header-sub-list'>
-                          <div className='custom-header-menu-c'>
-                            <ul className='custom-header-menu-ul'>
-                              {// this.state["otype"]==item.typeName?
-                              this.state[this.state['otype']][ttype].map((item, i) => {
-                                const c = `custom-header-menu-li-bg ${item.id}bg`;
-                                item['simpleType'] = ttype;
+        <div className='custom-left-list-title'>
+          <Button className='outRollback' size='small' onClick={this.outRollbackPage.bind(this)}>
+            我的可视化
+          </Button>
+        </div>
+        <div className='custom-header-component'>
+          <ul className='custom-header-ul'>
+            {this.state.layerDatas.map((item, index) => {
+              return (
+                /* 顶部目录栏 */
+                <li
+                  className='custom-header-li'
+                  onMouseEnter={e => {
+                    this.handleMenuMouseEnter(item);
+                  }}
+                  ref={item.refName}
+                  title={item.titleName}>
+                  <FontAwesomeIcon icon={item.IconObj} />
+                  <div className='custom-header-li-c'>
+                    <table className='custom-header-table'>
+                      <tbody className='custom-header-tbody'>
+                        <tr>
+                          <td className='custom-header-sub-list left'>
+                            <ul className='custom-header-sub-ul'>
+                              {item.leftIconLists.map((iconItem, i) => {
                                 return (
-                                  /* 每个具体的组件 */
+                                  /* 左侧tab栏 */
                                   <li
-                                    onClick={this.onClickAdd.bind(this, item)}
-                                    className='custom-header-menu-li'
-                                    type={item.layerType}
-                                    id={item.id}
-                                    title={item.text}
-                                    key={item.id}>
-                                    <div className={c}></div>
-                                    <p className='custom-header-menu-li-txt'>{item.text}</p>
+                                    className='custom-header-sub-li'
+                                    t={iconItem.prevName}
+                                    thisType={iconItem.thisType}
+                                    title={iconItem.titleName}
+                                    onMouseOver={this.handleChartMouseOver.bind(this)}>
+                                    <div>
+                                      <FontAwesomeIcon icon={iconItem.IconObj} />
+                                    </div>
                                   </li>
                                 );
-                              })
-                              // :true
-                              }
+                              })}
                             </ul>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <div
-          style={{
-            position: 'relative',
-            left: '67%',
-            width: '18%'
-          }}>
-          <div
-            style={{
-              height: '80%',
-              top: '10%',
-              position: 'relative'
-            }}>
-            <Button type='primary' onClick={this.saveLayoutData.bind(this)}>
-              保存
-            </Button>
-            <Button type='primary' onClick={this.saveShowPageData.bind(this)}>
-              预览
-            </Button>
-          </div>
+                          </td>
+                          <td className='custom-header-sub-list'>
+                            <div className='custom-header-menu-c'>
+                              <ul className='custom-header-menu-ul'>
+                                {// this.state["otype"]==item.typeName?
+                                this.state[this.state['otype']][ttype].map((item, i) => {
+                                  const c = `custom-header-menu-li-bg ${item.id}bg`;
+                                  item['simpleType'] = ttype;
+                                  return (
+                                    /* 每个具体的组件 */
+                                    <li
+                                      onClick={this.onClickAdd.bind(this, item)}
+                                      className='custom-header-menu-li'
+                                      type={item.layerType}
+                                      id={item.id}
+                                      title={item.text}
+                                      key={item.id}>
+                                      <div className={c}></div>
+                                      <p className='custom-header-menu-li-txt'>{item.text}</p>
+                                    </li>
+                                  );
+                                })
+                                // :true
+                                }
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div className='custom-header-button'>
+          <Button type='primary' size='small' onClick={this.saveLayoutData.bind(this)}>
+            保存
+          </Button>
+          <Button type='primary' size='small' onClick={this.saveShowPageData.bind(this)}>
+            预览
+          </Button>
         </div>
       </div>
     );

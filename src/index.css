@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -45,18 +46,53 @@ html, body {
   z-index: 100;
   background: #222528;
   position: relative;
-  padding: 0 20px;
+  border-bottom: 1px solid #000000;
+}
+.outRollback {
+  background: #2e343c;
+  border: none;
+  color: #bcc9d4;
+  position: relative;
+  left: -14px;
+}
+.outRollback:hover {
+  background: #2e343c;
+}
+.custom-header .ant-btn-primary {
+  color: #b6c2cd;
+  background-color: #303640 !important;
+  border-color: #303640 !important;
+  margin-right: 5px;
+  border-radius: 0px !important;
+  font-size: 12px !important;
 }
 
+.custom-header .ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  color: white;
+  background-color: rgba(70, 70, 64, 0.5) !important;
+  border-color: rgba(70, 70, 64, 0.5) !important;
+}
+
+.custom-header-component {
+  left: 230px;
+  position: relative;
+}
+
+.custom-header-button {
+  position: absolute;
+  margin-left: auto;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
 .custom-header-ul {
-  left: 200px;
   margin: 0;
-  padding: 0;
   display: inline-flex;
   list-style: none;
-  padding-left: 0;
-  position: relative;
-  margin-right: 10px;
 }
 
 .custom-header-li {
@@ -80,7 +116,6 @@ html, body {
   display: block;
 }
 
-
 .custom-header-li-c {
   display: none;
   position: absolute;
@@ -88,14 +123,14 @@ html, body {
   width: 552px;
   z-index: 10;
   background: 0 0;
-  box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, .5);
+  box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
 .custom-header-table {
   width: 100%;
   border-spacing: 0;
 }
-.custom-header-tbody{
+.custom-header-tbody {
   vertical-align: middle;
 }
 .custom-header-sub-list {
@@ -128,23 +163,23 @@ html, body {
   float: none;
   position: relative;
 }
-.custom-header-sub-li:hover{
+.custom-header-sub-li:hover {
   background: #1c1f25;
   color: #37bfff;
 }
-.custom-header-menu-c{
+.custom-header-menu-c {
   overflow-y: scroll;
   overflow-x: hidden;
   max-height: 500px;
 }
-.custom-header-menu-ul{
+.custom-header-menu-ul {
   list-style: none;
   width: 480px;
   padding-left: 0;
   padding-top: 20px;
   text-align: left;
 }
-.custom-header-menu-li{
+.custom-header-menu-li {
   cursor: pointer;
   display: inline-block;
   width: 134px;
@@ -154,13 +189,13 @@ html, body {
   flex: 1;
   margin-left: 20px;
 }
-.custom-header-menu-li:hover .custom-header-menu-li-bg{
+.custom-header-menu-li:hover .custom-header-menu-li-bg {
   border: 1px solid #00baff;
 }
-.custom-header-menu-li-bg{
+.custom-header-menu-li-bg {
   overflow: hidden;
   width: 100%;
-  height:80px;
+  height: 80px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -171,8 +206,7 @@ html, body {
   pointer-events: none;
 }
 
-
-.custom-left-list .custom-header-menu-li-bg{
+.custom-left-list .custom-header-menu-li-bg {
   width: 55%;
   height: 55px;
   display: inline-block;
@@ -274,117 +308,115 @@ html, body {
 }
  */
 
-.jbztbg{
+.jbztbg {
   background-image: url(img/chart/jbzt.png);
 }
-.ddzztbg{
+.ddzztbg {
   background-image: url(img/chart/ddzzt.png);
 }
-.ddtxtbg{
+.ddtxtbg {
   background-image: url(img/chart/ddtxt.png);
 }
-.zxztbg{
+.zxztbg {
   background-image: url(img/chart/zxzt.png);
 }
-.zftxtbg{
+.zftxtbg {
   background-image: url(img/chart/zftxt.png);
 }
-.jtpbtbg{
+.jtpbtbg {
   background-image: url(img/chart/jtpbt.png);
 }
-.jbzxtbg{
+.jbzxtbg {
   background-image: url(img/chart/jbzxt.png);
 }
-.ddzxtbg{
+.ddzxtbg {
   background-image: url(img/chart/ddzxt.png);
 }
-.pbtbg{
+.pbtbg {
   background-image: url(img/chart/pbt.png);
 }
-.ysfdzxtbg{
+.ysfdzxtbg {
   background-image: url(img/chart/ysfdzxt.png);
 }
-.jbmjtbg{
+.jbmjtbg {
   background-image: url(img/chart/jbmjt.png);
 }
-.ddmjtbg{
+.ddmjtbg {
   background-image: url(img/chart/ddmjt.png);
 }
-.jbbtbg{
+.jbbtbg {
   background-image: url(img/chart/jbbt.png);
 }
-.yhbtbg{
+.yhbtbg {
   background-image: url(img/chart/yhbt.png);
 }
-.zbzbbtbg{
+.zbzbbtbg {
   background-image: url(img/chart/zbzbbt.png);
 }
-.mgtbg{
+.mgtbg {
   background-image: url(img/chart/mgt.png);
 }
-.qptbg{
+.qptbg {
   background-image: url(img/chart/qpt.png);
 }
-.sdtbg{
+.sdtbg {
   background-image: url(img/chart/sdt.png);
 }
-.ldtbg{
+.ldtbg {
   background-image: url(img/chart/ldt.png);
 }
-.ldotbg{
+.ldotbg {
   background-image: url(img/chart/ldot.png);
 }
-.ybpbg{
+.ybpbg {
   background-image: url(img/chart/ybp.png);
 }
-.xxztbg{
+.xxztbg {
   background-image: url(img/chart/xxzt.png);
 }
-.generalPointStylebg{
+.generalPointStylebg {
   background-image: url(img/chart/generalPointStyle.png);
 }
-.generalLineStylebg{
+.generalLineStylebg {
   background-image: url(img/chart/generalLineStyle.png);
 }
-.generalSurfaceStylebg{
+.generalSurfaceStylebg {
   background-image: url(img/chart/generalSurfaceStyle.png);
 }
-.mapPiebg{
+.mapPiebg {
   background-image: url(img/chart/mapPie.png);
 }
-.mapFanbg{
+.mapFanbg {
   background-image: url(img/chart/mapFan.png);
 }
-.mapBarbg{
+.mapBarbg {
   background-image: url(img/chart/mapBar.png);
 }
 
-.moreRowTextbg{
+.moreRowTextbg {
   background-image: url(img/text/moreRowText.png);
 }
 
-.singleRowTextbg{
+.singleRowTextbg {
   background-image: url(img/text/singleRowText.png);
 }
 
-.singleBorderbg{
+.singleBorderbg {
   background-image: url(img/text/singleRowText.png);
 }
 
-.singleBorderbg{
+.singleBorderbg {
   background-image: url(img/text/singleRowText.png);
 }
-.iframeCenterbg{
-  background-image: url(img/text/singleRowText.png);
-}
-
-.breakLinebg{
+.iframeCenterbg {
   background-image: url(img/text/singleRowText.png);
 }
 
+.breakLinebg {
+  background-image: url(img/text/singleRowText.png);
+}
 
-
-.custom-header-menu-li-txt{
+.custom-header-menu-li-txt {
   font-size: 12px;
   padding: 0;
   padding-top: 6px;
