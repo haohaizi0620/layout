@@ -6,6 +6,9 @@ import ComponentList from './ComponentList';
 import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
+import DeleteItemModal from './ModelCom/DeleteItemModal';
+import EditItemModal from './ModelCom/EditItemModal';
+
 // import LoadChart from "./LoadChart";
 import store from '../redux/store';
 import { chartOption,showChartsOption} from '../utils/chart';
@@ -41,8 +44,6 @@ class Layout extends Component {
       cptChartIdList: [], //保存所有前图层对应的接口的id值和cttype
       cptPropertyObj: store.getState().showLayerDatas.showDatas, //当前点击的图层的基本属性
       globalBg: store.getState().showLayerDatas.bgFieldObj, //中间dom的属性
-      deleteAffirmFlag: false, //控制是否显示删除提示框
-      delIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
       showPageData: '', //预览页面的路径
       isOpenNewWindowFlag: false,//是否打开预览页面
       nameData:{},//保存当前页面的基本信息
@@ -326,33 +327,18 @@ initLeftDatas(){
     }
     chartOption(this.state.cptType, this.state.cptKey, this, updateState, otherObj);
   }
+
+
   ondelItemPrev(layerIndex) {
-    this.setState({
-      deleteAffirmFlag: true,
-      delIndex: layerIndex
-    });
+    this.refs.delModal.setDefaultValue(layerIndex);
+  }
+  editItemPrev(layerIndex){
+    this.refs.editModal.setDefaultValue(layerIndex);
   }
 
-  deleteAffirmCancel = e => {
-    this.setState({
-      deleteAffirmFlag: false
-    });
-  };
-
-  deleteAffirmOk = e => {
-    this.setState(
-      {
-        deleteAffirmFlag: false
-      },
-      () => {
-        this.deleteDataBaseOneLayer();
-      }
-    );
-  };
-
-  deleteDataBaseOneLayer() {
+  deleteDataBaseOneLayer(delIndex) {
     let _this = this;
-    let cptIndex = this.state.delIndex;
+    let cptIndex = delIndex;
     let chartObj = this.state.cptChartIdList[cptIndex];
     let queryId = chartObj.chartId;
     // let queryId = store.getState().showLayerDatas.cptOptionsList[cptIndex].queryId;
@@ -449,6 +435,18 @@ initLeftDatas(){
       }
     );
   }
+
+  /**
+   * @description: 编辑指定的图层
+   * @param {number} layerIndex 当前图层对应的index值
+   * @return:
+   */
+  editItemDataBaseOneLayer(layerIndex){
+    
+  }
+
+  
+
 
   /**
    * @description: 将存放在集合里面的数据进行更新
@@ -696,7 +694,7 @@ initLeftDatas(){
     }
   }
 
-      editDataBaseLayerPosition(){
+  editDataBaseLayerPosition(){
         let thType = "0";
         let mainKey = -1;
         let leftChartObj = this.state.cptChartIdList[this.state.cptIndex];
@@ -886,21 +884,14 @@ initLeftDatas(){
               onClick={event => {
                 this.singleSwitchLayer(event, -1);
               }}>
-              <Modal
-                title='确认删除组件'
-                visible={this.state.deleteAffirmFlag}
-                onOk={this.deleteAffirmOk}
-                onCancel={this.deleteAffirmCancel}
-                footer={[
-                  <Button key='back' onClick={this.deleteAffirmCancel}>
-                    取消
-                  </Button>,
-                  <Button key='submit' type='primary' onClick={this.deleteAffirmOk}>
-                    确认
-                  </Button>
-                ]}>
-                <div>是否删除选中的一个组件</div>
-              </Modal>
+              <DeleteItemModal
+                ref="delModal"
+                delItem={this.deleteDataBaseOneLayer.bind(this)}
+              />
+              <EditItemModal
+                ref="editModal"
+                editItem={this.editItemDataBaseOneLayer.bind(this)}
+              />
               {this.state.cptKeyList.map((item, i) => {
                 return (
                   <div
@@ -918,6 +909,7 @@ initLeftDatas(){
                       handleDown={this.handleDown}
                       updateGlobalEditData={this.updateGlobalEditData.bind(this)}
                       del={this.ondelItemPrev.bind(this, i)}
+                      editItem={this.editItemPrev.bind(this,i)}
                       updateLayerPosition={this.updateLayerPosition.bind(this)}
                       editDataSource={this.editDataBaseLayerPosition.bind(this)}></Content>
                   </div>
