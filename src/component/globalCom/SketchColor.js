@@ -46,7 +46,7 @@ class SketchColor extends React.Component {
         popover: {
           position: 'absolute',
           zIndex: '2',
-          right: '20px'
+          right: '0px'
         },
         cover: {
           position: 'fixed',

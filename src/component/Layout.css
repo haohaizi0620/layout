@@ -20,3 +20,16 @@
 .ant-collapse-borderless > .ant-collapse-item {
   border-bottom: 1px solid #000;
 }
+
+.custom-content-title {
+  height: 30px;
+  position: relative;
+  width: 100%;
+  background-color: #1c1e22;
+  text-align: center;
+  line-height: 2;
+}
+
+.custom-content-title span {
+  color: white;
+}

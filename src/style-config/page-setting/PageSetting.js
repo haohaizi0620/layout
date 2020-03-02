@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, InputNumber } from 'antd';
-import SketchColor from '../component/globalCom/SketchColor';
-import './PageSetting.css';
+import SketchColor from '../../component/globalCom/SketchColor';
+// import './PageSetting.css';
+import '../styleConfig.css';
 
 /* 页面样式设置 */
 export default class PageSetting extends Component {
@@ -25,47 +26,44 @@ export default class PageSetting extends Component {
 
   render() {
     return (
-      <Col className='page-setting'>
-        <Row className='config-manager-head'>
+      <Col className='style-setting'>
+        <Row className='style-setting-head'>
           <span>页面设置</span>
         </Row>
-        <Row className='page-setting-content'>
-          <Col span={10} offset={1}>
-            <span>页面宽度</span>
+        <Row className='style-setting-content'>
+          <Col span={4} offset={1}>
+            <span>屏幕大小</span>
           </Col>
-          <Col span={10} offset={1}>
+          <Col span={5} offset={5}>
             <InputNumber
               min={1}
               max={5000}
-              defaultValue={3}
+              // defaultValue={3}
               onChange={this.widthChange}
               size='small'
             />
+            <i>宽度</i>
           </Col>
-        </Row>
-        <Row className='page-setting-content'>
-          <Col span={10} offset={1}>
-            <span>页面高度</span>
-          </Col>
-          <Col span={10} offset={1}>
+          <Col span={5} offset={1}>
             <InputNumber
               min={1}
               max={5000}
-              defaultValue={3}
+              // defaultValue={3}
               onChange={this.heightChange}
               size='small'
             />
+            <i>高度</i>
           </Col>
         </Row>
-        <Row className='page-setting-content'>
-          <Col span={10} offset={1}>
+
+        <Row className='style-setting-content'>
+          <Col span={4} offset={1}>
             <span>背景颜色</span>
           </Col>
-          <Col span={10} offset={1}>
+          <Col span={10} offset={4}>
             <SketchColor></SketchColor>
           </Col>
         </Row>
-        <Row></Row>
       </Col>
     );
   }

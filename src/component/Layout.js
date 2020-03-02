@@ -27,7 +27,7 @@ import {
 } from '../redux/actions/showLayerDatas';
 import { Redirect } from 'react-router-dom';
 
-import PageSetting from '../page/PageSetting';
+import PageSetting from '../style-config/page-setting/PageSetting';
 
 const chartData = require('../datasource/chartDatas.json');
 
