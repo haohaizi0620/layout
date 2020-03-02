@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import ComponentList from './ComponentList';
-import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition} from '../api/api';
+import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,getSpecify} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
@@ -183,6 +183,8 @@ initLeftDatas(){
                     thType:item.thType,
                     timeKey:timeKey,
                     mainKey:item.mainKey,
+                    addState:'defaultState',
+                    layerObj:item,
                 };
                 if(tempLayerPosition!=""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
@@ -288,13 +290,32 @@ initLeftDatas(){
         mainKey = otherObj.mainKey;
         addState = otherObj.state;
         chartId = otherObj.data.id;
+    }else{
+      layerTempObj = {
+        "id": 4,
+        "parentid": 1,
+        "name": "京津冀年卡景点20190",
+        "type": "THEMERING_CHART",
+        "service": null,
+        "layername": null,
+        "renderer": null,
+        "thType": "0",
+        "type2": null,
+        "desp": "",
+        "isText": null,
+        "showType": null,
+        "realtimeupdate": null,
+        "serialize": null,
+        "show": null
+      }
     }
     let addChartObj = {
         chartId:chartId,
         thType:thType,
         layerObj:layerTempObj,
         mainKey:mainKey,
-        addState:addState
+        addState:addState,
+        timeKey:key,
     };
     this.setState(
       {
@@ -333,7 +354,9 @@ initLeftDatas(){
     this.refs.delModal.setDefaultValue(layerIndex);
   }
   editItemPrev(layerIndex){
-    this.refs.editModal.setDefaultValue(layerIndex);
+    let temp = store.getState().showLayerDatas.cptOptionsList;
+    let editItemOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
+    this.refs.editModal.setDefaultValue(layerIndex,editItemOption);
   }
 
   deleteDataBaseOneLayer(delIndex) {
@@ -441,8 +464,60 @@ initLeftDatas(){
    * @param {number} layerIndex 当前图层对应的index值
    * @return:
    */
-  editItemDataBaseOneLayer(layerIndex){
-    
+  editItemDataBaseOneLayer(layerIndex,editData){
+    let thType = "0";
+    let leftChartObj = this.state.cptChartIdList[layerIndex];
+    let timeKey = leftChartObj.timeKey;
+    let chartId = leftChartObj.chartId;
+    if(leftChartObj){
+      thType = leftChartObj.thType;
+    }
+    let editObj = {
+      thType : thType,
+      data : editData
+    }
+    editKSHChartData(editObj)
+    .then(result => {
+      if (result== "编辑成功!") {
+        Modal.success({
+            title: '',
+            content: '编辑图层成功',
+        }); 
+
+          getSpecify(chartId)
+          .then(function (layerResult) {
+              if(layerResult.data){
+                  console.log("接口没有数据")
+              }else{
+                  if(layerResult&&layerResult[0]){
+                      new window.dmapgl.commonlyCharts(timeKey, {
+                          data: layerResult
+                      });
+                      let tempOptionObj = {
+                        cptIndex:layerIndex,
+                        layerOptions:layerResult
+                      }
+                      store.dispatch(editCptOptionsList(tempOptionObj));
+                  }
+              }
+          }).catch(error => {
+            Modal.error({
+                title: '',
+                content: '修改页面图层状态失败',
+            }); 
+          })
+      }else{
+        Modal.error({
+            title: '',
+            content: '编辑图层失败',
+        }); 
+      }
+      }).catch(error => {
+        Modal.error({
+            title: '',
+            content: '编辑图层失败'+error,
+        });
+    })
   }
 
   
@@ -651,7 +726,6 @@ initLeftDatas(){
             } else if (fieldEname == 'legendColor') {
               cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
             }
-
             /* fetch("../../thematic/Edit.do", {
                     method: "POST",
                     headers: {
@@ -674,7 +748,11 @@ initLeftDatas(){
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
           }
-          store.dispatch(editCptOptionsList(cptIndex, cptOptionObj));
+          let tempOptionObj = {
+            cptIndex:cptIndex,
+            layerOptions:cptOptionObj
+          }
+          store.dispatch(editCptOptionsList(tempOptionObj));
         }
       }
     } else if (tabsKey == 0) {
@@ -701,7 +779,6 @@ initLeftDatas(){
         if(leftChartObj){
           thType = leftChartObj.thType;
           mainKey = leftChartObj.mainKey;
-          
         }
         let editObj = {
           "id" : mainKey,
@@ -890,6 +967,7 @@ initLeftDatas(){
               />
               <EditItemModal
                 ref="editModal"
+                ChartDatas={this.state.cptChartIdList}
                 editItem={this.editItemDataBaseOneLayer.bind(this)}
               />
               {this.state.cptKeyList.map((item, i) => {

@@ -68,7 +68,13 @@ export function editKSHChartPosition(editLayerObj){
     data:Qs.stringify(editLayerObj)
   });
 }
-
+export function editKSHChartData(editLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/thematic/Edit.do',
+    method: 'post',
+    data:Qs.stringify(editLayerObj)
+  });
+}
 
 export function addPageImage(PageImageObj){
   return request({

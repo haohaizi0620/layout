@@ -122,7 +122,8 @@ export default function reducer(state = cptPropertyObj, action) {
             return state;
         case EDITCPTOPTIONSLIST:
             if (action.cptIndex >= 0) {
-                state.cptOptionsList[action.cptIndex] = action.layerOptions;
+                let tempObj = action.layerOptionsObj;
+                state.cptOptionsList[tempObj.cptIndex] = tempObj.layerOptions;
             }
             return state;
         case SAVESHOWPAGEDATA:{

@@ -946,9 +946,6 @@ class EditSimpleMainInfo extends Component {
               let itemType = item.type;
               if (itemType == 'InputNumber') {
                 let tempVal = parseInt(item.value);
-                // if(item.ename=="left"){
-                //     console.log("left:"+tempVal)
-                // }
                 return (
                   <div key={item.ename} className='pro-item-simple'>
                     <InputNumber
@@ -960,10 +957,6 @@ class EditSimpleMainInfo extends Component {
                       value={tempVal}
                     />
                     <br />
-                    {
-                      // console.log(item.ename+tempVal)
-                      // item.ename=="left"?console.log("left-last:"+tempVal):true
-                    }
                     <span>{item.cname}</span>
                   </div>
                 );

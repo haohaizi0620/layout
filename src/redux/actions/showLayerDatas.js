@@ -38,8 +38,8 @@ export function delCptOptionsList(layerIndex) {
     return {type: DELCPTOPTIONSLIST,layerIndex:layerIndex}
 }
 
-export function editCptOptionsList(cptIndex,layerOptions) {
-    return {type: EDITCPTOPTIONSLIST,layerOptions:layerOptions,cptIndex:cptIndex}
+export function editCptOptionsList(layerOptionsObj) {
+    return {type: EDITCPTOPTIONSLIST,layerOptionsObj:layerOptionsObj}
 }
 
 export function saveShowPageData(pageObj) {

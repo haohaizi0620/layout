@@ -2,19 +2,22 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import './css/EditItemModal.css';
 import { Modal, Button } from 'antd';
+import EditItemConfig from './EditItemConfig';
 class EditItemModal extends React.Component {
     constructor() {
         super();
         this.state = {
             editAffirmFlag: false, //控制是否显示删除提示框
             editIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
+            editItemOption:[],//当前展示的图层的数据
         } 
     }
    
-    setDefaultValue(layerIndex){
+    setDefaultValue(layerIndex,editItemOption){
         this.setState({
             editAffirmFlag: true,
-            editIndex: layerIndex
+            editIndex: layerIndex,
+            editItemOption:editItemOption
         })
     }
 
@@ -25,15 +28,17 @@ class EditItemModal extends React.Component {
         });
       };
     
-    deleteAffirmOk = e => {
+    deleteAffirmOk = e => {   
+        let chartObj = this.props.ChartDatas[this.state.editIndex];   
+         let editJson = this.refs.editItemmConfig.getEditJson(chartObj);
         this.setState(
           {
             editAffirmFlag: false
           },
           () => {
-            this.props.editItem(this.state.editIndex);
+           this.props.editItem(this.state.editIndex,editJson);
           }
-        );
+        ); 
       };
 
 
@@ -53,7 +58,10 @@ class EditItemModal extends React.Component {
               </Button>
             ]}>
             <div>
-
+              <EditItemConfig
+                 ref="editItemmConfig"
+                 editItemOption={this.state.editItemOption}
+              />
             </div>
           </Modal>
         )
