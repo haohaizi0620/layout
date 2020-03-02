@@ -3,17 +3,16 @@ import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import ComponentList from './ComponentList';
-import { test, getKSHChart, delOneLayer } from '../api/api';
+import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 // import LoadChart from "./LoadChart";
 import store from '../redux/store';
-import { chartOption } from '../utils/chart';
+import { chartOption,showChartsOption} from '../utils/chart';
 
 import { Link } from 'react-router-dom';
 import { notification, Modal, Button } from 'antd';
 import { selectGetOneMainLayer, addMainLayer, selectPostOneMainLayer } from '../api/apiAxios';
-// import {selectGetOneMainLayer,addMainLayer,selectPostOneMainLayer} from '../api/api';
 // import Mock from 'mockjs'
 import {
   updateShowLayerFieldVal,
@@ -45,113 +44,175 @@ class Layout extends Component {
       deleteAffirmFlag: false, //控制是否显示删除提示框
       delIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
       showPageData: '', //预览页面的路径
-      isOpenNewWindowFlag: false //是否打开预览页面
+      isOpenNewWindowFlag: false,//是否打开预览页面
+      nameData:{},//保存当前页面的基本信息
     };
   }
   componentDidMount() {
-    this.initLeftDatas();
+    this.initLeftDatas2();
   }
 
-  initLeftDatas() {
-    getKSHChart()
-      .then(res => {
-        let tempTestData = [
-          {
-            id: 4,
-            parentid: 2,
-            name: '断裂分布图',
-            type: 'THEMEVERTBAR_SORT',
-            service: 'KSH',
-            layername: 'test',
-            renderer: null,
-            thType: '0',
-            type2: null,
-            desp: '',
-            isText: null,
-            showType: null,
-            realtimeupdate: null,
-            serialize: '{"col":1,"row":5,"size_x":2,"size_y":2}',
-            show: null,
-            layerPosition:
-              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-          },
-          {
-            id: 0,
-            parentid: 2,
-            name: '水污染',
-            type: null,
-            service: 'KSH',
-            layername: 'testV4_水污染',
-            renderer:
-              '<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="circle" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="102,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="circle" outline="102,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>',
-            thType: '1',
-            type2: null,
-            desp: '',
-            isText: null,
-            showType: null,
-            realtimeupdate: 'false',
-            serialize: '{"col":1,"row":1,"size_x":3,"size_y":2}',
-            show: '1',
-            layerPosition:
-              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-          },
-          {
-            id: 0,
-            parentid: 2,
-            name: '泥石流沟',
-            type: null,
-            service: 'CCC',
-            layername: '泥石流沟',
-            renderer:
-              '<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="square" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="204,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="square" outline="204,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>',
-            thType: '1',
-            type2: null,
-            desp: '',
-            isText: null,
-            showType: null,
-            realtimeupdate: 'false',
-            serialize: '{"col":4,"row":1,"size_x":2,"size_y":2}',
-            show: '1',
-            layerPosition:
-              '{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"}'
-          }
-        ];
-        let resultObj = {
-          username: 'public',
-          data:
-            '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{"col":1,"row":5,"size_x":2,"size_y":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="circle" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="102,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="circle" outline="102,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{"col":1,"row":1,"size_x":3,"size_y":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name="一般点样式" minscale="1e-20" maxscale="100000000000000000000"><GROUPRENDERER  styleName="square" fuhaokuName="基础符号库"><SIMPLEMARKERSYMBOL antialiasing="true" color="204,255,43" overlap="true" shadow="0,0,0" transparency="1.0" type="square" outline="204,255,43" usecentroid="true" width="3"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{"col":4,"row":1,"size_x":2,"size_y":2}","show":"1"}]'
-        };
-        let showObjArr = JSON.parse(resultObj.data);
-        let tempCptKeyList = [];
-        let tempCptPropertyList = [];
-        let tempCptChartIdList = [];
-
-        tempTestData.map((item, index) => {});
-
-        /*
-      let tempKey = { key: key, id: id, title: showTitle,layerType:type,simpleType:layerObj.simpleType}   
-        this.setState({
-            cptIndex: -1,
-            cptType: '',
-            cptKey: '',
-            cptKeyList: tempCptKeyList,
-            cptPropertyList:tempCptPropertyList,
-            cptPropertyObj: { 
-                type: 'bg',//具体的类型：    text chart border
-                cptType: ''
-            },
-            cptChartIdList:tempCptChartIdList
-        }, () => {
-            {   
-                chartOption(this.state.cptType, this.state.cptKey, this, "noUpdate",otherObj);
-                this.updateGlobalEditData();
-            }
-        }); */
-      })
-      .catch(error => {
-        console.info(error);
-      });
+initLeftDatas(){
+  let tempTestData = {
+    "username":"public",
+    "data":[{
+      "id": 4,
+      "parentid": 2,
+      "name": "断裂分布图",
+      "type": "THEMEVERTBAR_SORT",
+      "service": "KSH",
+      "layername": "test",
+      "renderer": null,
+      "thType": "0",
+      "type2": null,
+      "desp": "",
+      "isText": null,
+      "showType": null,
+      "realtimeupdate": null,
+      "serialize": "{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}",
+      "show": null,
+      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+  }, {
+      "id": 0,
+      "parentid": 2,
+      "name": "水污染",
+      "type": null,
+      "service": "KSH",
+      "layername": "testV4_水污染",
+      "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
+      "thType": "1",
+      "type2": null,
+      "desp": "",
+      "isText": null,
+      "showType": null,
+      "realtimeupdate": "false",
+      "serialize": "{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}",
+      "show": "1",
+      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+  }, {
+      "id": 0,
+      "parentid": 2,
+      "name": "泥石流沟",
+      "type": null,
+      "service": "CCC",
+      "layername": "泥石流沟",
+      "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
+      "thType": "1",
+      "type2": null,
+      "desp": "",
+      "isText": null,
+      "showType": null,
+      "realtimeupdate": "false",
+      "serialize": "{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}",
+      "show": "1",
+      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+  }]
   }
+  let resultObj = {
+      "username": "public",
+      "data": '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}","show":"1"}]'
+  }
+  // let showObjArr = JSON.parse(resultObj.data);
+  let tempCptKeyList = [];
+  let tempCptPropertyList = [];
+  let tempCptChartIdList = [];
+  let timeKey = new Date().getTime().toString();  
+  tempTestData.data.map((item,index) => {
+    timeKey++;
+    tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+    tempCptPropertyList.push(JSON.parse(item.layerPosition));
+    tempCptChartIdList.push({
+        chartId:item.id,
+        thType:item.thType,
+        timeKey:timeKey
+    });   
+  })
+  this.setState({
+      cptIndex: -1,
+      cptType: '',
+      cptKey: '',
+      cptKeyList: tempCptKeyList,
+      cptPropertyList:tempCptPropertyList,
+      userName:tempTestData.username,
+      cptPropertyObj: { 
+          type: 'bg',//具体的类型：    text chart border
+          cptType: ''
+      },
+      cptChartIdList:tempCptChartIdList
+  }, () => {
+      {   
+        showChartsOption(tempCptChartIdList);
+      }
+  });
+
+}
+
+    initLeftDatas2(){
+        let _this = this;
+        var shareid = 1;
+        if(window.parent.document.getElementById('shareID')){
+        shareid = window.parent.document.getElementById('shareID').value;
+        }
+        getShareById(shareid).then(result => {
+        _this.initLayer(result[0])
+        }).catch(error => {
+        console.info(error);      
+        });
+    }
+    initLayer(nameDataObj){
+        let _this = this;
+        let kshId = 1;
+        let kshIdObj = window.parent.document.getElementById('kshID');
+        kshIdObj?kshId=kshIdObj.value:kshIdObj=1;
+        let getKshObj = {
+          id: kshId,
+          tablename: nameDataObj.KSHNAME
+        }
+        getKSHChart(getKshObj).then(res => {
+          let tempData = JSON.parse(res.data);
+          let tempCptKeyList = [];
+          let tempCptPropertyList = [];
+          let tempCptChartIdList = [];
+          let timeKey = new Date().getTime().toString();  
+            tempData.map((item,index) => {
+                timeKey++;
+                let tempLayerPosition = item.layerPosition;
+                let tempCptChartObj = {
+                    chartId:item.id,
+                    thType:item.thType,
+                    timeKey:timeKey,
+                    mainKey:item.mainKey,
+                };
+                if(tempLayerPosition!=""){
+                  tempLayerPosition = JSON.parse(tempLayerPosition)
+                }else{
+                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}')
+                }
+                tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+                tempCptPropertyList.push(tempLayerPosition);
+                tempCptChartIdList.push(tempCptChartObj);   
+              })
+              _this.setState({
+                cptIndex: -1,
+                cptType: '',
+                cptKey: '',
+                cptKeyList: tempCptKeyList,
+                cptPropertyList:tempCptPropertyList,
+                nameData:nameDataObj,
+                cptPropertyObj: { 
+                    type: 'bg',//具体的类型：    text chart border
+                    cptType: ''
+                },
+                cptChartIdList:tempCptChartIdList
+              }, () => {
+                {   
+                  showChartsOption(tempCptChartIdList);
+                }
+              });
+          }).catch(error => {
+            console.info(error);
+          })
+    }
 
   handleScriptCreate(obj) {
     this.setState({ scriptLoaded: false });
@@ -173,6 +234,8 @@ class Layout extends Component {
   onClickAdd(layerObj, otherObj) {
     /* test().then(res => {
       console.info(res);
+    }).catch(error => {
+
     }); */
     const id = layerObj.id;
     const type = layerObj.layerType;
@@ -206,10 +269,6 @@ class Layout extends Component {
       type: type,
       cptType: id
     };
-    let thType = '0';
-    if (otherObj && otherObj.state == 'leftAdd') {
-      thType = otherObj.thType;
-    }
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
     let chartId = -1;
@@ -218,6 +277,24 @@ class Layout extends Component {
         chartId = item.chartId;
       }
     });
+    let thType = "0";
+    let layerTempObj = {};
+    let mainKey = -1;
+    let addState = "headerAdd";
+    if(otherObj&&otherObj.state=="leftAdd"){
+        thType = otherObj.thType;
+        layerTempObj = otherObj.data;
+        mainKey = otherObj.mainKey;
+        addState = otherObj.state;
+        chartId = otherObj.data.id;
+    }
+    let addChartObj = {
+        chartId:chartId,
+        thType:thType,
+        layerObj:layerTempObj,
+        mainKey:mainKey,
+        addState:addState
+    };
     this.setState(
       {
         cptIndex: len,
@@ -226,13 +303,7 @@ class Layout extends Component {
         cptKeyList: [...this.state.cptKeyList, cptkObj],
         cptPropertyList: [...this.state.cptPropertyList, cptpObj],
         cptPropertyObj: cptpObj,
-        cptChartIdList: [
-          ...this.state.cptChartIdList,
-          {
-            chartId: chartId,
-            thType: thType
-          }
-        ]
+        cptChartIdList: [...this.state.cptChartIdList,addChartObj ]
       },
       () => {
         {
@@ -243,6 +314,18 @@ class Layout extends Component {
     );
   }
 
+  updateChartsStyle(updateState){
+    let cptIndex = this.state.cptIndex;
+    let chartObj = this.state.cptChartIdList[cptIndex];
+    let {addState,thType,layerObj,mainKey} = chartObj;
+    let otherObj = {
+      state:addState,
+      data:layerObj,
+      thType:thType,
+      mainKey:mainKey   
+    }
+    chartOption(this.state.cptType, this.state.cptKey, this, updateState, otherObj);
+  }
   ondelItemPrev(layerIndex) {
     this.setState({
       deleteAffirmFlag: true,
@@ -270,25 +353,40 @@ class Layout extends Component {
   deleteDataBaseOneLayer() {
     let _this = this;
     let cptIndex = this.state.delIndex;
-    let queryId = store.getState().showLayerDatas.cptOptionsList[cptIndex].queryId;
+    let chartObj = this.state.cptChartIdList[cptIndex];
+    let queryId = chartObj.chartId;
+    // let queryId = store.getState().showLayerDatas.cptOptionsList[cptIndex].queryId;
     let kshPageName = '';
-    let nameData = this.refs.leftComponentList.state.nameData;
-    if (nameData && nameData[0]) {
-      kshPageName = nameData[0].KSHDETAIL;
-    } else {
-      console.info('获取全局的页面名称失败');
-    }
-    let delObj = {
-      str: { delete: [{ id: queryId }] },
-      name: kshPageName
-    };
-    _this.ondelItem(cptIndex);
-    /*  delOneLayer(delObj).then(res => {
-        _this.ondelItem(cptIndex);
-        alert("删除图表成功");
+    let nameData = this.state.nameData;
+    if(nameData){
+          kshPageName = nameData.KSHDETAIL;
+      }else{
+          console.info("获取全局的页面名称失败")
+      }
+      let delObj = {
+          str: JSON.stringify({"delete":[{"id":queryId}]}),
+          name: kshPageName
+      }
+      delOneLayer(delObj).then(result => {
+        if(result.flag>0){
+          _this.ondelItem(cptIndex);
+          Modal.success({
+            title: '',
+            content: '删除图层成功',
+        });
+        }else{
+          Modal.error({
+            title: '',
+            content: '删除图层失败',
+          });
+        }
     }).catch(error => {
+      Modal.error({
+            title: '',
+            content: '删除图层失败,请求接口出错',
+        });
         console.info(error);
-    }) */
+    })
   }
   /**
    * @description: 删除指定的图层
@@ -413,7 +511,7 @@ class Layout extends Component {
       },
       () => {
         {
-          chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate');
+          this.updateChartsStyle("noUpdate")
         }
       }
     );
@@ -442,7 +540,7 @@ class Layout extends Component {
                         }) */
           cptOptionObj.layerOption[0].myMapTable.result = fieldValue;
         }
-        chartOption(this.state.cptType, this.state.cptKey, this, 'update');
+        this.updateChartsStyle("update")
       }
     } else if (tabsKey == 1) {
       // var queryId = cptOptionObj.queryId;
@@ -476,7 +574,8 @@ class Layout extends Component {
           () => {
             // console.log(`这个组合:${this.state}`);
             {
-              chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate');
+              this.updateChartsStyle("noUpdate")
+              this.editDataBaseLayerPosition(cptIndex);
             }
           }
         );
@@ -573,7 +672,7 @@ class Layout extends Component {
                 }); */
           }
           if (layerType == 'chart') {
-            chartOption(this.state.cptType, this.state.cptKey, this, 'update');
+            this.updateChartsStyle("update");
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
           }
@@ -596,6 +695,73 @@ class Layout extends Component {
       );
     }
   }
+
+      editDataBaseLayerPosition(){
+        let thType = "0";
+        let mainKey = -1;
+        let leftChartObj = this.state.cptChartIdList[this.state.cptIndex];
+        if(leftChartObj){
+          thType = leftChartObj.thType;
+          mainKey = leftChartObj.mainKey;
+          
+        }
+        let editObj = {
+          "id" : mainKey,
+          "positionData" : JSON.stringify(store.getState().showLayerDatas.showDatas)
+        }
+        editKSHChartPosition(editObj)
+        .then(result => {
+          if (result.flag == "1") {
+          /*  Modal.success({
+                title: '',
+                content: '编辑图层成功',
+            }); */
+          }else{
+          /*  Modal.error({
+              title: '',
+              content: '编辑图层失败',
+          }); */
+          }
+        }).catch(error => {
+          /* Modal.error({
+              title: '',
+              content: '编辑图层失败'+error,
+          }); */
+        })
+    }
+
+
+    /**
+    * @description: 点击当前图层的时候将当前图层选中,并将右侧配置项的内容进行同步   -- 暂时不使用
+    * @param {type}
+    * @return:
+    */
+    handleDown = e => {
+        var index = parseInt(e.currentTarget.parentNode.parentNode.getAttribute('index'));
+        // index = this.state.cptIndex;
+        const id = e.currentTarget.firstElementChild.getAttribute('id');
+        let cptkList = this.state.cptKeyList;
+        let cptpList = this.state.cptPropertyList;
+        const cptkObj = cptkList[index];
+        const cptpObj = cptpList[index];
+        const t = cptpObj.cptType ? cptpObj.cptType : 'bg';
+        //切换layerIndex位置
+        // cptkList.splice(index, 1);
+        // cptpList.splice(index, 1);
+        // cptkList.push(cptkObj);
+        // cptpList.push(cptpObj);
+        //更新strore里卖弄的数据
+        store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
+        this.updateGlobalEditData();
+        this.setState({
+          cptIndex: index,
+          cptKey: id,
+          cptType: t,
+          cptKeyList: cptkList, //组件集合
+          cptPropertyList: cptpList, //所有组件属性集合
+          cptPropertyObj: cptpObj
+        });
+    };
 
   /**
    * @description:  用来进行不同的图层之间索引的切换,更新当前点击的索引
@@ -700,7 +866,10 @@ class Layout extends Component {
                         cptIndex={this.state.cptIndex}
                         selectCliclSingleLayer={this.selectCliclSingleLayer.bind(this)}
                     /> */}
-          <LeftComponentList ref='leftComponentList' onClickAdd={this.onClickAdd.bind(this)} />
+           <LeftComponentList 
+          ref="leftComponentList"
+          onClickAdd={this.onClickAdd.bind(this)}
+          nameData={this.state.nameData}/>
           <div className='custom-content-p'>
             <div>
               
@@ -746,15 +915,17 @@ class Layout extends Component {
                       delIndex={i}
                       obj={this.state.cptPropertyList[i]}
                       handleResizeMove={this.handleResizeMove}
+                      handleDown={this.handleDown}
                       updateGlobalEditData={this.updateGlobalEditData.bind(this)}
                       del={this.ondelItemPrev.bind(this, i)}
-                      updateLayerPosition={this.updateLayerPosition.bind(this)}></Content>
+                      updateLayerPosition={this.updateLayerPosition.bind(this)}
+                      editDataSource={this.editDataBaseLayerPosition.bind(this)}></Content>
                   </div>
                 );
               })}
             </div>
           </div>
-          {/* {
+         
             <Config
               ref='rightConfig'
               changeProperties={this.changeProperties.bind(this)}
@@ -762,16 +933,16 @@ class Layout extends Component {
               cptIndex={this.state.cptIndex}
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
             />
-          } */}
+         
 
-          {
-            <PageSetting
+         
+            {/* <PageSetting
               ref='rightConfig'
               changeProperties={this.changeProperties.bind(this)}
               cptPropertyObj={this.state.cptPropertyObj}
               cptIndex={this.state.cptIndex}
-              cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}></PageSetting>
-          }
+              cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}></PageSetting> */}
+         
         </div>
         {this.state.isOpenNewWindowFlag ? (
           <Link to={this.state.showPageData} id='shouPageTo' />

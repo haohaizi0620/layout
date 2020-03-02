@@ -1,12 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-26 09:25:16
+ * @LastEditTime: 2020-02-28 18:10:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
  */
 import store from '../redux/store';
+import {getSpecify} from '../api/api';
 // import dmapgl  from './dmap-gl-dev.js';
 import {
     addCptOptionsList
@@ -26,29 +27,58 @@ const chartData = require('../datasource/chartDatas.json');
  * @return:  正常添加一个图表,否则就是移动位置改变大小，如果没有找到当前图表对应的接口id直接返回
  */
 export function chartOption(chartName, id, _this, chartState,otherObj) {
-    let layerType = "chart";
-    let chartId = 101;
-    chartData.map(item => {
-        if (item.id == chartName) {
-            layerType = item.layerType;
-            chartId = item.chartId;
-        }
-    })
-    if(otherObj&&otherObj.state=="leftAdd"){
-        chartId = otherObj.data.id;
+    var arr = window.arr ? window.arr : [];
+    var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+    var flag = false; //是否存在
+     //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
+    if (arr) {
+        arr.forEach(function (e, item) {
+            if (e == id) {
+                flag = true;
+                return false;
+            }
+        });
     }
-        var arr = window.arr ? window.arr : [];
-        var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-        var flag = false; //是否存在
-        //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
-        if (arr) {
-            arr.forEach(function (e, item) {
-                if (e == id) {
-                    flag = true;
-                    return false;
-                }
-            });
+    if(otherObj&&otherObj.state=="leftAdd"){
+        let layerObj = otherObj.data;
+        if (!flag) {
+            arr.push(id);
+            window.arr = arr;
+            addChart(layerObj,id);     
+        }else{
+                let newOptions = store.getState().showLayerDatas.cptOptionsList[_this.state.cptIndex].layerOption;
+                let tempThisObj = document.getElementById(id);
+
+                var thType = layerObj.thType;
+                if("0" == thType){//图表
+                    var e_instance = tempThisObj.getAttribute("_echarts_instance_");
+                    if (chartState == "update") {
+                        new window.dmapgl.commonlyCharts(id, {
+                            data: newOptions
+                        });
+                    } else {
+                        window.echarts.getInstanceById(e_instance).resize();
+                    }
+                }else if("1" == thType){//wms或wfs
+                    let mapObj = mapObjArr[_this.state.cptIndex]
+                    if(mapObj&&mapObj.layerId == id){
+                        if (chartState == "update") {
+                                
+                        } else {
+                            mapObj.layerMap.resize();
+                        }
+                    }
+                }      
         }
+    }else{
+        let layerType = "chart";
+        let chartId = 101;
+        chartData.map(item => {
+            if (item.id == chartName) {
+                layerType = item.layerType;
+                chartId = item.chartId;
+            }
+        })
         var layerObj = document.getElementById(id).parentNode;
         if (!flag) {
             if(layerType=="text"||layerType=="border"||layerType=="iframe"){
@@ -102,48 +132,30 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         var map;
                         var tempMap = null;
                         if (layerType == "map"||layerType=="chartMap") {
-                            /* map = new window.dmapgl.Map({
-                                container: id,
-                                zoom: 10,
-                                minZoom: 8,
-                                maxZoom: 19,
-                                fadeDuration: 0,
-                                trackResize: true,
-                                center: [503428.7804260254, 305586.30670166016],
-                                style:'http://localhost:8080/data/Vector/formal_blue/styles/style.json',
-                                // style: 'http://172.24.254.94:8080/formal_criterion/styles/root.json', //'zyzx://vector_standard/styles/style.json',// 'http://172.26.50.89/Help4Gov/Vector/vector_standard/styles/style.json',  //  
-                                localIdeographFontFamily: ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
-                            }); */
-                            /* map.on('load', function () {
-                                // fetch('http://172.24.254.94/service/Thematic?request=GetSpecify&id=156&resultType=geojson&schema=public')
-                                // fetch('http://172.24.254.94/service/Thematic?request=GetSpecify&id=156&resultType=geojson&schema=public&user=testV4&password=testV4123')
-                                //     .then(response => response.json())
-                                //     .then(function (data) {
-                                        data = mapTestData;
-                                        if(data&&data[0]){
-                                            var s = new window.dmapgl.EchartsTool(data[0],map);
-                                        }
-                                    // }).catch(e => console.log("error", e));
-                            }); */
+                            map = new window.dmapgl.Map({
+                                container :id,
+                                zoom : 8,
+                                minZoom : 8,
+                                maxZoom : 20,
+                                fadeDuration : 0,
+                                center : [ 503428.7804260254, 345586.30670166016 ],
+                                preserveDrawingBuffer:true,
+                                style : 'zyzx://formal_blue/styles/style.json',
+                                //style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+                                //localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
+                            });
+                            map.on('load', function() {
+                                getSpecify(chartId).then(result => {
+                                    store.dispatch(addCptOptionsList(chartId, result))
+                                }).catch(error => {
+                                    console.info(error);     
+                                });
+                            });
                         } else if (layerType == "chart") {
-                            if(otherObj.state=="leftAdd"){
-                                fetch(`http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${chartId}&user=public&password=public123`)
-                                .then(response => response.json())
-                                .then(function (result) {
-                                    if(result&&result[0]){
-                                        a = new window.dmapgl.commonlyCharts(id, {
-                                            data: result
-                                        });
-                                        store.dispatch(addCptOptionsList(chartId, result))
-                                    }
-                                 }).catch(e => console.log("error", e));
-                            }else{
                                 a = new window.dmapgl.commonlyCharts(id, {
                                     data: data
                                 });
                                 store.dispatch(addCptOptionsList(chartId, data))
-                            }
-                           
                         }
                         arr.push(id);
                         mapObjArr.push({
@@ -173,49 +185,119 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         window.echarts.getInstanceById(e_instance).resize();
                     }
                 } else if (layerType == "map"||layerType=="chartMap") {
-                    let tempMapObjArrs = window.mapObjArr;
-                    tempMapObjArrs.forEach(item => {
-                        if (item.layerId == id) {
-                            if (chartState == "update") {
+                    let mapObj = mapObjArr[_this.state.cptIndex]
+                    if(mapObj.layerId == id){
+                        if (chartState == "update") {
                                 
-                            } else {
-                                item.layerMap.resize();
-                            }
-        
+                        } else {
+                            mapObj.layerMap.resize();
                         }
-                    });
+                    }
                 }     
             }else{
                 
             }
         }
+    }
 }
 
 
 
 
-export function saveChartsOption(OptionId,cptOptions){
-            let layerType = "chart";
-            var a;
-            if(layerType=="text"||layerType=="border"||layerType=="iframe"){
-                let tempSaveObj = {};
-                if(layerType=="border"){
-                    
-                }else if(layerType=="text"){
-                   
-                }else if(layerType=="iframe"){
-                   
-                }
-            }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
-                        //将当前的图表数据保存起来
-                        if (layerType == "map"||layerType=="chartMap") {
-                           
-                        } else if (layerType == "chart") {
-                               
-                           
+export function showChartsOption(chartsList){
+    if(chartsList&&chartsList[0]){
+        var arr = window.arr ? window.arr : [];
+        var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+        chartsList.map(item => {
+            let chartId = item.chartId;
+            let timeKey = item.timeKey;
+            arr.push(timeKey);
+            mapObjArr.push({
+                layerId: timeKey,
+                layerMap:{}
+            });
+            getSpecify(chartId)
+                    .then(function (result) {
+                        if(result.data){
+                            console.log("接口没有数据")
+                        }else{
+                            if(result&&result[0]){
+                                new window.dmapgl.commonlyCharts(timeKey, {
+                                    data: result
+                                });
+                            }
                         }
-            }else{
-                
-            }
-         
+                        store.dispatch(addCptOptionsList(chartId, result));
+            }).catch(e => console.log("error", e));   
+        })
+        window.mapObjArr = mapObjArr;
+        window.arr = arr;
+    }
+}
+
+/**
+ * 添加图表
+ * @param data 图表数据
+ * @param n 序号
+ */
+function addChart(data,timeId){
+    var thType = data.thType;
+    var catalogId = data.id;
+    var map = {};
+	if("0" == thType){//图表
+		var type1 = data.type?data.type:'';//图表类型（饼、柱。。等）
+		if('THEMEPIE_CHART' == type1 ||'THEMERING_CHART' == type1 ){
+			/*
+			 * 一般图表
+			 * THEMEPIE_CHART（一般饼状图）
+			 * THEMERING_CHART（一般圆环图）
+			 */
+			getSpecify(catalogId).then(result => {
+                var a = new window.dmapgl.commonlyCharts(timeId,{data:result});
+                store.dispatch(addCptOptionsList(catalogId, result))
+            }).catch(error => {
+                console.info(error);     
+            });
+		}
+	}else if("1" == thType){//wms或wfs
+        var service = data.service;
+		var layername = data.layername;
+		var name = data.name;
+		var renderer = data.renderer?data.renderer:'';//wms样式
+		map = new window.dmapgl.Map({
+			container :timeId,
+			zoom : 8,
+			minZoom : 8,
+			maxZoom : 20,
+			fadeDuration : 0,
+			center : [ 503428.7804260254, 345586.30670166016 ],
+			preserveDrawingBuffer:true,
+			style : 'zyzx://formal_blue/styles/style.json',
+			//style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+			//localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
+		});
+		if(data.show == "1"){
+			map.on('load', function() {
+                getSpecify(catalogId).then(result => {
+                    store.dispatch(addCptOptionsList(catalogId, result))
+                }).catch(error => {
+                    console.info(error);     
+                });
+    		});
+		}else if(data.show == "2"){
+			map.on('load', function() {
+                getSpecify(catalogId).then(result => {
+                    store.dispatch(addCptOptionsList(catalogId, result))
+                }).catch(error => {
+                    console.info(error);     
+                });
+    		});
+		}
+    }
+    var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+    mapObjArr.push({
+        layerId: timeId,
+        layerMap:map
+    });
+    window.mapObjArr = mapObjArr;
 }

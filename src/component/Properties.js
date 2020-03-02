@@ -576,11 +576,11 @@ class Properties extends Component {
       if (tempLayerType == 'chart') {
         tempLayer = this.state.chartData;
         if (dataObj) {
-          let layerOption = dataObj.layerOption[0];
-          let resultTable = layerOption.myMapTable.result;
-          let resultVal = '';
-
-          /*  if(typeof resultTable != 'string' ){
+           /* let layerOption = dataObj.layerOption[0];
+                    let resultTable = layerOption.myMapTable.result;
+                    let resultVal = "";
+                    
+                     if(typeof resultTable != 'string' ){
                         tempLayer[0].childer[1].value = resultTable;
                         resultTable.map((tableItem,tableIndex) => {
                             resultTable[tableIndex] =  JSON.stringify(tableItem);
@@ -589,10 +589,10 @@ class Properties extends Component {
                         resultVal = layerOption.myMapTable.result;
                     }else{
                         resultVal = resultTable;
-                    } */
-          resultVal = resultTable;
-          tempLayer[0].childer[1].value = resultVal;
-          tempLayer[0].childer[0].value = resultVal;
+                    }
+                    resultVal = resultTable;
+                    tempLayer[0].childer[1].value = resultVal;
+                    tempLayer[0].childer[0].value = resultVal; */
         }
       }
       this.setState(
@@ -620,7 +620,7 @@ class Properties extends Component {
       if (tempLayerType == 'chart') {
         tempLayer = this.state.layerOneselfInfo;
         if (dataObj) {
-          let layerOption = dataObj.layerOption[0];
+         /*  let layerOption = dataObj.layerOption[0];
           tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
           let legendResult = layerOption.myLegend.result;
           let tempLegendArr = [];
@@ -647,7 +647,7 @@ class Properties extends Component {
               ]
             });
           });
-          tempLayer[1].childer = tempLegendArr;
+          tempLayer[1].childer = tempLegendArr; */
         }
       } else if (tempLayerType == 'text') {
         tempLayer = this.state.text;

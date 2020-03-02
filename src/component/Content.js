@@ -111,14 +111,12 @@ class Content extends Component {
             this.props.handleResizeMove(e)
         }
     }
+    handleEnd = (e) => {
+        this.props.editDataSource();
+    }
     handleDown = (e) => {
         if (this.isSelect()) {
             this.props.handleDown(e)
-        }
-    }
-    handleResizeEnd = (e) => {
-        if (this.isSelect()) {
-            this.props.handleResizeEnd(e)
         }
     }
 
@@ -161,7 +159,10 @@ class Content extends Component {
                         edges: {/*left: true,*/ right: true, bottom: true/*, top: true*/ }
                     }}
                     onDragMove={this.handleDragMove}
+                    onDragEnd={this.handleEnd}
+                    onDown={this.handleDown}
                     onResizeMove={this.handleResizeMove}
+                    onResizeEnd={this.handleEnd}
                     cptIndex={this.props.cptIndex}
                     delIndex={this.props.delIndex}
                     cptObj={this.props.obj}
