@@ -467,21 +467,15 @@ class Layout extends Component {
     );
   }
 
-  editItemDataBaseOneLayerPrev(layerIndex){
+  editItemDataBaseOneLayerPrev(layerIndex,tempOptionObj){
     let chartObj = this.state.cptChartIdList[layerIndex];   
     let editJson = this.getEditJson(chartObj);
-    this.editItemDataBaseOneLayer(layerIndex,editJson);
+    this.editItemDataBaseOneLayer(layerIndex,editJson,tempOptionObj);
   }
   getEditJson(chartObj) {
     let layerObj = chartObj.layerObj;
     let chartId = chartObj.chartId;
     let dataSource = store.getState().showLayerDatas.cptOptionsList[this.state.cptIndex].layerOption[0];
-    /* let dataSource = {};
-    tempLists.map(item => {
-      if(item.queryId == chartId){
-        dataSource = item.layerOption[0];
-      }
-    }) */
     let resultLegend = dataSource.myLegend.result;
     let tablenameVal = dataSource.myDataSource.result[0].DS_INFO;
     let layerName = dataSource.mapInfor.result[0].NAME;
@@ -494,6 +488,7 @@ class Layout extends Component {
     let chartPosition = "left";//图表位置
     let tongjituyszd ="运营商";
     let tempLegendData = [];//保存legend对象的数组
+    let iscbtfVal = "";
    /*  resultLegend.forEach((legendItem,legendIndex) => {
       var colorVal = legendItem.color;
       var fieldName = legendItem.value;
@@ -506,7 +501,9 @@ class Layout extends Component {
         chartType == "THEMEPYRAMID_CHART"
       ) {
         istitlebox = typeField;
+        iscbtfVal= tongjituyszd;
       } else {
+        iscbtfVal= typeField;
         if (chartType == "THEMEHISTOGRAM" || chartType == "THEMEVERTBAR_SORT") {
           istitlebox = chartPosition;
         } else {
@@ -517,7 +514,7 @@ class Layout extends Component {
         name: fieldName,
         isText: false,
         istitlebox: istitlebox,
-        iscbtf: false,
+        iscbtf: iscbtfVal,
         isfacebox: "",
         issizebox: "",
         minVal: 0,
@@ -527,7 +524,24 @@ class Layout extends Component {
         unit: unitVal
       };
       tempLegendData.push(addTempObj);
-    }); */
+    });
+   let tempLegendStr = JSON.stringify(tempLegendData);
+   var tempJsonDataObj = {
+      maxSize:0,
+      minSize:0,
+      reference:unitVal,
+      name:layerName,
+      tablename:tablenameVal,
+      type:chartType,
+      pid:pid,
+      id:layerObj.id,
+      desp:desp,
+      baseMap:baseMap,
+      legend:tempLegendStr,
+      type2:"null",
+    }
+    var tempJsonData = JSON.stringify(tempJsonDataObj);
+    return tempJsonData; */
     var json = "{\"maxSize\":\"" + 0 + "\",\"minSize\":\"" + 0 + "\",\"reference\":\"" + unitVal + "\",\"name\":\"" + layerName + "\",\"tablename\":\"" + tablenameVal + "\",\"type\":\"" + chartType + "\",\"pid\":\"" + pid + "\",\"id\":\"" + layerObj.id + "\",\"desp\":\"" + desp + "\",\"baseMap\":\"" + baseMap + "\",\"legend\":[";
 
     for (var i = 0; i < resultLegend.length; i++) {
@@ -550,18 +564,14 @@ class Layout extends Component {
   
     json = json.substring(0, json.length - 1) + "],\"type2\":\"null\"}";
     return json;
-/*     let tempLegendStr = JSON.stringify(tempLegendData);
-    var tempJsonData = `{"maxSize":${0},"minSize":${0},"reference":${unitVal},"name":${layerName},"tablename":${tablenameVal},"type":${chartType},"pid":${pid},"id":${
-      layerObj.id
-    },"desp":${desp},"baseMap":${baseMap},"legend":${tempLegendStr}],"type2":"null"}`; 
-    return tempJsonData;*/
   }
   /**
    * @description: 编辑指定的图层
    * @param {number} layerIndex 当前图层对应的index值
    * @return:
    */
-  editItemDataBaseOneLayer(layerIndex,editData){
+  editItemDataBaseOneLayer(layerIndex,editData,tempOptionObj){
+    let _this = this;
     let thType = "0";
     let leftChartObj = this.state.cptChartIdList[layerIndex];
     let timeKey = leftChartObj.timeKey;
@@ -580,25 +590,8 @@ class Layout extends Component {
             title: '',
             content: '编辑图层成功',
         }); 
-         /*  getSpecify(chartId)
-          .then(function (layerResult) {
-              if(layerResult.data){
-                  console.log("接口没有数据")
-              }else{
-                  if(layerResult&&layerResult[0]){
-                      new window.dmapgl.commonlyCharts(timeKey, {
-                          data: layerResult
-                      });
-                      let tempOptionObj = {
-                        cptIndex:layerIndex,
-                        layerOptions:layerResult
-                      }
-                      store.dispatch(editCptOptionsList(tempOptionObj));
-                  }
-              }
-          }).catch(error => {
-            
-          }) */
+        store.dispatch(editCptOptionsList(tempOptionObj));
+        _this.updateChartsStyle("update");
       }else{
         Modal.error({
             title: '',
@@ -826,18 +819,19 @@ class Layout extends Component {
             } else if (fieldEname == 'legendColor') {
               cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
             }
-              this.editItemDataBaseOneLayerPrev(cptIndex);
-          }
-          if (layerType == 'chart') {
-            this.updateChartsStyle("update");
-          } else {
-            cptOptionObj.layerOption[fieldEname] = fieldValue;
+             
           }
           let tempOptionObj = {
             cptIndex:cptIndex,
             layerOptions:cptOptionObj.layerOption
           }
-          store.dispatch(editCptOptionsList(tempOptionObj));
+          if (layerType == 'chart') {
+            this.editItemDataBaseOneLayerPrev(cptIndex,tempOptionObj); 
+          } else {
+            cptOptionObj.layerOption[fieldEname] = fieldValue;
+            store.dispatch(editCptOptionsList(tempOptionObj));
+          }
+         
         }
       }
     } else if (tabsKey == 0) {
