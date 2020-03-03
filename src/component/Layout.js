@@ -354,9 +354,16 @@ initLeftDatas(){
     this.refs.delModal.setDefaultValue(layerIndex);
   }
   editItemPrev(layerIndex){
-    let temp = store.getState().showLayerDatas.cptOptionsList;
-    let editItemOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
-    this.refs.editModal.setDefaultValue(layerIndex,editItemOption);
+    let tempChart = this.state.cptChartIdList[layerIndex];
+    let tempQueryId = tempChart.id;
+    let tempLists = store.getState().showLayerDatas.cptOptionsList;
+    let showOption = [];
+    tempLists.map(item => {
+      if(item.queryId == tempQueryId){
+        showOption = item.layerOption;
+      }
+    })
+    this.refs.editModal.setDefaultValue(layerIndex,showOption,tempChart);
   }
 
   deleteDataBaseOneLayer(delIndex) {

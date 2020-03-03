@@ -44,7 +44,7 @@ const cptPropertyObj = {
         type: 'bg',//具体的类型：    text chart border
         cptType: ''//当前对应的图层的id名
     },
-    cptOptionsList: [], //保存每个图层对应的数据 数据类型 {layerOption:{},layerIndex:1}
+    cptOptionsList: [], //保存每个图层对应的数据 数据类型 {layerOption:{},queryId:1}
     cptIndex: 0,
     specialField: {},
     bgFieldObj: {

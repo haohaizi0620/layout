@@ -10,14 +10,18 @@ class EditItemModal extends React.Component {
             editAffirmFlag: false, //控制是否显示删除提示框
             editIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
             editItemOption:[],//当前展示的图层的数据
+            chartsObj:[],//当前组件基本信息
         } 
     }
    
-    setDefaultValue(layerIndex,editItemOption){
+    setDefaultValue(layerIndex,editItemOption,tempChart){
         this.setState({
             editAffirmFlag: true,
             editIndex: layerIndex,
-            editItemOption:editItemOption
+            editItemOption:editItemOption,
+            chartsObj:tempChart,
+        },() => {
+         
         })
     }
 
@@ -59,9 +63,9 @@ class EditItemModal extends React.Component {
             ]}>
             <div>
               <EditItemConfig
-                 ref="editItemmConfig"
-                 editItemOption={this.state.editItemOption}
-              />
+                  ref="editItemmConfig"
+                  editItemOption={this.state.editItemOption}
+                />
             </div>
           </Modal>
         )
