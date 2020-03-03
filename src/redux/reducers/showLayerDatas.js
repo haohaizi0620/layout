@@ -111,6 +111,7 @@ export default function reducer(state = cptPropertyObj, action) {
             return state;
             //对保存所有的图表的option的数组进行添加
         case ADDCPTOPTIONSLIST:
+            console.log("add")
             state.cptOptionsList = [...state.cptOptionsList,{layerOption:action.layerOption,queryId:action.queryId}];
             return state;
             //对保存所有的图表的option的数组进行删除
@@ -121,10 +122,12 @@ export default function reducer(state = cptPropertyObj, action) {
             }
             return state;
         case EDITCPTOPTIONSLIST:
-            if (action.cptIndex >= 0) {
-                let tempObj = action.layerOptionsObj;
-                state.cptOptionsList[tempObj.cptIndex] = tempObj.layerOptions;
+             let layerOptionsObj = action.layerOptionsObj;
+             let cptIndex = layerOptionsObj.cptIndex;
+            if (cptIndex >= 0) {
+                state.cptOptionsList[cptIndex].layerOption = layerOptionsObj.layerOptions;
             }
+            console.log(state.cptOptionsList)
             return state;
         case SAVESHOWPAGEDATA:{
             let {cptKeyList,cptPropertyList} =  action.pageObj

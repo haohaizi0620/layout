@@ -53,100 +53,100 @@ class Layout extends Component {
     this.initLeftDatas2();
   }
 
-initLeftDatas(){
-  let tempTestData = {
-    "username":"public",
-    "data":[{
-      "id": 4,
-      "parentid": 2,
-      "name": "断裂分布图",
-      "type": "THEMEVERTBAR_SORT",
-      "service": "KSH",
-      "layername": "test",
-      "renderer": null,
-      "thType": "0",
-      "type2": null,
-      "desp": "",
-      "isText": null,
-      "showType": null,
-      "realtimeupdate": null,
-      "serialize": "{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}",
-      "show": null,
-      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
-  }, {
-      "id": 0,
-      "parentid": 2,
-      "name": "水污染",
-      "type": null,
-      "service": "KSH",
-      "layername": "testV4_水污染",
-      "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
-      "thType": "1",
-      "type2": null,
-      "desp": "",
-      "isText": null,
-      "showType": null,
-      "realtimeupdate": "false",
-      "serialize": "{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}",
-      "show": "1",
-      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
-  }, {
-      "id": 0,
-      "parentid": 2,
-      "name": "泥石流沟",
-      "type": null,
-      "service": "CCC",
-      "layername": "泥石流沟",
-      "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
-      "thType": "1",
-      "type2": null,
-      "desp": "",
-      "isText": null,
-      "showType": null,
-      "realtimeupdate": "false",
-      "serialize": "{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}",
-      "show": "1",
-      "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
-  }]
-  }
-  let resultObj = {
-      "username": "public",
-      "data": '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}","show":"1"}]'
-  }
-  // let showObjArr = JSON.parse(resultObj.data);
-  let tempCptKeyList = [];
-  let tempCptPropertyList = [];
-  let tempCptChartIdList = [];
-  let timeKey = new Date().getTime().toString();  
-  tempTestData.data.map((item,index) => {
-    timeKey++;
-    tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
-    tempCptPropertyList.push(JSON.parse(item.layerPosition));
-    tempCptChartIdList.push({
-        chartId:item.id,
-        thType:item.thType,
-        timeKey:timeKey
-    });   
-  })
-  this.setState({
-      cptIndex: -1,
-      cptType: '',
-      cptKey: '',
-      cptKeyList: tempCptKeyList,
-      cptPropertyList:tempCptPropertyList,
-      userName:tempTestData.username,
-      cptPropertyObj: { 
-          type: 'bg',//具体的类型：    text chart border
-          cptType: ''
-      },
-      cptChartIdList:tempCptChartIdList
-  }, () => {
-      {   
-        showChartsOption(tempCptChartIdList);
+    initLeftDatas(){
+      let tempTestData = {
+        "username":"public",
+        "data":[{
+          "id": 4,
+          "parentid": 2,
+          "name": "断裂分布图",
+          "type": "THEMEVERTBAR_SORT",
+          "service": "KSH",
+          "layername": "test",
+          "renderer": null,
+          "thType": "0",
+          "type2": null,
+          "desp": "",
+          "isText": null,
+          "showType": null,
+          "realtimeupdate": null,
+          "serialize": "{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}",
+          "show": null,
+          "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+      }, {
+          "id": 0,
+          "parentid": 2,
+          "name": "水污染",
+          "type": null,
+          "service": "KSH",
+          "layername": "testV4_水污染",
+          "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
+          "thType": "1",
+          "type2": null,
+          "desp": "",
+          "isText": null,
+          "showType": null,
+          "realtimeupdate": "false",
+          "serialize": "{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}",
+          "show": "1",
+          "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+      }, {
+          "id": 0,
+          "parentid": 2,
+          "name": "泥石流沟",
+          "type": null,
+          "service": "CCC",
+          "layername": "泥石流沟",
+          "renderer": "<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>",
+          "thType": "1",
+          "type2": null,
+          "desp": "",
+          "isText": null,
+          "showType": null,
+          "realtimeupdate": "false",
+          "serialize": "{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}",
+          "show": "1",
+          "layerPosition":'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
+      }]
       }
-  });
+      let resultObj = {
+          "username": "public",
+          "data": '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}","show":"1"}]'
+      }
+      // let showObjArr = JSON.parse(resultObj.data);
+      let tempCptKeyList = [];
+      let tempCptPropertyList = [];
+      let tempCptChartIdList = [];
+      let timeKey = new Date().getTime().toString();  
+      tempTestData.data.map((item,index) => {
+        timeKey++;
+        tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+        tempCptPropertyList.push(JSON.parse(item.layerPosition));
+        tempCptChartIdList.push({
+            chartId:item.id,
+            thType:item.thType,
+            timeKey:timeKey
+        });   
+      })
+      this.setState({
+          cptIndex: -1,
+          cptType: '',
+          cptKey: '',
+          cptKeyList: tempCptKeyList,
+          cptPropertyList:tempCptPropertyList,
+          userName:tempTestData.username,
+          cptPropertyObj: { 
+              type: 'bg',//具体的类型：    text chart border
+              cptType: ''
+          },
+          cptChartIdList:tempCptChartIdList
+      }, () => {
+          {   
+            showChartsOption(tempCptChartIdList);
+          }
+      });
 
-}
+    }
 
     initLeftDatas2(){
         let _this = this;
@@ -154,10 +154,11 @@ initLeftDatas(){
         if(window.parent.document.getElementById('shareID')){
         shareid = window.parent.document.getElementById('shareID').value;
         }
-        getShareById(shareid).then(result => {
-        _this.initLayer(result[0])
+        getShareById(shareid)
+        .then(result => {
+            _this.initLayer(result[0])
         }).catch(error => {
-        console.info(error);      
+            console.info(error);      
         });
     }
     initLayer(nameDataObj){
@@ -189,8 +190,9 @@ initLeftDatas(){
                 if(tempLayerPosition!=""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
                 }else{
-                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}')
+                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
                 }
+                tempLayerPosition.type = "chart";
                 tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);   
@@ -355,14 +357,14 @@ initLeftDatas(){
   }
   editItemPrev(layerIndex){
     let tempChart = this.state.cptChartIdList[layerIndex];
-    let tempQueryId = tempChart.id;
-    let tempLists = store.getState().showLayerDatas.cptOptionsList;
-    let showOption = [];
+    let tempQueryId = tempChart.chartId;
+    let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
+    /* let showOption = [];
     tempLists.map(item => {
       if(item.queryId == tempQueryId){
         showOption = item.layerOption;
       }
-    })
+    }) */
     this.refs.editModal.setDefaultValue(layerIndex,showOption,tempChart);
   }
 
@@ -371,7 +373,6 @@ initLeftDatas(){
     let cptIndex = delIndex;
     let chartObj = this.state.cptChartIdList[cptIndex];
     let queryId = chartObj.chartId;
-    // let queryId = store.getState().showLayerDatas.cptOptionsList[cptIndex].queryId;
     let kshPageName = '';
     let nameData = this.state.nameData;
     if(nameData){
@@ -466,6 +467,95 @@ initLeftDatas(){
     );
   }
 
+  editItemDataBaseOneLayerPrev(layerIndex){
+    let chartObj = this.state.cptChartIdList[layerIndex];   
+    let editJson = this.getEditJson(chartObj);
+    this.editItemDataBaseOneLayer(layerIndex,editJson);
+  }
+  getEditJson(chartObj) {
+    let layerObj = chartObj.layerObj;
+    let chartId = chartObj.chartId;
+    let dataSource = store.getState().showLayerDatas.cptOptionsList[this.state.cptIndex].layerOption[0];
+    /* let dataSource = {};
+    tempLists.map(item => {
+      if(item.queryId == chartId){
+        dataSource = item.layerOption[0];
+      }
+    }) */
+    let resultLegend = dataSource.myLegend.result;
+    let tablenameVal = dataSource.myDataSource.result[0].DS_INFO;
+    let layerName = dataSource.mapInfor.result[0].NAME;
+    let pid = "1"//window.parent.document.getElementById("kshID").value;
+    let chartType = layerObj.type//"圆环统计图";
+    let unitVal = "test";
+    var baseMap = "RESULTLAYER";
+    var desp = "";//描述
+    let typeField = "OBJECTID";
+    let chartPosition = "left";//图表位置
+    let tongjituyszd ="运营商";
+    let tempLegendData = [];//保存legend对象的数组
+   /*  resultLegend.forEach((legendItem,legendIndex) => {
+      var colorVal = legendItem.color;
+      var fieldName = legendItem.value;
+      let istitlebox = "";
+      let addTempObj = {};
+      if (
+        chartType == "THEMERING_CHART" ||
+        chartType == "THEMEPIE_CHART" ||
+        chartType == "THEMEFUNNEL_CHART" ||
+        chartType == "THEMEPYRAMID_CHART"
+      ) {
+        istitlebox = typeField;
+      } else {
+        if (chartType == "THEMEHISTOGRAM" || chartType == "THEMEVERTBAR_SORT") {
+          istitlebox = chartPosition;
+        } else {
+          istitlebox = "";
+        }
+      }
+      addTempObj = {
+        name: fieldName,
+        isText: false,
+        istitlebox: istitlebox,
+        iscbtf: false,
+        isfacebox: "",
+        issizebox: "",
+        minVal: 0,
+        maxVal: 0,
+        fieldname: fieldName,
+        color: colorVal,
+        unit: unitVal
+      };
+      tempLegendData.push(addTempObj);
+    }); */
+    var json = "{\"maxSize\":\"" + 0 + "\",\"minSize\":\"" + 0 + "\",\"reference\":\"" + unitVal + "\",\"name\":\"" + layerName + "\",\"tablename\":\"" + tablenameVal + "\",\"type\":\"" + chartType + "\",\"pid\":\"" + pid + "\",\"id\":\"" + layerObj.id + "\",\"desp\":\"" + desp + "\",\"baseMap\":\"" + baseMap + "\",\"legend\":[";
+
+    for (var i = 0; i < resultLegend.length; i++) {
+      json += "{";
+      var color = resultLegend[i].color;
+      var fieldname = resultLegend[i].value;
+      var istitlebox = "";
+      if (chartType == "THEMERING_CHART" || chartType == "THEMEPIE_CHART" || chartType=="THEMEFUNNEL_CHART"||chartType=="THEMEPYRAMID_CHART") {
+        istitlebox = typeField;
+        json += "\"name\":\"" + fieldname + "\",\"isText\":\"" + false + "\",\"istitlebox\":\"" + istitlebox + "\",\"iscbtf\":\"" + tongjituyszd + "\",\"isfacebox\":\"" + "" + "\",\"issizebox\":\"" + "" + "\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\"" + fieldname + "\",\"color\":\"" + color + "\",\"unit\":\"" + unitVal + "\"},";
+      } else {
+        if(chartType=="THEMEHISTOGRAM"||chartType=="THEMEVERTBAR_SORT"){
+          istitlebox = chartPosition;
+          json+="\"name\":\""+fieldname+"\",\"isText\":\""+false+"\",\"istitlebox\":\""+istitlebox+"\",\"iscbtf\":\""+typeField+"\",\"isfacebox\":\""+""+"\",\"issizebox\":\""+""+"\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\""+fieldname+"\",\"color\":\""+color+"\",\"unit\":\""+unitVal+"\"},";
+        }else{
+          json+="\"name\":\""+fieldname+"\",\"isText\":\""+false+"\",\"istitlebox\":\""+""+"\",\"iscbtf\":\""+typeField+"\",\"isfacebox\":\""+""+"\",\"issizebox\":\""+""+"\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\""+fieldname+"\",\"color\":\""+color+"\",\"unit\":\""+unitVal+"\"},";
+          
+        }		}
+    }
+  
+    json = json.substring(0, json.length - 1) + "],\"type2\":\"null\"}";
+    return json;
+/*     let tempLegendStr = JSON.stringify(tempLegendData);
+    var tempJsonData = `{"maxSize":${0},"minSize":${0},"reference":${unitVal},"name":${layerName},"tablename":${tablenameVal},"type":${chartType},"pid":${pid},"id":${
+      layerObj.id
+    },"desp":${desp},"baseMap":${baseMap},"legend":${tempLegendStr}],"type2":"null"}`; 
+    return tempJsonData;*/
+  }
   /**
    * @description: 编辑指定的图层
    * @param {number} layerIndex 当前图层对应的index值
@@ -490,8 +580,7 @@ initLeftDatas(){
             title: '',
             content: '编辑图层成功',
         }); 
-
-          getSpecify(chartId)
+         /*  getSpecify(chartId)
           .then(function (layerResult) {
               if(layerResult.data){
                   console.log("接口没有数据")
@@ -508,11 +597,8 @@ initLeftDatas(){
                   }
               }
           }).catch(error => {
-            Modal.error({
-                title: '',
-                content: '修改页面图层状态失败',
-            }); 
-          })
+            
+          }) */
       }else{
         Modal.error({
             title: '',
@@ -611,6 +697,13 @@ initLeftDatas(){
     const layerType = updateFieldObj.layerType;
     let cptpList = this.state.cptPropertyList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
+/*     let tempLists = store.getState().showLayerDatas.cptOptionsList;
+    let dataSource = {};
+    tempLists.map(item => {
+      if(item.queryId == chartId){
+        dataSource = item.layerOption[0];
+      }
+    }) */
     if (tabsKey == 2) {
       if (layerType == 'chart') {
         if (fieldEname == 'chartDataFile') {
@@ -733,22 +826,7 @@ initLeftDatas(){
             } else if (fieldEname == 'legendColor') {
               cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
             }
-            /* fetch("../../thematic/Edit.do", {
-                    method: "POST",
-                    headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body:  Qs.stringify({
-                        "thType" : cptIds.thType,
-                        "data" : json
-                    })
-                }).then(function(response) {
-                    if (data == "编辑成功!") {
-                        alert("编辑图表成功");
-                    }
-                }).catch(error => {
-                    console.info(error);
-                }); */
+              this.editItemDataBaseOneLayerPrev(cptIndex);
           }
           if (layerType == 'chart') {
             this.updateChartsStyle("update");
@@ -757,7 +835,7 @@ initLeftDatas(){
           }
           let tempOptionObj = {
             cptIndex:cptIndex,
-            layerOptions:cptOptionObj
+            layerOptions:cptOptionObj.layerOption
           }
           store.dispatch(editCptOptionsList(tempOptionObj));
         }
@@ -941,6 +1019,7 @@ initLeftDatas(){
           saveLayoutData={this.saveLayoutData.bind(this)}
           onClickAdd={this.onClickAdd.bind(this)}
           saveShowPageData={this.saveShowPageData.bind(this)}
+          nameData={this.state.nameData}
         />
         <div className='custom-content'>
           {/* <ComponentList
@@ -1008,6 +1087,7 @@ initLeftDatas(){
               changeProperties={this.changeProperties.bind(this)}
               cptPropertyObj={this.state.cptPropertyObj}
               cptIndex={this.state.cptIndex}
+              cptChartData={this.state.cptChartIdList[this.state.cptIndex]}
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
             />
          

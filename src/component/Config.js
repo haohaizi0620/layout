@@ -30,13 +30,24 @@ class Config extends Component {
           IconEname: 'android',
           defaultSelect: false
         }
-      ]
+      ],
+      cptChartData:{}
     };
   }
 
   changeProperties(updateFieldObj) {
     this.props.changeProperties(updateFieldObj);
   }
+  
+  componentWillReceiveProps(newProp){
+    let cptChartData = newProp.cptChartData;
+    if(cptChartData){
+        this.setState({
+          cptChartData:cptChartData,
+        })
+    }
+}
+
 
   /**
    * @description: 基本设置和数据设置之间的切换
@@ -68,6 +79,7 @@ class Config extends Component {
             <Properties
               ref='editMainCenter'
               tabsKey={0}
+              cptChartData={this.state.cptChartData}
               param={this.changeProperties.bind(this)}
               cptPropertyObj={this.props.cptPropertyObj}
               cptIndex={this.props.cptIndex}></Properties>
@@ -97,6 +109,7 @@ class Config extends Component {
                       key={item.serialNumber}>
                       <Properties
                         ref='editMainCenter'
+                        cptChartData={this.props.cptChartData}
                         param={this.changeProperties.bind(this)}
                         tabsKey={this.state.tabsKey}
                         cptPropertyObj={this.props.cptPropertyObj}

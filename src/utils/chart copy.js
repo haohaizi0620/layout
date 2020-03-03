@@ -10,8 +10,7 @@ import store from '../redux/store';
 import {getSpecify} from '../api/api';
 // import dmapgl  from './dmap-gl-dev.js';
 import {
-    addCptOptionsList,
-    editCptOptionsList
+    addCptOptionsList
 } from '../redux/actions/showLayerDatas';
 
 let chartTestData = require('../datasource/chartTestData.json');
@@ -31,7 +30,6 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
     var arr = window.arr ? window.arr : [];
     var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
     var flag = false; //是否存在
-    var addIndex = _this.state.cptChartIdList.length-1;
      //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
     if (arr) {
         arr.forEach(function (e, item) {
@@ -46,7 +44,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
         if (!flag) {
             arr.push(id);
             window.arr = arr;
-            addChart(layerObj,id,addIndex);     
+            addChart(layerObj,id);     
         }else{
                 let newOptions = store.getState().showLayerDatas.cptOptionsList[_this.state.cptIndex].layerOption;
                 let tempThisObj = document.getElementById(id);
@@ -134,7 +132,6 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         var map;
                         var tempMap = null;
                         if (layerType == "map"||layerType=="chartMap") {
-                            store.dispatch(addCptOptionsList(chartId, []))
                             map = new window.dmapgl.Map({
                                 container :id,
                                 zoom : 8,
@@ -149,11 +146,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                             });
                             map.on('load', function() {
                                 getSpecify(chartId).then(result => {
-                                    let tempOptionObj = {
-                                        cptIndex:addIndex,
-                                        layerOptions:result
-                                      }
-                                      store.dispatch(editCptOptionsList(tempOptionObj));
+                                    store.dispatch(addCptOptionsList(chartId, result))
                                 }).catch(error => {
                                     console.info(error);     
                                 });
@@ -215,7 +208,7 @@ export function showChartsOption(chartsList){
     if(chartsList&&chartsList[0]){
         var arr = window.arr ? window.arr : [];
         var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-        chartsList.map((item,index) => {
+        chartsList.map(item => {
             let chartId = item.chartId;
             let timeKey = item.timeKey;
             arr.push(timeKey);
@@ -223,7 +216,6 @@ export function showChartsOption(chartsList){
                 layerId: timeKey,
                 layerMap:{}
             });
-            store.dispatch(addCptOptionsList(chartId, []));
             getSpecify(chartId)
                     .then(function (result) {
                         if(result.data){
@@ -235,12 +227,7 @@ export function showChartsOption(chartsList){
                                 });
                             }
                         }
-                        let tempOptionObj = {
-                            cptIndex:index,
-                            layerOptions:result
-                          }
-                         store.dispatch(editCptOptionsList(tempOptionObj));
-                       
+                        store.dispatch(addCptOptionsList(chartId, result));
             }).catch(e => console.log("error", e));   
         })
         window.mapObjArr = mapObjArr;
@@ -253,7 +240,7 @@ export function showChartsOption(chartsList){
  * @param data 图表数据
  * @param n 序号
  */
-function addChart(data,timeId,addIndex){
+function addChart(data,timeId){
     var thType = data.thType;
     var catalogId = data.id;
     var map = {};
@@ -265,14 +252,9 @@ function addChart(data,timeId,addIndex){
 			 * THEMEPIE_CHART（一般饼状图）
 			 * THEMERING_CHART（一般圆环图）
 			 */
-            store.dispatch(addCptOptionsList(catalogId, []))
 			getSpecify(catalogId).then(result => {
                 var a = new window.dmapgl.commonlyCharts(timeId,{data:result});
-                let tempOptionObj = {
-                    cptIndex:addIndex,
-                    layerOptions:result
-                  }
-                 store.dispatch(editCptOptionsList(tempOptionObj));
+                store.dispatch(addCptOptionsList(catalogId, result))
             }).catch(error => {
                 console.info(error);     
             });
@@ -293,16 +275,11 @@ function addChart(data,timeId,addIndex){
 			style : 'zyzx://formal_blue/styles/style.json',
 			//style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
 			//localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
-        });
-        store.dispatch(addCptOptionsList(catalogId, []))
+		});
 		if(data.show == "1"){
 			map.on('load', function() {
                 getSpecify(catalogId).then(result => {
-                    let tempOptionObj = {
-                        cptIndex:addIndex,
-                        layerOptions:result
-                      }
-                     store.dispatch(editCptOptionsList(tempOptionObj));
+                    store.dispatch(addCptOptionsList(catalogId, result))
                 }).catch(error => {
                     console.info(error);     
                 });
@@ -310,11 +287,7 @@ function addChart(data,timeId,addIndex){
 		}else if(data.show == "2"){
 			map.on('load', function() {
                 getSpecify(catalogId).then(result => {
-                    let tempOptionObj = {
-                        cptIndex:addIndex,
-                        layerOptions:result
-                      }
-                     store.dispatch(editCptOptionsList(tempOptionObj));
+                    store.dispatch(addCptOptionsList(catalogId, result))
                 }).catch(error => {
                     console.info(error);     
                 });

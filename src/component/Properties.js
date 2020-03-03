@@ -37,6 +37,7 @@ class Properties extends Component {
       iframeUrl: ''
     };
     this.state = {
+      cptChartData:{},
       bg: [
         {
           ename: 'screenSize',
@@ -547,9 +548,27 @@ class Properties extends Component {
       layerDataSource: []
     };
   }
+
+  componentWillReceiveProps(newProp){
+      let cptChartData = newProp.cptChartData;
+      if(cptChartData){
+          this.setState({
+            cptChartData:cptChartData,
+          })
+      }
+  }
+
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
+    let cptChartData = this.props.cptChartData;
+    let chartId = cptChartData.chartId;
     let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
+   /*  let dataObj = {};
+    tempLists.map(item => {
+      if(item.queryId == chartId){
+        dataObj = item;
+      }
+    }) */
     var tempLayerType = this.props.cptPropertyObj.type;
     var tempLayer = [];
     if (tempKeyVal == 2) {
@@ -600,9 +619,9 @@ class Properties extends Component {
       if (tempLayerType == 'chart') {
         tempLayer = this.state.layerOneselfInfo;
         if (dataObj) {
-         /*  let layerOption = dataObj.layerOption[0];
+          let layerOption = dataObj.layerOption[0];
           tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
-          let legendResult = layerOption.myLegend.result;
+        /*   let legendResult = layerOption.myLegend.result;
           let tempLegendArr = [];
           legendResult.map((legendItem, itemIndex) => {
             tempLegendArr.push({

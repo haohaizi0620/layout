@@ -3,7 +3,7 @@ import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as html2canvas from 'html2canvas';
 import Qs from 'qs';
-// import { addOneLayer, addPageImage } from '../../api/api';
+import { addPageImage } from '../api/api';
 
 import {
   faCheckSquare,
@@ -44,6 +44,7 @@ class Header extends Component {
     const tempBorderStr = 'border';
     const tempIframeStr = 'iframe';
     this.state = {
+      nameData:{},
       otype: 'chart',
       ttype: 'all',
       chart: {
@@ -268,6 +269,13 @@ class Header extends Component {
     };
   }
 
+  componentWillReceiveProps(newProps){
+    let nameData = newProps.nameData;
+    if(nameData){
+      this.setState(nameData);
+    }
+  }
+
   /**
    * @description: 添加一个图层到对应的生成content组件的数据里
    * @param {type}
@@ -320,7 +328,7 @@ class Header extends Component {
     var image = new Image();
     image.src = canvas.toDataURL('image/png');
     // var kshid = $('.title2-t').attr('id');
-    var kshid = this.state.nameData[0].ID;
+    var kshid = this.state.nameData.ID;
     var name = 'img' + kshid;
     this.addImg(image.src, name);
   }
@@ -330,29 +338,12 @@ class Header extends Component {
       base64: base64,
       name: name
     };
-    /*  addPageImage(PageImageObj).then(res => {
-            alert("图片保存成功,回到主页面");
+     addPageImage(PageImageObj).then(res => {
             window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
         }).catch(error => {
             console.info(error);
             window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
-        }) */
-    // fetch("http://192.168.3.168:8080/data/share/saveImage.do", {
-    fetch('../../share/saveImage.do', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: Qs.stringify(PageImageObj)
-    })
-      .then(function(response) {
-        alert('图片保存成功,回到主页面');
-        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
-      })
-      .catch(error => {
-        console.info(error);
-        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
-      });
+        })
   }
 
   render() {
