@@ -332,7 +332,7 @@ class Layout extends Component {
       () => {
         {
           chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate', otherObj);
-          this.updateGlobalEditData();
+         
         }
       }
     );

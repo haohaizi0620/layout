@@ -620,7 +620,9 @@ class Properties extends Component {
         tempLayer = this.state.layerOneselfInfo;
         if (dataObj) {
           let layerOption = dataObj.layerOption[0];
-          tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
+          if(layerOption){
+            tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
+          }
         /*   let legendResult = layerOption.myLegend.result;
           let tempLegendArr = [];
           legendResult.map((legendItem, itemIndex) => {

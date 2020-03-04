@@ -46,7 +46,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
         if (!flag) {
             arr.push(id);
             window.arr = arr;
-            addChart(layerObj,id,addIndex);     
+            addChart(layerObj,id,addIndex,_this);     
         }else{
                 let newOptions = store.getState().showLayerDatas.cptOptionsList[_this.state.cptIndex].layerOption;
                 let tempThisObj = document.getElementById(id);
@@ -121,6 +121,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                     }
                 }
                 store.dispatch(addCptOptionsList(chartId,tempSaveObj));
+                _this.updateGlobalEditData();
             }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
                 // var url = `http://172.24.254.94/service/Thematic?request=GetSpecify&id=${chartId}&user=testV4&password=testV4123`;
                 // fetch(url)
@@ -154,6 +155,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                                         layerOptions:result
                                       }
                                       store.dispatch(editCptOptionsList(tempOptionObj));
+                                      _this.updateGlobalEditData();
                                 }).catch(error => {
                                     console.info(error);     
                                 });
@@ -253,7 +255,7 @@ export function showChartsOption(chartsList){
  * @param data 图表数据
  * @param n 序号
  */
-function addChart(data,timeId,addIndex){
+function addChart(data,timeId,addIndex,_this){
     var thType = data.thType;
     var catalogId = data.id;
     var map = {};
@@ -273,6 +275,7 @@ function addChart(data,timeId,addIndex){
                     layerOptions:result
                   }
                  store.dispatch(editCptOptionsList(tempOptionObj));
+                 _this.updateGlobalEditData();
             }).catch(error => {
                 console.info(error);     
             });
@@ -303,6 +306,7 @@ function addChart(data,timeId,addIndex){
                         layerOptions:result
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
+                     _this.updateGlobalEditData();
                 }).catch(error => {
                     console.info(error);     
                 });
@@ -315,6 +319,7 @@ function addChart(data,timeId,addIndex){
                         layerOptions:result
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
+                     _this.updateGlobalEditData();
                 }).catch(error => {
                     console.info(error);     
                 });
