@@ -287,7 +287,7 @@ class Layout extends Component {
     let mainKey = -1;
     let addState = "headerAdd";
     if(otherObj&&otherObj.state=="leftAdd"){
-        thType = otherObj.thType;
+        thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
         mainKey = otherObj.mainKey;
         addState = otherObj.state;
@@ -591,6 +591,7 @@ class Layout extends Component {
         }); 
         store.dispatch(editCptOptionsList(tempOptionObj));
         _this.updateChartsStyle("update");
+        _this.updateGlobalEditData();
       }else{
         Modal.error({
             title: '',

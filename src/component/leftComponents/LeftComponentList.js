@@ -110,7 +110,8 @@ class LeftComponentList extends Component {
           },
           {
             data: layerObj,
-            state: "leftAdd"
+            state: "leftAdd",
+            mainKey:res.mainKey,
           }
         );
         console.info(res);
