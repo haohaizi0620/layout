@@ -332,7 +332,6 @@ class Layout extends Component {
       () => {
         {
           chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate', otherObj);
-         
         }
       }
     );
@@ -684,19 +683,11 @@ class Layout extends Component {
   changeProperties(updateFieldObj) {
     const tabsKey = updateFieldObj.tabsKey;
     var cptIndex = updateFieldObj.thisIndex;
-    // cptIndex = this.state.cptIndex;
     const fieldValue = updateFieldObj.fieldValue;
     const fieldEname = updateFieldObj.fieldEname;
     const layerType = updateFieldObj.layerType;
     let cptpList = this.state.cptPropertyList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
-/*     let tempLists = store.getState().showLayerDatas.cptOptionsList;
-    let dataSource = {};
-    tempLists.map(item => {
-      if(item.queryId == chartId){
-        dataSource = item.layerOption[0];
-      }
-    }) */
     if (tabsKey == 2) {
       if (layerType == 'chart') {
         if (fieldEname == 'chartDataFile') {
@@ -709,7 +700,6 @@ class Layout extends Component {
         this.updateChartsStyle("update")
       }
     } else if (tabsKey == 1) {
-      // var queryId = cptOptionObj.queryId;
       if (
         fieldEname == 'width' ||
         fieldEname == 'height' ||

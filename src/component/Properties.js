@@ -558,6 +558,16 @@ class Properties extends Component {
       }
   }
 
+  propsParam(paramObj){
+    this.props.param({
+      fieldValue: paramObj.fieldValue,
+      fieldEname: paramObj.fieldEname,
+      thisIndex: paramObj.thisIndex,
+      layerType: paramObj.layerType,
+      tabsKey: paramObj.tabsKey
+    });
+  }
+  
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
     let cptChartData = this.props.cptChartData;
@@ -728,18 +738,19 @@ class Properties extends Component {
     if (tempKeyVal == 0) {
       layerType = 'bg';
     }
-    this.props.param({
-      fieldValue: fieldValue,
-      fieldEname: fieldEname,
-      thisIndex: this.props.cptIndex,
-      layerType: layerType,
-      tabsKey: this.props.tabsKey
-    });
-    this.updateStateVal();
+    this.propsParam(
+      {
+        fieldValue: fieldValue,
+        fieldEname: fieldEname,
+        thisIndex: this.props.cptIndex,
+        layerType: layerType,
+        tabsKey: this.props.tabsKey
+      }
+    )
   }
 
   setBgColor(layerType, eName, rgbObj) {
-    this.props.param({
+    this.propsParam({
       fieldValue: rgbObj,
       fieldEname: eName,
       thisIndex: this.props.cptIndex,
@@ -749,27 +760,32 @@ class Properties extends Component {
   }
 
   setShowPreview(imageUrl) {
-    this.props.param({
-      fieldValue: imageUrl,
-      fieldEname: 'bgImageIntegerUrl',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
-    this.props.param({
-      fieldValue: imageUrl,
-      fieldEname: 'bjImage',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
-    this.props.param({
-      fieldValue: imageUrl,
-      fieldEname: 'uploadImage',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
+    let bgImage = [
+      {
+        fieldValue: imageUrl,
+        fieldEname: 'bgImageIntegerUrl',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      },
+      {
+        fieldValue: imageUrl,
+        fieldEname: 'bjImage',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      },
+      {
+        fieldValue: imageUrl,
+        fieldEname: 'uploadImage',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      }
+    ]
+    bgImage.map((item,index) => {
+      this.propsParam(item);
+    })
   }
 
   /**
@@ -778,45 +794,41 @@ class Properties extends Component {
    * @return:
    */
   deletePageBg() {
-    this.props.param({
-      fieldValue: '无',
-      fieldEname: 'bgImageName',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
-    this.props.param({
-      fieldValue: '',
-      fieldEname: 'bgImageIntegerUrl',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
-    this.props.param({
-      fieldValue: '',
-      fieldEname: 'bjImage',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
-    this.props.param({
-      fieldValue: '',
-      fieldEname: 'uploadImage',
-      thisIndex: this.props.cptIndex,
-      layerType: 'bg',
-      tabsKey: this.props.tabsKey
-    });
+    let deletePageBgs = [
+      {
+        fieldValue: '无',
+        fieldEname: 'bgImageName',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      },
+      {
+        fieldValue: '',
+        fieldEname: 'bgImageIntegerUrl',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      },
+      {
+        fieldValue: '',
+        fieldEname: 'bjImage',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      },
+      {
+        fieldValue: '',
+        fieldEname: 'uploadImage',
+        thisIndex: this.props.cptIndex,
+        layerType: 'bg',
+        tabsKey: this.props.tabsKey
+      }
+    ];  
+    deletePageBgs.map((item,index) => {
+      this.props.param(item);
+    })
   }
 
-  /**
-   * @description: 父组件进行更新传进来的props的值的时候会进行调用的行为
-   * @param {Object} nextProps  新的props的值
-   * @return:
-   */
-  componentWillReceiveProps(nextProps) {}
-  shouldComponentUpdate() {
-    return true;
-  }
 
   callback(key) {
     // console.log(key);

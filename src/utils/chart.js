@@ -123,12 +123,6 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                 store.dispatch(addCptOptionsList(chartId,tempSaveObj));
                 _this.updateGlobalEditData();
             }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
-                // var url = `http://172.24.254.94/service/Thematic?request=GetSpecify&id=${chartId}&user=testV4&password=testV4123`;
-                // fetch(url)
-                //     .then(response => response.json())
-                //     .then(function (data) {
-                        //将当前的图表数据保存起来
-                        // chartTestData;mapTestData
                         let tempIndex = Math.ceil(Math.random()*3)-1;
                         var data = chartTestData[tempIndex];
                         var a;
@@ -173,8 +167,6 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         });
                         window.arr = arr;
                         window.mapObjArr = mapObjArr;
-                    // })
-                    // .catch(e => console.log("error", e));
             }else{
                 
             }
