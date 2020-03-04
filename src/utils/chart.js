@@ -59,7 +59,9 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                             data: newOptions
                         });
                     } else {
-                        window.echarts.getInstanceById(e_instance).resize();
+                        if(window.echarts.getInstanceById(e_instance)){
+                            window.echarts.getInstanceById(e_instance).resize();
+                        }
                     }
                 }else if("1" == thType){//wms或wfs
                     let mapObj = mapObjArr[_this.state.cptIndex]
@@ -67,7 +69,9 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         if (chartState == "update") {
                                 
                         } else {
-                            mapObj.layerMap.resize();
+                            if(mapObj.layerMap){
+                                mapObj.layerMap.resize();
+                            }
                         }
                     }
                 }      
@@ -183,7 +187,9 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                             data: newOptions
                         });
                     } else {
-                        window.echarts.getInstanceById(e_instance).resize();
+                        if(window.echarts.getInstanceById(e_instance)){
+                            window.echarts.getInstanceById(e_instance).resize();
+                        }
                     }
                 } else if (layerType == "map"||layerType=="chartMap") {
                     let mapObj = mapObjArr[_this.state.cptIndex]
@@ -191,7 +197,9 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         if (chartState == "update") {
                                 
                         } else {
-                            mapObj.layerMap.resize();
+                            if(mapObj.layerMap){
+                                mapObj.layerMap.resize();
+                            }
                         }
                     }
                 }     
