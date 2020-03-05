@@ -2,7 +2,6 @@ import './Layout.css';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
-import ComponentList from './ComponentList';
 import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,getSpecify} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
@@ -384,7 +383,6 @@ class Layout extends Component {
     let queryId = chartObj.chartId;
     let layerObj = chartObj.layerObj;
     let thType = chartObj.thType;
-    let mapNames = layerObj.vVal.split("；");
     let kshPageName = '';
     let nameData = this.state.nameData;
       if(nameData){
@@ -406,6 +404,7 @@ class Layout extends Component {
         if (thType == "0") {//图表
           sendStrVal += "{\"id\":" + queryId + "},"
         } else if (thType == "1") {
+          let mapNames = layerObj.vVal.split("；");
           sendStrVal += "{\"service\":\"" + mapNames[0] + "\",\"name\":\"" + mapNames[2] + "\",\"layername\":\"" + mapNames[1] + "\"},"
         }
         sendStrVal = sendStrVal.substring(0, sendStrVal.length - 1) + "]}";
