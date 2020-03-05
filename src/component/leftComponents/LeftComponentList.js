@@ -48,21 +48,23 @@ class LeftComponentList extends Component {
           updateIndex = cptIndex+1;
         }else{
           console.log("已经到底了");
+          return;
         }
       }else if(updateState==-1){
         if(cptIndex>0){
           updateIndex = cptIndex-1;
         }else{
           console.log("已经到顶了");
+          return;
         }
       }
-      this.props.selectSingleLayer(event, cptIndex,updateIndex,updateState);
+      this.props.selectSingleLayer(event, cptIndex,updateIndex);
     }
   }
 
 
   initLeftDatas() {
-    let tempArr = [
+    /* let tempArr = [
       {
         data:
           '[{"id":3,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
@@ -98,8 +100,8 @@ class LeftComponentList extends Component {
     tempArr[1].data = JSON.parse(tempArr[1].data);
     this.setState({
       componentData: tempArr,
-    });
-   /*  getAllZTT()
+    }); */
+    getAllZTT()
       .then(result => {
         if (result && result.length > 0) {
           for (var i = 0; i < result.length; i++) {
@@ -113,7 +115,7 @@ class LeftComponentList extends Component {
       })
       .catch(function(e) {
         console.log("fetch fail");
-      }); */
+      });
   }
 
   onClickAdd(layerObj) {
@@ -192,20 +194,20 @@ class LeftComponentList extends Component {
         </div>
         <div  className="custom-left-list-p">
                 <div className=""><span>图层（{listData?listData.length:0}）个</span> </div>
-                <div>
-                <Button  size='small' onClick={event => { this.moveShowLayer(event,-1) }}  >
-                  上移
-                </Button>
-                <Button  size='small'  onClick={event => { this.moveShowLayer(event,1) }}   >
-                  下移
-                </Button>
+                <div className="moveButton">
+                  <Button  size='small' onClick={event => { this.moveShowLayer(event,-1) }}  >
+                    上移
+                  </Button>
+                  <Button  size='small'  onClick={event => { this.moveShowLayer(event,1) }}   >
+                    下移
+                  </Button>
                 </div>
                 <div className="">
                     {
                         listData?listData.map((item, layerIndex) => {
                             return (
                                 <div key={layerIndex}    style={{backgroundColor:(layerIndex==cptIndex)?'#2483ff':''}}  onClick={event => { this.props.singleSwitchLayer(event, layerIndex) }}      >
-                                    <div  name={item.key}>{item.title}</div>
+                                    <div style={{color:'#bcc9d4'}} name={item.key}>{item.title}</div>
                                 </div>
                             )
                         }):null

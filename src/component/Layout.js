@@ -844,8 +844,28 @@ class Layout extends Component {
     * @param {type}
     * @return:
     */
-    selectSingleLayer(event,layerIndex,updateIndex,updateState){
-     /*  let state = this.state;
+    selectSingleLayer(event,layerIndex,updateIndex){
+      event.stopPropagation();
+      let arr = window.arr ? window.arr : [];
+      let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+      if (arr.length > 0) {
+        window.arr =  this.replaceData(arr,layerIndex,updateIndex);
+        window.mapObjArr =  this.replaceData(mapObjArr,layerIndex,updateIndex);
+      }
+
+      let cptOptionsList = store.getState().showLayerDatas.cptOptionsList;
+      let layOption = cptOptionsList[layerIndex];
+      let updOption = cptOptionsList[updateIndex];
+      store.dispatch(editCptOptionsList({
+        cptIndex:layerIndex,
+        layerOption:updOption
+      }));
+      store.dispatch(editCptOptionsList({
+        cptIndex:updateIndex,
+        layerOption:layOption
+      }))
+
+      let state = this.state;
       let cptIndex = state.cptIndex;
       let cptType = state.cptType;
       let cptKey = state.cptKey;
@@ -853,16 +873,14 @@ class Layout extends Component {
       let cptPropertyList = state.cptPropertyList;
       let cptChartIdList = state.cptChartIdList;
       let cptPropertyObj = state.cptPropertyObj;
-      
+      let thisChartObj = cptChartIdList[layerIndex];
       cptIndex = updateIndex;
-      this.dataArrs(cptKeyList)
-  
-
-
-      cptPropertyList
-
-
-
+      cptType = thisChartObj.chartId;
+      cptKey = thisChartObj.timeKey;
+      cptPropertyObj = cptPropertyList[layerIndex];
+      cptKeyList = this.replaceData(cptKeyList,layerIndex,updateIndex);
+      cptPropertyList = this.replaceData(cptPropertyList,layerIndex,updateIndex);
+      cptChartIdList = this.replaceData(cptChartIdList,layerIndex,updateIndex);
       this.setState({
         cptIndex: updateIndex,
         cptKey: cptKey,
@@ -872,38 +890,14 @@ class Layout extends Component {
         cptChartIdList: cptChartIdList,
         cptPropertyObj: cptPropertyObj,
       })
-
-
-      let arr = window.arr ? window.arr : [];
-      let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-      if (arr.length > 0) {
-        window.arr = arr;
-        window.mapObjArr = mapObjArr;
-      }
-
-      let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex]
-      let tempOptionObj = {
-        cptIndex:addIndex,
-        layerOption:result
-      }
-      store.dispatch(editCptOptionsList(tempOptionObj));
-
-        event.stopPropagation();
-        if(updateState==1){
-          //当前图层向下移动
-
-        }else if(updateState==-1){
-          //当前图层向上移动
-
-
-        } */
     }
 
     replaceData(dataArrays,layerIndex,updateIndex){
-      let layCptData = dataArrs[layerIndex];
-      let updCptData = dataArrs[updateIndex];
-      dataArrs[updateIndex] = layCptData;
-      dataArrs[layerIndex] = updCptData;
+      let layCptData = dataArrays[layerIndex];
+      let updCptData = dataArrays[updateIndex];
+      dataArrays[updateIndex] = layCptData;
+      dataArrays[layerIndex] = updCptData;
+      return dataArrays;
     }
 
 
