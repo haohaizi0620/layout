@@ -153,6 +153,7 @@ class EditSimpleMainInfo extends Component {
                     <Input
                       placeholder={item.placeholder}
                       key={item.ename}
+                      disabled={item.disabled?item.disabled:false}
                       onChange={event => {
                         this.updateChartField(event.target.value, item.ename);
                       }}

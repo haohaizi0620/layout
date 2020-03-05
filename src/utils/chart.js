@@ -150,7 +150,7 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                                 getSpecify(chartId).then(result => {
                                     let tempOptionObj = {
                                         cptIndex:addIndex,
-                                        layerOptions:result
+                                        layerOption:result
                                       }
                                       store.dispatch(editCptOptionsList(tempOptionObj));
                                       _this.updateGlobalEditData();
@@ -218,32 +218,66 @@ export function showChartsOption(chartsList){
         var arr = window.arr ? window.arr : [];
         var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
         chartsList.map((item,index) => {
+            let data = item.layerObj;
+            let thType  = data.thType;
             let chartId = item.chartId;
-            let timeKey = item.timeKey;
+            let timeKey = item.timeKey.toString();
+            let map = {};
+            if(thType=="0"){
+                store.dispatch(addCptOptionsList(chartId, []));
+                getSpecify(chartId)
+                        .then(function (result) {
+                            if(result.data){
+                                console.log("接口没有数据")
+                            }else{
+                                if(result&&result[0]){
+                                    new window.dmapgl.commonlyCharts(timeKey, {
+                                        data: result
+                                    });
+                                }
+                            }
+                            let tempOptionObj = {
+                                cptIndex:index,
+                                layerOption:result
+                            }
+                            store.dispatch(editCptOptionsList(tempOptionObj));
+                        
+                }).catch(e => console.log("error", e)); 
+            }else if(thType=="1"){
+                let dataShow = data.show;
+                map = new window.dmapgl.Map({
+                    container :timeKey,
+                    zoom : 8,
+                    minZoom : 8,
+                    maxZoom : 20,
+                    fadeDuration : 0,
+                    center : [ 503428.7804260254, 345586.30670166016 ],
+                    preserveDrawingBuffer:true,
+                    style : 'zyzx://formal_blue/styles/style.json',
+                    //style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+                    //localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
+                });
+                store.dispatch(addCptOptionsList(chartId, []))
+                if(dataShow == "1"||dataShow == "2"){
+                    map.on('load', function() {
+                        getSpecify(chartId).then(result => {
+                            let tempOptionObj = {
+                                cptIndex:index,
+                                layerOption:result
+                              }
+                             store.dispatch(editCptOptionsList(tempOptionObj));
+                        }).catch(error => {
+                            console.info(error);     
+                        });
+                    });
+                }
+            } 
             arr.push(timeKey);
             mapObjArr.push({
                 layerId: timeKey,
-                layerMap:{}
-            });
-            store.dispatch(addCptOptionsList(chartId, []));
-            getSpecify(chartId)
-                    .then(function (result) {
-                        if(result.data){
-                            console.log("接口没有数据")
-                        }else{
-                            if(result&&result[0]){
-                                new window.dmapgl.commonlyCharts(timeKey, {
-                                    data: result
-                                });
-                            }
-                        }
-                        let tempOptionObj = {
-                            cptIndex:index,
-                            layerOptions:result
-                          }
-                         store.dispatch(editCptOptionsList(tempOptionObj));
-                       
-            }).catch(e => console.log("error", e));   
+                layerMap:map
+            });  
+              
         })
         window.mapObjArr = mapObjArr;
         window.arr = arr;
@@ -261,7 +295,7 @@ function addChart(data,timeId,addIndex,_this){
     var map = {};
 	if("0" == thType){//图表
 		var type1 = data.type?data.type:'';//图表类型（饼、柱。。等）
-		if('THEMEPIE_CHART' == type1 ||'THEMERING_CHART' == type1 ){
+		// if('THEMEPIE_CHART' == type1 ||'THEMERING_CHART' == type1 ){
 			/*
 			 * 一般图表
 			 * THEMEPIE_CHART（一般饼状图）
@@ -272,14 +306,14 @@ function addChart(data,timeId,addIndex,_this){
                 var a = new window.dmapgl.commonlyCharts(timeId,{data:result});
                 let tempOptionObj = {
                     cptIndex:addIndex,
-                    layerOptions:result
+                    layerOption:result
                   }
                  store.dispatch(editCptOptionsList(tempOptionObj));
                  _this.updateGlobalEditData();
             }).catch(error => {
                 console.info(error);     
             });
-		}
+		// }
 	}else if("1" == thType){//wms或wfs
         var service = data.service;
 		var layername = data.layername;
@@ -303,7 +337,7 @@ function addChart(data,timeId,addIndex,_this){
                 getSpecify(catalogId).then(result => {
                     let tempOptionObj = {
                         cptIndex:addIndex,
-                        layerOptions:result
+                        layerOption:result
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
                      _this.updateGlobalEditData();
@@ -316,7 +350,7 @@ function addChart(data,timeId,addIndex,_this){
                 getSpecify(catalogId).then(result => {
                     let tempOptionObj = {
                         cptIndex:addIndex,
-                        layerOptions:result
+                        layerOption:result
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
                      _this.updateGlobalEditData();

@@ -272,7 +272,9 @@ class Header extends Component {
   componentWillReceiveProps(newProps){
     let nameData = newProps.nameData;
     if(nameData){
-      this.setState(nameData);
+      this.setState({
+        nameData:nameData
+      });
     }
   }
 
@@ -282,6 +284,7 @@ class Header extends Component {
    * @return:
    */
   onClickAdd(layerObj) {
+    
     this.props.onClickAdd(layerObj, {
       data: {},
       State: 'headerAdd'

@@ -179,6 +179,14 @@ class Layout extends Component {
             tempData.map((item,index) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
+                let thType = item.thType;
+                let vVal = "";
+                if(thType=="0"){
+                  vVal = item.id;
+                }else if(thType=="1"){
+                  vVal = item.service+"；"+item.layername+"；"+item.name;
+                }
+                item.vVal = vVal;
                 let tempCptChartObj = {
                     chartId:item.id,
                     thType:item.thType,
@@ -355,6 +363,8 @@ class Layout extends Component {
     this.refs.delModal.setDefaultValue(layerIndex);
   }
   editItemPrev(layerIndex){
+    let layerObj = this.state.cptChartIdList[layerIndex].layerObj
+    window.parent.document.getElementById("dataShow").topicEditor(layerObj,0);//contentDocument.getElementsByClassName("layers")[0].click();
     let tempChart = this.state.cptChartIdList[layerIndex];
     let tempQueryId = tempChart.chartId;
     let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
@@ -372,15 +382,35 @@ class Layout extends Component {
     let cptIndex = delIndex;
     let chartObj = this.state.cptChartIdList[cptIndex];
     let queryId = chartObj.chartId;
+    let layerObj = chartObj.layerObj;
+    let thType = chartObj.thType;
+    let mapNames = layerObj.vVal.split("；");
     let kshPageName = '';
     let nameData = this.state.nameData;
-    if(nameData){
-          kshPageName = nameData.KSHDETAIL;
+      if(nameData){
+          kshPageName = nameData.KSHNAME;
       }else{
           console.info("获取全局的页面名称失败")
       }
+     /*let sendStrVal = "";
+       if (thType == "0") {//图表
+        sendStrVal = JSON.stringify({"delete":[{"id":queryId}]});
+      } else if (thType == "1") {
+        sendStrVal = JSON.stringify({
+          service:mapNames[0],
+          name:mapNames[2],
+          layername:mapNames[1],
+        });
+      } */
+        let sendStrVal = "{\"delete\":[";
+        if (thType == "0") {//图表
+          sendStrVal += "{\"id\":" + queryId + "},"
+        } else if (thType == "1") {
+          sendStrVal += "{\"service\":\"" + mapNames[0] + "\",\"name\":\"" + mapNames[2] + "\",\"layername\":\"" + mapNames[1] + "\"},"
+        }
+        sendStrVal = sendStrVal.substring(0, sendStrVal.length - 1) + "]}";
       let delObj = {
-          str: JSON.stringify({"delete":[{"id":queryId}]}),
+          str: sendStrVal,
           name: kshPageName
       }
       delOneLayer(delObj).then(result => {
@@ -465,108 +495,22 @@ class Layout extends Component {
       }
     );
   }
-
+    /**
+   * @description: 在编辑数据之前获取编辑所需的对象,然后进行执行调用编辑接口的方法
+   * @param {number} layerIndex 当前图层对应的index值
+   * @param {Object} tempOptionObj 用来编辑成功进行更新的optionos和queryId对象
+   * @return:
+   */
   editItemDataBaseOneLayerPrev(layerIndex,tempOptionObj){
     let chartObj = this.state.cptChartIdList[layerIndex];   
-    let editJson = this.getEditJson(chartObj);
+    let editJson = this.refs.editModal.getEditJson(chartObj,tempOptionObj);
     this.editItemDataBaseOneLayer(layerIndex,editJson,tempOptionObj);
-  }
-  getEditJson(chartObj) {
-    let layerObj = chartObj.layerObj;
-    let chartId = chartObj.chartId;
-    let dataSource = store.getState().showLayerDatas.cptOptionsList[this.state.cptIndex].layerOption[0];
-    let resultLegend = dataSource.myLegend.result;
-    let tablenameVal = dataSource.myDataSource.result[0].DS_INFO;
-    let layerName = dataSource.mapInfor.result[0].NAME;
-    let pid = "1"//window.parent.document.getElementById("kshID").value;
-    let chartType = layerObj.type//"圆环统计图";
-    let unitVal = "test";
-    var baseMap = "RESULTLAYER";
-    var desp = "";//描述
-    let typeField = "OBJECTID";
-    let chartPosition = "left";//图表位置
-    let tongjituyszd ="运营商";
-    let tempLegendData = [];//保存legend对象的数组
-    let iscbtfVal = "";
-   /*  resultLegend.forEach((legendItem,legendIndex) => {
-      var colorVal = legendItem.color;
-      var fieldName = legendItem.value;
-      let istitlebox = "";
-      let addTempObj = {};
-      if (
-        chartType == "THEMERING_CHART" ||
-        chartType == "THEMEPIE_CHART" ||
-        chartType == "THEMEFUNNEL_CHART" ||
-        chartType == "THEMEPYRAMID_CHART"
-      ) {
-        istitlebox = typeField;
-        iscbtfVal= tongjituyszd;
-      } else {
-        iscbtfVal= typeField;
-        if (chartType == "THEMEHISTOGRAM" || chartType == "THEMEVERTBAR_SORT") {
-          istitlebox = chartPosition;
-        } else {
-          istitlebox = "";
-        }
-      }
-      addTempObj = {
-        name: fieldName,
-        isText: false,
-        istitlebox: istitlebox,
-        iscbtf: iscbtfVal,
-        isfacebox: "",
-        issizebox: "",
-        minVal: 0,
-        maxVal: 0,
-        fieldname: fieldName,
-        color: colorVal,
-        unit: unitVal
-      };
-      tempLegendData.push(addTempObj);
-    });
-   let tempLegendStr = JSON.stringify(tempLegendData);
-   var tempJsonDataObj = {
-      maxSize:0,
-      minSize:0,
-      reference:unitVal,
-      name:layerName,
-      tablename:tablenameVal,
-      type:chartType,
-      pid:pid,
-      id:layerObj.id,
-      desp:desp,
-      baseMap:baseMap,
-      legend:tempLegendStr,
-      type2:"null",
-    }
-    var tempJsonData = JSON.stringify(tempJsonDataObj);
-    return tempJsonData; */
-    var json = "{\"maxSize\":\"" + 0 + "\",\"minSize\":\"" + 0 + "\",\"reference\":\"" + unitVal + "\",\"name\":\"" + layerName + "\",\"tablename\":\"" + tablenameVal + "\",\"type\":\"" + chartType + "\",\"pid\":\"" + pid + "\",\"id\":\"" + layerObj.id + "\",\"desp\":\"" + desp + "\",\"baseMap\":\"" + baseMap + "\",\"legend\":[";
-
-    for (var i = 0; i < resultLegend.length; i++) {
-      json += "{";
-      var color = resultLegend[i].color;
-      var fieldname = resultLegend[i].value;
-      var istitlebox = "";
-      if (chartType == "THEMERING_CHART" || chartType == "THEMEPIE_CHART" || chartType=="THEMEFUNNEL_CHART"||chartType=="THEMEPYRAMID_CHART") {
-        istitlebox = typeField;
-        json += "\"name\":\"" + fieldname + "\",\"isText\":\"" + false + "\",\"istitlebox\":\"" + istitlebox + "\",\"iscbtf\":\"" + tongjituyszd + "\",\"isfacebox\":\"" + "" + "\",\"issizebox\":\"" + "" + "\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\"" + fieldname + "\",\"color\":\"" + color + "\",\"unit\":\"" + unitVal + "\"},";
-      } else {
-        if(chartType=="THEMEHISTOGRAM"||chartType=="THEMEVERTBAR_SORT"){
-          istitlebox = chartPosition;
-          json+="\"name\":\""+fieldname+"\",\"isText\":\""+false+"\",\"istitlebox\":\""+istitlebox+"\",\"iscbtf\":\""+typeField+"\",\"isfacebox\":\""+""+"\",\"issizebox\":\""+""+"\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\""+fieldname+"\",\"color\":\""+color+"\",\"unit\":\""+unitVal+"\"},";
-        }else{
-          json+="\"name\":\""+fieldname+"\",\"isText\":\""+false+"\",\"istitlebox\":\""+""+"\",\"iscbtf\":\""+typeField+"\",\"isfacebox\":\""+""+"\",\"issizebox\":\""+""+"\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\""+fieldname+"\",\"color\":\""+color+"\",\"unit\":\""+unitVal+"\"},";
-          
-        }		}
-    }
-  
-    json = json.substring(0, json.length - 1) + "],\"type2\":\"null\"}";
-    return json;
   }
   /**
    * @description: 编辑指定的图层
    * @param {number} layerIndex 当前图层对应的index值
+   * @param {Object} editData 用来进行编辑的json字符串
+   * @param {Object} tempOptionObj 用来编辑成功进行更新的optionos和queryId对象
    * @return:
    */
   editItemDataBaseOneLayer(layerIndex,editData,tempOptionObj){
@@ -585,29 +529,17 @@ class Layout extends Component {
     editKSHChartData(editObj)
     .then(result => {
       if (result== "编辑成功!") {
-        Modal.success({
-            title: '',
-            content: '编辑图层成功',
-        }); 
+       console.info("编辑图层成功");
         store.dispatch(editCptOptionsList(tempOptionObj));
         _this.updateChartsStyle("update");
         _this.updateGlobalEditData();
       }else{
-        Modal.error({
-            title: '',
-            content: '编辑图层失败',
-        }); 
+        console.info("编辑图层失败");
       }
       }).catch(error => {
-        Modal.error({
-            title: '',
-            content: '编辑图层失败'+error,
-        });
+        console.info("编辑图层失败");
     })
   }
-
-  
-
 
   /**
    * @description: 将存放在集合里面的数据进行更新
@@ -810,17 +742,17 @@ class Layout extends Component {
             } else if (fieldEname == 'legendColor') {
               cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
             }
-             
           }
           let tempOptionObj = {
             cptIndex:cptIndex,
-            layerOptions:cptOptionObj.layerOption
+            layerOption:cptOptionObj.layerOption
           }
           if (layerType == 'chart') {
             this.editItemDataBaseOneLayerPrev(cptIndex,tempOptionObj); 
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
             store.dispatch(editCptOptionsList(tempOptionObj));
+            this.updateGlobalEditData();
           }
          
         }
@@ -842,7 +774,7 @@ class Layout extends Component {
     }
   }
 
-  editDataBaseLayerPosition(){
+   editDataBaseLayerPosition(){
         let thType = "0";
         let mainKey = -1;
         let leftChartObj = this.state.cptChartIdList[this.state.cptIndex];
@@ -873,7 +805,7 @@ class Layout extends Component {
               content: '编辑图层失败'+error,
           }); */
         })
-    }
+   }
 
 
     /**
@@ -907,6 +839,73 @@ class Layout extends Component {
           cptPropertyObj: cptpObj
         });
     };
+   /**
+    * @description: 用来切换两个图层之间的先后顺序
+    * @param {type}
+    * @return:
+    */
+    selectSingleLayer(event,layerIndex,updateIndex,updateState){
+     /*  let state = this.state;
+      let cptIndex = state.cptIndex;
+      let cptType = state.cptType;
+      let cptKey = state.cptKey;
+      let cptKeyList = state.cptKeyList;
+      let cptPropertyList = state.cptPropertyList;
+      let cptChartIdList = state.cptChartIdList;
+      let cptPropertyObj = state.cptPropertyObj;
+      
+      cptIndex = updateIndex;
+      this.dataArrs(cptKeyList)
+  
+
+
+      cptPropertyList
+
+
+
+      this.setState({
+        cptIndex: updateIndex,
+        cptKey: cptKey,
+        cptType:cptType,
+        cptKeyList: cptKeyList,
+        cptPropertyList: cptPropertyList,
+        cptChartIdList: cptChartIdList,
+        cptPropertyObj: cptPropertyObj,
+      })
+
+
+      let arr = window.arr ? window.arr : [];
+      let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+      if (arr.length > 0) {
+        window.arr = arr;
+        window.mapObjArr = mapObjArr;
+      }
+
+      let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex]
+      let tempOptionObj = {
+        cptIndex:addIndex,
+        layerOption:result
+      }
+      store.dispatch(editCptOptionsList(tempOptionObj));
+
+        event.stopPropagation();
+        if(updateState==1){
+          //当前图层向下移动
+
+        }else if(updateState==-1){
+          //当前图层向上移动
+
+
+        } */
+    }
+
+    replaceData(dataArrays,layerIndex,updateIndex){
+      let layCptData = dataArrs[layerIndex];
+      let updCptData = dataArrs[updateIndex];
+      dataArrs[updateIndex] = layCptData;
+      dataArrs[layerIndex] = updCptData;
+    }
+
 
   /**
    * @description:  用来进行不同的图层之间索引的切换,更新当前点击的索引
@@ -914,7 +913,7 @@ class Layout extends Component {
    * @param {Strign} timeId 当前点击的图层的d
    * @return:
    */
-  singleSwitchLayer(event, layerIndex, timeId) {
+  singleSwitchLayer(event, layerIndex) {
     event.stopPropagation();
     // store.dispatch(replaceAllShowLayerFieldVal(this.state.cptPropertyList[layerIndex]));
     this.setState({ cptIndex: layerIndex }, () => {
@@ -940,48 +939,11 @@ class Layout extends Component {
    * @return:
    */
   async saveLayoutData() {
-    let s = 'a';
-    /*  fetch('http://127.0.0.1:8888/selectGetOneMainLayer/1', {
-            method: "GET",
-            mode: "cors",
-            headers:{
-                        'Accept':'application/json,text/plain,*'
-                    }
-    
-        })
-        .then(response => response.text())
-        .then(result => {
-
-        }).catch(function (e) {
-            console.log("fetch fail");
-        }); */
-    /* selectPostOneMainLayer({ layerId: 1 })
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-      }); */
-    // const islogin =  selectPostOneMainLayer({layerId:1});
-    // let {cptKeyList,cptPropertyList} = this.state;
-    // store.dispatch(saveShowPageData({
-    //     cptKeyList:cptKeyList,
-    //     cptPropertyList:cptPropertyList
-    // }));
-    // console.log(store.getState().showLayerDatas.bgFieldObj)
-    // const islogin = await addMainLayer({
-    //     layerid:14,
-    //     visualid:1,
-    //     layercname:JSON.stringify(this.state.cptKeyList),
-    //     layerename:JSON.stringify(store.getState().showLayerDatas.bgFieldObj),//JSON.stringify(this.state.cptChartIdList),
-    //     layerdatas:JSON.stringify(this.state.cptPropertyList),//所有组件定位集合
-    //     layerbasicset:JSON.stringify(store.getState().showLayerDatas.showPageData.cptOptionsList)
-    // })
-    // console.log(islogin)
+ 
   }
 
   saveShowPageData() {
-    var data = '/test/15';
+    var data = '/showPage';
     this.setState(
       {
         showPageData: data,
@@ -990,8 +952,6 @@ class Layout extends Component {
       () => {
         var win = window.open('http://localhost:3000' + data, '_blank');
         win.focus();
-        // document.getElementById("shouPageTo").setAttribute("target","_blank");
-        // document.getElementById("shouPageTo").click();
       }
     );
   }
@@ -1007,15 +967,14 @@ class Layout extends Component {
           nameData={this.state.nameData}
         />
         <div className='custom-content'>
-          {/* <ComponentList
-                        ComponentList={this.state.cptKeyList}
-                        cptIndex={this.state.cptIndex}
-                        selectCliclSingleLayer={this.selectCliclSingleLayer.bind(this)}
-                    /> */}
            <LeftComponentList 
           ref="leftComponentList"
+          nameData={this.state.nameData}
+          ComponentList={this.state.cptKeyList}
+          cptIndex={this.state.cptIndex}
           onClickAdd={this.onClickAdd.bind(this)}
-          nameData={this.state.nameData}/>
+          singleSwitchLayer={this.singleSwitchLayer.bind(this)}
+          selectSingleLayer={this.selectSingleLayer.bind(this)}/>
           <div className='custom-content-p'>
             <div>
               
@@ -1047,7 +1006,7 @@ class Layout extends Component {
                     index={i}
                     key={item.key}
                     onClick={event => {
-                      this.singleSwitchLayer(event, i, item.key);
+                      this.singleSwitchLayer(event, i);
                     }}>
                     <Content
                       id={item.key}

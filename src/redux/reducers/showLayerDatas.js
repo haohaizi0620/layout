@@ -125,7 +125,7 @@ export default function reducer(state = cptPropertyObj, action) {
              let layerOptionsObj = action.layerOptionsObj;
              let cptIndex = layerOptionsObj.cptIndex;
             if (cptIndex >= 0) {
-                state.cptOptionsList[cptIndex].layerOption = layerOptionsObj.layerOptions;
+                state.cptOptionsList[cptIndex].layerOption = layerOptionsObj.layerOption;
             }
             console.log(state.cptOptionsList)
             return state;

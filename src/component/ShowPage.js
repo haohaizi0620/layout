@@ -15,7 +15,8 @@ import {
     useParams,
     useLocation
   } from "react-router-dom";
-import {selectMainLayer,selectGetOneMainLayer} from '../api/api';
+import {getShareById,getKSHChart} from '../api/api';
+import { showChartsOption} from '../utils/chart';
 import axios from 'axios';
 import Qs from 'qs';
 // import  chartOption from "../utils/chart";
@@ -26,7 +27,7 @@ class ShowPage extends Component {
         this.state = {
             showPageData:[]
         }
-        this.initData();
+        this.initLeftData();
     }
     
     componentDidMount() {
@@ -58,29 +59,92 @@ class ShowPage extends Component {
                                         })
                                     }).catch(e => console.log("error", e));   
     }
-
+    initLeftData(){
+        let _this = this;
+        var shareid = 1;
+        if(window.parent.document.getElementById('shareID')){
+        shareid = window.parent.document.getElementById('shareID').value;
+        }
+        getShareById(shareid)
+        .then(result => {
+            _this.initLayer(result[0])
+        }).catch(error => {
+            console.info(error);      
+        });
+    }
+    initLayer(nameDataObj){
+        let _this = this;
+        let kshId = 1;
+        let kshIdObj = window.parent.document.getElementById('kshID');
+        kshIdObj?kshId=kshIdObj.value:kshIdObj=1;
+        let getKshObj = {
+          id: kshId,
+          tablename: nameDataObj.KSHNAME
+        }
+        getKSHChart(getKshObj).then(res => {
+          let tempData = JSON.parse(res.data);
+          let tempCptKeyList = [];
+          let tempCptPropertyList = [];
+          let tempCptChartIdList = [];
+          let timeKey = new Date().getTime().toString();  
+            tempData.map((item,index) => {
+                timeKey++;
+                let tempLayerPosition = item.layerPosition;
+                let tempCptChartObj = {
+                    chartId:item.id,
+                    thType:item.thType,
+                    timeKey:timeKey,
+                    mainKey:item.mainKey,
+                    addState:'defaultState',
+                    layerObj:item,
+                };
+                if(tempLayerPosition!=""){
+                  tempLayerPosition = JSON.parse(tempLayerPosition)
+                }else{
+                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
+                }
+                tempLayerPosition.type = "chart";
+                tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+                tempCptPropertyList.push(tempLayerPosition);
+                tempCptChartIdList.push(tempCptChartObj);   
+              })
+              _this.setState({
+                cptIndex: -1,
+                cptType: '',
+                cptKey: '',
+                cptKeyList: tempCptKeyList,
+                cptPropertyList:tempCptPropertyList,
+                nameData:nameDataObj,
+                cptPropertyObj: { 
+                    type: 'bg',//具体的类型：    text chart border
+                    cptType: ''
+                },
+                cptChartIdList:tempCptChartIdList
+              }, () => {
+                {   
+                  showChartsOption(tempCptChartIdList);
+                }
+              });
+          }).catch(error => {
+            console.info(error);
+          })
+    }
     render() {
-        // let { showPageData } = useParams();
-        let showPageData = this.state.showPageData;
-        let bgFieldObj = this.state.showPageData.bgFieldObj;
-        
+        let cptChartIdList = this.state.cptChartIdList;
         return (
-            <div   ref="showDiv" style={{width:bgFieldObj?bgFieldObj.bjWidth:'100%',height:bgFieldObj?bgFieldObj.bjHeight:'100%',
-            backgroundColor:bgFieldObj?bgFieldObj.bgColor:'black',
-            backgroundImage:bgFieldObj?'url('+bgFieldObj.bgImageIntegerUrl+')':'none'}} >
+            <div   ref="showDiv" style={{width:'100%',height:'100%'}} >
                    {    
-                        showPageData?showPageData.cptKeyList?showPageData.cptKeyList.map((item, i) => {
+                        cptChartIdList?cptChartIdList.map((item, i) => {
                                     return (
                                         <div index={i} key={item.key}     >
                                             <ShowContent
                                                 id={item.key}
-                                                obj={showPageData.cptPropertyList[i]}
-                                                showData={showPageData.cptOptionsList[i]}
+                                                cptObj={this.state.cptPropertyList[i]}
                                                 >
                                             </ShowContent>
                                         </div>
                                     )
-                                }):true:true
+                                }):null
                     }
             </div>
         )

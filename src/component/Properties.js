@@ -496,7 +496,8 @@ class Properties extends Component {
                   cname: '图例名称',
                   type: 'Input',
                   value: '',
-                  placeholder: '图例名称'
+                  placeholder: '图例名称',
+                  disabled:true,
                 },
                 {
                   ename: 'legendColor',
@@ -632,33 +633,34 @@ class Properties extends Component {
           let layerOption = dataObj.layerOption[0];
           if(layerOption){
             tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
-          }
-        /*   let legendResult = layerOption.myLegend.result;
-          let tempLegendArr = [];
-          legendResult.map((legendItem, itemIndex) => {
-            tempLegendArr.push({
-              ename: 'oneLegend',
-              name: '图例' + (itemIndex + 1),
-              includeSelect: false,
-              type: 'Collapse',
-              childer: [
-                {
-                  ename: 'legendName',
-                  cname: '图例名称',
-                  type: 'Input',
-                  value: legendItem.fieldName,
-                  placeholder: '图例名称'
-                },
-                {
-                  ename: 'legendColor',
-                  cname: '图例颜色',
-                  type: 'Color',
-                  value: legendItem.color
-                }
-              ]
+            let legendResult = layerOption.myLegend.result;
+            let tempLegendArr = [];
+            legendResult.map((legendItem, itemIndex) => {
+              tempLegendArr.push({
+                ename: 'oneLegend',
+                name: legendItem.fieldName,//'图例' + (itemIndex + 1),
+                includeSelect: false,
+                type: 'Collapse',
+                childer: [
+                  {
+                    ename: 'legendName',
+                    cname: '图例名称',
+                    type: 'Input',
+                    value: legendItem.fieldName,
+                    placeholder: '图例名称',
+                    disabled:true,
+                  },
+                  {
+                    ename: 'legendColor',
+                    cname: '图例颜色',
+                    type: 'Color',
+                    value: legendItem.color
+                  }
+                ]
+              });
             });
-          });
-          tempLayer[1].childer = tempLegendArr; */
+            tempLayer[1].childer = tempLegendArr;
+          }
         }
       } else if (tempLayerType == 'text') {
         tempLayer = this.state.text;

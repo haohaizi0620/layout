@@ -22,8 +22,9 @@ class SketchColor extends React.Component {
   };
 
   handleChange = color => {
-    let colorpick = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`;
-    this.setState({ color: colorpick });
+    let colorPick = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`;
+    this.setState({ color: colorPick });
+    this.props.setBgColor(colorPick);
   };
 
   render() {
@@ -44,7 +45,7 @@ class SketchColor extends React.Component {
           cursor: 'pointer'
         },
         popover: {
-          position: 'absolute',
+          // position: 'absolute',
           zIndex: '2',
           right: '0px'
         },
