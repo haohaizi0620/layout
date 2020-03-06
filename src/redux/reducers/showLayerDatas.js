@@ -13,7 +13,8 @@ import {
     ADDCPTOPTIONSLIST,
     DELCPTOPTIONSLIST,
     EDITCPTOPTIONSLIST,
-    SAVESHOWPAGEDATA
+    SAVESHOWPAGEDATA,
+    REPLACEGLOBALBG,
 } from '../actions/showLayerDatas';
 
 /*
@@ -55,9 +56,10 @@ const cptPropertyObj = {
         bgImageName:"无",
         bgImageIntegerUrl:"",
         uploadImage:"",
+        mainKey:-1
     },
     showPageData:{
-
+    
     }
 };
 /*
@@ -137,6 +139,10 @@ export default function reducer(state = cptPropertyObj, action) {
             showPageData.cptPropertyList = cptPropertyList;
             showPageData.cptOptionsList = cptOptionsList;
             state.showPageData= showPageData;
+            return state;
+        }
+        case REPLACEGLOBALBG:{
+            state.bgFieldObj = action.globalBgObj;
             return state;
         }
         default:

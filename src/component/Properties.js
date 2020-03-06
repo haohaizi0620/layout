@@ -838,13 +838,10 @@ class Properties extends Component {
 
   render() {
     var fieldDatas = [];
-    let showDatas = this.props.cptPropertyObj;
-    var type = showDatas.type;
     var tempTabsKey = this.props.tabsKey;
     if (tempTabsKey == 0) {
       fieldDatas = this.state['bg'];
     } else {
-      const cptType = showDatas.cptType;
       if (tempTabsKey == 2) {
         fieldDatas = this.state['layerDataSource'];
       } else if (tempTabsKey == 1) {

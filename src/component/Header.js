@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as html2canvas from 'html2canvas';
-import Qs from 'qs';
-import { addPageImage } from '../api/api';
-
+import { addPageImage,addOneOtherLayer } from '../api/api';
+import store from '../redux/store';
 import {
   faCheckSquare,
   faFont,
@@ -284,7 +283,59 @@ class Header extends Component {
    * @return:
    */
   onClickAdd(layerObj) {
-    
+    let layerType = layerObj.layerType;
+    if(layerType=="text"||layerType=="border"||layerType=="iframe"){
+        let shareid = window.parent.document.getElementById('shareID').value;
+        let comLengthVal = 0;
+        let comLength = this.props.comLength;
+        if(comLength){
+          comLengthVal = comLength+1;
+        }
+        let layerName = layerType+comLength;
+        let defaultLayerJson = "";
+        let defaultShowVal = {};
+        let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${comLengthVal}"}`
+        if(layerType=="text"){
+          defaultShowVal = {
+            textCenter:'标题',
+            fontFamily:'auto',
+            fontSize:30,
+            fontColor:'rgba(255,255,255,1)',
+            fontWeight:'normal',
+            textAlign:"center",
+            writingMode:"horizontal-tb",
+            hyperlinkCenter:"",
+            isNewWindow:false,
+        }
+        }else if(layerType=="border"){
+          defaultShowVal={
+            borderWidth:'1',
+            borderStyle:'solid',
+            borderColor:'rgba(255, 47, 3 ,1)'
+          }
+        }else if(layerType=="iframe"){
+          defaultShowVal={
+            iframeUrl:""
+          }
+        }
+        defaultShowVal.positionObj = JSON.parse(defaultPosition);
+        defaultLayerJson = JSON.stringify(defaultShowVal);
+        // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
+        let otherData = {
+          name: layerName,
+          type: layerType,
+          tabid: 0,
+          shareid: shareid,
+          json: defaultLayerJson,
+        }
+        addOneOtherLayer(otherData)
+        .then(result => {
+          if(result.n==1){
+              console.log("图层添加成功")
+          }
+        })
+        .catch(error => console.log(error));   
+    }
     this.props.onClickAdd(layerObj, {
       data: {},
       State: 'headerAdd'

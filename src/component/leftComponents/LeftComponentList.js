@@ -123,19 +123,22 @@ class LeftComponentList extends Component {
     let pageLayerObj = this.state.nameData;
     let thType = layerObj.thType;
     let vVal = "-1";
+    let sortNum = 0;
     if(thType=="0"){
       vVal = layerObj.id;
     }else if(thType=="1"){
       vVal = layerObj.service+"；"+layerObj.layername+"；"+layerObj.name;
     }
     layerObj.vVal = vVal;
+    
     let addLayerObj = {
       type: thType,
       pid: window.parent.document.getElementById("kshID").value,
       kshname: pageLayerObj.KSHNAME,
       kshid: pageLayerObj.ID,
       v: vVal,
-      layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
+      layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
+      // sortNumber:sortNum,
     };
     addOneLayer(addLayerObj)
       .then(res => {
@@ -144,7 +147,7 @@ class LeftComponentList extends Component {
             id: layerObj.THEMERING_CHART,
             layerType: "chart",
             text: layerObj.name,
-            simpleType: "all"
+            simpleType: ""
           },
           {
             data: layerObj,
@@ -194,7 +197,7 @@ class LeftComponentList extends Component {
         </div>
         <div  className="custom-left-list-p">
                 <div className=""><span>图层（{listData?listData.length:0}）个</span> </div>
-                <div className="moveButton">
+                <div className="move-button">
                   <Button  size='small' onClick={event => { this.moveShowLayer(event,-1) }}  >
                     上移
                   </Button>

@@ -20,7 +20,10 @@ class Child1 extends Component {
     }
     render() {
         {
-            var tempLayerType = this.props.cptObj.type;
+            let cptObj = this.props.cptObj;
+            let tempLayerType = cptObj.type;
+            let cptBorderObj = cptObj.cptBorderObj;
+            let chartData = this.props.chartData.layerData;
             return (
                 <div className={this.props.cptIndex == this.props.delIndex ? 'itemClick item' : 'item'}
                     style={{
@@ -31,25 +34,37 @@ class Child1 extends Component {
                         className="singleChart"
                         style={{
                             position: "absolute",
-                            width: this.props.cptObj.cptBorderObj.width - 20 + 'px',
-                            height: this.props.cptObj.cptBorderObj.height - 25 + 'px',
+                            width: cptBorderObj.width - 20 + 'px',
+                            height: cptBorderObj.height - 25 + 'px',
                             left: '10px',
-                            top: '20px'
+                            top: '20px',
+                            // borderWidth:chartData.borderWidth?chartData.borderWidth:'0px',
+                            // borderStyle:chartData.borderStyle?chartData.borderStyle:'',
+                            // borderColor:chartData.borderColor?chartData.borderColor:'',
+                            borderWidth:cptBorderObj.layerBorderWidth?cptBorderObj.layerBorderWidth:'0px',
+                            borderStyle:cptBorderObj.layerBorderStyle?cptBorderObj.layerBorderStyle:'',
+                            borderColor:cptBorderObj.layerBorderColor?cptBorderObj.layerBorderColor:'',
+                            textAlign:chartData.textAlign?chartData.textAlign:'',
                         }}>
                         {
-                            tempLayerType == 'text' ? <a className={'textLayer'}    target="_self" >标题</a> : ''
-                        }
-                        {
-
-                           /*  tempLayerType == 'map' || tempLayerType == 'chartMap' ?
-                                <Mymap
-                                    xWidth={this.props.cptObj.cptBorderObj.width - 20}
-                                    xHeight={this.props.cptObj.cptBorderObj.height - 25} ></Mymap> : '' */
+                            tempLayerType == 'text' ?
+                                 <a className={'textLayer'}  
+                                        src={chartData.hyperlinkCenter?chartData.hyperlinkCenter:''}
+                                        target={chartData.isNewWindow?'_blank':'_self'} 
+                                        style={{
+                                            fontSize:chartData.fontSize?chartData.fontSize:'30px',
+                                            fontFamily:chartData.fontFamily?chartData.fontFamily:'auto',
+                                            color:chartData.fontColor?chartData.fontColor:'rgba(255,255,255,1)',
+                                            fontWeight:chartData.fontWeight?chartData.fontWeight:'normal',
+                                            writingMode:chartData.writingMode?chartData.writingMode:'horizontal-tb',
+                                        }}
+                                        >{chartData.textCenter?chartData.textCenter:'标题'}
+                                </a> :null
                         }
                         {
                             tempLayerType == 'iframe'?
-                            <iframe  className='iframeObj'  height="100%" width="100%"></iframe>
-                            :true
+                                <iframe  className='iframeObj'  src={chartData.iframeUrl?chartData.iframeUrl:''}    height="100%" width="100%"></iframe>
+                            :null
                         }
                     </div>
                 </div>
@@ -173,6 +188,7 @@ class Content extends Component {
                     cptIndex={this.props.cptIndex}
                     delIndex={this.props.delIndex}
                     cptObj={this.props.obj}
+                    chartData={this.props.chartData}
                     id={this.props.id}>
                     >
                 </ReactableChild>

@@ -27,6 +27,8 @@ export function test() {
   });
 }
 
+
+
 export function getKSHChart(getKshObj) {
   return request({
     //http://localhost:8080/data/thematic/GetKSHChart.do
@@ -43,6 +45,49 @@ export function addOneLayer(addLayerObj){
     data:Qs.stringify(addLayerObj)
   });
 }
+
+
+
+//用来获取背景的数据的id,如果不存在进行添加。
+export function getBgIndex(getLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/cell/getCellByPars.do',
+    method: 'post',
+    data:Qs.stringify(getLayerObj)
+  });
+}
+
+export function getOtherLayer(getLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/cell/getCells.do',
+    method: 'post',
+    data:Qs.stringify(getLayerObj)
+  });
+}
+
+export function addOneOtherLayer(addLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/cell/addCell.do',
+    method: 'post',
+    data:Qs.stringify(addLayerObj)
+  });
+}
+
+export function editOneOtherLayer(updLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/cell/updateCell.do',
+    method: 'post',
+    data:Qs.stringify(updLayerObj)
+  });
+}
+export function delOneOtherLayer(delLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/cell/deleteCell.do',
+    method: 'post',
+    data:Qs.stringify(delLayerObj)
+  });
+}
+
 
 
 export function delOneLayer(delLayerObj){

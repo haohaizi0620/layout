@@ -2,7 +2,7 @@ import './Layout.css';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
-import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,getSpecify} from '../api/api';
+import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
@@ -22,7 +22,8 @@ import {
   replaceAllShowLayerFieldVal,
   delCptOptionsList,
   editCptOptionsList,
-  saveShowPageData
+  saveShowPageData,
+  replaceGlobalBg,
 } from '../redux/actions/showLayerDatas';
 import { Redirect } from 'react-router-dom';
 
@@ -46,6 +47,7 @@ class Layout extends Component {
       showPageData: '', //预览页面的路径
       isOpenNewWindowFlag: false,//是否打开预览页面
       nameData:{},//保存当前页面的基本信息
+      shareId:1,//当前页面需要的shareid
     };
   }
   componentDidMount() {
@@ -149,18 +151,48 @@ class Layout extends Component {
 
     initLeftDatas2(){
         let _this = this;
-        var shareid = 1;
-        if(window.parent.document.getElementById('shareID')){
-        shareid = window.parent.document.getElementById('shareID').value;
+        var shareId = 1;
+        let shareIdVal = window.parent.document.getElementById('shareID');
+        if(shareIdVal){
+          shareId = shareIdVal.value;
         }
-        getShareById(shareid)
+        getShareById(shareId)
         .then(result => {
-            _this.initLayer(result[0])
+            _this.initLayer(result[0],shareId)
         }).catch(error => {
             console.info(error);      
         });
+        getBgIndex({
+          "shareid" : shareId
+        })
+        .then(result => {
+            if(result.n <= 0){
+                let bgObj = {
+                  name: 'bg',
+                  type: 'bg',
+                  tabid: 0,
+                  shareid: shareId,
+                  json:  JSON.stringify({
+                      bgColor: 'rgba(15, 42, 67,1)',
+                      bjWidth: 1470,
+                      bjHeight: 937,
+                      bjImage:'none',
+                      bgImageName:"无",
+                      bgImageIntegerUrl:"",
+                      uploadImage:"",
+                      mainKey:-1
+                  }),
+                }
+                addOneOtherLayer(bgObj)
+                .then(res => {
+                  if(result.n==1){
+                      console.log("背景添加成功")
+                  }
+                }).catch(error => console.log(error));
+            }
+        }).catch(error => console.log(error));
     }
-    initLayer(nameDataObj){
+    initLayer(nameDataObj,shareId){
         let _this = this;
         let kshId = 1;
         let kshIdObj = window.parent.document.getElementById('kshID');
@@ -169,13 +201,16 @@ class Layout extends Component {
           id: kshId,
           tablename: nameDataObj.KSHNAME
         }
+        let OtherLayerObj = {
+          "shareid" :shareId
+        }
         getKSHChart(getKshObj).then(res => {
           let tempData = JSON.parse(res.data);
           let tempCptKeyList = [];
           let tempCptPropertyList = [];
           let tempCptChartIdList = [];
           let timeKey = new Date().getTime().toString();  
-            tempData.map((item,index) => {
+              tempData.map((item,index) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
                 let thType = item.thType;
@@ -193,6 +228,7 @@ class Layout extends Component {
                     mainKey:item.mainKey,
                     addState:'defaultState',
                     layerObj:item,
+                    layerData:{},
                 };
                 if(tempLayerPosition!=""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
@@ -204,26 +240,67 @@ class Layout extends Component {
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);   
               })
-              _this.setState({
-                cptIndex: -1,
-                cptType: '',
-                cptKey: '',
-                cptKeyList: tempCptKeyList,
-                cptPropertyList:tempCptPropertyList,
-                nameData:nameDataObj,
-                cptPropertyObj: { 
-                    type: 'bg',//具体的类型：    text chart border
-                    cptType: ''
-                },
-                cptChartIdList:tempCptChartIdList
-              }, () => {
-                {   
-                  showChartsOption(tempCptChartIdList);
-                }
-              });
-          }).catch(error => {
-            console.info(error);
-          })
+              getOtherLayer(OtherLayerObj)
+                    .then(result => {
+                      let resultData = result.list
+                      if(resultData&&resultData.length>0){
+                        let bgObj = {};
+                        resultData.map((layerItem,layerIndex) => {
+                          timeKey++;
+                          let layerType = layerItem.CELLTYPE;
+                          let layerName = layerItem.CELLNAME;
+                          let layerJsonObj = JSON.parse(layerItem.CELLJSON);
+                          let mainKey = layerItem.ID;
+                          if(layerType=="bg"){
+                            layerJsonObj.mainKey = mainKey;
+                            bgObj = layerJsonObj;
+                          }else{
+                              let positionObj = layerJsonObj.positionObj;
+                              let tempCptChartObj = {
+                                    chartId:-1,
+                                    thType:layerType,
+                                    timeKey:timeKey,
+                                    mainKey:layerItem.ID,
+                                    addState:'defaultState',
+                                    layerObj:layerItem,
+                                    layerData:layerJsonObj,
+                                };
+                                if(!positionObj&&positionObj==""){
+                                  positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
+                                }
+                                tempCptKeyList.push({ key: timeKey, id: layerName, title: layerName,layerType:layerType,simpleType:''});
+                                tempCptPropertyList.push(positionObj);
+                                tempCptChartIdList.push(tempCptChartObj); 
+                          }
+                        })
+                        store.dispatch(replaceGlobalBg(bgObj));
+                        _this.setState({
+                          globalBg: bgObj,
+                          cptIndex: -1,
+                          cptType: '',
+                          cptKey: '',
+                          cptKeyList: tempCptKeyList,
+                          cptPropertyList:tempCptPropertyList,
+                          nameData:nameDataObj,
+                          cptPropertyObj: { 
+                              type: 'bg',//具体的类型：    text chart border
+                              cptType: ''
+                          },
+                          cptChartIdList:tempCptChartIdList
+                        }, () => {
+                          {   
+                            showChartsOption(tempCptChartIdList);
+                            _this.updateGlobalEditData();
+                          }
+                        });
+
+                      }
+                    })
+                    .catch(error => console.info(error));
+              }).catch(error => {
+                  console.info(error);
+              })
+        .catch(error => console.info(error));
     }
 
   handleScriptCreate(obj) {
@@ -385,53 +462,76 @@ class Layout extends Component {
     let thType = chartObj.thType;
     let kshPageName = '';
     let nameData = this.state.nameData;
-      if(nameData){
+    if(nameData){
           kshPageName = nameData.KSHNAME;
-      }else{
+    }else{
           console.info("获取全局的页面名称失败")
-      }
-     /*let sendStrVal = "";
-       if (thType == "0") {//图表
-        sendStrVal = JSON.stringify({"delete":[{"id":queryId}]});
-      } else if (thType == "1") {
-        sendStrVal = JSON.stringify({
-          service:mapNames[0],
-          name:mapNames[2],
-          layername:mapNames[1],
-        });
-      } */
-        let sendStrVal = "{\"delete\":[";
-        if (thType == "0") {//图表
-          sendStrVal += "{\"id\":" + queryId + "},"
-        } else if (thType == "1") {
-          let mapNames = layerObj.vVal.split("；");
-          sendStrVal += "{\"service\":\"" + mapNames[0] + "\",\"name\":\"" + mapNames[2] + "\",\"layername\":\"" + mapNames[1] + "\"},"
-        }
-        sendStrVal = sendStrVal.substring(0, sendStrVal.length - 1) + "]}";
+    }
+    if(thType=="0"||thType=="1"){
+        /*let sendStrVal = "";
+          if (thType == "0") {//图表
+            sendStrVal = JSON.stringify({"delete":[{"id":queryId}]});
+          } else if (thType == "1") {
+            sendStrVal = JSON.stringify({
+              service:mapNames[0],
+              name:mapNames[2],
+              layername:mapNames[1],
+            });
+          } */
+            let sendStrVal = "{\"delete\":[";
+            if (thType == "0") {//图表
+              sendStrVal += "{\"id\":" + queryId + "},"
+            } else if (thType == "1") {
+              let mapNames = layerObj.vVal.split("；");
+              sendStrVal += "{\"service\":\"" + mapNames[0] + "\",\"name\":\"" + mapNames[2] + "\",\"layername\":\"" + mapNames[1] + "\"},"
+            }
+            sendStrVal = sendStrVal.substring(0, sendStrVal.length - 1) + "]}";
+          let delObj = {
+              str: sendStrVal,
+              name: kshPageName
+          }
+          delOneLayer(delObj).then(result => {
+            if(result.flag>0){
+              _this.ondelItem(cptIndex);
+              Modal.success({
+                title: '',
+                content: '删除图层成功',
+            });
+            }else{
+              Modal.error({
+                title: '',
+                content: '删除图层失败',
+              });
+            }
+        }).catch(error => {
+          Modal.error({
+                title: '',
+                content: '删除图层失败,请求接口出错',
+            });
+            console.info(error);
+        })
+    }else if(thType=="text"||thType=="border"||thType=="iframe"){
+      let mainKey = chartObj.mainKey;
       let delObj = {
-          str: sendStrVal,
-          name: kshPageName
+        id:mainKey
       }
-      delOneLayer(delObj).then(result => {
-        if(result.flag>0){
-          _this.ondelItem(cptIndex);
-          Modal.success({
-            title: '',
-            content: '删除图层成功',
-        });
+      delOneOtherLayer(delObj)
+      .then(result => {
+        if(result.flag==1){
+            _this.ondelItem(cptIndex);
+            Modal.success({
+              title: '',
+              content: '删除图层成功',
+          });
         }else{
           Modal.error({
             title: '',
             content: '删除图层失败',
           });
         }
-    }).catch(error => {
-      Modal.error({
-            title: '',
-            content: '删除图层失败,请求接口出错',
-        });
-        console.info(error);
-    })
+      })
+      .catch(error => console.log(error))
+    }
   }
   /**
    * @description: 删除指定的图层
@@ -613,12 +713,14 @@ class Layout extends Component {
    * @return:
    */
   changeProperties(updateFieldObj) {
+    let _this = this;
     const tabsKey = updateFieldObj.tabsKey;
     var cptIndex = updateFieldObj.thisIndex;
     const fieldValue = updateFieldObj.fieldValue;
     const fieldEname = updateFieldObj.fieldEname;
     const layerType = updateFieldObj.layerType;
     let cptpList = this.state.cptPropertyList;
+    let cptChartIdList = this.state.cptChartIdList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
     if (tabsKey == 2) {
       if (layerType == 'chart') {
@@ -751,28 +853,50 @@ class Layout extends Component {
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
             store.dispatch(editCptOptionsList(tempOptionObj));
-            this.updateGlobalEditData();
+            let layerOption = cptOptionObj.layerOption;
+            layerOption.positionObj = store.getState().showLayerDatas.showDatas;
+            let chartObj = cptChartIdList[cptIndex];
+            let mainKey = chartObj.mainKey;
+            let editObj = {
+              id: mainKey,
+              tabid: 0,
+              json: JSON.stringify(layerOption)
+            }
+            editOneOtherLayer(editObj)
+            .then(result => {
+              if(result.n==1)
+                _this.updateGlobalEditData();
+            }).catch(error =>  console.info("编辑定位error"));
           }
-         
         }
       }
     } else if (tabsKey == 0) {
-      //当前为设置背景的属性.
-      store.dispatch(updateShowLayerFieldVal(updateFieldObj));
-      this.setState(
-        {
-          globalBg: store.getState().showLayerDatas.bgFieldObj
-        },
-        () => {
-          // console.log(`这个组合:${this.state}`);
-          {
-            this.updateGlobalEditData();
-          }
+        store.dispatch(updateShowLayerFieldVal(updateFieldObj));
+        let bgObj = store.getState().showLayerDatas.bgFieldObj;
+        let editObj = {
+          id: bgObj.mainKey,
+          tabid: 0,
+          json: JSON.stringify(bgObj)
         }
-      );
+        editOneOtherLayer(editObj)
+        .then(result => {
+          if (result.n == "1") {
+            _this.setState(
+              {
+                globalBg: bgObj
+              },
+              () => {
+                _this.updateGlobalEditData();
+              }
+            );
+            console.info("编辑定位succeed");
+          }else{
+            console.info("编辑定位error");
+          }
+        }).catch(error =>  console.info("编辑定位error"));
     }
   }
-
+   
    editDataBaseLayerPosition(){
         let thType = "0";
         let mainKey = -1;
@@ -781,29 +905,37 @@ class Layout extends Component {
           thType = leftChartObj.thType;
           mainKey = leftChartObj.mainKey;
         }
-        let editObj = {
-          "id" : mainKey,
-          "positionData" : JSON.stringify(store.getState().showLayerDatas.showDatas)
-        }
-        editKSHChartPosition(editObj)
-        .then(result => {
-          if (result.flag == "1") {
-          /*  Modal.success({
-                title: '',
-                content: '编辑图层成功',
-            }); */
-          }else{
-          /*  Modal.error({
-              title: '',
-              content: '编辑图层失败',
-          }); */
+        let showDatas = store.getState().showLayerDatas.showDatas;
+        if(thType=="0"||thType=="1"){
+          let editObj = {
+            "id" : mainKey,
+            "positionData" : JSON.stringify(showDatas)
           }
-        }).catch(error => {
-          /* Modal.error({
-              title: '',
-              content: '编辑图层失败'+error,
-          }); */
-        })
+          editKSHChartPosition(editObj)
+          .then(result => {
+            if (result.flag == "1") {
+              console.info("编辑定位succeed");
+            }else{
+              console.info("编辑定位error");
+            }
+          }).catch(error =>  console.info("编辑定位error"));
+        }else if(thType=="text"||thType=="border"||thType=="iframe"){
+          let layerData = leftChartObj.layerData;
+          layerData.positionData = showDatas;
+          let editObj = {
+            id: mainKey,
+            tabid: 0,
+            json: JSON.stringify(layerData)
+          }
+          editOneOtherLayer(editObj)
+          .then(result => {
+            if (result.n == 1) {
+              console.info("编辑定位succeed");
+            }else{
+              console.info("编辑定位error");
+            }
+          }).catch(error =>  console.info("编辑定位error"));
+        }
    }
 
 
@@ -821,11 +953,6 @@ class Layout extends Component {
         const cptkObj = cptkList[index];
         const cptpObj = cptpList[index];
         const t = cptpObj.cptType ? cptpObj.cptType : 'bg';
-        //切换layerIndex位置
-        // cptkList.splice(index, 1);
-        // cptpList.splice(index, 1);
-        // cptkList.push(cptkObj);
-        // cptpList.push(cptpObj);
         //更新strore里卖弄的数据
         store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
         this.updateGlobalEditData();
@@ -838,6 +965,37 @@ class Layout extends Component {
           cptPropertyObj: cptpObj
         });
     };
+    /**
+     * @description:  用来进行不同的图层之间索引的切换,更新当前点击的索引
+     * @param {Integer} layerIndex 当前点击的图层的索引
+     * @param {Strign} timeId 当前点击的图层的d
+     * @return:
+     */
+    singleSwitchLayer(event, layerIndex) {
+      if(layerIndex==-1){
+        this.setState({ 
+          cptIndex: layerIndex,
+        }, () => {
+          {
+            this.updateGlobalEditData();
+          }
+        });
+      }else{
+        let cptPropertyObj = this.state.cptPropertyList[layerIndex];
+        event.stopPropagation();
+        store.dispatch(replaceAllShowLayerFieldVal(this.state.cptPropertyList[layerIndex]));
+        this.setState({ 
+            cptIndex: layerIndex,
+            cptPropertyObj:cptPropertyObj
+        }, () => {
+          {
+            this.updateGlobalEditData();
+          }
+        });
+      }
+      
+    }
+
    /**
     * @description: 用来切换两个图层之间的先后顺序
     * @param {type}
@@ -853,23 +1011,26 @@ class Layout extends Component {
       }
 
       let cptOptionsList = store.getState().showLayerDatas.cptOptionsList;
-      let layOption = cptOptionsList[layerIndex];
-      let updOption = cptOptionsList[updateIndex];
+      let tempOptionLists = [].concat(
+        JSON.parse(JSON.stringify(cptOptionsList))
+      );
+      let layOption = tempOptionLists[layerIndex];
+      let updOption = tempOptionLists[updateIndex];
+      
       store.dispatch(editCptOptionsList({
         cptIndex:layerIndex,
-        layerOption:updOption
+        layerOption:updOption.layerOption
       }));
       store.dispatch(editCptOptionsList({
         cptIndex:updateIndex,
-        layerOption:layOption
+        layerOption:layOption.layerOption
       }))
-
       let state = this.state;
+      let cptPropertyList = state.cptPropertyList;
       let cptIndex = state.cptIndex;
       let cptType = state.cptType;
       let cptKey = state.cptKey;
       let cptKeyList = state.cptKeyList;
-      let cptPropertyList = state.cptPropertyList;
       let cptChartIdList = state.cptChartIdList;
       let cptPropertyObj = state.cptPropertyObj;
       let thisChartObj = cptChartIdList[layerIndex];
@@ -888,6 +1049,8 @@ class Layout extends Component {
         cptPropertyList: cptPropertyList,
         cptChartIdList: cptChartIdList,
         cptPropertyObj: cptPropertyObj,
+      },() => {
+        this.updateGlobalEditData();
       })
     }
 
@@ -899,22 +1062,6 @@ class Layout extends Component {
       return dataArrays;
     }
 
-
-  /**
-   * @description:  用来进行不同的图层之间索引的切换,更新当前点击的索引
-   * @param {Integer} layerIndex 当前点击的图层的索引
-   * @param {Strign} timeId 当前点击的图层的d
-   * @return:
-   */
-  singleSwitchLayer(event, layerIndex) {
-    event.stopPropagation();
-    // store.dispatch(replaceAllShowLayerFieldVal(this.state.cptPropertyList[layerIndex]));
-    this.setState({ cptIndex: layerIndex }, () => {
-      {
-        this.updateGlobalEditData();
-      }
-    });
-  }
 
   /**
    * @description: 这个方法用于当编辑面板的数据进行改变的时候,将store的改变通知到其他的调用store的地方
@@ -958,6 +1105,7 @@ class Layout extends Component {
           onClickAdd={this.onClickAdd.bind(this)}
           saveShowPageData={this.saveShowPageData.bind(this)}
           nameData={this.state.nameData}
+          comLength={this.state.cptKeyList.length}
         />
         <div className='custom-content'>
            <LeftComponentList 
@@ -1006,6 +1154,7 @@ class Layout extends Component {
                       cptIndex={this.state.cptIndex}
                       delIndex={i}
                       obj={this.state.cptPropertyList[i]}
+                      chartData={this.state.cptChartIdList[i]}
                       handleResizeMove={this.handleResizeMove}
                       handleDown={this.handleDown}
                       updateGlobalEditData={this.updateGlobalEditData.bind(this)}
@@ -1027,8 +1176,6 @@ class Layout extends Component {
               cptChartData={this.state.cptChartIdList[this.state.cptIndex]}
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
             />
-         
-
          
             {/* <PageSetting
               ref='rightConfig'

@@ -18,6 +18,9 @@ export const EDITCPTOPTIONSLIST = "EDITCPTOPTIONSLIST";//对保存所有的图�
 
 export const SAVESHOWPAGEDATA = "SAVESHOWPAGEDATA";//将当前页面展示的图表进行保存
 
+export const REPLACEGLOBALBG = "REPLACEGLOBALBG";//将背景信息进行替换
+
+
 
 
 export function updateShowLayerFieldVal(updateFieldObj) {
@@ -29,6 +32,10 @@ export function replaceShowLayerFieldVal(showLayerObj) {
 export function replaceAllShowLayerFieldVal(showAllLayerObj) {
     return {type: REPLACEALLFIELDVAL,showAllLayerObj:showAllLayerObj}
 }
+export function replaceGlobalBg(globalBgObj) {
+    return {type: REPLACEGLOBALBG,globalBgObj:globalBgObj}
+}
+
 
 export function addCptOptionsList(queryId,layerOption) {
     return {type: ADDCPTOPTIONSLIST,layerOption:layerOption,queryId:queryId}

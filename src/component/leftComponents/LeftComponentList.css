@@ -77,3 +77,11 @@
 .custom-left-list-title-icons {
   float: right;
 }
+.move-button .ant-btn-sm {
+  color: #b6c2cd;
+  background-color: #303640 !important;
+  border-color: #303640 !important;
+  margin-right: 5px;
+  border-radius: 0px !important;
+  font-size: 12px !important;
+}

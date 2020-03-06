@@ -117,7 +117,6 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                         writingMode:"horizontal-tb",
                         hyperlinkCenter:"",
                         isNewWindow:false,
-                        
                     };
                 }else if(layerType=="iframe"){
                     tempSaveObj = {
@@ -219,8 +218,9 @@ export function showChartsOption(chartsList){
         var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
         chartsList.map((item,index) => {
             let data = item.layerObj;
-            let thType  = data.thType;
+            let thType  = item.thType;
             let chartId = item.chartId;
+            let layerData = item.layerData;
             let timeKey = item.timeKey.toString();
             let map = {};
             if(thType=="0"){
@@ -257,7 +257,7 @@ export function showChartsOption(chartsList){
                     //style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
                     //localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
                 });
-                store.dispatch(addCptOptionsList(chartId, []))
+                store.dispatch(addCptOptionsList(chartId, []));
                 if(dataShow == "1"||dataShow == "2"){
                     map.on('load', function() {
                         getSpecify(chartId).then(result => {
@@ -271,6 +271,36 @@ export function showChartsOption(chartsList){
                         });
                     });
                 }
+            }else if(thType=="text"||thType=="border"||thType=="iframe"){
+                let tempSaveObj = {};
+                if(thType=="border"){
+                    var layerObj = document.getElementById(timeKey).parentNode;
+                    layerObj.style.borderWidth = layerData.borderWidth+"px";
+                    layerObj.style.borderStyle = layerData.borderStyle;
+                    layerObj.style.borderColor = layerData.borderColor;
+                    tempSaveObj = {
+                        borderWidth:layerData.borderWidth,
+                        borderStyle:layerData.borderStyle,
+                        borderColor:layerData.borderColor
+                    }
+                }else if(thType=="text"){
+                    tempSaveObj = {
+                        textCenter:layerData.textCenter,
+                        fontFamily:layerData.fontFamily,
+                        fontSize:layerData.fontSize,
+                        fontColor:layerData.fontColor,
+                        fontWeight:layerData.fontWeight,
+                        textAlign:layerData.textAlign,
+                        writingMode:layerData.writingMode,
+                        hyperlinkCenter:layerData.hyperlinkCenter,
+                        isNewWindow:layerData.isNewWindow,
+                    };
+                }else if(thType=="iframe"){
+                    tempSaveObj = {
+                        iframeUrl:layerData.iframeUrl,
+                    }
+                }
+                store.dispatch(addCptOptionsList(chartId,tempSaveObj));
             } 
             arr.push(timeKey);
             mapObjArr.push({
@@ -332,7 +362,7 @@ function addChart(data,timeId,addIndex,_this){
 			//localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
         });
         store.dispatch(addCptOptionsList(catalogId, []))
-		if(data.show == "1"){
+		if(data.show == "1"||data.show == "2"){
 			map.on('load', function() {
                 getSpecify(catalogId).then(result => {
                     let tempOptionObj = {
@@ -341,19 +371,7 @@ function addChart(data,timeId,addIndex,_this){
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
                      _this.updateGlobalEditData();
-                }).catch(error => {
-                    console.info(error);     
-                });
-    		});
-		}else if(data.show == "2"){
-			map.on('load', function() {
-                getSpecify(catalogId).then(result => {
-                    let tempOptionObj = {
-                        cptIndex:addIndex,
-                        layerOption:result
-                      }
-                     store.dispatch(editCptOptionsList(tempOptionObj));
-                     _this.updateGlobalEditData();
+                     initMapData(map,result);
                 }).catch(error => {
                     console.info(error);     
                 });
@@ -366,4 +384,42 @@ function addChart(data,timeId,addIndex,_this){
         layerMap:map
     });
     window.mapObjArr = mapObjArr;
+}
+
+/**
+ * 将地图加载完之后,加载地图上面的数据
+ * @param map 地图对象
+ * @param data 地图加载的数据
+ */
+function initMapData(map,data){
+    var userName = getCookie("userName");
+	 /* var renderer = data.renderer;
+ 	var layername = userName+"."+data.layername;
+	var rxml = $.parseXML(renderer);
+	var group1 = $(rxml).find('GROUPRENDERER');
+    var tagName = group1[0].firstChild.tagName;
+    if('GROUPRENDERER' == tagName){
+
+    }else{
+
+    } */
+}
+
+//获取相应cookie的值
+function getCookie(cookie_name){
+    var allcookies = document.cookie;
+    var cookie_pos = allcookies.indexOf(cookie_name);//索引的长度
+    // 如果找到了索引，就代表cookie存在，
+    // 反之，就说明不存在。
+    if (cookie_pos != -1){
+        // 把cookie_pos放在值的开始，只要给值加1即可。
+        cookie_pos += cookie_name.length + 1;//这里容易出问题，所以请大家参考的时候自己好好研究一下
+        var cookie_end = allcookies.indexOf(";", cookie_pos);
+  
+        if (cookie_end == -1){
+            cookie_end = allcookies.length;
+        }
+        var value = unescape(allcookies.substring(cookie_pos, cookie_end));         //这里就可以得到你想要的cookie的值了。。。
+    }
+    return value;
 }
