@@ -48,6 +48,7 @@ class Layout extends Component {
       isOpenNewWindowFlag: false,//是否打开预览页面
       nameData:{},//保存当前页面的基本信息
       shareId:1,//当前页面需要的shareid
+      kshId:1,//当前的kshId
     };
   }
   componentDidMount() {
@@ -156,47 +157,53 @@ class Layout extends Component {
         if(shareIdVal){
           shareId = shareIdVal.value;
         }
-        getShareById(shareId)
-        .then(result => {
-            _this.initLayer(result[0],shareId)
-        }).catch(error => {
-            console.info(error);      
-        });
-        getBgIndex({
-          "shareid" : shareId
-        })
-        .then(result => {
-            if(result.n <= 0){
-                let bgObj = {
-                  name: 'bg',
-                  type: 'bg',
-                  tabid: 0,
-                  shareid: shareId,
-                  json:  JSON.stringify({
-                      bgColor: 'rgba(15, 42, 67,1)',
-                      bjWidth: 1470,
-                      bjHeight: 937,
-                      bjImage:'none',
-                      bgImageName:"无",
-                      bgImageIntegerUrl:"",
-                      uploadImage:"",
-                      mainKey:-1
-                  }),
-                }
-                addOneOtherLayer(bgObj)
-                .then(res => {
-                  if(result.n==1){
-                      console.log("背景添加成功")
-                  }
-                }).catch(error => console.log(error));
-            }
-        }).catch(error => console.log(error));
-    }
-    initLayer(nameDataObj,shareId){
-        let _this = this;
         let kshId = 1;
         let kshIdObj = window.parent.document.getElementById('kshID');
-        kshIdObj?kshId=kshIdObj.value:kshIdObj=1;
+        kshIdObj?kshId=kshIdObj.value:kshId=1;
+        this.setState({
+          shareId:shareId,
+          kshId:kshId
+        },() => {
+            getShareById(shareId)
+            .then(result => {
+                _this.initLayer(result[0],shareId,kshId)
+            }).catch(error => {
+                console.info(error);      
+            });
+            getBgIndex({
+              "shareid" : shareId
+            })
+            .then(result => {
+                if(result.n <= 0){
+                    let bgObj = {
+                      name: 'bg',
+                      type: 'bg',
+                      tabid: 0,
+                      shareid: shareId,
+                      json:  JSON.stringify({
+                          bgColor: 'rgba(15, 42, 67,1)',
+                          bjWidth: 1470,
+                          bjHeight: 937,
+                          bjImage:'none',
+                          bgImageName:"无",
+                          bgImageIntegerUrl:"",
+                          uploadImage:"",
+                          mainKey:-1
+                      }),
+                    }
+                    addOneOtherLayer(bgObj)
+                    .then(res => {
+                      if(result.n==1){
+                          console.log("背景添加成功")
+                      }
+                    }).catch(error => console.log(error));
+                }
+            }).catch(error => console.log(error));
+        })
+       
+    }
+    initLayer(nameDataObj,shareId,kshId){
+        let _this = this;
         let getKshObj = {
           id: kshId,
           tablename: nameDataObj.KSHNAME
@@ -297,10 +304,7 @@ class Layout extends Component {
                       }
                     })
                     .catch(error => console.info(error));
-              }).catch(error => {
-                  console.info(error);
-              })
-        .catch(error => console.info(error));
+        }).catch(error => console.info(error));
     }
 
   handleScriptCreate(obj) {
@@ -1084,14 +1088,17 @@ class Layout extends Component {
 
   saveShowPageData() {
     var data = '/showPage';
+    /* let kshID = window.parent.document.getElementById('kshID').value;
+    let shareId = window.parent.document.getElementById('shareId'); */
     this.setState(
       {
         showPageData: data,
         isOpenNewWindowFlag: true
       },
       () => {
-        var win = window.open( data, '_blank');
-        win.focus();
+        let state = this.state;
+        var win = window.open(`http://localhost:8080/data/dataShow/showBuild/index.html?id=${state.shareId}&kshId=${state.kshId}`, '_blank');
+        // win.focus();
       }
     );
   }
@@ -1126,7 +1133,6 @@ class Layout extends Component {
                 height: this.state.globalBg.bjHeight,
                 width: this.state.globalBg.bjWidth,
                 backgroundColor: this.state.globalBg.bgColor,
-                // backgroundImage: `url(${this.state.globalBg.bjImage})`,
                 backgroundSize: '100% 100%'
               }}
               onClick={event => {

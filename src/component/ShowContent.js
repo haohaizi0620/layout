@@ -26,6 +26,9 @@ class Child1 extends Component {
     }
     render() {
         var cptObj = this.props.cptObj;
+        let tempLayerType = cptObj.type;
+        let cptBorderObj = cptObj.cptBorderObj;
+        let chartData = this.props.chartData.layerData;    
         {
             return (
                 <div
@@ -44,15 +47,28 @@ class Child1 extends Component {
                             width: cptObj.cptBorderObj.width - 20 + 'px',
                             height: cptObj.cptBorderObj.height - 25 + 'px',
                             left: '10px',
-                            top: '20px'
+                            top: '20px',
+                            textAlign:tempLayerType == 'text' ?chartData.textAlign?chartData.textAlign:'':'',
                         }}>
-                        {
-                            /* tempLayerType == 'text' ? <a className={'textLayer'}    target={this.props.showData.hyperlinkCenter} >{this.props.showData.textCenter}</a> : '' */
+                       {
+                            tempLayerType == 'text' ?
+                                 <a className={'textLayer'}  
+                                        src={chartData.hyperlinkCenter?chartData.hyperlinkCenter:''}
+                                        target={chartData.isNewWindow?'_blank':'_self'} 
+                                        style={{
+                                            fontSize:chartData.fontSize?chartData.fontSize:'30px',
+                                            fontFamily:chartData.fontFamily?chartData.fontFamily:'auto',
+                                            color:chartData.fontColor?chartData.fontColor:'rgba(255,255,255,1)',
+                                            fontWeight:chartData.fontWeight?chartData.fontWeight:'normal',
+                                            writingMode:chartData.writingMode?chartData.writingMode:'horizontal-tb',
+                                        }}
+                                        >{chartData.textCenter?chartData.textCenter:'标题'}
+                                </a> :null
                         }
                         {
-                           /*  tempLayerType == 'iframe'?
-                            <iframe  className='iframeObj' src={this.props.showData.iframeUrl}  height="100%" width="100%"></iframe>
-                            :true */
+                            tempLayerType == 'iframe'?
+                                <iframe  className='iframeObj'  src={chartData.iframeUrl?chartData.iframeUrl:''}    height="100%" width="100%"></iframe>
+                            :null
                         }
                     </div>
                 </div>
@@ -65,11 +81,8 @@ class Child1 extends Component {
 class Content extends Component {
     constructor(props) {
         super(props);
-        let cptBorderObj = this.props.obj.cptBorderObj;
         this.state = {
-            cptBorderObj: this.props.obj.cptBorderObj,
-            left: cptBorderObj.left,
-            top: cptBorderObj.top
+            cptBorderObj: this.props.cptObj.cptBorderObj,
         };
     }
 
@@ -88,6 +101,7 @@ class Content extends Component {
                 }}>
                 <Child1
                     cptObj={cptObj}
+                    chartData={this.props.chartData}
                     id={this.props.id}>
                 </Child1>
             </div>
