@@ -88,13 +88,13 @@ class Properties extends Component {
               value: bgFieldObj.bgImageName,
               defaultOption: '无',
               optionValues: [
-                { cname: '无', value: '无' },
-                { cname: '背景一', value: '背景一' },
-                { cname: '背景二', value: '背景二' },
-                { cname: '背景三', value: '背景三' },
-                { cname: '背景四', value: '背景四' },
-                { cname: '背景五', value: '背景五' },
-                { cname: '背景六', value: '背景六' }
+                { cname: '无', value: 'none' },
+                { cname: '背景一', value: 'bg1' },
+                { cname: '背景二', value: 'bg2' },
+                { cname: '背景三', value: 'bg3' },
+                { cname: '背景四', value: 'bg4' },
+                { cname: '背景五', value: 'bg5' },
+                { cname: '背景六', value: 'bg6' }
                 /* {"cname":'无',"value":'none'},
                             {"cname":'背景一',"value":'http://localhost/kshCharsTempJs/ksh/bg1.png'},
                             {"cname":'背景二',"value":'http://localhost/kshCharsTempJs/ksh/bg2.png'},
@@ -104,7 +104,7 @@ class Properties extends Component {
                             {"cname":'背景六',"value":'http://localhost/kshCharsTempJs/ksh/bg6.png'}, */
               ]
             },
-            {
+            /* {
               ename: 'bgImageIntegerUrl',
               cname: '在线图片',
               type: 'Input',
@@ -117,7 +117,7 @@ class Properties extends Component {
               type: 'ImageUploading',
               value: bgFieldObj.uploadImage,
               optionFlag: false
-            }
+            } */
           ],
           layerType: 'bg'
         }
@@ -707,8 +707,8 @@ class Properties extends Component {
       tempBg[0].childer[1].value = bgFieldObj.bjHeight;
       tempBg[1].childer[0].value = bgFieldObj.bgColor;
       tempBg[2].childer[0].value = bgFieldObj.bgImageName;
-      tempBg[2].childer[1].value = bgFieldObj.bgImageIntegerUrl;
-      tempBg[2].childer[2].value = bgFieldObj.bgImageIntegerUrl;
+/*       tempBg[2].childer[1].value = bgFieldObj.bgImageIntegerUrl;
+      tempBg[2].childer[2].value = bgFieldObj.bgImageIntegerUrl; */
       this.setState({
         bg: tempBg
       });

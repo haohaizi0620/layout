@@ -889,11 +889,11 @@ class Layout extends Component {
                 _this.updateGlobalEditData();
               }
             );
-            console.info("编辑定位succeed");
+            console.info("编辑背景succeed");
           }else{
-            console.info("编辑定位error");
+            console.info("编辑背景error");
           }
-        }).catch(error =>  console.info("编辑定位error"));
+        }).catch(error =>  console.info("编辑背景error"));
     }
   }
    
@@ -1090,7 +1090,7 @@ class Layout extends Component {
         isOpenNewWindowFlag: true
       },
       () => {
-        var win = window.open('http://localhost:3000' + data, '_blank');
+        var win = window.open( data, '_blank');
         win.focus();
       }
     );
@@ -1121,12 +1121,12 @@ class Layout extends Component {
               
             </div>
             <div
-              className='custom-content-canvs'
+              className={'custom-content-canvs '+this.state.globalBg.bgImageName}
               style={{
                 height: this.state.globalBg.bjHeight,
                 width: this.state.globalBg.bjWidth,
                 backgroundColor: this.state.globalBg.bgColor,
-                backgroundImage: `url(${this.state.globalBg.bjImage})`,
+                // backgroundImage: `url(${this.state.globalBg.bjImage})`,
                 backgroundSize: '100% 100%'
               }}
               onClick={event => {

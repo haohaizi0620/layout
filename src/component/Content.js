@@ -38,13 +38,10 @@ class Child1 extends Component {
                             height: cptBorderObj.height - 25 + 'px',
                             left: '10px',
                             top: '20px',
-                            // borderWidth:chartData.borderWidth?chartData.borderWidth:'0px',
-                            // borderStyle:chartData.borderStyle?chartData.borderStyle:'',
-                            // borderColor:chartData.borderColor?chartData.borderColor:'',
-                            borderWidth:cptBorderObj.layerBorderWidth?cptBorderObj.layerBorderWidth:'0px',
+                            /* borderWidth:cptBorderObj.layerBorderWidth?cptBorderObj.layerBorderWidth:'0px',
                             borderStyle:cptBorderObj.layerBorderStyle?cptBorderObj.layerBorderStyle:'',
-                            borderColor:cptBorderObj.layerBorderColor?cptBorderObj.layerBorderColor:'',
-                            textAlign:chartData.textAlign?chartData.textAlign:'',
+                            borderColor:cptBorderObj.layerBorderColor?cptBorderObj.layerBorderColor:'', */
+                            textAlign:tempLayerType == 'text' ?chartData.textAlign?chartData.textAlign:'':'',
                         }}>
                         {
                             tempLayerType == 'text' ?

@@ -33,3 +33,23 @@
 .custom-content-title span {
   color: white;
 }
+
+
+.bg1{
+  background-image: url('../img/bg/bg1.png');
+}
+.bg2{
+  background-image: url('../img/bg/bg2.png');
+}
+.bg3{
+  background-image: url('../img/bg/bg3.png');
+}
+.bg4{
+  background-image: url('../img/bg/bg4.png');
+}
+.bg5{
+  background-image: url('../img/bg/bg5.png');
+}
+.bg6{
+  background-image: url('../img/bg/bg6.png');
+}

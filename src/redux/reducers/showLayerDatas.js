@@ -17,18 +17,6 @@ import {
     REPLACEGLOBALBG,
 } from '../actions/showLayerDatas';
 
-/*
- * 初始化state
- */
-const optionValues  = [
-    {"cname":'无',"value":'none'},
-    {"cname":'背景一',"value":'http://localhost/kshCharsTempJs/ksh/bg1.png'},
-    {"cname":'背景二',"value":'http://localhost/kshCharsTempJs/ksh/bg2.png'},
-    {"cname":'背景三',"value":'http://localhost/kshCharsTempJs/ksh/bg3.png'},
-    {"cname":'背景四',"value":'http://localhost/kshCharsTempJs/ksh/bg4.png'},
-    {"cname":'背景五',"value":'http://localhost/kshCharsTempJs/ksh/bg5.png'},
-    {"cname":'背景六',"value":'http://localhost/kshCharsTempJs/ksh/bg6.png'},
-]
  
 const cptPropertyObj = {
     showDatas: { //当前组件属性及内容属性
@@ -79,17 +67,8 @@ export default function reducer(state = cptPropertyObj, action) {
                     if(fieldValue!="无"){
                         state.bgFieldObj.bgImageIntegerUrl = "";
                     }
-                    optionValues.map((item,index) =>{
-                        if(item.cname==fieldValue){
-                            state.bgFieldObj.bjImage = item.value;
-                            state.bgFieldObj.uploadImage = item.value;
-                            state.bgFieldObj.ImageUploading = item.value;
-                            state.bgFieldObj.bgImageIntegerUrl = item.value;
-                        }
-                    })
                 }else if(fieldEname=="bgImageIntegerUrl"){
                     state.bgFieldObj.bgImageName = "无";
-                    state.bgFieldObj.bjImage = fieldValue;
                     state.bgFieldObj.uploadImage = fieldValue;
                     state.bgFieldObj[fieldEname] = fieldValue;
                 }else if(fieldEname=="uploadImage"){
