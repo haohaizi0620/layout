@@ -36,3 +36,7 @@
 .control-panel-container .ant-tabs {
   color: white;
 }
+
+.control-panel-container .ant-tabs-nav-wrap {
+  text-align: center;
+}

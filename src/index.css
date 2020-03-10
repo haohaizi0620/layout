@@ -9,6 +9,7 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   min-width: 1024px;
+  user-select: none;
 }
 
 * {

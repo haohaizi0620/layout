@@ -61,38 +61,36 @@ class EditSimpleMainInfo extends Component {
                     }}
                     value={tempVal}
                   />
-                  <br />
+
                   <span>{item.cname}</span>
                 </div>
               );
             } else if (itemType == 'Slider') {
               return (
-                <div className='pro-item-simple'>
-                  <Row>
-                    <Col span={12}>
-                      <Slider
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        onChange={event => {
-                          this.updateChartField(event, item.ename);
-                        }}
-                        value={typeof item.value === 'number' ? item.value : 0}
-                      />
-                    </Col>
-                    <Col span={12}>
-                      <InputNumber
-                        size='small'
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        value={item.value}
-                        onChange={event => {
-                          this.updateChartField(event, item.ename);
-                        }}
-                      />
-                    </Col>
-                  </Row>
+                <div>
+                  <div className='pro-item-simple pro-item-slider'>
+                    <Slider
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      onChange={event => {
+                        this.updateChartField(event, item.ename);
+                      }}
+                      value={typeof item.value === 'number' ? item.value : 0}
+                    />
+                  </div>
+                  <div className='pro-item-simple pro-item-number'>
+                    <InputNumber
+                      size='small'
+                      step={0.01}
+                      min={0}
+                      max={1}
+                      value={item.value}
+                      onChange={event => {
+                        this.updateChartField(event, item.ename);
+                      }}
+                    />
+                  </div>
                 </div>
               );
             } else if (itemType == 'Color') {

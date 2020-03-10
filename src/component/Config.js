@@ -89,11 +89,14 @@ class Config extends Component {
     } else {
       return (
         <div className='control-panel'>
-          <div className='control-panel-header'>
+          <div className='control-panel-header control-panel-header-bg'>
+            <span className='control-panel-header-bg-title'>组件设置</span>
+          </div>
+          {/* <div className='control-panel-header'>
             控制面板，当前操作组件下标：{this.props.cptIndex}
             <br />
             名称：{this.props.cptLayerAttr.title}
-          </div>
+          </div> */}
 
           
           <div className='control-panel-container'>
