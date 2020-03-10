@@ -49,14 +49,17 @@ body {
   border-bottom: 1px solid #000000;
 }
 .outRollback {
-  background: #2e343c;
-  border: none;
-  color: #bcc9d4;
-  position: relative;
-  left: -14px;
+  background: #2e343c !important;
+  border: none !important;
+  color: #bcc9d4 !important;
+  position: relative !important;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
 }
 .outRollback:hover {
-  background: #2e343c;
+  background: #2e343c !important;
+  color: white !important;
 }
 .custom-header .ant-btn-primary {
   color: #b6c2cd;
@@ -86,7 +89,14 @@ body {
   transform: translateY(-50%);
 }
 
+.custom-header-title {
+  width: 250px;
+  position: relative;
+}
 
+.custom-header-title .ant-btn-sm {
+  border-radius: 0;
+}
 
 .custom-header-ul {
   margin: 0;

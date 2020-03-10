@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as html2canvas from 'html2canvas';
-import { addPageImage,addOneOtherLayer } from '../api/api';
+import { addPageImage, addOneOtherLayer } from '../api/api';
 import ShareItemModal from './ModelCom/ShareItemModal';
 import store from '../redux/store';
+import '../index.css';
 import {
   faCheckSquare,
   faFont,
@@ -44,8 +45,8 @@ class Header extends Component {
     const tempBorderStr = 'border';
     const tempIframeStr = 'iframe';
     this.state = {
-      shareUrl:'',
-      nameData:{},
+      shareUrl: '',
+      nameData: {},
       otype: 'chart',
       ttype: 'all',
       chart: {
@@ -270,11 +271,11 @@ class Header extends Component {
     };
   }
 
-  componentWillReceiveProps(newProps){
+  componentWillReceiveProps(newProps) {
     let nameData = newProps.nameData;
-    if(nameData){
+    if (nameData) {
       this.setState({
-        nameData:nameData
+        nameData: nameData
       });
     }
   }
@@ -286,57 +287,57 @@ class Header extends Component {
    */
   onClickAdd(layerObj) {
     let layerType = layerObj.layerType;
-    if(layerType=="text"||layerType=="border"||layerType=="iframe"){
-        let shareid = window.parent.document.getElementById('shareID').value;
-        let comLengthVal = 0;
-        let comLength = this.props.comLength;
-        if(comLength){
-          comLengthVal = comLength+1;
-        }
-        let layerName = layerType+comLength;
-        let defaultLayerJson = "";
-        let defaultShowVal = {};
-        let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${comLengthVal}"}`
-        if(layerType=="text"){
-          defaultShowVal = {
-            textCenter:'标题',
-            fontFamily:'auto',
-            fontSize:30,
-            fontColor:'rgba(255,255,255,1)',
-            fontWeight:'normal',
-            textAlign:"center",
-            writingMode:"horizontal-tb",
-            hyperlinkCenter:"",
-            isNewWindow:false,
-        }
-        }else if(layerType=="border"){
-          defaultShowVal={
-            borderWidth:'1',
-            borderStyle:'solid',
-            borderColor:'rgba(255, 47, 3 ,1)'
-          }
-        }else if(layerType=="iframe"){
-          defaultShowVal={
-            iframeUrl:""
-          }
-        }
-        defaultShowVal.positionObj = JSON.parse(defaultPosition);
-        defaultLayerJson = JSON.stringify(defaultShowVal);
-        // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
-        let otherData = {
-          name: layerName,
-          type: layerType,
-          tabid: 0,
-          shareid: shareid,
-          json: defaultLayerJson,
-        }
-        addOneOtherLayer(otherData)
+    if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
+      let shareid = window.parent.document.getElementById('shareID').value;
+      let comLengthVal = 0;
+      let comLength = this.props.comLength;
+      if (comLength) {
+        comLengthVal = comLength + 1;
+      }
+      let layerName = layerType + comLength;
+      let defaultLayerJson = '';
+      let defaultShowVal = {};
+      let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${comLengthVal}"}`;
+      if (layerType == 'text') {
+        defaultShowVal = {
+          textCenter: '标题',
+          fontFamily: 'auto',
+          fontSize: 30,
+          fontColor: 'rgba(255,255,255,1)',
+          fontWeight: 'normal',
+          textAlign: 'center',
+          writingMode: 'horizontal-tb',
+          hyperlinkCenter: '',
+          isNewWindow: false
+        };
+      } else if (layerType == 'border') {
+        defaultShowVal = {
+          borderWidth: '1',
+          borderStyle: 'solid',
+          borderColor: 'rgba(255, 47, 3 ,1)'
+        };
+      } else if (layerType == 'iframe') {
+        defaultShowVal = {
+          iframeUrl: ''
+        };
+      }
+      defaultShowVal.positionObj = JSON.parse(defaultPosition);
+      defaultLayerJson = JSON.stringify(defaultShowVal);
+      // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
+      let otherData = {
+        name: layerName,
+        type: layerType,
+        tabid: 0,
+        shareid: shareid,
+        json: defaultLayerJson
+      };
+      addOneOtherLayer(otherData)
         .then(result => {
-          if(result.n==1){
-              console.log("图层添加成功")
+          if (result.n == 1) {
+            console.log('图层添加成功');
           }
         })
-        .catch(error => console.log(error));   
+        .catch(error => console.log(error));
     }
     this.props.onClickAdd(layerObj, {
       data: {},
@@ -394,19 +395,21 @@ class Header extends Component {
       base64: base64,
       name: name
     };
-     addPageImage(PageImageObj).then(res => {
-            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
-        }).catch(error => {
-            console.info(error);
-            window.parent.document.getElementById("dataShow").setAttribute("src",'dataShow/show.html');
-        })
+    addPageImage(PageImageObj)
+      .then(res => {
+        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
+      })
+      .catch(error => {
+        console.info(error);
+        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
+      });
   }
 
   render() {
     const ttype = this.state.ttype;
     return (
       <div className='custom-header'>
-        <div className='custom-left-list-title'>
+        <div className='custom-header-title'>
           <Button className='outRollback' size='small' onClick={this.outRollbackPage.bind(this)}>
             我的可视化
           </Button>

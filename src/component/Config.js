@@ -94,6 +94,8 @@ class Config extends Component {
             <br />
             名称：{this.props.cptLayerAttr.title}
           </div>
+
+          
           <div className='control-panel-container'>
             <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs.bind(this)}>
               {this.state.tabKeys.map(item => {

@@ -12,24 +12,26 @@
 .control-panel-header{
     position: relative;
     /* background-color: #ddd; */
-    height: 68px;
+    height: 30px;
     line-height: 34px;
 }
 .control-panel-header-bg{
     text-align:center;
     color: #bcc9d4;
     background-color: #2e343c;
+    line-height: 2.2;
 }
 .control-panel-header-bg-title{
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 14px;
 }
 
 
 .control-panel-container{
-    position: relative;
-    /* padding: 10px 0; */
-    width: 100%;
+    padding: 5px;
+}
+
+.control-panel-container span {
+    font-size: 14px;
 }
 
 .control-panel-container .ant-tabs{
