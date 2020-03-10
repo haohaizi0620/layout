@@ -1,4 +1,26 @@
-.pro-item-simple{
-    display:inline-block;
-    margin-left: 15px;
+.pro-item-simple {
+  display: inline-block;
+  margin-left: 15px;
+  width: 80px;
+  text-align: center;
+  .ant-input-number {
+    position: relative;
+    width: 100%;
+    border-radius: 0px;
+    border: 1px solid gray;
+  }
+
+  .ant-select-sm {
+    position: relative;
+    width: 100%;
+    border-radius: 0px;
+    border: none;
+  }
+
+  .ant-select-selection {
+    position: relative;
+    width: 100%;
+    border-radius: 0px;
+    border: 1px solid gray;
+  }
 }

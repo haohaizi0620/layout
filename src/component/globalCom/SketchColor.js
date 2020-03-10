@@ -31,21 +31,21 @@ class SketchColor extends React.Component {
     const styles = reactCSS({
       default: {
         color: {
-          width: '80px',
+          width: '70px',
           height: '14px',
           borderRadius: '2px',
           background: this.state.color
         },
         swatch: {
-          padding: '5px',
+          padding: '3px',
           background: '#fff',
-          borderRadius: '4px',
+          borderRadius: '0px',
           boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
           display: 'inline-block',
           cursor: 'pointer'
         },
         popover: {
-          // position: 'absolute',
+          position: 'absolute',
           zIndex: '2',
           right: '0px'
         },
