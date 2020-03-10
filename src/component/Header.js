@@ -287,13 +287,10 @@ class Header extends Component {
    */
   onClickAdd(layerObj) {
     let layerType = layerObj.layerType;
+    var comLength = this.props.comLength+1;
     if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
       let shareid = window.parent.document.getElementById('shareID').value;
-      let comLengthVal = 0;
-      let comLength = this.props.comLength;
-      if (comLength) {
-        comLengthVal = comLength + 1;
-      }
+      let comLengthVal = comLength+1;
       let layerName = layerType + comLength;
       let defaultLayerJson = '';
       let defaultShowVal = {};
@@ -329,7 +326,8 @@ class Header extends Component {
         type: layerType,
         tabid: 0,
         shareid: shareid,
-        json: defaultLayerJson
+        json: defaultLayerJson,
+        sortNum:comLength
       };
       addOneOtherLayer(otherData)
         .then(result => {
@@ -341,7 +339,8 @@ class Header extends Component {
     }
     this.props.onClickAdd(layerObj, {
       data: {},
-      State: 'headerAdd'
+      State: 'headerAdd',
+      sortNum:comLength
     });
   }
 

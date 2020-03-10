@@ -42,9 +42,53 @@
 
 	<script type="text/javascript"> 
 
-	
-
-
+var infoObj=[
+            {
+                name:"张三",
+                sex:'female',
+                age:30
+            },
+            {
+                name:"李四",
+                sex:'male',
+                age:20
+            },
+            {
+                name:"王五",
+                sex:'female',
+                age:40
+            }
+        ];
+        // 指定排序的比较函数
+    function compare(property){
+         return function(obj1,obj2){
+             var value1 = obj1[property];
+             var value2 = obj2[property];
+             return value1 - value2;     // 升序
+         }
+	}
+	let temoObj = {
+		test:1,
+		test2:2
+	}
+	console.log(temoObj.hasOwnProperty("test"))
+    var sortObj = infoObj.sort(compare("age"));
+	var arr = [3, 4, 1, 2];
+		function bubbleSort (arr) {
+		for (var j = 0; j < arr.length - 1; j++) {
+			// 这里要根据外层for循环的 j，逐渐减少内层 for循环的次数
+			for (var i = 0; i < arr.length - 1 - j; i++) {
+				if (arr[i] > arr[i + 1]) {
+					var temp = arr[i];
+					arr[i] = arr[i + 1];
+					arr[i + 1] = temp;
+					console.log("ss")
+				}
+			}
+		}
+		return arr;
+		}
+		bubbleSort(arr);
 
      var map = new dmapgl.Map({
 			container : 'mapSL',

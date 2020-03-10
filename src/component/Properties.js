@@ -557,6 +557,10 @@ class Properties extends Component {
             cptChartData:cptChartData,
           })
       }
+      /* store.subscribe(() => {
+           this.updateStateVal()
+      }); */
+
   }
 
   propsParam(paramObj){
@@ -568,7 +572,7 @@ class Properties extends Component {
       tabsKey: paramObj.tabsKey
     });
   }
-  
+ 
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
     let cptChartData = this.props.cptChartData;

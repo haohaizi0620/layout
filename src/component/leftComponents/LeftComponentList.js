@@ -123,14 +123,13 @@ class LeftComponentList extends Component {
     let pageLayerObj = this.state.nameData;
     let thType = layerObj.thType;
     let vVal = "-1";
-    let sortNum = 0;
     if(thType=="0"){
       vVal = layerObj.id;
     }else if(thType=="1"){
       vVal = layerObj.service+"；"+layerObj.layername+"；"+layerObj.name;
     }
     layerObj.vVal = vVal;
-    
+    let sortNum = this.props.comLength+1;
     let addLayerObj = {
       type: thType,
       pid: window.parent.document.getElementById("kshID").value,
@@ -138,7 +137,7 @@ class LeftComponentList extends Component {
       kshid: pageLayerObj.ID,
       v: vVal,
       layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
-      // sortNumber:sortNum,
+      sortNum:sortNum,
     };
     addOneLayer(addLayerObj)
       .then(res => {
@@ -153,6 +152,7 @@ class LeftComponentList extends Component {
             data: layerObj,
             state: "leftAdd",
             mainKey:res.mainKey,
+            sortNum:sortNum
           }
         );
         console.info(res);

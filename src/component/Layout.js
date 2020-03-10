@@ -2,7 +2,7 @@ import './Layout.css';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
-import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
+import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,editLayerSortNum,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
@@ -220,6 +220,7 @@ class Layout extends Component {
               tempData.map((item,index) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
+                let sortNumChart = item.sortNum;
                 let thType = item.thType;
                 let vVal = "";
                 if(thType=="0"){
@@ -233,9 +234,10 @@ class Layout extends Component {
                     thType:item.thType,
                     timeKey:timeKey,
                     mainKey:item.mainKey,
-                    addState:'defaultState',
+                    addState:'leftAdd',
                     layerObj:item,
                     layerData:{},
+                    sortNum:sortNumChart,
                 };
                 if(tempLayerPosition!=""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
@@ -243,7 +245,8 @@ class Layout extends Component {
                   tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
                 }
                 tempLayerPosition.type = "chart";
-                tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+                tempLayerPosition.sortNum = sortNumChart;
+                tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:'', sortNum:sortNumChart});
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);   
               })
@@ -254,6 +257,7 @@ class Layout extends Component {
                         let bgObj = {};
                         resultData.map((layerItem,layerIndex) => {
                           timeKey++;
+                          let sinSoreNum = layerItem.SORTNUM;
                           let layerType = layerItem.CELLTYPE;
                           let layerName = layerItem.CELLNAME;
                           let layerJsonObj = JSON.parse(layerItem.CELLJSON);
@@ -268,19 +272,39 @@ class Layout extends Component {
                                     thType:layerType,
                                     timeKey:timeKey,
                                     mainKey:layerItem.ID,
-                                    addState:'defaultState',
+                                    addState:'headerAdd',
                                     layerObj:layerItem,
                                     layerData:layerJsonObj,
+                                    sortNum:sinSoreNum,
                                 };
                                 if(!positionObj&&positionObj==""){
                                   positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
                                 }
-                                tempCptKeyList.push({ key: timeKey, id: layerName, title: layerName,layerType:layerType,simpleType:''});
+                                positionObj.sortNum = sinSoreNum;
+                                tempCptKeyList.push({ key: timeKey, id: layerName, title: layerName,layerType:layerType,simpleType:'',sortNum:sinSoreNum});
                                 tempCptPropertyList.push(positionObj);
                                 tempCptChartIdList.push(tempCptChartObj); 
                           }
                         })
+                        if(!bgObj.hasOwnProperty("bgColor")){
+                              bgObj = {
+                                bgColor: 'rgba(15, 42, 67,1)',
+                                bjWidth: 1470,
+                                bjHeight: 937,
+                                bjImage:'none',
+                                bgImageName:"无",
+                                bgImageIntegerUrl:"",
+                                uploadImage:"",
+                                mainKey:-1
+                            }
+                        }
                         store.dispatch(replaceGlobalBg(bgObj));
+                        // let resultObj = _this.sortDefaultData(tempCptKeyList,tempCptPropertyList,tempCptChartIdList);
+                        if(tempCptKeyList.length>1){
+                          tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
+                          tempCptPropertyList = tempCptPropertyList.sort(this.compare("sortNum"));
+                          tempCptChartIdList = tempCptChartIdList.sort(this.compare("sortNum"));
+                        }
                         _this.setState({
                           globalBg: bgObj,
                           cptIndex: -1,
@@ -306,6 +330,34 @@ class Layout extends Component {
                     .catch(error => console.info(error));
         }).catch(error => console.info(error));
     }
+
+   /**
+   * @description: 用来将所有的默认的图层都按照sortNum进行排序
+   * @param {type}
+   * @return:
+   */
+    sortDefaultData(cptKeyList,cptPropertyList,cptChartIdList){
+      
+      if(cptChartIdList&&cptChartIdList.length>0){
+       
+      }
+      var sortObj = cptChartIdList.sort(this.compare("sortNum"));
+      return {
+        cptKeyList:cptKeyList,
+        cptPropertyList:cptPropertyList,
+        cptChartIdList:cptChartIdList
+      }
+    }
+
+    compare(property){
+         return function(obj1,obj2){
+             var value1 = obj1[property];
+             var value2 = obj2[property];
+             return value1 - value2;     // 升序
+         }
+    }
+
+
 
   handleScriptCreate(obj) {
     this.setState({ scriptLoaded: false });
@@ -374,6 +426,7 @@ class Layout extends Component {
     let layerTempObj = {};
     let mainKey = -1;
     let addState = "headerAdd";
+    let sortNum = otherObj.sortNum;
     if(otherObj&&otherObj.state=="leftAdd"){
         thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
@@ -399,6 +452,7 @@ class Layout extends Component {
         "show": null
       }
     }
+    
     let addChartObj = {
         chartId:chartId,
         thType:thType,
@@ -406,6 +460,7 @@ class Layout extends Component {
         mainKey:mainKey,
         addState:addState,
         timeKey:key,
+        sortNum:sortNum,
     };
     this.setState(
       {
@@ -852,7 +907,7 @@ class Layout extends Component {
             cptIndex:cptIndex,
             layerOption:cptOptionObj.layerOption
           }
-          if (layerType == 'chart') {
+          if (layerType == 'chart') {            
             this.editItemDataBaseOneLayerPrev(cptIndex,tempOptionObj); 
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
@@ -1007,6 +1062,36 @@ class Layout extends Component {
     */
     selectSingleLayer(event,layerIndex,updateIndex){
       event.stopPropagation();
+      let updateState = -1;
+      let chartLists = this.state.cptChartIdList;
+      let thisLayer = chartLists[layerIndex];
+      let updateLayer = chartLists[updateIndex];
+      let thisAddState = thisLayer.addState;
+      let updateAddState = updateLayer.addState;
+      if(thisAddState=="leftAdd"&&updateAddState=="leftAdd"){
+        updateState = 1;
+      }else if(thisAddState=="headerAdd"&&updateAddState=="headerAdd"){
+        updateState = 2;
+      }else if(thisAddState=="leftAdd"&&updateAddState=="headerAdd"){
+        updateState = 3;
+      }else if(thisAddState=="headerAdd"&&updateAddState=="leftAdd"){
+        updateState = 4;
+      }
+      let updateSortNumObj = {
+        thisMainKey : thisLayer.mainKey,
+        thisSortNum : thisLayer.sortNum,
+        updateMainKey : updateLayer.mainKey,
+        updateSortNum : updateLayer.sortNum,
+        updateState:updateState,
+      }
+      editLayerSortNum(updateSortNumObj)
+      .then( result => {
+        this.mainSwitchLayer(layerIndex,updateIndex);
+      })
+      .catch(error => console.log(error));
+    }
+
+    mainSwitchLayer(layerIndex,updateIndex){
       let arr = window.arr ? window.arr : [];
       let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
       if (arr.length > 0) {
@@ -1117,6 +1202,7 @@ class Layout extends Component {
           ref="leftComponentList"
           nameData={this.state.nameData}
           ComponentList={this.state.cptKeyList}
+          comLength={this.state.cptKeyList.length}
           cptIndex={this.state.cptIndex}
           onClickAdd={this.onClickAdd.bind(this)}
           singleSwitchLayer={this.singleSwitchLayer.bind(this)}
