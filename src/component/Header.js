@@ -3,6 +3,7 @@ import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as html2canvas from 'html2canvas';
 import { addPageImage,addOneOtherLayer } from '../api/api';
+import ShareItemModal from './ModelCom/ShareItemModal';
 import store from '../redux/store';
 import {
   faCheckSquare,
@@ -43,6 +44,7 @@ class Header extends Component {
     const tempBorderStr = 'border';
     const tempIframeStr = 'iframe';
     this.state = {
+      shareUrl:'',
       nameData:{},
       otype: 'chart',
       ttype: 'all',
@@ -367,8 +369,8 @@ class Header extends Component {
     this.props.saveLayoutData();
   }
 
-  saveShowPageData() {
-    this.props.saveShowPageData();
+  savePagePrev() {
+    this.props.savePagePrev();
   }
 
   outRollbackPage() {
@@ -485,7 +487,7 @@ class Header extends Component {
           <Button type='primary' size='small' onClick={this.saveLayoutData.bind(this)}>
             保存
           </Button>
-          <Button type='primary' size='small' onClick={this.saveShowPageData.bind(this)}>
+          <Button type='primary' size='small' onClick={this.savePagePrev.bind(this)}>
             预览
           </Button>
         </div>

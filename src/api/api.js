@@ -153,5 +153,21 @@ export function getSpecify(catalogId) {
 
 
 
+export function getShareObj(shareObj) {
+  return request({
+    url: 'http://localhost:8080/share/getSharesById',
+    method: 'post',
+    data:Qs.stringify(shareObj)
+  });
+}
+
+export function getShareCells(shareObj) {
+  return request({
+    url: 'http://localhost:8080/share/getCells',
+    method: 'post',
+    data:Qs.stringify(shareObj)
+  });
+}
+
 
 

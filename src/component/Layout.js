@@ -7,6 +7,8 @@ import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
 import EditItemModal from './ModelCom/EditItemModal';
+import ShareItemModal from './ModelCom/ShareItemModal';
+
 
 // import LoadChart from "./LoadChart";
 import store from '../redux/store';
@@ -44,8 +46,6 @@ class Layout extends Component {
       cptChartIdList: [], //保存所有前图层对应的接口的id值和cttype
       cptPropertyObj: store.getState().showLayerDatas.showDatas, //当前点击的图层的基本属性
       globalBg: store.getState().showLayerDatas.bgFieldObj, //中间dom的属性
-      showPageData: '', //预览页面的路径
-      isOpenNewWindowFlag: false,//是否打开预览页面
       nameData:{},//保存当前页面的基本信息
       shareId:1,//当前页面需要的shareid
       kshId:1,//当前的kshId
@@ -1086,21 +1086,19 @@ class Layout extends Component {
  
   }
 
+  savePagePrev(){
+    let preState = this.state;
+    let nameData = preState.nameData;
+    let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
+    this.refs.shareModel.setDefaultValue(`http://localhost:8080/share/build/index.html?sid=${sidVal}`);
+  }
+
   saveShowPageData() {
-    var data = '/showPage';
-    /* let kshID = window.parent.document.getElementById('kshID').value;
-    let shareId = window.parent.document.getElementById('shareId'); */
-    this.setState(
-      {
-        showPageData: data,
-        isOpenNewWindowFlag: true
-      },
-      () => {
-        let state = this.state;
-        var win = window.open(`http://localhost:8080/data/dataShow/showBuild/index.html?id=${state.shareId}&kshId=${state.kshId}`, '_blank');
-        // win.focus();
-      }
-    );
+    let preState = this.state;
+    let nameData = preState.nameData;
+    let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
+    http://localhost:8080/share/index.html
+    window.open(`http://localhost:8080/share/build/index.html?sid=${sidVal}`, '_blank');
   }
 
   render() {
@@ -1110,7 +1108,7 @@ class Layout extends Component {
           ref='Header'
           saveLayoutData={this.saveLayoutData.bind(this)}
           onClickAdd={this.onClickAdd.bind(this)}
-          saveShowPageData={this.saveShowPageData.bind(this)}
+          savePagePrev={this.savePagePrev.bind(this)}
           nameData={this.state.nameData}
           comLength={this.state.cptKeyList.length}
         />
@@ -1146,6 +1144,10 @@ class Layout extends Component {
                 ref="editModal"
                 ChartDatas={this.state.cptChartIdList}
                 editItem={this.editItemDataBaseOneLayer.bind(this)}
+              />
+              <ShareItemModal
+              ref="shareModel"
+              saveShowPageData={this.saveShowPageData.bind(this)}
               />
               {this.state.cptKeyList.map((item, i) => {
                 return (
@@ -1191,11 +1193,6 @@ class Layout extends Component {
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}></PageSetting> */}
          
         </div>
-        {this.state.isOpenNewWindowFlag ? (
-          <Link to={this.state.showPageData} id='shouPageTo' />
-        ) : (
-          true
-        )}
       </Fragment>
     );
   }
