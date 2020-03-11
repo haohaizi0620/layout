@@ -7,13 +7,13 @@
  * @FilePath: \layout\src\utils\chart.js
  */
 import store from '../redux/store';
-import {getSpecify} from '../api/api';
+import {getSpecify,getMapDataWFS,getRecursionMap} from '../api/api';
 // import dmapgl  from './dmap-gl-dev.js';
 import {
     addCptOptionsList,
     editCptOptionsList
 } from '../redux/actions/showLayerDatas';
-
+import $ from  'jquery'
 let chartTestData = require('../datasource/chartTestData.json');
 let mapTestData = require('../datasource/mapTestData.json');
 // import 'http://172.26.50.89/TileServer/dmap4.0/css/dmap4.0.css';
@@ -260,6 +260,11 @@ export function showChartsOption(chartsList){
                 store.dispatch(addCptOptionsList(chartId, []));
                 if(dataShow == "1"||dataShow == "2"){
                     map.on('load', function() {
+                        if(data.show == "1"){
+                            addMapWFS(data,map);
+                        }else if(data.show == "2"){
+                            addMapWMS(data,map);
+                        }
                         getSpecify(chartId).then(result => {
                             let tempOptionObj = {
                                 cptIndex:index,
@@ -362,8 +367,13 @@ function addChart(data,timeId,addIndex,_this){
 			//localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
         });
         store.dispatch(addCptOptionsList(catalogId, []))
-		if(data.show == "1"||data.show == "2"){
+		
 			map.on('load', function() {
+                if(data.show == "1"){
+                    addMapWFS(data,map);
+                }else if(data.show == "2"){
+                    addMapWMS(data,map);
+                }
                 getSpecify(catalogId).then(result => {
                     let tempOptionObj = {
                         cptIndex:addIndex,
@@ -371,12 +381,11 @@ function addChart(data,timeId,addIndex,_this){
                       }
                      store.dispatch(editCptOptionsList(tempOptionObj));
                      _this.updateGlobalEditData();
-                     initMapData(map,result);
                 }).catch(error => {
                     console.info(error);     
                 });
     		});
-		}
+		
     }
     var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
     mapObjArr.push({
@@ -385,6 +394,797 @@ function addChart(data,timeId,addIndex,_this){
     });
     window.mapObjArr = mapObjArr;
 }
+
+/**
+ * 添加一般、精准、范围点线面样式（实时加载）
+ * @param renderer
+ * @returns
+ */
+function addMapWFS(obj,map){
+	var userName = getCookie("userName");
+	
+	var renderer = obj.renderer;
+	console.info(renderer);
+	var layername = userName+"."+obj.layername;
+	var rxml = $.parseXML(renderer);
+	var group1 = $(rxml).find('GROUPRENDERER');
+	var tagName = group1[0].firstChild.tagName;
+	
+	//var group2 = $(group1).find('GROUPRENDERER');
+	if('GROUPRENDERER' == tagName){//字体符号库
+		var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var img = truettypemarkersymbol.attr('img');
+				map.loadImage(img,(error,data)=>{
+			        map.addImage(layername,data);
+			    });
+				
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coord1 = coord.split(' ').join(',');
+						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+					});
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				map.addLayer({
+					"id" : layername,
+					"type" : "symbol",
+					"source" : {
+						"type": "geojson",
+						"data": {
+							"type": "FeatureCollection",
+						    "features": fatures
+						}
+					},
+					"layout" : {
+						'icon-image' : layername,
+					    'icon-size' : 1,
+					    'icon-allow-overlap' : true
+					}
+				});
+			}
+		});
+	}else{
+		var simplerenderer = $(group1).find('SIMPLERENDERER');
+		var type = simplerenderer.attr('name');
+		if('一般点样式' == type){
+			var grouperenderer = $(simplerenderer).find('GROUPRENDERER');
+			var styleName= grouperenderer.attr('styleName');
+			var fuhaokuName = grouperenderer.attr('fuhaokuName');
+			var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
+			
+			
+			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+			$.ajax({
+				type : "GET",
+				url : url,
+				async : false,
+				success : function(data) {
+					var color = simplemarkersymbol.attr('color');
+					var width = parseInt(simplemarkersymbol.attr('width'));
+					var carr = color.split(',');
+					
+					var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
+			        var imgData = new Uint8Array(width * width * bytesPerPixel);
+					
+					if(styleName == 'square'){//正方形
+						 for (var x = 0; x < width; x++) {
+				            for (var y = 0; y < width; y++) {
+				            	var offset = (y * width + x) * bytesPerPixel;
+				            	imgData[offset + 0] = parseInt(carr[0]); // red
+			                    imgData[offset + 1] = parseInt(carr[1]); // green
+			                    imgData[offset + 2] = parseInt(carr[2]);             // blue
+			                    imgData[offset + 3] = 255;             // alpha
+				            }
+				    	}
+					}else if(styleName == 'cross'){//十字
+						var half = Math.floor(width/2);
+						for (var x = 0; x < width; x++) {
+				        	for (var y = 0; y < width; y++) {
+				                if(x == half || y == half){
+				                    var offset = (y * width + x) * bytesPerPixel;
+				                    imgData[offset + 0] = parseInt(carr[0]); // red
+				                    imgData[offset + 1] = parseInt(carr[1]); // green
+				                    imgData[offset + 2] = parseInt(carr[2]);             // blue
+				                    imgData[offset + 3] = 255;             // alpha
+				                }
+				            }
+				        }
+					}
+					
+					if(!map.hasImage(layername)){
+						map.addImage(layername, {width: width, height: width, data: imgData});
+					}
+
+					var listElements = $(data).find('gml\\:featureMember');
+					var json = '[';
+					if(listElements.length>0){
+						$(listElements).each(function() {
+							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+							var coord = $($(this).find('gml\\:coordinates')[0]).text();
+							var coord1 = coord.split(' ').join(',');
+							json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+						});
+						json = json.substring(0, json.length - 1);
+					}
+					
+					json += ']';
+					var fatures = JSON.parse(json);
+					
+					map.addLayer({
+						"id" : layername,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : layername/*,
+						    'icon-size' : 1,
+						    'icon-allow-overlap' : true*/
+						}
+					});
+				}
+			});
+			
+		}else if('精准点样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var exacts = $(valuemaprenderer).find('EXACT');
+			recursionJZFW(type,layername,map,exacts,lookupfield,0);
+		}else if('范围点样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var ranges = $(valuemaprenderer).find('RANGE');
+			recursionJZFW(type,layername,map,ranges,lookupfield,0);
+		}else if('栅格点样式' == type){
+			var symbol = $(simplerenderer).find('SIMPLEMARKERSYMBOL');
+			var icon = symbol.attr('icon');
+			if(!map.hasImage(icon)){
+				map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
+					map.addImage(icon, image);
+				});
+			}
+			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+			$.ajax({
+				type : "GET",
+				url : url,
+				async : false,
+				success : function(data) {
+					
+					var listElements = $(data).find('gml\\:featureMember');
+					var json = '[';
+					if(listElements.length>0){
+						$(listElements).each(function() {
+							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+							var coord = $($(this).find('gml\\:coordinates')[0]).text();
+							var coord1 = coord.split(' ').join(',');
+							json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+						});
+						json = json.substring(0, json.length - 1);
+					}
+					
+					json += ']';
+					var fatures = JSON.parse(json);
+					
+					
+					map.addLayer({
+						"id" : layername,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : icon,
+							'icon-size' : 1,
+						    'icon-allow-overlap' : true
+						}
+					});
+				}
+			});
+			
+		}else if('一般线样式' == type){
+			var simplinesymbol = $(simplerenderer).find('SIMPLELINESYMBOL');
+			var width = parseInt(simplinesymbol.attr('width'));
+			var color = simplinesymbol.attr('color');
+			
+			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+			$.ajax({
+				type : "GET",
+				url : url,
+				async : false,
+				success : function(data) {
+					
+					var listElements = $(data).find('gml\\:featureMember');
+					var json = '[';
+					if(listElements.length>0){
+						var listElements = $(data).find('gml\\:featureMember');
+						$(listElements).each(function() {
+							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+							var coord = $($(this).find('gml\\:coordinates')[0]).text();
+							var coordArr1 = coord.split(';');
+							var cds = '[';
+							for (var j = 0; j < coordArr1.length; j++) {
+								var coodObj = coordArr1[j];
+								var x = parseFloat(coodObj.split(' ')[0]);
+								var y = parseFloat(coodObj.split(' ')[1]);
+								cds += '[' + x + ',' + y + '],'
+							}
+							cds = cds.substring(0, cds.length - 1);
+							cds += ']';
+							json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+						});
+						json = json.substring(0, json.length - 1);
+					}
+					
+					json += ']';
+					var fatures = JSON.parse(json);
+					
+					map.addLayer({
+						'id' : layername,
+						'type' : 'line',
+						'source' : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							},
+						},
+						'paint' : {
+							'line-color' : 'rgb('+color+')',
+							'line-width' : width
+						}
+					});
+				}
+			});
+		}else if('精准线样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var exacts = $(valuemaprenderer).find('EXACT');
+			recursionJZFW(type,layername,map,exacts,lookupfield,0);
+		}else if('范围线样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var ranges = $(valuemaprenderer).find('RANGE');
+			recursionJZFW(type,layername,map,ranges,lookupfield,0);
+		}else if('一般面样式' == type){
+			var simplepolygonsymbol = $(simplerenderer).find('SIMPLEPOLYGONSYMBOL');
+			//var width = parseInt(simplepolygonsymbol.attr('width'));
+			var fillcolor = simplepolygonsymbol.attr('fillcolor');
+			var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+			var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+			
+			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+			$.ajax({
+				type : "GET",
+				url : url,
+				async : false,
+				success : function(data) {
+					
+					var listElements = $(data).find('gml\\:featureMember');
+					var json = '[';
+					if(listElements.length>0){
+						var listElements = $(data).find('gml\\:featureMember');
+						$(listElements).each(function() {
+							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+							var coord = $($(this).find('gml\\:coordinates')[0]).text();
+							var coordArr1 = coord.split(';');
+							var cds = '[';
+							for (var j = 0; j < coordArr1.length; j++) {
+								var coodObj = coordArr1[j];
+								var x = parseFloat(coodObj.split(' ')[0]);
+								var y = parseFloat(coodObj.split(' ')[1]);
+								cds += '[' + x + ',' + y + '],'
+							}
+							cds = cds.substring(0, cds.length - 1);
+							cds += ']';
+							json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+						});
+						
+						json = json.substring(0, json.length - 1);
+					}
+					
+					json += ']';
+					var fatures = JSON.parse(json);
+					
+					map.addLayer({
+						'id' : layername,
+						'type' : 'fill',
+						'source' : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							},
+						},
+						'paint' : {
+							'fill-color' : 'rgb('+fillcolor+')',
+							'fill-opacity' : 1,
+							'fill-outline-color' : 'rgb('+boundarycolor+')'
+						}
+					});
+				}
+			});
+		}else if('精准面样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var exacts = $(valuemaprenderer).find('EXACT');
+			recursionJZFW(type,layername,map,exacts,lookupfield,0);
+		}else if('范围面样式' == type){
+			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+			var lookupfield = $(valuemaprenderer).attr('lookupfield');
+			var ranges = $(valuemaprenderer).find('RANGE');
+			recursionJZFW(type,layername,map,ranges,lookupfield,0);
+		}
+	}
+	
+}
+
+function addMapWMS(obj,map){
+	var userName = getCookie("userName");
+	var name = obj.name;
+	var layername = userName+"."+obj.layername;
+	var service = obj.service;
+	var id = service+"-"+layername+"-"+name;
+	map.addLayer({
+		'id' : id,
+		'type' : 'raster',
+		'source' : {
+			'type' : 'raster',
+			'tiles' : [
+				'zyzx://GovEMap/wms?service='+service+'&request=GetMap&version=1.1.1&layers=&styles=&format=image%2Fpng&transparent=true&CapitalCharacter=false&crs=&height=256&width=256&layername='+layername+'&name='+name+'&continuousWorld=true&BBOX={bbox-epsg-3857}'
+			],
+			'tileSize' : 256
+		},
+		'paint' : {}
+	}, 'drawLevel');
+}
+
+
+
+/**
+ * 递归加载精准、范围的点线面图层
+ * @returns
+ */
+function recursionJZFW(type,layername,map,arr,field,index){
+	var obj = arr[index];
+	if('精准点样式' == type){
+		var value = $(obj).attr('value');
+		var fuhaokuName = $(obj).attr('fuhaokuName');
+		var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
+		var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coord1 = coord.split(' ').join(',');
+						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+					});
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				if(fuhaokuName == '栅格图标'){
+					var icon = simplemarkersymbol.attr('icon');
+					if(!map.hasImage(icon)){
+						map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
+							map.addImage(icon, image);
+						});
+					}
+					map.addLayer({
+						"id" : layername+index,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : icon,
+							'icon-size' : 1,
+						    'icon-allow-overlap' : true
+						}
+					});
+				}else if(fuhaokuName == '字体符号库'){
+					var img = truettypemarkersymbol.attr('img');
+					map.loadImage(img,(error,data)=>{
+				        map.addImage(layername+index,data);
+				    });
+					map.addLayer({
+						"id" : layername+index,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : layername+index,
+						    'icon-size' : 1,
+						    'icon-allow-overlap' : true
+						}
+					});
+				}
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}else if('范围点样式' == type){
+		var lower = $(obj).attr('lower');
+		var upper = $(obj).attr('upper');
+		var fuhaokuName = $(obj).attr('fuhaokuName')
+		var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
+		var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coord1 = coord.split(' ').join(',');
+						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+					});
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				if(fuhaokuName == '栅格图标'){
+					var icon = simplemarkersymbol.attr('icon');
+					if(!map.hasImage(icon)){
+						map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
+							map.addImage(icon, image);
+						});
+					}
+					map.addLayer({
+						"id" : layername+index,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : icon,
+							'icon-size' : 1,
+						    'icon-allow-overlap' : true
+						}
+					});
+				}else if(fuhaokuName == '字体符号库'){
+					var img = truettypemarkersymbol.attr('img');
+					map.loadImage(img,(error,data)=>{
+				        map.addImage(layername+index,data);
+				    });
+					map.addLayer({
+						"id" : layername+index,
+						"type" : "symbol",
+						"source" : {
+							"type": "geojson",
+							"data": {
+								"type": "FeatureCollection",
+							    "features": fatures
+							}
+						},
+						"layout" : {
+							'icon-image' : layername+index,
+						    'icon-size' : 1,
+						    'icon-allow-overlap' : true
+						}
+					});
+				}
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}else if('精准线样式' == type){
+		var value = $(obj).attr('value');
+		var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var width = parseInt(simplelinesymbol.attr('width'));
+				var color = simplelinesymbol.attr('color');
+				
+				
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					var listElements = $(data).find('gml\\:featureMember');
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coordArr1 = coord.split(';');
+						var cds = '[';
+						for (var j = 0; j < coordArr1.length; j++) {
+							var coodObj = coordArr1[j];
+							var x = parseFloat(coodObj.split(' ')[0]);
+							var y = parseFloat(coodObj.split(' ')[1]);
+							cds += '[' + x + ',' + y + '],'
+						}
+						cds = cds.substring(0, cds.length - 1);
+						cds += ']';
+						json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+					});
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				map.addLayer({
+					'id' : layername+index,
+					'type' : 'line',
+					'source' : {
+						"type": "geojson",
+						"data": {
+							"type": "FeatureCollection",
+						    "features": fatures
+						},
+					},
+					'paint' : {
+						'line-color' : 'rgb('+color+')',
+						'line-width' : width
+					}
+				});
+				
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}else if('范围线样式' == type){
+		var lower = $(obj).attr('lower');
+		var upper = $(obj).attr('upper');
+		var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var width = parseInt(simplelinesymbol.attr('width'));
+				var color = simplelinesymbol.attr('color');
+				
+				
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					var listElements = $(data).find('gml\\:featureMember');
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coordArr1 = coord.split(';');
+						var cds = '[';
+						for (var j = 0; j < coordArr1.length; j++) {
+							var coodObj = coordArr1[j];
+							var x = parseFloat(coodObj.split(' ')[0]);
+							var y = parseFloat(coodObj.split(' ')[1]);
+							cds += '[' + x + ',' + y + '],'
+						}
+						cds = cds.substring(0, cds.length - 1);
+						cds += ']';
+						json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+					});
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				map.addLayer({
+					'id' : layername+index,
+					'type' : 'line',
+					'source' : {
+						"type": "geojson",
+						"data": {
+							"type": "FeatureCollection",
+						    "features": fatures
+						},
+					},
+					'paint' : {
+						'line-color' : 'rgb('+color+')',
+						'line-width' : width
+					}
+				});
+				
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}else if('精准面样式' == type){
+		var value = $(obj).attr('value');
+		var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var fillcolor = simplepolygonsymbol.attr('fillcolor');
+				var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+				var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+				
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					var listElements = $(data).find('gml\\:featureMember');
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coordArr1 = coord.split(';');
+						var cds = '[';
+						for (var j = 0; j < coordArr1.length; j++) {
+							var coodObj = coordArr1[j];
+							var x = parseFloat(coodObj.split(' ')[0]);
+							var y = parseFloat(coodObj.split(' ')[1]);
+							cds += '[' + x + ',' + y + '],'
+						}
+						cds = cds.substring(0, cds.length - 1);
+						cds += ']';
+						json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+					});
+					
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				map.addLayer({
+					'id' : layername+index,
+					'type' : 'fill',
+					'source' : {
+						"type": "geojson",
+						"data": {
+							"type": "FeatureCollection",
+						    "features": fatures
+						},
+					},
+					'paint' : {
+						'fill-color' : 'rgb('+fillcolor+')',
+						'fill-opacity' : filltransparency,
+						'fill-outline-color' : 'rgb('+boundarycolor+')'
+					}
+				});
+				
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}else if('范围面样式' == type){
+		var lower = $(obj).attr('lower');
+		var upper = $(obj).attr('upper');
+		var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
+		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
+		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+		$.ajax({
+			type : "GET",
+			url : url,
+			async : false,
+			success : function(data) {
+				var fillcolor = simplepolygonsymbol.attr('fillcolor');
+				var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+				var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+				
+				var listElements = $(data).find('gml\\:featureMember');
+				var json = '[';
+				if(listElements.length>0){
+					var listElements = $(data).find('gml\\:featureMember');
+					$(listElements).each(function() {
+						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+						var coord = $($(this).find('gml\\:coordinates')[0]).text();
+						var coordArr1 = coord.split(';');
+						var cds = '[';
+						for (var j = 0; j < coordArr1.length; j++) {
+							var coodObj = coordArr1[j];
+							var x = parseFloat(coodObj.split(' ')[0]);
+							var y = parseFloat(coodObj.split(' ')[1]);
+							cds += '[' + x + ',' + y + '],'
+						}
+						cds = cds.substring(0, cds.length - 1);
+						cds += ']';
+						json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+					});
+					
+					json = json.substring(0, json.length - 1);
+				}
+				
+				json += ']';
+				var fatures = JSON.parse(json);
+				
+				map.addLayer({
+					'id' : layername+index,
+					'type' : 'fill',
+					'source' : {
+						"type": "geojson",
+						"data": {
+							"type": "FeatureCollection",
+						    "features": fatures
+						},
+					},
+					'paint' : {
+						'fill-color' : 'rgb('+fillcolor+')',
+						'fill-opacity' : filltransparency,
+						'fill-outline-color' : 'rgb('+boundarycolor+')'
+					}
+				});
+				
+				index++;
+				if(index<arr.length){
+					recursionJZFW(type,layername,map,arr,field,index);
+				}
+			}
+		});
+	}
+}
+
+
 
 /**
  * 将地图加载完之后,加载地图上面的数据

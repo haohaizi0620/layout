@@ -161,6 +161,20 @@ export function getSpecify(catalogId) {
   });
 }
 
+export function getMapDataWFS(layerName){
+  return request({
+    url: `/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename= ${layerName}`,
+    method: 'get'
+  });
+}
+export function getRecursionMap(url){
+  return request({
+    url: url,
+    method: 'get'
+  });
+}
+
+
 
 
 export function getShareObj(shareObj) {
