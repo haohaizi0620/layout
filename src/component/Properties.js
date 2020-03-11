@@ -160,7 +160,7 @@ class Properties extends Component {
               type: 'InputNumber',
               value: cptBorderObj.left,
               maxNumber: 2000,
-              minNumber: 80
+              minNumber: 10
             },
             {
               ename: 'top',
@@ -168,7 +168,7 @@ class Properties extends Component {
               type: 'InputNumber',
               value: cptBorderObj.top,
               maxNumber: 2000,
-              minNumber: 80
+              minNumber: 10
             }
           ],
           layerType: 'default'
