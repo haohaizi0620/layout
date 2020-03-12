@@ -177,6 +177,18 @@ class Content extends Component {
           borderWidth: tempCptObj.layerBorderWidth + 'px',
           borderColor: tempCptObj.layerBorderColor
         }}>
+          <FontAwesomeIcon
+          icon={faUserEdit}
+          className='remove'
+          title='编辑'
+          style={{
+            left: tempCptObj.width - 50  + 'px',
+            top: 2 + 'px',
+            width: '20px',
+            color: 'white'
+          }}
+          onClick={this.onEditItem.bind(this)}
+        />
         <FontAwesomeIcon
           icon={faUserTimes}
           className='remove'

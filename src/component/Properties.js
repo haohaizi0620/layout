@@ -173,20 +173,21 @@ class Properties extends Component {
           ],
           layerType: 'default'
         },
-        // {
-        //     "ename": "rotationAngle",
-        //     "name": "旋转角度",
-        //     "includeSelect":false,
-        // "type":"",
-        // "childer": [
-        //         {
-        //             "ename": "left",
-        //             "cname": "角度",
-        //             "type": "InputNumber",
-        //             "value": "0"
-        //         }
-        //     ]
-        // },
+        /* {
+              ename: 'rotationAngle',
+              name: '旋转角度',
+              includeSelect: false,
+              type: '',
+              childer: [
+                    {
+                      ename: 'rotate',
+                      cname: '角度',
+                      type: 'InputNumber',
+                      value: cptBorderObj.rotate,
+                      maxNumber: 360,
+                      minNumber: 0
+                    }]
+        }, */
         {
           ename: 'opacity',
           name: '透明度',

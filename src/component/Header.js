@@ -394,13 +394,17 @@ class Header extends Component {
       base64: base64,
       name: name
     };
+    let parentDom = window.parent.document;
+    let dataShow = parentDom.getElementById('dataShow');
+    let dataShowEdit = parentDom.getElementById('dataShowEdit');
+    dataShowEdit.style.zIndex = 5;
+    dataShow.style.zIndex = 10;
     addPageImage(PageImageObj)
       .then(res => {
-        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
+        
       })
       .catch(error => {
         console.info(error);
-        window.parent.document.getElementById('dataShow').setAttribute('src', 'dataShow/show.html');
       });
   }
 

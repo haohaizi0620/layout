@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Collapse, Button } from "antd";
+import { Collapse, Button ,message} from "antd";
 import ComponentList from './ComponentList';
 import { getAllZTT, getShareById, addOneLayer } from "../../api/api";
 import * as html2canvas from "html2canvas";
@@ -118,6 +118,19 @@ class LeftComponentList extends Component {
       });
   }
 
+  isAddLayer(thisThType,vVal){
+    let cptChartIdList = this.props.cptChartIdList;
+    let isExist = false;//图层是否已存在，默认不存在
+    cptChartIdList.map(item => {
+      let layerObj = item.layerObj;
+      let thType = layerObj.thType;
+      if((thisThType == thType&&thType == '0'&&vVal == layerObj.id)||(thisThType == thType&&thType == '1'&&vVal == layerObj.service+'；'+layerObj.layername+'；'+layerObj.name)){//图表
+          isExist = true;
+      }
+    })
+    return isExist;
+  }
+  
   onClickAdd(layerObj) {
     let _this = this;
     let pageLayerObj = this.state.nameData;
@@ -127,6 +140,11 @@ class LeftComponentList extends Component {
       vVal = layerObj.id;
     }else if(thType=="1"){
       vVal = layerObj.service+"；"+layerObj.layername+"；"+layerObj.name;
+    }
+    let isExist = this.isAddLayer(thType,vVal)
+    if(isExist){
+      message.info('当前图表已存在');
+      return;
     }
     layerObj.vVal = vVal;
     let sortNum = this.props.comLength+1;

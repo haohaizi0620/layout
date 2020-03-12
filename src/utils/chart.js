@@ -7,13 +7,10 @@
  * @FilePath: \layout\src\utils\chart.js
  */
 import store from '../redux/store';
-import {getSpecify,getMapDataWFS,getRecursionMap} from '../api/api';
+import {getSpecify, getMapDataWFS, getRecursionMap} from '../api/api';
 // import dmapgl  from './dmap-gl-dev.js';
-import {
-    addCptOptionsList,
-    editCptOptionsList
-} from '../redux/actions/showLayerDatas';
-import $ from  'jquery'
+import {addCptOptionsList, editCptOptionsList} from '../redux/actions/showLayerDatas';
+import $ from 'jquery';
 let chartTestData = require('../datasource/chartTestData.json');
 let mapTestData = require('../datasource/mapTestData.json');
 // import 'http://172.26.50.89/TileServer/dmap4.0/css/dmap4.0.css';
@@ -27,56 +24,68 @@ const chartData = require('../datasource/chartDatas.json');
  * @param  {String} chartState 代表当前图表是改变数据还是不改变数据   noUpdate不改变数据   update 改变数据
  * @return:  正常添加一个图表,否则就是移动位置改变大小，如果没有找到当前图表对应的接口id直接返回
  */
-export function chartOption(chartName, id, _this, chartState,otherObj) {
-    var arr = window.arr ? window.arr : [];
-    var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+export function chartOption(chartName, id, _this, chartState, otherObj) {
+    var arr = window.arr
+        ? window.arr
+        : [];
+    var mapObjArr = window.mapObjArr
+        ? window.mapObjArr
+        : [];
     var flag = false; //是否存在
-    var addIndex = _this.state.cptChartIdList.length-1;
-     //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
+    var addIndex = _this.state.cptChartIdList.length - 1;
+    //如果存在进行更新大小或者替换数据,不存在请求数据加载图层
     if (arr) {
-        arr.forEach(function (e, item) {
-            if (e == id) {
-                flag = true;
-                return false;
-            }
-        });
+        arr
+            .forEach(function (e, item) {
+                if (e == id) {
+                    flag = true;
+                    return false;
+                }
+            });
     }
-    if(otherObj&&otherObj.state=="leftAdd"){
+    if (otherObj && otherObj.state == "leftAdd") {
         let layerObj = otherObj.data;
         if (!flag) {
             arr.push(id);
             window.arr = arr;
-            addChart(layerObj,id,addIndex,_this);     
-        }else{
-                let newOptions = store.getState().showLayerDatas.cptOptionsList[_this.state.cptIndex].layerOption;
-                let tempThisObj = document.getElementById(id);
+            addChart(layerObj, id, addIndex, _this);
+        } else {
+            let newOptions = store
+                .getState()
+                .showLayerDatas
+                .cptOptionsList[_this.state.cptIndex]
+                .layerOption;
+            let tempThisObj = document.getElementById(id);
 
-                var thType = layerObj.thType;
-                if("0" == thType){//图表
-                    var e_instance = tempThisObj.getAttribute("_echarts_instance_");
-                    if (chartState == "update") {
-                        new window.dmapgl.commonlyCharts(id, {
-                            data: newOptions
-                        });
-                    } else {
-                        if(window.echarts.getInstanceById(e_instance)){
-                            window.echarts.getInstanceById(e_instance).resize();
+            var thType = layerObj.thType;
+            if ("0" == thType) { //图表
+                var e_instance = tempThisObj.getAttribute("_echarts_instance_");
+                if (chartState == "update") {
+                    new window
+                        .dmapgl
+                        .commonlyCharts(id, {data: newOptions});
+                } else {
+                    if (window.echarts.getInstanceById(e_instance)) {
+                        window
+                            .echarts
+                            .getInstanceById(e_instance)
+                            .resize();
+                    }
+                }
+            } else if ("1" == thType) { //wms或wfs
+                let mapObj = mapObjArr[_this.state.cptIndex]
+                if (mapObj && mapObj.layerId == id) {
+                    if (chartState == "update") {} else {
+                        if (mapObj.layerMap) {
+                            mapObj
+                                .layerMap
+                                .resize();
                         }
                     }
-                }else if("1" == thType){//wms或wfs
-                    let mapObj = mapObjArr[_this.state.cptIndex]
-                    if(mapObj&&mapObj.layerId == id){
-                        if (chartState == "update") {
-                                
-                        } else {
-                            if(mapObj.layerMap){
-                                mapObj.layerMap.resize();
-                            }
-                        }
-                    }
-                }      
+                }
+            }
         }
-    }else{
+    } else {
         let layerType = "chart";
         let chartId = 101;
         chartData.map(item => {
@@ -85,234 +94,242 @@ export function chartOption(chartName, id, _this, chartState,otherObj) {
                 chartId = item.chartId;
             }
         })
-        var layerObj = document.getElementById(id).parentNode;
+        var layerObj = document
+            .getElementById(id)
+            .parentNode;
         if (!flag) {
-            if(layerType=="text"||layerType=="border"||layerType=="iframe"){
+            if (layerType == "text" || layerType == "border" || layerType == "iframe") {
                 arr.push(id);
-                mapObjArr.push({
-                    layerId: id,
-                    layerMap: {}
-                });
+                mapObjArr.push({layerId: id, layerMap: {}});
                 window.arr = arr;
                 window.mapObjArr = mapObjArr;
                 let tempSaveObj = {};
-                if(layerType=="border"){
+                if (layerType == "border") {
                     // layerObj.style.border = "1px solid red";
                     layerObj.style.borderWidth = '1px';
                     layerObj.style.borderStyle = 'solid';
                     layerObj.style.borderColor = 'red';
                     tempSaveObj = {
-                        borderWidth:'1',
-                        borderStyle:'solid',
-                        borderColor:'rgba(255, 47, 3 ,1)'
+                        borderWidth: '1',
+                        borderStyle: 'solid',
+                        borderColor: 'rgba(255, 47, 3 ,1)'
                     }
-                }else if(layerType=="text"){
+                } else if (layerType == "text") {
                     tempSaveObj = {
-                        textCenter:'标题',
-                        fontFamily:'auto',
-                        fontSize:30,
-                        fontColor:'rgba(255,255,255,1)',
-                        fontWeight:'normal',
-                        textAlign:"center",
-                        writingMode:"horizontal-tb",
-                        hyperlinkCenter:"",
-                        isNewWindow:false,
+                        textCenter: '标题',
+                        fontFamily: 'auto',
+                        fontSize: 30,
+                        fontColor: 'rgba(255,255,255,1)',
+                        fontWeight: 'normal',
+                        textAlign: "center",
+                        writingMode: "horizontal-tb",
+                        hyperlinkCenter: "",
+                        isNewWindow: false
                     };
-                }else if(layerType=="iframe"){
+                } else if (layerType == "iframe") {
                     tempSaveObj = {
-                        iframeUrl:""
+                        iframeUrl: ""
                     }
                 }
-                store.dispatch(addCptOptionsList(chartId,tempSaveObj));
+                store.dispatch(addCptOptionsList(chartId, tempSaveObj));
                 _this.updateGlobalEditData();
-            }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
-                        let tempIndex = Math.ceil(Math.random()*3)-1;
-                        var data = chartTestData[tempIndex];
-                        var a;
-                        var map;
-                        var tempMap = null;
-                        if (layerType == "map"||layerType=="chartMap") {
-                            store.dispatch(addCptOptionsList(chartId, []))
-                            map = new window.dmapgl.Map({
-                                container :id,
-                                zoom : 8,
-                                minZoom : 8,
-                                maxZoom : 20,
-                                fadeDuration : 0,
-                                center : [ 503428.7804260254, 345586.30670166016 ],
-                                preserveDrawingBuffer:true,
-                                style : 'zyzx://formal_blue/styles/style.json',
-                                //style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
-                                //localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
-                            });
-                            map.on('load', function() {
-                                getSpecify(chartId).then(result => {
-                                    let tempOptionObj = {
-                                        cptIndex:addIndex,
-                                        layerOption:result
-                                      }
-                                      store.dispatch(editCptOptionsList(tempOptionObj));
-                                      _this.updateGlobalEditData();
-                                }).catch(error => {
-                                    console.info(error);     
-                                });
-                            });
-                        } else if (layerType == "chart") {
-                                a = new window.dmapgl.commonlyCharts(id, {
-                                    data: data
-                                });
-                                store.dispatch(addCptOptionsList(chartId, data))
-                        }
-                        arr.push(id);
-                        mapObjArr.push({
-                            layerId: id,
-                            layerMap: map
+            } else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
+                let tempIndex = Math.ceil(Math.random() * 3) - 1;
+                var data = chartTestData[tempIndex];
+                var a;
+                var map;
+                var tempMap = null;
+                if (layerType == "map" || layerType == "chartMap") {
+                    store.dispatch(addCptOptionsList(chartId, []))
+                    map = new window
+                        .dmapgl
+                        .Map({
+                            container: id,
+                            zoom: 8,
+                            minZoom: 8,
+                            maxZoom: 20,
+                            fadeDuration: 0,
+                            center: [
+                                503428.7804260254, 345586.30670166016
+                            ],
+                            preserveDrawingBuffer: true,
+                            style: 'zyzx://formal_blue/styles/style.json',
+                            // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
+                            // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+                            // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
+                            // Regular","SimSun,Regular"',
                         });
-                        window.arr = arr;
-                        window.mapObjArr = mapObjArr;
-            }else{
-                
-            }
+                    map.on('load', function () {
+                        getSpecify(chartId).then(result => {
+                            let tempOptionObj = {
+                                cptIndex: addIndex,
+                                layerOption: result
+                            }
+                            store.dispatch(editCptOptionsList(tempOptionObj));
+                            _this.updateGlobalEditData();
+                        }).catch(error => {
+                            console.info(error);
+                        });
+                    });
+                } else if (layerType == "chart") {
+                    a = new window
+                        .dmapgl
+                        .commonlyCharts(id, {data: data});
+                    store.dispatch(addCptOptionsList(chartId, data))
+                }
+                arr.push(id);
+                mapObjArr.push({layerId: id, layerMap: map});
+                window.arr = arr;
+                window.mapObjArr = mapObjArr;
+            } else {}
         } else {
-            if(layerType=="text"||layerType=="border"){
-                
-            }else if(layerType=="chart"||layerType=="map"||layerType=="chartMap"){
-                let newOptions = store.getState().showLayerDatas.cptOptionsList[_this.state.cptIndex].layerOption;
+            if (layerType == "text" || layerType == "border") {} else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
+                let newOptions = store
+                    .getState()
+                    .showLayerDatas
+                    .cptOptionsList[_this.state.cptIndex]
+                    .layerOption;
                 let tempThisObj = document.getElementById(id);
                 if (layerType == "chart") {
                     var e_instance = tempThisObj.getAttribute("_echarts_instance_");
                     if (chartState == "update") {
-                        new window.dmapgl.commonlyCharts(id, {
-                            data: newOptions
-                        });
+                        new window
+                            .dmapgl
+                            .commonlyCharts(id, {data: newOptions});
                     } else {
-                        if(window.echarts.getInstanceById(e_instance)){
-                            window.echarts.getInstanceById(e_instance).resize();
+                        if (window.echarts.getInstanceById(e_instance)) {
+                            window
+                                .echarts
+                                .getInstanceById(e_instance)
+                                .resize();
                         }
                     }
-                } else if (layerType == "map"||layerType=="chartMap") {
+                } else if (layerType == "map" || layerType == "chartMap") {
                     let mapObj = mapObjArr[_this.state.cptIndex]
-                    if(mapObj.layerId == id){
-                        if (chartState == "update") {
-                                
-                        } else {
-                            if(mapObj.layerMap){
-                                mapObj.layerMap.resize();
+                    if (mapObj.layerId == id) {
+                        if (chartState == "update") {} else {
+                            if (mapObj.layerMap) {
+                                mapObj
+                                    .layerMap
+                                    .resize();
                             }
                         }
                     }
-                }     
-            }else{
-                
-            }
+                }
+            } else {}
         }
     }
 }
 
-
-
-
-export function showChartsOption(chartsList){
-    if(chartsList&&chartsList[0]){
-        var arr = window.arr ? window.arr : [];
-        var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-        chartsList.map((item,index) => {
+export function showChartsOption(chartsList) {
+    if (chartsList && chartsList[0]) {
+        var arr = window.arr
+            ? window.arr
+            : [];
+        var mapObjArr = window.mapObjArr
+            ? window.mapObjArr
+            : [];
+        chartsList.map((item, index) => {
             let data = item.layerObj;
-            let thType  = item.thType;
+            let thType = item.thType;
             let chartId = item.chartId;
             let layerData = item.layerData;
-            let timeKey = item.timeKey.toString();
+            let timeKey = item
+                .timeKey
+                .toString();
             let map = {};
-            if(thType=="0"){
+            if (thType == "0") {
                 store.dispatch(addCptOptionsList(chartId, []));
-                getSpecify(chartId)
-                        .then(function (result) {
-                            if(result.data){
-                                console.log("接口没有数据")
-                            }else{
-                                if(result&&result[0]){
-                                    new window.dmapgl.commonlyCharts(timeKey, {
-                                        data: result
-                                    });
-                                }
-                            }
-                            let tempOptionObj = {
-                                cptIndex:index,
-                                layerOption:result
-                            }
-                            store.dispatch(editCptOptionsList(tempOptionObj));
-                        
-                }).catch(e => console.log("error", e)); 
-            }else if(thType=="1"){
-                let dataShow = data.show;
-                map = new window.dmapgl.Map({
-                    container :timeKey,
-                    zoom : 8,
-                    minZoom : 8,
-                    maxZoom : 20,
-                    fadeDuration : 0,
-                    center : [ 503428.7804260254, 345586.30670166016 ],
-                    preserveDrawingBuffer:true,
-                    style : 'zyzx://formal_blue/styles/style.json',
-                    //style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
-                    //localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
-                });
-                store.dispatch(addCptOptionsList(chartId, []));
-                if(dataShow == "1"||dataShow == "2"){
-                    map.on('load', function() {
-                        if(data.show == "1"){
-                            addMapWFS(data,map);
-                        }else if(data.show == "2"){
-                            addMapWMS(data,map);
+                getSpecify(chartId).then(function (result) {
+                    if (result.data) {
+                        console.log("接口没有数据")
+                    } else {
+                        if (result && result[0]) {
+                            new window
+                                .dmapgl
+                                .commonlyCharts(timeKey, {data: result});
                         }
-                        getSpecify(chartId).then(result => {
-                            let tempOptionObj = {
-                                cptIndex:index,
-                                layerOption:result
-                              }
-                             store.dispatch(editCptOptionsList(tempOptionObj));
-                        }).catch(error => {
-                            console.info(error);     
-                        });
+                    }
+                    let tempOptionObj = {
+                        cptIndex: index,
+                        layerOption: result
+                    }
+                    store.dispatch(editCptOptionsList(tempOptionObj));
+
+                }).catch(e => console.log("error", e));
+            } else if (thType == "1") {
+                let dataShow = data.show;
+                map = new window
+                    .dmapgl
+                    .Map({
+                        container: timeKey,
+                        zoom: 8,
+                        minZoom: 8,
+                        maxZoom: 20,
+                        fadeDuration: 0,
+                        center: [
+                            503428.7804260254, 345586.30670166016
+                        ],
+                        preserveDrawingBuffer: true,
+                        style: 'zyzx://formal_blue/styles/style.json',
+                        // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
+                        // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+                        // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
+                        // Regular","SimSun,Regular"',
                     });
-                }
-            }else if(thType=="text"||thType=="border"||thType=="iframe"){
+                store.dispatch(addCptOptionsList(chartId, []));
+                map.on('load', function () {
+                    if (data.show == "1") {
+                        addMapWFS(data, map);
+                    } else if (data.show == "2") {
+                        addMapWMS(data, map);
+                    }
+                    getSpecify(chartId).then(result => {
+                        let tempOptionObj = {
+                            cptIndex: index,
+                            layerOption: result
+                        }
+                        store.dispatch(editCptOptionsList(tempOptionObj));
+                    }).catch(error => {
+                        console.info(error);
+                    });
+                });
+            } else if (thType == "text" || thType == "border" || thType == "iframe") {
                 let tempSaveObj = {};
-                if(thType=="border"){
-                    var layerObj = document.getElementById(timeKey).parentNode;
-                    layerObj.style.borderWidth = layerData.borderWidth+"px";
+                if (thType == "border") {
+                    var layerObj = document
+                        .getElementById(timeKey)
+                        .parentNode;
+                    layerObj.style.borderWidth = layerData.borderWidth + "px";
                     layerObj.style.borderStyle = layerData.borderStyle;
                     layerObj.style.borderColor = layerData.borderColor;
                     tempSaveObj = {
-                        borderWidth:layerData.borderWidth,
-                        borderStyle:layerData.borderStyle,
-                        borderColor:layerData.borderColor
+                        borderWidth: layerData.borderWidth,
+                        borderStyle: layerData.borderStyle,
+                        borderColor: layerData.borderColor
                     }
-                }else if(thType=="text"){
+                } else if (thType == "text") {
                     tempSaveObj = {
-                        textCenter:layerData.textCenter,
-                        fontFamily:layerData.fontFamily,
-                        fontSize:layerData.fontSize,
-                        fontColor:layerData.fontColor,
-                        fontWeight:layerData.fontWeight,
-                        textAlign:layerData.textAlign,
-                        writingMode:layerData.writingMode,
-                        hyperlinkCenter:layerData.hyperlinkCenter,
-                        isNewWindow:layerData.isNewWindow,
+                        textCenter: layerData.textCenter,
+                        fontFamily: layerData.fontFamily,
+                        fontSize: layerData.fontSize,
+                        fontColor: layerData.fontColor,
+                        fontWeight: layerData.fontWeight,
+                        textAlign: layerData.textAlign,
+                        writingMode: layerData.writingMode,
+                        hyperlinkCenter: layerData.hyperlinkCenter,
+                        isNewWindow: layerData.isNewWindow
                     };
-                }else if(thType=="iframe"){
+                } else if (thType == "iframe") {
                     tempSaveObj = {
-                        iframeUrl:layerData.iframeUrl,
+                        iframeUrl: layerData.iframeUrl
                     }
                 }
-                store.dispatch(addCptOptionsList(chartId,tempSaveObj));
-            } 
+                store.dispatch(addCptOptionsList(chartId, tempSaveObj));
+            }
             arr.push(timeKey);
-            mapObjArr.push({
-                layerId: timeKey,
-                layerMap:map
-            });  
-              
+            mapObjArr.push({layerId: timeKey, layerMap: map});
+
         })
         window.mapObjArr = mapObjArr;
         window.arr = arr;
@@ -324,74 +341,85 @@ export function showChartsOption(chartsList){
  * @param data 图表数据
  * @param n 序号
  */
-function addChart(data,timeId,addIndex,_this){
+function addChart(data, timeId, addIndex, _this) {
     var thType = data.thType;
     var catalogId = data.id;
     var map = {};
-	if("0" == thType){//图表
-		var type1 = data.type?data.type:'';//图表类型（饼、柱。。等）
-		// if('THEMEPIE_CHART' == type1 ||'THEMERING_CHART' == type1 ){
-			/*
+    if ("0" == thType) { //图表
+        var type1 = data.type
+            ? data.type
+            : ''; //图表类型（饼、柱。。等）
+        // if('THEMEPIE_CHART' == type1 ||'THEMERING_CHART' == type1 ){
+        /*
 			 * 一般图表
 			 * THEMEPIE_CHART（一般饼状图）
 			 * THEMERING_CHART（一般圆环图）
 			 */
-            store.dispatch(addCptOptionsList(catalogId, []))
-			getSpecify(catalogId).then(result => {
-                var a = new window.dmapgl.commonlyCharts(timeId,{data:result});
-                let tempOptionObj = {
-                    cptIndex:addIndex,
-                    layerOption:result
-                  }
-                 store.dispatch(editCptOptionsList(tempOptionObj));
-                 _this.updateGlobalEditData();
-            }).catch(error => {
-                console.info(error);     
-            });
-		// }
-	}else if("1" == thType){//wms或wfs
-        var service = data.service;
-		var layername = data.layername;
-		var name = data.name;
-		var renderer = data.renderer?data.renderer:'';//wms样式
-		map = new window.dmapgl.Map({
-			container :timeId,
-			zoom : 8,
-			minZoom : 8,
-			maxZoom : 20,
-			fadeDuration : 0,
-			center : [ 503428.7804260254, 345586.30670166016 ],
-			preserveDrawingBuffer:true,
-			style : 'zyzx://formal_blue/styles/style.json',
-			//style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json', //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
-			//localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei Regular","SimSun,Regular"',
-        });
         store.dispatch(addCptOptionsList(catalogId, []))
-		
-			map.on('load', function() {
-                if(data.show == "1"){
-                    addMapWFS(data,map);
-                }else if(data.show == "2"){
-                    addMapWMS(data,map);
+        getSpecify(catalogId).then(result => {
+            var a = new window
+                .dmapgl
+                .commonlyCharts(timeId, {data: result});
+            let tempOptionObj = {
+                cptIndex: addIndex,
+                layerOption: result
+            }
+            store.dispatch(editCptOptionsList(tempOptionObj));
+            _this.updateGlobalEditData();
+        }).catch(error => {
+            console.info(error);
+        });
+        // }
+    } else if ("1" == thType) { //wms或wfs
+        var service = data.service;
+        var layername = data.layername;
+        var name = data.name;
+        var renderer = data.renderer
+            ? data.renderer
+            : ''; //wms样式
+        map = new window
+            .dmapgl
+            .Map({
+                container: timeId,
+                zoom: 8,
+                minZoom: 8,
+                maxZoom: 20,
+                fadeDuration: 0,
+                center: [
+                    503428.7804260254, 345586.30670166016
+                ],
+                preserveDrawingBuffer: true,
+                style: 'zyzx://formal_blue/styles/style.json',
+                // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
+                // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
+                // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
+                // Regular","SimSun,Regular"',
+            });
+        store.dispatch(addCptOptionsList(catalogId, []))
+
+        map.on('load', function () {
+            if (data.show == "1") {
+                addMapWFS(data, map);
+            } else if (data.show == "2") {
+                addMapWMS(data, map);
+            }
+            getSpecify(catalogId).then(result => {
+                let tempOptionObj = {
+                    cptIndex: addIndex,
+                    layerOption: result
                 }
-                getSpecify(catalogId).then(result => {
-                    let tempOptionObj = {
-                        cptIndex:addIndex,
-                        layerOption:result
-                      }
-                     store.dispatch(editCptOptionsList(tempOptionObj));
-                     _this.updateGlobalEditData();
-                }).catch(error => {
-                    console.info(error);     
-                });
-    		});
-		
+                store.dispatch(editCptOptionsList(tempOptionObj));
+                _this.updateGlobalEditData();
+            }).catch(error => {
+                console.info(error);
+            });
+        });
+
     }
-    var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-    mapObjArr.push({
-        layerId: timeId,
-        layerMap:map
-    });
+    var mapObjArr = window.mapObjArr
+        ? window.mapObjArr
+        : [];
+    mapObjArr.push({layerId: timeId, layerMap: map});
     window.mapObjArr = mapObjArr;
 }
 
@@ -400,800 +428,818 @@ function addChart(data,timeId,addIndex,_this){
  * @param renderer
  * @returns
  */
-function addMapWFS(obj,map){
-	var userName = getCookie("userName");
-	
-	var renderer = obj.renderer;
-	console.info(renderer);
-	var layername = userName+"."+obj.layername;
-	var rxml = $.parseXML(renderer);
-	var group1 = $(rxml).find('GROUPRENDERER');
-	var tagName = group1[0].firstChild.tagName;
-	
-	//var group2 = $(group1).find('GROUPRENDERER');
-	if('GROUPRENDERER' == tagName){//字体符号库
-		var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var img = truettypemarkersymbol.attr('img');
-				map.loadImage(img,(error,data)=>{
-			        map.addImage(layername,data);
-			    });
-				
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coord1 = coord.split(' ').join(',');
-						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-					});
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				map.addLayer({
-					"id" : layername,
-					"type" : "symbol",
-					"source" : {
-						"type": "geojson",
-						"data": {
-							"type": "FeatureCollection",
-						    "features": fatures
-						}
-					},
-					"layout" : {
-						'icon-image' : layername,
-					    'icon-size' : 1,
-					    'icon-allow-overlap' : true
-					}
-				});
-			}
-		});
-	}else{
-		var simplerenderer = $(group1).find('SIMPLERENDERER');
-		var type = simplerenderer.attr('name');
-		if('一般点样式' == type){
-			var grouperenderer = $(simplerenderer).find('GROUPRENDERER');
-			var styleName= grouperenderer.attr('styleName');
-			var fuhaokuName = grouperenderer.attr('fuhaokuName');
-			var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
-			
-			
-			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
-			$.ajax({
-				type : "GET",
-				url : url,
-				async : false,
-				success : function(data) {
-					var color = simplemarkersymbol.attr('color');
-					var width = parseInt(simplemarkersymbol.attr('width'));
-					var carr = color.split(',');
-					
-					var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
-			        var imgData = new Uint8Array(width * width * bytesPerPixel);
-					
-					if(styleName == 'square'){//正方形
-						 for (var x = 0; x < width; x++) {
-				            for (var y = 0; y < width; y++) {
-				            	var offset = (y * width + x) * bytesPerPixel;
-				            	imgData[offset + 0] = parseInt(carr[0]); // red
-			                    imgData[offset + 1] = parseInt(carr[1]); // green
-			                    imgData[offset + 2] = parseInt(carr[2]);             // blue
-			                    imgData[offset + 3] = 255;             // alpha
-				            }
-				    	}
-					}else if(styleName == 'cross'){//十字
-						var half = Math.floor(width/2);
-						for (var x = 0; x < width; x++) {
-				        	for (var y = 0; y < width; y++) {
-				                if(x == half || y == half){
-				                    var offset = (y * width + x) * bytesPerPixel;
-				                    imgData[offset + 0] = parseInt(carr[0]); // red
-				                    imgData[offset + 1] = parseInt(carr[1]); // green
-				                    imgData[offset + 2] = parseInt(carr[2]);             // blue
-				                    imgData[offset + 3] = 255;             // alpha
-				                }
-				            }
-				        }
-					}
-					
-					if(!map.hasImage(layername)){
-						map.addImage(layername, {width: width, height: width, data: imgData});
-					}
+function addMapWFS(obj, map) {
+    var userName = getCookie("userName");
 
-					var listElements = $(data).find('gml\\:featureMember');
-					var json = '[';
-					if(listElements.length>0){
-						$(listElements).each(function() {
-							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-							var coord = $($(this).find('gml\\:coordinates')[0]).text();
-							var coord1 = coord.split(' ').join(',');
-							json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-						});
-						json = json.substring(0, json.length - 1);
-					}
-					
-					json += ']';
-					var fatures = JSON.parse(json);
-					
-					map.addLayer({
-						"id" : layername,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : layername/*,
+    var renderer = obj.renderer;
+    console.info(renderer);
+    var layername = userName + "." + obj.layername;
+    var rxml = $.parseXML(renderer);
+    var group1 = $(rxml).find('GROUPRENDERER');
+    var tagName = group1[0].firstChild.tagName;
+
+    //var group2 = $(group1).find('GROUPRENDERER');
+    if ('GROUPRENDERER' == tagName) { //字体符号库
+        var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var img = truettypemarkersymbol.attr('img');
+                map.loadImage(img, (error, data) => {
+                    map.addImage(layername, data);
+                });
+
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    $(listElements)
+                        .each(function () {
+                            var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                            var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                            var coord1 = coord
+                                .split(' ')
+                                .join(',');
+                            json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                        });
+                    json = json.substring(0, json.length - 1);
+                }
+
+                json += ']';
+                var fatures = JSON.parse(json);
+
+                map.addLayer({
+                    "id": layername,
+                    "type": "symbol",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": fatures
+                        }
+                    },
+                    "layout": {
+                        'icon-image': layername,
+                        'icon-size': 1,
+                        'icon-allow-overlap': true
+                    }
+                });
+            }
+        });
+    } else {
+        var simplerenderer = $(group1).find('SIMPLERENDERER');
+        var type = simplerenderer.attr('name');
+        if ('一般点样式' == type) {
+            var grouperenderer = $(simplerenderer).find('GROUPRENDERER');
+            var styleName = grouperenderer.attr('styleName');
+            var fuhaokuName = grouperenderer.attr('fuhaokuName');
+            var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
+
+            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                    '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+                    var color = simplemarkersymbol.attr('color');
+                    var width = parseInt(simplemarkersymbol.attr('width'));
+                    var carr = color.split(',');
+
+                    var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
+                    var imgData = new Uint8Array(width * width * bytesPerPixel);
+
+                    if (styleName == 'square') { //正方形
+                        for (var x = 0; x < width; x++) {
+                            for (var y = 0; y < width; y++) {
+                                var offset = (y * width + x) * bytesPerPixel;
+                                imgData[offset + 0] = parseInt(carr[0]); // red
+                                imgData[offset + 1] = parseInt(carr[1]); // green
+                                imgData[offset + 2] = parseInt(carr[2]); // blue
+                                imgData[offset + 3] = 255; // alpha
+                            }
+                        }
+                    } else if (styleName == 'cross') { //十字
+                        var half = Math.floor(width / 2);
+                        for (var x = 0; x < width; x++) {
+                            for (var y = 0; y < width; y++) {
+                                if (x == half || y == half) {
+                                    var offset = (y * width + x) * bytesPerPixel;
+                                    imgData[offset + 0] = parseInt(carr[0]); // red
+                                    imgData[offset + 1] = parseInt(carr[1]); // green
+                                    imgData[offset + 2] = parseInt(carr[2]); // blue
+                                    imgData[offset + 3] = 255; // alpha
+                                }
+                            }
+                        }
+                    }
+
+                    if (!map.hasImage(layername)) {
+                        map.addImage(layername, {
+                            width: width,
+                            height: width,
+                            data: imgData
+                        });
+                    }
+
+                    var listElements = $(data).find('gml\\:featureMember');
+                    var json = '[';
+                    if (listElements.length > 0) {
+                        $(listElements)
+                            .each(function () {
+                                var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                                var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                                var coord1 = coord
+                                    .split(' ')
+                                    .join(',');
+                                json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                            });
+                        json = json.substring(0, json.length - 1);
+                    }
+
+                    json += ']';
+                    var fatures = JSON.parse(json);
+
+                    map.addLayer({
+                        "id": layername,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': layername/*,
 						    'icon-size' : 1,
 						    'icon-allow-overlap' : true*/
-						}
-					});
-				}
-			});
-			
-		}else if('精准点样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var exacts = $(valuemaprenderer).find('EXACT');
-			recursionJZFW(type,layername,map,exacts,lookupfield,0);
-		}else if('范围点样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var ranges = $(valuemaprenderer).find('RANGE');
-			recursionJZFW(type,layername,map,ranges,lookupfield,0);
-		}else if('栅格点样式' == type){
-			var symbol = $(simplerenderer).find('SIMPLEMARKERSYMBOL');
-			var icon = symbol.attr('icon');
-			if(!map.hasImage(icon)){
-				map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
-					map.addImage(icon, image);
-				});
-			}
-			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
-			$.ajax({
-				type : "GET",
-				url : url,
-				async : false,
-				success : function(data) {
-					
-					var listElements = $(data).find('gml\\:featureMember');
-					var json = '[';
-					if(listElements.length>0){
-						$(listElements).each(function() {
-							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-							var coord = $($(this).find('gml\\:coordinates')[0]).text();
-							var coord1 = coord.split(' ').join(',');
-							json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-						});
-						json = json.substring(0, json.length - 1);
-					}
-					
-					json += ']';
-					var fatures = JSON.parse(json);
-					
-					
-					map.addLayer({
-						"id" : layername,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : icon,
-							'icon-size' : 1,
-						    'icon-allow-overlap' : true
-						}
-					});
-				}
-			});
-			
-		}else if('一般线样式' == type){
-			var simplinesymbol = $(simplerenderer).find('SIMPLELINESYMBOL');
-			var width = parseInt(simplinesymbol.attr('width'));
-			var color = simplinesymbol.attr('color');
-			
-			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
-			$.ajax({
-				type : "GET",
-				url : url,
-				async : false,
-				success : function(data) {
-					
-					var listElements = $(data).find('gml\\:featureMember');
-					var json = '[';
-					if(listElements.length>0){
-						var listElements = $(data).find('gml\\:featureMember');
-						$(listElements).each(function() {
-							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-							var coord = $($(this).find('gml\\:coordinates')[0]).text();
-							var coordArr1 = coord.split(';');
-							var cds = '[';
-							for (var j = 0; j < coordArr1.length; j++) {
-								var coodObj = coordArr1[j];
-								var x = parseFloat(coodObj.split(' ')[0]);
-								var y = parseFloat(coodObj.split(' ')[1]);
-								cds += '[' + x + ',' + y + '],'
-							}
-							cds = cds.substring(0, cds.length - 1);
-							cds += ']';
-							json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+                        }
+                    });
+                }
+            });
 
-						});
-						json = json.substring(0, json.length - 1);
-					}
-					
-					json += ']';
-					var fatures = JSON.parse(json);
-					
-					map.addLayer({
-						'id' : layername,
-						'type' : 'line',
-						'source' : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							},
-						},
-						'paint' : {
-							'line-color' : 'rgb('+color+')',
-							'line-width' : width
-						}
-					});
-				}
-			});
-		}else if('精准线样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var exacts = $(valuemaprenderer).find('EXACT');
-			recursionJZFW(type,layername,map,exacts,lookupfield,0);
-		}else if('范围线样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var ranges = $(valuemaprenderer).find('RANGE');
-			recursionJZFW(type,layername,map,ranges,lookupfield,0);
-		}else if('一般面样式' == type){
-			var simplepolygonsymbol = $(simplerenderer).find('SIMPLEPOLYGONSYMBOL');
-			//var width = parseInt(simplepolygonsymbol.attr('width'));
-			var fillcolor = simplepolygonsymbol.attr('fillcolor');
-			var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
-			var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
-			
-			var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
-			$.ajax({
-				type : "GET",
-				url : url,
-				async : false,
-				success : function(data) {
-					
-					var listElements = $(data).find('gml\\:featureMember');
-					var json = '[';
-					if(listElements.length>0){
-						var listElements = $(data).find('gml\\:featureMember');
-						$(listElements).each(function() {
-							var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-							var coord = $($(this).find('gml\\:coordinates')[0]).text();
-							var coordArr1 = coord.split(';');
-							var cds = '[';
-							for (var j = 0; j < coordArr1.length; j++) {
-								var coodObj = coordArr1[j];
-								var x = parseFloat(coodObj.split(' ')[0]);
-								var y = parseFloat(coodObj.split(' ')[1]);
-								cds += '[' + x + ',' + y + '],'
-							}
-							cds = cds.substring(0, cds.length - 1);
-							cds += ']';
-							json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+        } else if ('精准点样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var exacts = $(valuemaprenderer).find('EXACT');
+            recursionJZFW(type, layername, map, exacts, lookupfield, 0);
+        } else if ('范围点样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var ranges = $(valuemaprenderer).find('RANGE');
+            recursionJZFW(type, layername, map, ranges, lookupfield, 0);
+        } else if ('栅格点样式' == type) {
+            var symbol = $(simplerenderer).find('SIMPLEMARKERSYMBOL');
+            var icon = symbol.attr('icon');
+            if (!map.hasImage(icon)) {
+                map
+                    .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                        map.addImage(icon, image);
+                    });
+            }
+            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                    '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
 
-						});
-						
-						json = json.substring(0, json.length - 1);
-					}
-					
-					json += ']';
-					var fatures = JSON.parse(json);
-					
-					map.addLayer({
-						'id' : layername,
-						'type' : 'fill',
-						'source' : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							},
-						},
-						'paint' : {
-							'fill-color' : 'rgb('+fillcolor+')',
-							'fill-opacity' : 1,
-							'fill-outline-color' : 'rgb('+boundarycolor+')'
-						}
-					});
-				}
-			});
-		}else if('精准面样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var exacts = $(valuemaprenderer).find('EXACT');
-			recursionJZFW(type,layername,map,exacts,lookupfield,0);
-		}else if('范围面样式' == type){
-			var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
-			var lookupfield = $(valuemaprenderer).attr('lookupfield');
-			var ranges = $(valuemaprenderer).find('RANGE');
-			recursionJZFW(type,layername,map,ranges,lookupfield,0);
-		}
-	}
-	
+                    var listElements = $(data).find('gml\\:featureMember');
+                    var json = '[';
+                    if (listElements.length > 0) {
+                        $(listElements)
+                            .each(function () {
+                                var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                                var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                                var coord1 = coord
+                                    .split(' ')
+                                    .join(',');
+                                json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                            });
+                        json = json.substring(0, json.length - 1);
+                    }
+
+                    json += ']';
+                    var fatures = JSON.parse(json);
+
+                    map.addLayer({
+                        "id": layername,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': icon,
+                            'icon-size': 1,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                }
+            });
+
+        } else if ('一般线样式' == type) {
+            var simplinesymbol = $(simplerenderer).find('SIMPLELINESYMBOL');
+            var width = parseInt(simplinesymbol.attr('width'));
+            var color = simplinesymbol.attr('color');
+
+            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                    '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+
+                    var listElements = $(data).find('gml\\:featureMember');
+                    var json = '[';
+                    if (listElements.length > 0) {
+                        var listElements = $(data).find('gml\\:featureMember');
+                        $(listElements).each(function () {
+                            var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                            var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                            var coordArr1 = coord.split(';');
+                            var cds = '[';
+                            for (var j = 0; j < coordArr1.length; j++) {
+                                var coodObj = coordArr1[j];
+                                var x = parseFloat(coodObj.split(' ')[0]);
+                                var y = parseFloat(coodObj.split(' ')[1]);
+                                cds += '[' + x + ',' + y + '],'
+                            }
+                            cds = cds.substring(0, cds.length - 1);
+                            cds += ']';
+                            json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+                        });
+                        json = json.substring(0, json.length - 1);
+                    }
+
+                    json += ']';
+                    var fatures = JSON.parse(json);
+
+                    map.addLayer({
+                        'id': layername,
+                        'type': 'line',
+                        'source': {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        'paint': {
+                            'line-color': 'rgb(' + color + ')',
+                            'line-width': width
+                        }
+                    });
+                }
+            });
+        } else if ('精准线样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var exacts = $(valuemaprenderer).find('EXACT');
+            recursionJZFW(type, layername, map, exacts, lookupfield, 0);
+        } else if ('范围线样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var ranges = $(valuemaprenderer).find('RANGE');
+            recursionJZFW(type, layername, map, ranges, lookupfield, 0);
+        } else if ('一般面样式' == type) {
+            var simplepolygonsymbol = $(simplerenderer).find('SIMPLEPOLYGONSYMBOL');
+            //var width = parseInt(simplepolygonsymbol.attr('width'));
+            var fillcolor = simplepolygonsymbol.attr('fillcolor');
+            var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+            var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+
+            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                    '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+            $.ajax({
+                type: "GET",
+                url: url,
+                async: false,
+                success: function (data) {
+
+                    var listElements = $(data).find('gml\\:featureMember');
+                    var json = '[';
+                    if (listElements.length > 0) {
+                        var listElements = $(data).find('gml\\:featureMember');
+                        $(listElements).each(function () {
+                            var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                            var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                            var coordArr1 = coord.split(';');
+                            var cds = '[';
+                            for (var j = 0; j < coordArr1.length; j++) {
+                                var coodObj = coordArr1[j];
+                                var x = parseFloat(coodObj.split(' ')[0]);
+                                var y = parseFloat(coodObj.split(' ')[1]);
+                                cds += '[' + x + ',' + y + '],'
+                            }
+                            cds = cds.substring(0, cds.length - 1);
+                            cds += ']';
+                            json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+                        });
+
+                        json = json.substring(0, json.length - 1);
+                    }
+
+                    json += ']';
+                    var fatures = JSON.parse(json);
+
+                    map.addLayer({
+                        'id': layername,
+                        'type': 'fill',
+                        'source': {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        'paint': {
+                            'fill-color': 'rgb(' + fillcolor + ')',
+                            'fill-opacity': 1,
+                            'fill-outline-color': 'rgb(' + boundarycolor + ')'
+                        }
+                    });
+                }
+            });
+        } else if ('精准面样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var exacts = $(valuemaprenderer).find('EXACT');
+            recursionJZFW(type, layername, map, exacts, lookupfield, 0);
+        } else if ('范围面样式' == type) {
+            var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
+            var lookupfield = $(valuemaprenderer).attr('lookupfield');
+            var ranges = $(valuemaprenderer).find('RANGE');
+            recursionJZFW(type, layername, map, ranges, lookupfield, 0);
+        }
+    }
+
 }
 
-function addMapWMS(obj,map){
-	var userName = getCookie("userName");
-	var name = obj.name;
-	var layername = userName+"."+obj.layername;
-	var service = obj.service;
-	var id = service+"-"+layername+"-"+name;
-	map.addLayer({
-		'id' : id,
-		'type' : 'raster',
-		'source' : {
-			'type' : 'raster',
-			'tiles' : [
-				'zyzx://GovEMap/wms?service='+service+'&request=GetMap&version=1.1.1&layers=&styles=&format=image%2Fpng&transparent=true&CapitalCharacter=false&crs=&height=256&width=256&layername='+layername+'&name='+name+'&continuousWorld=true&BBOX={bbox-epsg-3857}'
-			],
-			'tileSize' : 256
-		},
-		'paint' : {}
-	}, 'drawLevel');
+function addMapWMS(obj, map) {
+    var userName = getCookie("userName");
+    var name = obj.name;
+    var layername = userName + "." + obj.layername;
+    var service = obj.service;
+    var id = service + "-" + layername + "-" + name;
+    map.addLayer({
+        'id': id,
+        'type': 'raster',
+        'source': {
+            'type': 'raster',
+            'tiles': ['zyzx://GovEMap/wms?service=' + service + '&request=GetMap&version=1.1.1&layers=&styles=&format=image%2Fpng&transparent=tru' +
+                    'e&CapitalCharacter=false&crs=&height=256&width=256&layername=' + layername + '&name=' + name + '&continuousWorld=true&BBOX={bbox-epsg-3857}'],
+            'tileSize': 256
+        },
+        'paint': {}
+    }, 'drawLevel');
 }
-
-
 
 /**
  * 递归加载精准、范围的点线面图层
  * @returns
  */
-function recursionJZFW(type,layername,map,arr,field,index){
-	var obj = arr[index];
-	if('精准点样式' == type){
-		var value = $(obj).attr('value');
-		var fuhaokuName = $(obj).attr('fuhaokuName');
-		var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
-		var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coord1 = coord.split(' ').join(',');
-						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-					});
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				if(fuhaokuName == '栅格图标'){
-					var icon = simplemarkersymbol.attr('icon');
-					if(!map.hasImage(icon)){
-						map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
-							map.addImage(icon, image);
-						});
-					}
-					map.addLayer({
-						"id" : layername+index,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : icon,
-							'icon-size' : 1,
-						    'icon-allow-overlap' : true
-						}
-					});
-				}else if(fuhaokuName == '字体符号库'){
-					var img = truettypemarkersymbol.attr('img');
-					map.loadImage(img,(error,data)=>{
-				        map.addImage(layername+index,data);
-				    });
-					map.addLayer({
-						"id" : layername+index,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : layername+index,
-						    'icon-size' : 1,
-						    'icon-allow-overlap' : true
-						}
-					});
-				}
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}else if('范围点样式' == type){
-		var lower = $(obj).attr('lower');
-		var upper = $(obj).attr('upper');
-		var fuhaokuName = $(obj).attr('fuhaokuName')
-		var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
-		var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coord1 = coord.split(' ').join(',');
-						json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-					});
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				if(fuhaokuName == '栅格图标'){
-					var icon = simplemarkersymbol.attr('icon');
-					if(!map.hasImage(icon)){
-						map.loadImage('../SymbolLib?request=icon&icon=symbollib/'+icon+'.png', function(error, image) {
-							map.addImage(icon, image);
-						});
-					}
-					map.addLayer({
-						"id" : layername+index,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : icon,
-							'icon-size' : 1,
-						    'icon-allow-overlap' : true
-						}
-					});
-				}else if(fuhaokuName == '字体符号库'){
-					var img = truettypemarkersymbol.attr('img');
-					map.loadImage(img,(error,data)=>{
-				        map.addImage(layername+index,data);
-				    });
-					map.addLayer({
-						"id" : layername+index,
-						"type" : "symbol",
-						"source" : {
-							"type": "geojson",
-							"data": {
-								"type": "FeatureCollection",
-							    "features": fatures
-							}
-						},
-						"layout" : {
-							'icon-image' : layername+index,
-						    'icon-size' : 1,
-						    'icon-allow-overlap' : true
-						}
-					});
-				}
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}else if('精准线样式' == type){
-		var value = $(obj).attr('value');
-		var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var width = parseInt(simplelinesymbol.attr('width'));
-				var color = simplelinesymbol.attr('color');
-				
-				
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					var listElements = $(data).find('gml\\:featureMember');
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coordArr1 = coord.split(';');
-						var cds = '[';
-						for (var j = 0; j < coordArr1.length; j++) {
-							var coodObj = coordArr1[j];
-							var x = parseFloat(coodObj.split(' ')[0]);
-							var y = parseFloat(coodObj.split(' ')[1]);
-							cds += '[' + x + ',' + y + '],'
-						}
-						cds = cds.substring(0, cds.length - 1);
-						cds += ']';
-						json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+function recursionJZFW(type, layername, map, arr, field, index) {
+    var obj = arr[index];
+    if ('精准点样式' == type) {
+        var value = $(obj).attr('value');
+        var fuhaokuName = $(obj).attr('fuhaokuName');
+        var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
+        var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    $(listElements)
+                        .each(function () {
+                            var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                            var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                            var coord1 = coord
+                                .split(' ')
+                                .join(',');
+                            json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                        });
+                    json = json.substring(0, json.length - 1);
+                }
 
-					});
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				map.addLayer({
-					'id' : layername+index,
-					'type' : 'line',
-					'source' : {
-						"type": "geojson",
-						"data": {
-							"type": "FeatureCollection",
-						    "features": fatures
-						},
-					},
-					'paint' : {
-						'line-color' : 'rgb('+color+')',
-						'line-width' : width
-					}
-				});
-				
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}else if('范围线样式' == type){
-		var lower = $(obj).attr('lower');
-		var upper = $(obj).attr('upper');
-		var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var width = parseInt(simplelinesymbol.attr('width'));
-				var color = simplelinesymbol.attr('color');
-				
-				
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					var listElements = $(data).find('gml\\:featureMember');
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coordArr1 = coord.split(';');
-						var cds = '[';
-						for (var j = 0; j < coordArr1.length; j++) {
-							var coodObj = coordArr1[j];
-							var x = parseFloat(coodObj.split(' ')[0]);
-							var y = parseFloat(coodObj.split(' ')[1]);
-							cds += '[' + x + ',' + y + '],'
-						}
-						cds = cds.substring(0, cds.length - 1);
-						cds += ']';
-						json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+                json += ']';
+                var fatures = JSON.parse(json);
 
-					});
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				map.addLayer({
-					'id' : layername+index,
-					'type' : 'line',
-					'source' : {
-						"type": "geojson",
-						"data": {
-							"type": "FeatureCollection",
-						    "features": fatures
-						},
-					},
-					'paint' : {
-						'line-color' : 'rgb('+color+')',
-						'line-width' : width
-					}
-				});
-				
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}else if('精准面样式' == type){
-		var value = $(obj).attr('value');
-		var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>'+field+'</PropertyName><Literal>'+value+'</Literal></PropertyIsEqualTo></Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var fillcolor = simplepolygonsymbol.attr('fillcolor');
-				var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
-				var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
-				
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					var listElements = $(data).find('gml\\:featureMember');
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coordArr1 = coord.split(';');
-						var cds = '[';
-						for (var j = 0; j < coordArr1.length; j++) {
-							var coodObj = coordArr1[j];
-							var x = parseFloat(coodObj.split(' ')[0]);
-							var y = parseFloat(coodObj.split(' ')[1]);
-							cds += '[' + x + ',' + y + '],'
-						}
-						cds = cds.substring(0, cds.length - 1);
-						cds += ']';
-						json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+                if (fuhaokuName == '栅格图标') {
+                    var icon = simplemarkersymbol.attr('icon');
+                    if (!map.hasImage(icon)) {
+                        map
+                            .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                                map.addImage(icon, image);
+                            });
+                    }
+                    map.addLayer({
+                        "id": layername + index,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': icon,
+                            'icon-size': 1,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                } else if (fuhaokuName == '字体符号库') {
+                    var img = truettypemarkersymbol.attr('img');
+                    map.loadImage(img, (error, data) => {
+                        map.addImage(layername + index, data);
+                    });
+                    map.addLayer({
+                        "id": layername + index,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': layername + index,
+                            'icon-size': 1,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                }
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    } else if ('范围点样式' == type) {
+        var lower = $(obj).attr('lower');
+        var upper = $(obj).attr('upper');
+        var fuhaokuName = $(obj).attr('fuhaokuName')
+        var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
+        var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    $(listElements)
+                        .each(function () {
+                            var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                            var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                            var coord1 = coord
+                                .split(' ')
+                                .join(',');
+                            json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                        });
+                    json = json.substring(0, json.length - 1);
+                }
 
-					});
-					
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				map.addLayer({
-					'id' : layername+index,
-					'type' : 'fill',
-					'source' : {
-						"type": "geojson",
-						"data": {
-							"type": "FeatureCollection",
-						    "features": fatures
-						},
-					},
-					'paint' : {
-						'fill-color' : 'rgb('+fillcolor+')',
-						'fill-opacity' : filltransparency,
-						'fill-outline-color' : 'rgb('+boundarycolor+')'
-					}
-				});
-				
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}else if('范围面样式' == type){
-		var lower = $(obj).attr('lower');
-		var upper = $(obj).attr('upper');
-		var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-		var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername+
-		'&Filter='+encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>'+field+'</PropertyName><LowerBoundary>'+lower+'</LowerBoundary><UpperBoundary>'+upper+'</UpperBoundary></PropertyIsBetween></ogc:Filter>');
-		$.ajax({
-			type : "GET",
-			url : url,
-			async : false,
-			success : function(data) {
-				var fillcolor = simplepolygonsymbol.attr('fillcolor');
-				var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
-				var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
-				
-				var listElements = $(data).find('gml\\:featureMember');
-				var json = '[';
-				if(listElements.length>0){
-					var listElements = $(data).find('gml\\:featureMember');
-					$(listElements).each(function() {
-						var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-						var coord = $($(this).find('gml\\:coordinates')[0]).text();
-						var coordArr1 = coord.split(';');
-						var cds = '[';
-						for (var j = 0; j < coordArr1.length; j++) {
-							var coodObj = coordArr1[j];
-							var x = parseFloat(coodObj.split(' ')[0]);
-							var y = parseFloat(coodObj.split(' ')[1]);
-							cds += '[' + x + ',' + y + '],'
-						}
-						cds = cds.substring(0, cds.length - 1);
-						cds += ']';
-						json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+                json += ']';
+                var fatures = JSON.parse(json);
 
-					});
-					
-					json = json.substring(0, json.length - 1);
-				}
-				
-				json += ']';
-				var fatures = JSON.parse(json);
-				
-				map.addLayer({
-					'id' : layername+index,
-					'type' : 'fill',
-					'source' : {
-						"type": "geojson",
-						"data": {
-							"type": "FeatureCollection",
-						    "features": fatures
-						},
-					},
-					'paint' : {
-						'fill-color' : 'rgb('+fillcolor+')',
-						'fill-opacity' : filltransparency,
-						'fill-outline-color' : 'rgb('+boundarycolor+')'
-					}
-				});
-				
-				index++;
-				if(index<arr.length){
-					recursionJZFW(type,layername,map,arr,field,index);
-				}
-			}
-		});
-	}
+                if (fuhaokuName == '栅格图标') {
+                    var icon = simplemarkersymbol.attr('icon');
+                    if (!map.hasImage(icon)) {
+                        map
+                            .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                                map.addImage(icon, image);
+                            });
+                    }
+                    map.addLayer({
+                        "id": layername + index,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': icon,
+                            'icon-size': 1,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                } else if (fuhaokuName == '字体符号库') {
+                    var img = truettypemarkersymbol.attr('img');
+                    map.loadImage(img, (error, data) => {
+                        map.addImage(layername + index, data);
+                    });
+                    map.addLayer({
+                        "id": layername + index,
+                        "type": "symbol",
+                        "source": {
+                            "type": "geojson",
+                            "data": {
+                                "type": "FeatureCollection",
+                                "features": fatures
+                            }
+                        },
+                        "layout": {
+                            'icon-image': layername + index,
+                            'icon-size': 1,
+                            'icon-allow-overlap': true
+                        }
+                    });
+                }
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    } else if ('精准线样式' == type) {
+        var value = $(obj).attr('value');
+        var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var width = parseInt(simplelinesymbol.attr('width'));
+                var color = simplelinesymbol.attr('color');
+
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    var listElements = $(data).find('gml\\:featureMember');
+                    $(listElements).each(function () {
+                        var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                        var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                        var coordArr1 = coord.split(';');
+                        var cds = '[';
+                        for (var j = 0; j < coordArr1.length; j++) {
+                            var coodObj = coordArr1[j];
+                            var x = parseFloat(coodObj.split(' ')[0]);
+                            var y = parseFloat(coodObj.split(' ')[1]);
+                            cds += '[' + x + ',' + y + '],'
+                        }
+                        cds = cds.substring(0, cds.length - 1);
+                        cds += ']';
+                        json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+                    });
+                    json = json.substring(0, json.length - 1);
+                }
+
+                json += ']';
+                var fatures = JSON.parse(json);
+
+                map.addLayer({
+                    'id': layername + index,
+                    'type': 'line',
+                    'source': {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": fatures
+                        }
+                    },
+                    'paint': {
+                        'line-color': 'rgb(' + color + ')',
+                        'line-width': width
+                    }
+                });
+
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    } else if ('范围线样式' == type) {
+        var lower = $(obj).attr('lower');
+        var upper = $(obj).attr('upper');
+        var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var width = parseInt(simplelinesymbol.attr('width'));
+                var color = simplelinesymbol.attr('color');
+
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    var listElements = $(data).find('gml\\:featureMember');
+                    $(listElements).each(function () {
+                        var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                        var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                        var coordArr1 = coord.split(';');
+                        var cds = '[';
+                        for (var j = 0; j < coordArr1.length; j++) {
+                            var coodObj = coordArr1[j];
+                            var x = parseFloat(coodObj.split(' ')[0]);
+                            var y = parseFloat(coodObj.split(' ')[1]);
+                            cds += '[' + x + ',' + y + '],'
+                        }
+                        cds = cds.substring(0, cds.length - 1);
+                        cds += ']';
+                        json += '{"type":"Feature","geometry":{"type":"LineString","coordinates":' + cds + '},"properties":{"objectid":"' + id + '"}},';
+
+                    });
+                    json = json.substring(0, json.length - 1);
+                }
+
+                json += ']';
+                var fatures = JSON.parse(json);
+
+                map.addLayer({
+                    'id': layername + index,
+                    'type': 'line',
+                    'source': {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": fatures
+                        }
+                    },
+                    'paint': {
+                        'line-color': 'rgb(' + color + ')',
+                        'line-width': width
+                    }
+                });
+
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    } else if ('精准面样式' == type) {
+        var value = $(obj).attr('value');
+        var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var fillcolor = simplepolygonsymbol.attr('fillcolor');
+                var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+                var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    var listElements = $(data).find('gml\\:featureMember');
+                    $(listElements).each(function () {
+                        var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                        var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                        var coordArr1 = coord.split(';');
+                        var cds = '[';
+                        for (var j = 0; j < coordArr1.length; j++) {
+                            var coodObj = coordArr1[j];
+                            var x = parseFloat(coodObj.split(' ')[0]);
+                            var y = parseFloat(coodObj.split(' ')[1]);
+                            cds += '[' + x + ',' + y + '],'
+                        }
+                        cds = cds.substring(0, cds.length - 1);
+                        cds += ']';
+                        json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+                    });
+
+                    json = json.substring(0, json.length - 1);
+                }
+
+                json += ']';
+                var fatures = JSON.parse(json);
+
+                map.addLayer({
+                    'id': layername + index,
+                    'type': 'fill',
+                    'source': {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": fatures
+                        }
+                    },
+                    'paint': {
+                        'fill-color': 'rgb(' + fillcolor + ')',
+                        'fill-opacity': filltransparency,
+                        'fill-outline-color': 'rgb(' + boundarycolor + ')'
+                    }
+                });
+
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    } else if ('范围面样式' == type) {
+        var lower = $(obj).attr('lower');
+        var upper = $(obj).attr('upper');
+        var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
+        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+                '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
+        $.ajax({
+            type: "GET",
+            url: url,
+            async: false,
+            success: function (data) {
+                var fillcolor = simplepolygonsymbol.attr('fillcolor');
+                var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
+                var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+
+                var listElements = $(data).find('gml\\:featureMember');
+                var json = '[';
+                if (listElements.length > 0) {
+                    var listElements = $(data).find('gml\\:featureMember');
+                    $(listElements).each(function () {
+                        var id = $($(this).find('esri\\:OBJECTID')[0]).text();
+                        var coord = $($(this).find('gml\\:coordinates')[0]).text();
+                        var coordArr1 = coord.split(';');
+                        var cds = '[';
+                        for (var j = 0; j < coordArr1.length; j++) {
+                            var coodObj = coordArr1[j];
+                            var x = parseFloat(coodObj.split(' ')[0]);
+                            var y = parseFloat(coodObj.split(' ')[1]);
+                            cds += '[' + x + ',' + y + '],'
+                        }
+                        cds = cds.substring(0, cds.length - 1);
+                        cds += ']';
+                        json += '{"type":"Feature","geometry":{"type":"Polygon","coordinates":[' + cds + ']},"properties":{"objectid":"' + id + '"}},';
+
+                    });
+
+                    json = json.substring(0, json.length - 1);
+                }
+
+                json += ']';
+                var fatures = JSON.parse(json);
+
+                map.addLayer({
+                    'id': layername + index,
+                    'type': 'fill',
+                    'source': {
+                        "type": "geojson",
+                        "data": {
+                            "type": "FeatureCollection",
+                            "features": fatures
+                        }
+                    },
+                    'paint': {
+                        'fill-color': 'rgb(' + fillcolor + ')',
+                        'fill-opacity': filltransparency,
+                        'fill-outline-color': 'rgb(' + boundarycolor + ')'
+                    }
+                });
+
+                index++;
+                if (index < arr.length) {
+                    recursionJZFW(type, layername, map, arr, field, index);
+                }
+            }
+        });
+    }
 }
-
-
 
 /**
  * 将地图加载完之后,加载地图上面的数据
  * @param map 地图对象
  * @param data 地图加载的数据
  */
-function initMapData(map,data){
+function initMapData(map, data) {
     var userName = getCookie("userName");
-	 /* var renderer = data.renderer;
+    /* var renderer = data.renderer;
  	var layername = userName+"."+data.layername;
 	var rxml = $.parseXML(renderer);
 	var group1 = $(rxml).find('GROUPRENDERER');
@@ -1206,20 +1252,19 @@ function initMapData(map,data){
 }
 
 //获取相应cookie的值
-function getCookie(cookie_name){
+function getCookie(cookie_name) {
     var allcookies = document.cookie;
-    var cookie_pos = allcookies.indexOf(cookie_name);//索引的长度
-    // 如果找到了索引，就代表cookie存在，
-    // 反之，就说明不存在。
-    if (cookie_pos != -1){
+    var cookie_pos = allcookies.indexOf(cookie_name); //索引的长度
+    // 如果找到了索引，就代表cookie存在， 反之，就说明不存在。
+    if (cookie_pos != -1) {
         // 把cookie_pos放在值的开始，只要给值加1即可。
-        cookie_pos += cookie_name.length + 1;//这里容易出问题，所以请大家参考的时候自己好好研究一下
+        cookie_pos += cookie_name.length + 1; //这里容易出问题，所以请大家参考的时候自己好好研究一下
         var cookie_end = allcookies.indexOf(";", cookie_pos);
-  
-        if (cookie_end == -1){
+
+        if (cookie_end == -1) {
             cookie_end = allcookies.length;
         }
-        var value = unescape(allcookies.substring(cookie_pos, cookie_end));         //这里就可以得到你想要的cookie的值了。。。
+        var value = unescape(allcookies.substring(cookie_pos, cookie_end)); //这里就可以得到你想要的cookie的值了。。。
     }
     return value;
 }

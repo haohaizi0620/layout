@@ -20,12 +20,13 @@ import {
  
 const cptPropertyObj = {
     showDatas: { //当前组件属性及内容属性
-        cptBorderObj: { //边框属性
+        cptBorderObj: { //边框属性    transform: rotate(181deg);
             width: 280,
             height: 260,
             left: 450,
             top: 160,
             opacity: 1,
+            rotate:0,
             layerBorderWidth:0,
             layerBorderStyle:'solid',
             layerBorderColor:'rgba(0,0,0,1)'

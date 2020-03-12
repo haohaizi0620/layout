@@ -8,7 +8,7 @@ import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
 import EditItemModal from './ModelCom/EditItemModal';
 import ShareItemModal from './ModelCom/ShareItemModal';
-
+import $ from 'jquery';
 
 // import LoadChart from "./LoadChart";
 import store from '../redux/store';
@@ -36,6 +36,7 @@ const chartData = require('../datasource/chartDatas.json');
 class Layout extends Component {
   constructor(props) {
     super(props);
+    // window.parent.document.getElementById("dataShow").topicEditor("",0);
     console.log(window);
     this.state = {
       cptIndex: -1, //当前选中的组件
@@ -53,6 +54,9 @@ class Layout extends Component {
   }
   componentDidMount() {
     this.initLeftDatas2();
+    window['initEditPage'] = () => {
+      this.initLeftDatas2();
+    }
   }
 
     initLeftDatas(){
@@ -499,17 +503,26 @@ class Layout extends Component {
   }
   editItemPrev(layerIndex){
     let layerObj = this.state.cptChartIdList[layerIndex].layerObj
-    window.parent.document.getElementById("dataShow").topicEditor(layerObj,0);//contentDocument.getElementsByClassName("layers")[0].click();
-    let tempChart = this.state.cptChartIdList[layerIndex];
+    let parentDom = window.parent.document;
+    let prevDataShow = parentDom.getElementById("dataShow");
+    var dataShow = prevDataShow.contentWindow.document;
+    var hiddenDiv = dataShow.getElementsByTagName("div");
+    var tpEditorObj = dataShow.getElementById("tpEditor");
+    if(hiddenDiv&&hiddenDiv.length>0){
+     for(let i=0;i<hiddenDiv.length;i++){
+      hiddenDiv[i].style.opacity = "0";
+     }
+    }
+    layerObj.editState = "editPage";
+    tpEditorObj.style.opacity = "1";
+    tpEditorObj.parentNode.style.opacity = "1";
+    tpEditorObj.previousElementSibling.style.opacity = "1";
+    prevDataShow.style.zIndex = 11;
+    prevDataShow.contentWindow.topicEditor(layerObj,1)
+   /*  let tempChart = this.state.cptChartIdList[layerIndex];
     let tempQueryId = tempChart.chartId;
     let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
-    /* let showOption = [];
-    tempLists.map(item => {
-      if(item.queryId == tempQueryId){
-        showOption = item.layerOption;
-      }
-    }) */
-    this.refs.editModal.setDefaultValue(layerIndex,showOption,tempChart);
+    this.refs.editModal.setDefaultValue(layerIndex,showOption,tempChart); */
   }
 
   deleteDataBaseOneLayer(delIndex) {
@@ -799,6 +812,7 @@ class Layout extends Component {
         fieldEname == 'left' ||
         fieldEname == 'top' ||
         fieldEname == 'opacity' ||
+        fieldEname == 'rotate' ||
         fieldEname == 'layerBorderWidth' ||
         fieldEname == 'layerBorderStyle' ||
         fieldEname == 'layerBorderColor'
@@ -1182,11 +1196,11 @@ class Layout extends Component {
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-    http://localhost:8080/share/index.html
     window.open(`http://localhost:8080/share/build/index.html?sid=${sidVal}`, '_blank');
   }
 
   render() {
+
     return (
       <Fragment>
         <Header
@@ -1196,21 +1210,20 @@ class Layout extends Component {
           savePagePrev={this.savePagePrev.bind(this)}
           nameData={this.state.nameData}
           comLength={this.state.cptKeyList.length}
+          cptChartIdList={this.state.cptChartIdList}
         />
         <div className='custom-content'>
            <LeftComponentList 
           ref="leftComponentList"
           nameData={this.state.nameData}
           ComponentList={this.state.cptKeyList}
+          cptChartIdList={this.state.cptChartIdList}
           comLength={this.state.cptKeyList.length}
           cptIndex={this.state.cptIndex}
           onClickAdd={this.onClickAdd.bind(this)}
           singleSwitchLayer={this.singleSwitchLayer.bind(this)}
           selectSingleLayer={this.selectSingleLayer.bind(this)}/>
           <div className='custom-content-p'>
-            <div>
-              
-            </div>
             <div
               className={'custom-content-canvs '+this.state.globalBg.bgImageName}
               style={{
@@ -1270,14 +1283,12 @@ class Layout extends Component {
               cptChartData={this.state.cptChartIdList[this.state.cptIndex]}
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}
             />
-         
             {/* <PageSetting
               ref='rightConfig'
               changeProperties={this.changeProperties.bind(this)}
               cptPropertyObj={this.state.cptPropertyObj}
               cptIndex={this.state.cptIndex}
               cptLayerAttr={this.state.cptKeyList[this.state.cptIndex]}></PageSetting> */}
-         
         </div>
       </Fragment>
     );
