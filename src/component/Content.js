@@ -173,6 +173,7 @@ class Content extends Component {
           top: tempCptObj.top,
           width: parseInt(tempCptObj.width),
           height: parseInt(tempCptObj.height),
+          transform:`rotate(${tempCptObj.rotate})`,
           borderStyle: tempCptObj.layerBorderStyle,
           borderWidth: tempCptObj.layerBorderWidth + 'px',
           borderColor: tempCptObj.layerBorderColor

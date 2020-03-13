@@ -1173,7 +1173,7 @@ class Layout extends Component {
    */
   updateGlobalEditData() {
     //更新编辑面板里面的数据
-    this.refs.rightConfig.refs.editMainCenter.updateStateVal();
+    // this.refs.rightConfig.refs.editMainCenter.updateStateVal();
   }
 
   /**

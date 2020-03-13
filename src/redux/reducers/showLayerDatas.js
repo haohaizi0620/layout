@@ -55,6 +55,7 @@ const cptPropertyObj = {
  * reducer
  */
 export default function reducer(state = cptPropertyObj, action) {
+    var newState = JSON.parse(JSON.stringify(state))
     switch (action.type) {
         //对图表的基本属性进行修改的时候处理
         case UPDATEFIELDVAL:
@@ -64,66 +65,67 @@ export default function reducer(state = cptPropertyObj, action) {
             let fieldValue = updateObj.fieldValue;
             if (updateLayer == "bg") {
                 if(fieldEname=="bgImageName"){
-                    state.bgFieldObj.bgImageName = fieldValue;
+                    newState.bgFieldObj.bgImageName = fieldValue;
                     if(fieldValue!="无"){
-                        state.bgFieldObj.bgImageIntegerUrl = "";
+                        newState.bgFieldObj.bgImageIntegerUrl = "";
                     }
                 }else if(fieldEname=="bgImageIntegerUrl"){
-                    state.bgFieldObj.bgImageName = "无";
-                    state.bgFieldObj.uploadImage = fieldValue;
-                    state.bgFieldObj[fieldEname] = fieldValue;
+                    newState.bgFieldObj.bgImageName = "无";
+                    newState.bgFieldObj.uploadImage = fieldValue;
+                    newState.bgFieldObj[fieldEname] = fieldValue;
                 }else if(fieldEname=="uploadImage"){
-                    state.bgFieldObj.uploadImage = fieldValue;
+                    newState.bgFieldObj.uploadImage = fieldValue;
                 }else{
-                    state.bgFieldObj[fieldEname] = fieldValue     
+                    newState.bgFieldObj[fieldEname] = fieldValue     
                 }
             } else if (updateLayer=="default"||updateLayer == "chart"||updateLayer == "text"||updateLayer == "border") {
-                state.showDatas.cptBorderObj[fieldEname] = fieldValue
+                newState.showDatas.cptBorderObj[fieldEname] = fieldValue
             }else{
                 //state.showDatas.cptBorderObj[updateObj.fieldEname] = updateObj.fieldValue
             }
-            return state;
+            return { ...state, ...newState };
             //将当前属性的值进行替换
         case REPLACEFIELDVAL:
-            state.showDatas.cptBorderObj = action.showLayerObj
-            return state;
+             newState.showDatas.cptBorderObj = action.showLayerObj
+            return { ...state, ...newState };
             //全部的基本值进行替换
         case REPLACEALLFIELDVAL:
-            state.showDatas = action.showAllLayerObj
-            return state;
+            return Object.assign({}, state, {
+                showDatas: action.showAllLayerObj
+              });
             //对保存所有的图表的option的数组进行添加
         case ADDCPTOPTIONSLIST:
-            console.log("add")
-            state.cptOptionsList = [...state.cptOptionsList,{layerOption:action.layerOption,queryId:action.queryId}];
-            return state;
+            return Object.assign({}, state, {
+                cptOptionsList: [...state.cptOptionsList,{layerOption:action.layerOption,queryId:action.queryId}]
+              });
             //对保存所有的图表的option的数组进行删除
         case DELCPTOPTIONSLIST:
             let layerIndex = action.layerIndex;
             if (layerIndex >= 0) {
-                state.cptOptionsList.splice(action.layerIndex, 1);
+                newState.cptOptionsList.splice(action.layerIndex, 1);
             }
-            return state;
+            return { ...state, ...newState };
         case EDITCPTOPTIONSLIST:
              let layerOptionsObj = action.layerOptionsObj;
              let cptIndex = layerOptionsObj.cptIndex;
             if (cptIndex >= 0) {
-                state.cptOptionsList[cptIndex].layerOption = layerOptionsObj.layerOption;
+                newState.cptOptionsList[cptIndex].layerOption = layerOptionsObj.layerOption;
             }
-            console.log(state.cptOptionsList)
-            return state;
+            return { ...state, ...newState };
         case SAVESHOWPAGEDATA:{
-            let {cptKeyList,cptPropertyList} =  action.pageObj
-            let cptOptionsList = state.cptOptionsList;
-            let showPageData = state.showPageData;
+            let {cptKeyList,cptPropertyList} =  action.pageObj;
+            let cptOptionsList = newState.cptOptionsList;
+            let showPageData = newState.showPageData;
             showPageData.cptKeyList = cptKeyList;
             showPageData.cptPropertyList = cptPropertyList;
             showPageData.cptOptionsList = cptOptionsList;
-            state.showPageData= showPageData;
-            return state;
+            newState.showPageData= showPageData;
+            return  { ...state, ...newState };
         }
         case REPLACEGLOBALBG:{
-            state.bgFieldObj = action.globalBgObj;
-            return state;
+            return  Object.assign({}, state, {
+                bgFieldObj: action.globalBgObj
+             });
         }
         default:
             return state

@@ -84,6 +84,10 @@ class ShowPage extends Component {
     //'ldjsc_54106330f9e64362932829669338a430_160'
     let sidVal = this.GetUrlParam("sid");
     let _this = this;
+    if(sidVal){
+      document.cookie = "userName=" + sidVal.split("_")[0];
+    }
+    console.log(document.cookie);
     getShareObj({ sid:sidVal })
       .then(result => {
         if (result.count == 1) {
@@ -338,7 +342,6 @@ class ShowPage extends Component {
           backgroundSize: "100% 100%"
         }}
         ref="showDiv"
-        style={{ width: "100%", height: "100%" }}
       >
         {cptChartIdList
           ? cptChartIdList.map((item, index) => {

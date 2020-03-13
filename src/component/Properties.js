@@ -549,6 +549,11 @@ class Properties extends Component {
       ],
       layerDataSource: []
     };
+    store.subscribe(() => {
+      console.log(store)
+      console.log(store.getState())
+          this.updateStateVal()
+    });
   }
 
   componentWillReceiveProps(newProp){
@@ -558,9 +563,7 @@ class Properties extends Component {
             cptChartData:cptChartData,
           })
       }
-      /* store.subscribe(() => {
-           this.updateStateVal()
-      }); */
+      
 
   }
 

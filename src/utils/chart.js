@@ -61,9 +61,7 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
             if ("0" == thType) { //图表
                 var e_instance = tempThisObj.getAttribute("_echarts_instance_");
                 if (chartState == "update") {
-                    new window
-                        .dmapgl
-                        .commonlyCharts(id, {data: newOptions});
+                    new window.dmapgl.commonlyCharts(id, {data: newOptions});
                 } else {
                     if (window.echarts.getInstanceById(e_instance)) {
                         window
@@ -141,9 +139,7 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                 var tempMap = null;
                 if (layerType == "map" || layerType == "chartMap") {
                     store.dispatch(addCptOptionsList(chartId, []))
-                    map = new window
-                        .dmapgl
-                        .Map({
+                    map = new window.dmapgl.Map({
                             container: id,
                             zoom: 8,
                             minZoom: 8,
@@ -172,9 +168,7 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                         });
                     });
                 } else if (layerType == "chart") {
-                    a = new window
-                        .dmapgl
-                        .commonlyCharts(id, {data: data});
+                    a = new window.dmapgl.commonlyCharts(id, {data: data});
                     store.dispatch(addCptOptionsList(chartId, data))
                 }
                 arr.push(id);
@@ -193,9 +187,7 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                 if (layerType == "chart") {
                     var e_instance = tempThisObj.getAttribute("_echarts_instance_");
                     if (chartState == "update") {
-                        new window
-                            .dmapgl
-                            .commonlyCharts(id, {data: newOptions});
+                        new window.dmapgl.commonlyCharts(id, {data: newOptions});
                     } else {
                         if (window.echarts.getInstanceById(e_instance)) {
                             window
@@ -245,9 +237,7 @@ export function showChartsOption(chartsList) {
                         console.log("接口没有数据")
                     } else {
                         if (result && result[0]) {
-                            new window
-                                .dmapgl
-                                .commonlyCharts(timeKey, {data: result});
+                            new window.dmapgl.commonlyCharts(timeKey, {data: result});
                         }
                     }
                     let tempOptionObj = {
@@ -259,9 +249,7 @@ export function showChartsOption(chartsList) {
                 }).catch(e => console.log("error", e));
             } else if (thType == "1") {
                 let dataShow = data.show;
-                map = new window
-                    .dmapgl
-                    .Map({
+                map = new window.dmapgl.Map({
                         container: timeKey,
                         zoom: 8,
                         minZoom: 8,
@@ -357,9 +345,7 @@ function addChart(data, timeId, addIndex, _this) {
 			 */
         store.dispatch(addCptOptionsList(catalogId, []))
         getSpecify(catalogId).then(result => {
-            var a = new window
-                .dmapgl
-                .commonlyCharts(timeId, {data: result});
+            var a = new window.dmapgl.commonlyCharts(timeId, {data: result});
             let tempOptionObj = {
                 cptIndex: addIndex,
                 layerOption: result
@@ -377,9 +363,7 @@ function addChart(data, timeId, addIndex, _this) {
         var renderer = data.renderer
             ? data.renderer
             : ''; //wms样式
-        map = new window
-            .dmapgl
-            .Map({
+        map = new window.dmapgl.Map({
                 container: timeId,
                 zoom: 8,
                 minZoom: 8,
@@ -430,7 +414,6 @@ function addChart(data, timeId, addIndex, _this) {
  */
 function addMapWFS(obj, map) {
     var userName = getCookie("userName");
-
     var renderer = obj.renderer;
     console.info(renderer);
     var layername = userName + "." + obj.layername;
@@ -441,7 +424,7 @@ function addMapWFS(obj, map) {
     //var group2 = $(group1).find('GROUPRENDERER');
     if ('GROUPRENDERER' == tagName) { //字体符号库
         var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
         $.ajax({
             type: "GET",
@@ -498,7 +481,7 @@ function addMapWFS(obj, map) {
             var fuhaokuName = grouperenderer.attr('fuhaokuName');
             var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
 
-            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -601,7 +584,7 @@ function addMapWFS(obj, map) {
                         map.addImage(icon, image);
                     });
             }
-            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -651,7 +634,7 @@ function addMapWFS(obj, map) {
             var width = parseInt(simplinesymbol.attr('width'));
             var color = simplinesymbol.attr('color');
 
-            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -719,7 +702,7 @@ function addMapWFS(obj, map) {
             var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
             var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
 
-            var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -817,7 +800,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var fuhaokuName = $(obj).attr('fuhaokuName');
         var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
         var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -900,7 +883,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var fuhaokuName = $(obj).attr('fuhaokuName')
         var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
         var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",
@@ -980,7 +963,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
     } else if ('精准线样式' == type) {
         var value = $(obj).attr('value');
         var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -1042,7 +1025,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var lower = $(obj).attr('lower');
         var upper = $(obj).attr('upper');
         var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",
@@ -1103,7 +1086,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
     } else if ('精准面样式' == type) {
         var value = $(obj).attr('value');
         var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -1168,7 +1151,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var lower = $(obj).attr('lower');
         var upper = $(obj).attr('upper');
         var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-        var url = ' http://121.8.161.110:8082/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",
