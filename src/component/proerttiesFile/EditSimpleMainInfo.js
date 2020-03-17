@@ -49,10 +49,6 @@ class EditSimpleMainInfo extends Component {
           {showData.map((item, i) => {
             let itemType = item.type;
             if (itemType == 'InputNumber') {
-              if(!item.value){
-                item.value = 0;
-              }
-              let tempVal = parseInt(item.value);
               return (
                 <div className='pro-item-simple'>
                   <InputNumber
@@ -62,15 +58,20 @@ class EditSimpleMainInfo extends Component {
                     onChange={event => {
                       this.updateChartField(event, item.ename);
                     }}
-                    value={tempVal}
+                    value={typeof item.value === 'number' ? item.value : 0}
                   />
 
                   <span>{item.cname}</span>
                 </div>
               );
             } else if (itemType == 'Slider') {
-              if(!item.value){
-                item.value = 0;
+              let showVal = item.value;
+              if(!showVal){
+                showVal = 0;
+              }
+              if (typeof(showVal) == "number"&&showVal<0)
+              {
+                showVal = 0;
               }
               return (
                 <div>
@@ -91,7 +92,7 @@ class EditSimpleMainInfo extends Component {
                       step={0.01}
                       min={0}
                       max={1}
-                      value={item.value}
+                      value={typeof item.value === 'number' ? item.value : 0}
                       onChange={event => {
                         this.updateChartField(event, item.ename);
                       }}
@@ -175,7 +176,13 @@ class EditSimpleMainInfo extends Component {
                       option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }>
                     {item.optionValues.map(optionItem => {
-                      return <Option value={optionItem.value}>{optionItem.cname}</Option>;
+                      let bgImg =  optionItem.src;
+                      return <Option value={optionItem.value}>
+                             {
+                               bgImg?<img   width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
+                             }
+                            {optionItem.cname}
+                        </Option>;
                     })}
                   </Select>
                 </div>

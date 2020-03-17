@@ -432,13 +432,13 @@ class Layout extends Component {
     let mainKey = -1;
     let addState = "leftAdd";
     let sortNum = otherObj.sortNum;
+    addState = otherObj.state;
     if(otherObj&&otherObj.mainKey){
       mainKey = otherObj.mainKey;
     }
     if(otherObj&&otherObj.state=="leftAdd"){
         thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
-        addState = otherObj.state;
         chartId = otherObj.data.id;
     }else if(otherObj&&otherObj.state=="headerAdd"){
         otherObj.showVal = layerTempObj;
@@ -873,10 +873,8 @@ class Layout extends Component {
             tempObj = tempObj.parentNode;
             if (fieldEname == 'borderWidth') {
               tempObj.style.borderWidth = fieldValue + 'px';
-            } else if (fieldEname == 'borderStyle') {
-              tempObj.style.borderStyle = fieldValue;
-            } else if (fieldEname == 'borderColor') {
-              tempObj.style.borderColor = fieldValue;
+            }else  if (fieldEname == 'borderBg') {
+              tempObj.style.borderImage =`url(${require(`../img/${fieldValue}`)}) 30`;
             }
           } else if (layerType == 'iframe') {
             if (fieldEname == 'iframeUrl') {

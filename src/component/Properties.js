@@ -31,10 +31,10 @@ class Properties extends Component {
       layerBorderWidth: 0,
       layerBorderStyle: 'solid',
       layerBorderColor: 'rgb(0,0,0,1)',
-      borderWidth: '1',
-      borderStyle: 'solid',
-      borderColor: 'rgba(255, 47, 3 ,1)',
-      iframeUrl: ''
+      borderWidth: 10,
+      borderBg:'border/border1.png',
+      iframeUrl: '',
+     
     };
     this.state = {
       cptChartData:{},
@@ -88,20 +88,13 @@ class Properties extends Component {
               value: bgFieldObj.bgImageName,
               defaultOption: '无',
               optionValues: [
-                { cname: '无', value: 'none' },
-                { cname: '背景一', value: 'bg1' },
-                { cname: '背景二', value: 'bg2' },
-                { cname: '背景三', value: 'bg3' },
-                { cname: '背景四', value: 'bg4' },
-                { cname: '背景五', value: 'bg5' },
-                { cname: '背景六', value: 'bg6' }
-                /* {"cname":'无',"value":'none'},
-                            {"cname":'背景一',"value":'http://localhost/kshCharsTempJs/ksh/bg1.png'},
-                            {"cname":'背景二',"value":'http://localhost/kshCharsTempJs/ksh/bg2.png'},
-                            {"cname":'背景三',"value":'http://localhost/kshCharsTempJs/ksh/bg3.png'},
-                            {"cname":'背景四',"value":'http://localhost/kshCharsTempJs/ksh/bg4.png'},
-                            {"cname":'背景五',"value":'http://localhost/kshCharsTempJs/ksh/bg5.png'},
-                            {"cname":'背景六',"value":'http://localhost/kshCharsTempJs/ksh/bg6.png'}, */
+                { cname: '无', value: 'none'},
+                { cname: '背景一', value: 'bg1',src :'bg/bg1.png' },
+                { cname: '背景二', value: 'bg2',src :'bg/bg2.png' },
+                { cname: '背景三', value: 'bg3',src :'bg/bg3.png' },
+                { cname: '背景四', value: 'bg4',src :'bg/bg4.png' },
+                { cname: '背景五', value: 'bg5',src :'bg/bg5.png' },
+                { cname: '背景六', value: 'bg6',src :'bg/bg6.png'}
               ]
             },
             /* {
@@ -401,49 +394,26 @@ class Properties extends Component {
           ],
           layerType: 'border'
         },
-        {
-          ename: 'borderStyle',
-          name: '边框样式',
-          includeSelect: false,
-          type: '',
-          childer: [
-            {
-              ename: 'borderStyle',
-              cname: '边框样式',
-              type: 'Select',
-              value: textFieldObj.borderStyle,
-              defaultOption: 'solid',
-              optionValues: [
-                { cname: '无样式', value: 'none' },
-                { cname: '隐藏', value: 'hidden' },
-                { cname: '点线', value: 'dooted' },
-                { cname: '虚线', value: 'dashed' },
-                { cname: '实线', value: 'solid' },
-                { cname: '双线', value: 'double' },
-                { cname: '凹槽', value: 'groove' },
-                { cname: '突脊', value: 'ridge' },
-                { cname: '内陷', value: 'inset' },
-                { cname: '外凸', value: 'outset' }
-              ]
-            }
-          ],
-          layerType: 'border'
-        },
-        {
-          ename: 'borderColor',
-          name: '边框颜色',
-          includeSelect: false,
-          type: '',
-          childer: [
-            {
-              ename: 'borderColor',
-              cname: '边框颜色',
-              type: 'Color',
-              value: textFieldObj.borderColor
-            }
-          ],
-          layerType: 'border'
-        }
+          {
+            ename: 'borderBg',
+            name: '边框背景',
+            includeSelect: false,
+            type: '',
+            childer: [
+              {
+                ename: 'borderBg',
+                cname: '',
+                type: 'Select',
+                value:  textFieldObj.borderBg,
+                defaultOption: '边框一',
+                optionValues: [
+                  { cname: '边框一', value: 'border/border1.png',src :'border/border1.png' },
+                  { cname: '边框二', value: 'border/border2.png',src :'border/border2.png' },
+                  { cname: '边框三', value: 'border/border3.png',src :'border/border3.png' },
+                ]
+              }],
+              layerType: 'border'
+            },
       ],
       iframe: [
         {
@@ -688,8 +658,7 @@ class Properties extends Component {
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
           tempLayer[0].childer[0].value = tempTextLayerObj['borderWidth'];
-          tempLayer[1].childer[0].value = tempTextLayerObj['borderStyle'];
-          tempLayer[2].childer[0].value = tempTextLayerObj['borderColor'];
+          tempLayer[1].childer[0].value = tempTextLayerObj['borderBg'];
         }
       } else if (tempLayerType == 'iframe') {
         tempLayer = this.state.iframe;

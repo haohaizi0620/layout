@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-03-17 12:45:37
+ * @LastEditTime: 2020-03-17 16:40:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -103,14 +103,12 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                 window.mapObjArr = mapObjArr;
                 let tempSaveObj = {};
                 if (layerType == "border") {
-                    // layerObj.style.border = "1px solid red";
-                    layerObj.style.borderWidth = '1px';
-                    layerObj.style.borderStyle = 'solid';
-                    layerObj.style.borderColor = 'red';
+                    layerObj.style.borderImage =`url(${require("../img/border/border1.png")}) 30`;
+                    layerObj.style.borderStyle = "solid";
+                    layerObj.style.borderWidth = "10px";
                     tempSaveObj = {
-                        borderWidth: '1',
-                        borderStyle: 'solid',
-                        borderColor: 'rgba(255, 47, 3 ,1)'
+                        borderBg:'border/border1.png',
+                        borderWidth:10
                     }
                 } else if (layerType == "text") {
                     tempSaveObj = {
@@ -175,7 +173,9 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                 window.mapObjArr = mapObjArr;
             } else {}
         } else {
-            if (layerType == "text" || layerType == "border") {} else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
+            if (layerType == "text" || layerType == "border") {
+                
+            } else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
                 let newOptions = store
                     .getState()
                     .showLayerDatas

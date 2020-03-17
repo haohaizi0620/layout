@@ -44,6 +44,7 @@ class Header extends Component {
     const tempTextStr = 'text';
     const tempBorderStr = 'border';
     const tempIframeStr = 'iframe';
+    const otherStr = "otherLayer";
     this.state = {
       shareUrl: '',
       nameData: {},
@@ -117,25 +118,15 @@ class Header extends Component {
           { id: 'mapBar', text: '地图柱状图', layerType: 'chartMap' }
         ]
       },
-      text: {
-        all: [
-          { id: 'singleRowText', text: '单行文本', layerType: 'text' },
-          { id: 'moreRowText', text: '当前时间', layerType: 'text' }
+      otherLayer:{
+        text: [
+            { id: 'singleRowText', text: '单行文本', layerType: 'text' },
+            { id: 'moreRowText', text: '当前时间', layerType: 'text' }
         ],
-        textWidth: [{ id: 'singleRowText', text: '单行文本', layerType: 'text' }],
-        textHeight: [{ id: 'moreRowText', text: '多行文本', layerType: 'text' }]
-      },
-      border: {
-        all: [
-          { id: 'singleBorder', text: '直线边框', layerType: 'border' },
-          { id: 'breakLine', text: '波浪线', layerType: 'border' }
-        ],
-        borderWidth: [{ id: 'singleBorder', text: '直线边框', layerType: 'border' }],
-        borderHeight: [{ id: 'breakLine', text: '波浪线', layerType: 'border' }]
-      },
-      iframe: {
-        all: [{ id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' }],
-        iframeCenter: [{ id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' }]
+        border:[
+            { id: 'singleBorder', text: '背景边框', layerType: 'border' },
+          ],
+        iframe: [{ id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' }],
       },
       //生成对应的UIstate
       layerDatas: [
@@ -196,80 +187,33 @@ class Header extends Component {
           ]
         },
         {
-          typeName: 'text',
-          refName: 'text',
-          titleName: '文本',
+          typeName: 'otherLayer',
+          refName: 'otherLayer',
+          titleName: '其他图层',
           IconObj: faFont,
           leftIconLists: [
             {
-              prevName: 'all',
-              thisType: tempTextStr,
-              titleName: '所有',
-              IconObj: faBars
+              prevName: 'text',
+              thisType: otherStr,
+              titleName: '文本',
+              IconObj: faFont,
             },
             {
-              prevName: 'textWidth',
-              thisType: tempTextStr,
-              titleName: '文本宽度',
-              IconObj: faTextWidth
+              prevName: 'border',
+              thisType: otherStr,
+              titleName: '背景边框',
+              IconObj: faBus,
             },
             {
-              prevName: 'textHeight',
-              thisType: tempTextStr,
-              titleName: '文本高度',
-              IconObj: faTextHeight
-            }
-          ]
-        },
-        {
-          typeName: 'border',
-          refName: 'border',
-          titleName: '边框',
-          IconObj: faBus,
-          leftIconLists: [
-            {
-              prevName: 'all',
-              thisType: tempBorderStr,
-              titleName: '所有',
-              IconObj: faBars
-            },
-            {
-              prevName: 'borderWidth',
-              thisType: tempBorderStr,
-              titleName: '文本宽度',
-              IconObj: faBus
-            },
-            {
-              prevName: 'borderHeight',
-              thisType: tempBorderStr,
-              titleName: '文本高度',
-              IconObj: faBus
-            }
-          ]
-        },
-        {
-          typeName: 'iframe',
-          refName: 'iframe',
-          titleName: '嵌套页面',
-          IconObj: faBus,
-          leftIconLists: [
-            {
-              prevName: 'all',
-              thisType: tempIframeStr,
-              titleName: '所有',
-              IconObj: faBars
-            },
-            {
-              prevName: 'iframeCenter',
-              thisType: tempIframeStr,
+              prevName: 'iframe',
+              thisType: otherStr,
               titleName: '嵌套页面',
-              IconObj: faBus
+              IconObj: faBus,
             }
           ]
-        }
-      ]
-    };
+      }]
   }
+}
 
   componentWillReceiveProps(newProps) {
     let nameData = newProps.nameData;
@@ -304,9 +248,7 @@ class Header extends Component {
        }
     } else if (layerType == 'border') {
       defaultShowVal = {
-        borderWidth: '1',
-        borderStyle: 'solid',
-        borderColor: 'rgba(255, 47, 3 ,1)'
+        borderBg:'border/border1.png'
       };
     } else if (layerType == 'iframe') {
       defaultShowVal = {
@@ -317,14 +259,14 @@ class Header extends Component {
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
    
-  /*   this.props.onClickAdd(layerObj, {
+    this.props.onClickAdd(layerObj, {
       data: {},
       state: 'headerAdd',
       mainKey:-1,
       sortNum:comLength,
       otherJson:defaultShowVal,
     });
-    return; */
+    return;
     if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
       let shareid = window.parent.document.getElementById('shareID').value;
       let layerName = layerType + comLength;
@@ -375,9 +317,14 @@ class Header extends Component {
   }
 
   handleMenuMouseEnter(item) {
+    let ttype = "all";
+    let typeName = item.typeName;
+    if(typeName=="otherLayer"){
+      ttype = "text";
+    }
     this.setState({
-      otype: item.typeName,
-      ttype: 'all'
+      otype: typeName,
+      ttype: ttype
     });
   }
 
@@ -447,6 +394,11 @@ class Header extends Component {
   }
   render() {
     const ttype = this.state.ttype;
+    let showData = [];
+    let show = this.state[this.state.otype][ttype];
+    if(show){
+      showData = show;
+    }
     return (
       <div className='custom-header'>
         <div className='custom-header-title'>
@@ -456,6 +408,9 @@ class Header extends Component {
         </div>
         <div className='custom-header-component'>
           <ul className='custom-header-ul'>
+           
+
+
             {this.state.layerDatas.map((item, index) => {
               return (
                 /* 顶部目录栏 */
@@ -493,8 +448,8 @@ class Header extends Component {
                           <td className='custom-header-sub-list'>
                             <div className='custom-header-menu-c'>
                               <ul className='custom-header-menu-ul'>
-                                {// this.state["otype"]==item.typeName?
-                                this.state[this.state['otype']][ttype].map((item, i) => {
+                                {
+                               showData.map((item, i) => {
                                   const c = `custom-header-menu-li-bg ${item.id}bg`;
                                   item['simpleType'] = ttype;
                                   return (

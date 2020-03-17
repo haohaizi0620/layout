@@ -10,9 +10,7 @@ import DefaultText from './otherLayer/DefaultText';
 import IframeLayer from './otherLayer/IframeLayer';
 
 import {
-  updateShowLayerFieldVal,
-  replaceShowLayerFieldVal,
-  replaceAllShowLayerFieldVal
+  updateShowLayerFieldVal
 } from '../redux/actions/showLayerDatas';
 import { faEdit, faUserEdit, faUserTimes, faRedo } from '@fortawesome/fontawesome-free-solid';
 fontawesome.library.add(faEdit, faUserEdit, faUserTimes, faRedo);
@@ -148,7 +146,6 @@ class Content extends Component {
         className='grid-item'
         style={{
           opacity: tempCptObj.opacity,
-          // transform: `translate(${tempCptObj.left}px,${tempCptObj.top}px)`,
           left: tempCptObj.left,
           top: tempCptObj.top,
           width: parseInt(tempCptObj.width),
