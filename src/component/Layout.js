@@ -325,7 +325,6 @@ class Layout extends Component {
                         }, () => {
                           {   
                             showChartsOption(tempCptChartIdList);
-                            _this.updateGlobalEditData();
                           }
                         });
 
@@ -431,7 +430,7 @@ class Layout extends Component {
     let layerTempObj = {};
     let layerData = {};
     let mainKey = -1;
-    let addState = "headerAdd";
+    let addState = "leftAdd";
     let sortNum = otherObj.sortNum;
     if(otherObj&&otherObj.mainKey){
       mainKey = otherObj.mainKey;
@@ -442,8 +441,9 @@ class Layout extends Component {
         addState = otherObj.state;
         chartId = otherObj.data.id;
     }else if(otherObj&&otherObj.state=="headerAdd"){
-      otherObj.showVal = layerTempObj;
-      layerData = otherObj.otherJson;
+        otherObj.showVal = layerTempObj;
+        layerData = otherObj.otherJson;
+        thType = type;
     }
     let addChartObj = {
         chartId:chartId,
@@ -453,6 +453,7 @@ class Layout extends Component {
         addState:addState,
         timeKey:key,
         sortNum:sortNum,
+        layerData:layerData,
     };
     this.setState(
       {
@@ -656,6 +657,8 @@ class Layout extends Component {
       }
     );
   }
+
+ 
     /**
    * @description: 在编辑数据之前获取编辑所需的对象,然后进行执行调用编辑接口的方法
    * @param {number} layerIndex 当前图层对应的index值
@@ -691,9 +694,7 @@ class Layout extends Component {
     .then(result => {
       if (result== "编辑成功!") {
        console.info("编辑图层成功");
-        store.dispatch(editCptOptionsList(tempOptionObj));
-        _this.updateChartsStyle("update");
-        _this.updateGlobalEditData();
+       
       }else{
         console.info("编辑图层失败");
       }
@@ -756,7 +757,6 @@ class Layout extends Component {
     cptpList[index] = cptpObj;
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
-    this.updateGlobalEditData();
     this.setState(
       {
         cptIndex: index,
@@ -830,7 +830,7 @@ class Layout extends Component {
             // console.log(`这个组合:${this.state}`);
             {
               this.updateChartsStyle("noUpdate")
-              this.editDataBaseLayerPosition(cptIndex);
+              this.editDataBaseLayerPositionPrevs();
             }
           }
         );
@@ -913,59 +913,59 @@ class Layout extends Component {
             cptIndex:cptIndex,
             layerOption:cptOptionObj.layerOption
           }
+          store.dispatch(editCptOptionsList(tempOptionObj));
           if (layerType == 'chart') {            
-            this.editItemDataBaseOneLayerPrev(cptIndex,tempOptionObj); 
+            _this.updateChartsStyle("update");
+            _this.debounce(this.editChartPrev,2000,cptIndex,tempOptionObj)
           } else {
             cptOptionObj.layerOption[fieldEname] = fieldValue;
-            store.dispatch(editCptOptionsList(tempOptionObj));
-            let layerOption = cptOptionObj.layerOption;
-            layerOption.positionObj = store.getState().showLayerDatas.showDatas;
-            let chartObj = cptChartIdList[cptIndex];
-            let mainKey = chartObj.mainKey;
-            let editObj = {
-              id: mainKey,
-              tabid: 0,
-              json: JSON.stringify(layerOption)
-            }
-            editOneOtherLayer(editObj)
-            .then(result => {
-              if(result.n==1)
-                _this.updateGlobalEditData();
-            }).catch(error =>  console.info("编辑定位error"));
+            _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList)
           }
         }
       }
     } else if (tabsKey == 0) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         let bgObj = store.getState().showLayerDatas.bgFieldObj;
-        let editObj = {
-          id: bgObj.mainKey,
-          tabid: 0,
-          json: JSON.stringify(bgObj)
-        }
-        editOneOtherLayer(editObj)
-        .then(result => {
-          if (result.n == "1") {
-            _this.setState(
-              {
-                globalBg: bgObj
-              },
-              () => {
-                _this.updateGlobalEditData();
-              }
-            );
-            console.info("编辑背景succeed");
-          }else{
-            console.info("编辑背景error");
+        _this.setState(
+          {
+            globalBg: bgObj
+          },
+          () => {
+            this.debouncePrevNotArgs(this.editBgConfig);
           }
-        }).catch(error =>  console.info("编辑背景error"));
+        );
     }
   }
    
-   editDataBaseLayerPosition(){
+
+  debounce(fn, delay) {
+    // 维护一个 timer
+    let timer = null;
+    let context = this;
+    let args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  }
+  debouncePrevNotArgs(fn){
+    this.debounce(fn, 2000);
+  }
+
+
+  /**
+   * @description:  用来进行多次快速进行移动的时候请求频繁调用设置的防抖机制
+   * @param {type} 
+   * @return: 
+   */
+  editDataBaseLayerPositionPrevs(){
+    this.debouncePrevNotArgs(this.editDataBaseLayerPosition, 2000);
+  }
+  editDataBaseLayerPosition(){
         let thType = "0";
         let mainKey = -1;
-        let leftChartObj = this.state.cptChartIdList[this.state.cptIndex];
+        let state = this.state;
+        let leftChartObj = state.cptChartIdList[state.cptIndex];
         if(leftChartObj){
           thType = leftChartObj.thType;
           mainKey = leftChartObj.mainKey;
@@ -984,26 +984,74 @@ class Layout extends Component {
               console.info("编辑定位error");
             }
           }).catch(error =>  console.info("编辑定位error"));
-        }else if(thType=="text"||thType=="border"||thType=="iframe"){
-          let layerData = leftChartObj.layerData;
-          layerData.positionData = showDatas;
-          let editObj = {
-            id: mainKey,
-            tabid: 0,
-            json: JSON.stringify(layerData)
-          }
-          editOneOtherLayer(editObj)
-          .then(result => {
-            if (result.n == 1) {
-              console.info("编辑定位succeed");
-            }else{
-              console.info("编辑定位error");
+        }else{
+          if(thType=="text"||thType=="border"||thType=="iframe"){
+            let layerData = leftChartObj.layerData;
+            layerData.positionObj = showDatas;
+            let editObj = {
+              id: mainKey,
+              tabid: 0,
+              json: JSON.stringify(layerData)
             }
-          }).catch(error =>  console.info("编辑定位error"));
+            editOneOtherLayer(editObj)
+            .then(result => {
+              if (result.n == 1) {
+                console.info("编辑定位succeed");
+              }else{
+                console.info("编辑定位error");
+              }
+            }).catch(error =>  console.info("编辑定位error"));
+          }
         }
-   }
-
-
+  }
+    /**
+   * @description:  修改背景颜色的配置
+   * @param {type} 
+   * @return: 
+   */
+  editBgConfig(){
+    let bgObj = store.getState().showLayerDatas.bgFieldObj;
+    let editObj = {
+      id: bgObj.mainKey,
+      tabid: 0,
+      json: JSON.stringify(bgObj)
+    }
+    editOneOtherLayer(editObj)
+    .then(result => {
+      if (result.n == "1") {
+        console.info("编辑背景succeed");
+      }else{
+        console.info("编辑背景error");
+      }
+    }).catch(error =>  console.info("编辑背景error"));
+  }
+  editOtherLayerPrev(fn,args,cptOptionObj,cptChartIdList){
+    this.editOtherLayer(cptOptionObj,cptChartIdList);
+  }
+   /**
+   * @description:  修改其他图层的基本配置
+   * @param {type} 
+   * @return: 
+   */
+  editOtherLayer(cptOptionObj,cptChartIdList){
+    let layerOption = cptOptionObj.layerOption;
+    layerOption.positionObj = store.getState().showLayerDatas.showDatas;
+    let chartObj = cptChartIdList[this.state.cptIndex];
+    let mainKey = chartObj.mainKey;
+    let editObj = {
+      id: mainKey,
+      tabid: 0,
+      json: JSON.stringify(layerOption)
+    }
+    editOneOtherLayer(editObj)
+    .then(result => {
+      if(result.n==1)
+         console.info("编辑其他图层success")
+    }).catch(error =>  console.info("编辑其他图层error"));
+  }
+  editChartPrev(fn,args,layerIndex,tempOptionObj){
+      this.editItemDataBaseOneLayerPrev(layerIndex,tempOptionObj);
+  }
     /**
     * @description: 点击当前图层的时候将当前图层选中,并将右侧配置项的内容进行同步   -- 暂时不使用
     * @param {type}
@@ -1020,7 +1068,6 @@ class Layout extends Component {
         const t = cptpObj.cptType ? cptpObj.cptType : 'bg';
         //更新strore里卖弄的数据
         store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
-        this.updateGlobalEditData();
         this.setState({
           cptIndex: index,
           cptKey: id,
@@ -1042,7 +1089,6 @@ class Layout extends Component {
           cptIndex: layerIndex,
         }, () => {
           {
-            this.updateGlobalEditData();
           }
         });
       }else{
@@ -1054,7 +1100,6 @@ class Layout extends Component {
             cptPropertyObj:cptPropertyObj
         }, () => {
           {
-            this.updateGlobalEditData();
           }
         });
       }
@@ -1145,7 +1190,6 @@ class Layout extends Component {
         cptChartIdList: cptChartIdList,
         cptPropertyObj: cptPropertyObj,
       },() => {
-        this.updateGlobalEditData();
       })
     }
 
@@ -1158,16 +1202,7 @@ class Layout extends Component {
     }
 
 
-  /**
-   * @description: 这个方法用于当编辑面板的数据进行改变的时候,将store的改变通知到其他的调用store的地方
-   * @param {type}
-   * @return:
-   */
-  updateGlobalEditData() {
-    //更新编辑面板里面的数据
-    // this.refs.rightConfig.refs.editMainCenter.updateStateVal();
-  }
-
+ 
   /**
    * @description: 用来保存当前编辑页面的所有图表的数据
    * @param {type}
@@ -1257,11 +1292,10 @@ class Layout extends Component {
                       chartData={this.state.cptChartIdList[i]}
                       handleResizeMove={this.handleResizeMove}
                       handleDown={this.handleDown.bind(this)}
-                      updateGlobalEditData={this.updateGlobalEditData.bind(this)}
                       del={this.ondelItemPrev.bind(this, i)}
                       editItem={this.editItemPrev.bind(this,i)}
                       updateLayerPosition={this.updateLayerPosition.bind(this)}
-                      editDataSource={this.editDataBaseLayerPosition.bind(this)}></Content>
+                      editDataSource={this.editDataBaseLayerPositionPrevs.bind(this)}></Content>
                   </div>
                 );
               })}

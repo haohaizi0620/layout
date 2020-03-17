@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-02-28 18:10:05
+ * @LastEditTime: 2020-03-17 12:45:37
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -130,7 +130,6 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                     }
                 }
                 store.dispatch(addCptOptionsList(chartId, tempSaveObj));
-                _this.updateGlobalEditData();
             } else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
                 let tempIndex = Math.ceil(Math.random() * 3) - 1;
                 var data = chartTestData[tempIndex];
@@ -162,7 +161,6 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                                 layerOption: result
                             }
                             store.dispatch(editCptOptionsList(tempOptionObj));
-                            _this.updateGlobalEditData();
                         }).catch(error => {
                             console.info(error);
                         });
@@ -351,7 +349,6 @@ function addChart(data, timeId, addIndex, _this) {
                 layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
-            _this.updateGlobalEditData();
         }).catch(error => {
             console.info(error);
         });
@@ -393,7 +390,6 @@ function addChart(data, timeId, addIndex, _this) {
                     layerOption: result
                 }
                 store.dispatch(editCptOptionsList(tempOptionObj));
-                _this.updateGlobalEditData();
             }).catch(error => {
                 console.info(error);
             });

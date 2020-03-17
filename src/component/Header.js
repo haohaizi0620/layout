@@ -313,14 +313,24 @@ class Header extends Component {
         iframeUrl: ''
       };
     }
+  
+    let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
+    defaultShowVal.positionObj = JSON.parse(defaultPosition);
+   
+    this.props.onClickAdd(layerObj, {
+      data: {},
+      state: 'headerAdd',
+      mainKey:-1,
+      sortNum:comLength,
+      otherJson:defaultShowVal,
+    });
+    return;
     if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
       let shareid = window.parent.document.getElementById('shareID').value;
       let layerName = layerType + comLength;
-      let defaultLayerJson = '';
-      let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
-      defaultShowVal.positionObj = JSON.parse(defaultPosition);
-      defaultLayerJson = JSON.stringify(defaultShowVal);
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
+      let defaultLayerJson = '';
+      defaultLayerJson = JSON.stringify(defaultShowVal);
       let otherData = {
         name: layerName,
         type: layerType,
@@ -335,10 +345,10 @@ class Header extends Component {
           if (result.flag == 1) {
              this.props.onClickAdd(layerObj, {
               data: {},
-              State: 'headerAdd',
+              state: 'headerAdd',
               mainKey:result.mainKey,
               sortNum:comLength,
-              otherJson:defaultLayerJson,
+              otherJson:defaultShowVal,
             });
             console.log('图层添加成功');
           }
@@ -347,9 +357,10 @@ class Header extends Component {
     } else{
        this.props.onClickAdd(layerObj, {
         data: {},
-        State: 'headerAdd',
+        state: 'headerAdd',
         mainKey:-1,
         sortNum:comLength,
+        otherJson:defaultShowVal,
       });
     }
   }

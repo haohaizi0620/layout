@@ -11,8 +11,8 @@ class DefaultText extends Component {
        let chartData = this.props.chartData;
         return ( 
                 chartData&&chartData.hyperlinkCenter
-                ?<DefaultLinkText/>
-                :<DefaultSpanText/>
+                ?<DefaultLinkText  chartData={chartData}  />
+                :<DefaultSpanText  chartData={chartData}  />
          );
     }
 }

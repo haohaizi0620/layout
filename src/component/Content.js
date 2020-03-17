@@ -115,7 +115,6 @@ class Content extends Component {
     store.dispatch(
       updateShowLayerFieldVal({ fieldEname: 'top', fieldValue: xt, layerType: 'chart' })
     );
-    this.props.updateGlobalEditData();
     this.props.updateLayerPosition(this.props.delIndex, 'multi', [
       { fieldEname: 'left', fieldValue: xl },
       { fieldEname: 'top', fieldValue: xt }
