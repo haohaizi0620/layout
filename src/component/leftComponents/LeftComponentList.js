@@ -154,7 +154,7 @@ class LeftComponentList extends Component {
       kshname: pageLayerObj.KSHNAME,
       kshid: pageLayerObj.ID,
       v: vVal,
-      layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
+      layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"rotate":0,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
       sortNum:sortNum,
     };
     addOneLayer(addLayerObj)
@@ -173,7 +173,6 @@ class LeftComponentList extends Component {
             sortNum:sortNum
           }
         );
-        console.info(res);
       })
       .catch(error => {
         console.info(error);

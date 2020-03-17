@@ -8,18 +8,10 @@
  */
 import React, { Component, Fragment } from 'react'
 import './Content.css';
-import fontawesome from '@fortawesome/fontawesome';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import store from '../redux/store';
-import Mymap from './Mymap';
-import {
-    faEdit,
-    faUserEdit,
-    faUserTimes,
-    faRedo
-} from '@fortawesome/fontawesome-free-solid';
-fontawesome.library.add(faEdit, faUserEdit, faUserTimes, faRedo);
-
+import CurrentTime from './otherLayer/CurrentTime';
+import DefaultText from './otherLayer/DefaultText';
+import IframeLayer from './otherLayer/IframeLayer';
 class Child1 extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +20,9 @@ class Child1 extends Component {
         var cptObj = this.props.cptObj;
         let tempLayerType = cptObj.type;
         let cptBorderObj = cptObj.cptBorderObj;
-        let chartData = this.props.chartData.layerData;    
+        let chartData = this.props.chartData.layerData;
+        let keyData = this.props.keyData;
+        let layerSinId = keyData.id;    
         {
             return (
                 <div
@@ -44,32 +38,27 @@ class Child1 extends Component {
                         className="singleChart"
                         style={{
                             position: "absolute",
-                            width: cptObj.cptBorderObj.width - 20 + 'px',
-                            height: cptObj.cptBorderObj.height - 25 + 'px',
+                            width: cptBorderObj.width - 20 + 'px',
+                            height: cptBorderObj.height - 25 + 'px',
                             left: '10px',
                             top: '20px',
                             textAlign:tempLayerType == 'text' ?chartData.textAlign?chartData.textAlign:'':'',
                         }}>
-                       {
-                            tempLayerType == 'text' ?
-                                 <a className={'textLayer'}  
-                                        src={chartData.hyperlinkCenter?chartData.hyperlinkCenter:''}
-                                        target={chartData.isNewWindow?'_blank':'_self'} 
-                                        style={{
-                                            fontSize:chartData.fontSize?chartData.fontSize:'30px',
-                                            fontFamily:chartData.fontFamily?chartData.fontFamily:'auto',
-                                            color:chartData.fontColor?chartData.fontColor:'rgba(255,255,255,1)',
-                                            fontWeight:chartData.fontWeight?chartData.fontWeight:'normal',
-                                            writingMode:chartData.writingMode?chartData.writingMode:'horizontal-tb',
-                                        }}
-                                        >{chartData.textCenter?chartData.textCenter:'标题'}
-                                </a> :null
+                       {tempLayerType == 'text' ? 
+                            layerSinId=="moreRowText" 
+                            ?<CurrentTime
+                                chartData = {chartData}
+                            />
+                            :<DefaultText
+                                chartData = {chartData}
+                            />
+                            : null
                         }
-                        {
-                            tempLayerType == 'iframe'?
-                                <iframe  className='iframeObj'  src={chartData.iframeUrl?chartData.iframeUrl:''}    height="100%" width="100%"></iframe>
-                            :null
-                        }
+                        {tempLayerType == 'iframe' 
+                            ? <IframeLayer
+                            chartData = {chartData}
+                            />
+                        : null}
                     </div>
                 </div>
             )
@@ -102,6 +91,7 @@ class Content extends Component {
                 <Child1
                     cptObj={cptObj}
                     chartData={this.props.chartData}
+                    keyData={this.props.keyData}
                     id={this.props.id}>
                 </Child1>
             </div>

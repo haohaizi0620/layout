@@ -19,13 +19,12 @@ import {
   import '../index.css';
   import ShowPage from '../component/ShowPage' 
   import App from '../App';
-
-
+//<Route path="/" component={App} />
+//<Route   path="/" component={ShowPage} />
 const BasicRoute = () => (
     <Router >
         <Switch>
-        { /* <Route   path="/" component={ShowPage} /> */}
-          {<Route path="/" component={App} />}
+         <Route path="/" component={App} />
         </Switch>
     </Router>
 );

@@ -168,43 +168,42 @@ class Layout extends Component {
           shareId:shareId,
           kshId:kshId
         },() => {
-            getShareById(shareId)
-            .then(result => {
-                _this.initLayer(result[0],shareId,kshId)
-            }).catch(error => {
-                console.info(error);      
-            });
-            getBgIndex({
-              "shareid" : shareId
-            })
-            .then(result => {
-                if(result.n <= 0){
-                    let bgObj = {
-                      name: 'bg',
-                      type: 'bg',
-                      tabid: 0,
-                      shareid: shareId,
-                      json:  JSON.stringify({
-                          bgColor: 'rgba(15, 42, 67,1)',
-                          bjWidth: 1470,
-                          bjHeight: 937,
-                          bjImage:'none',
-                          bgImageName:"无",
-                          bgImageIntegerUrl:"",
-                          uploadImage:"",
-                          mainKey:-1
-                      }),
+          getBgIndex({
+            "shareid" : shareId
+          })
+          .then(result => {
+              if(result.n <= 0){
+                  let bgObj = {
+                    name: 'bg',
+                    type: 'bg',
+                    tabid: 0,
+                    shareid: shareId,
+                    json:  JSON.stringify({
+                        bgColor: 'rgba(15, 42, 67,1)',
+                        bjWidth: 1470,
+                        bjHeight: 937,
+                        bjImage:'none',
+                        bgImageName:"无",
+                        bgImageIntegerUrl:"",
+                        uploadImage:"",
+                    }),
+                    sortNum:0
+                  }
+                  addOneOtherLayer(bgObj)
+                  .then(res => {
+                    if(result.n==1){
+                        console.log("背景添加成功")
                     }
-                    addOneOtherLayer(bgObj)
-                    .then(res => {
-                      if(result.n==1){
-                          console.log("背景添加成功")
-                      }
-                    }).catch(error => console.log(error));
-                }
-            }).catch(error => console.log(error));
+                  }).catch(error => console.log(error));
+              }
+                getShareById(shareId)
+                .then(result => {
+                    _this.initLayer(result[0],shareId,kshId)
+                }).catch(error => {
+                    console.info(error);      
+                });
+          }).catch(error => console.log(error));
         })
-       
     }
     initLayer(nameDataObj,shareId,kshId){
         let _this = this;
@@ -246,7 +245,7 @@ class Layout extends Component {
                 if(tempLayerPosition!=""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
                 }else{
-                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
+                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
                 }
                 tempLayerPosition.type = "chart";
                 tempLayerPosition.sortNum = sortNumChart;
@@ -262,6 +261,7 @@ class Layout extends Component {
                         resultData.map((layerItem,layerIndex) => {
                           timeKey++;
                           let sinSoreNum = layerItem.SORTNUM;
+                          let layerId = layerItem.CELLTYPEID;
                           let layerType = layerItem.CELLTYPE;
                           let layerName = layerItem.CELLNAME;
                           let layerJsonObj = JSON.parse(layerItem.CELLJSON);
@@ -282,10 +282,10 @@ class Layout extends Component {
                                     sortNum:sinSoreNum,
                                 };
                                 if(!positionObj&&positionObj==""){
-                                  positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
+                                  positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
                                 }
                                 positionObj.sortNum = sinSoreNum;
-                                tempCptKeyList.push({ key: timeKey, id: layerName, title: layerName,layerType:layerType,simpleType:'',sortNum:sinSoreNum});
+                                tempCptKeyList.push({ key: timeKey, id: layerId, title: layerName,layerType:layerType,simpleType:'',sortNum:sinSoreNum});
                                 tempCptPropertyList.push(positionObj);
                                 tempCptChartIdList.push(tempCptChartObj); 
                           }
@@ -411,6 +411,7 @@ class Layout extends Component {
         left: 450,
         top: 160,
         opacity: 1,
+        rotate:0,
         layerBorderWidth: 0,
         layerBorderStyle: 'solid',
         layerBorderColor: 'rgb(0,0,0,1)'
@@ -428,35 +429,22 @@ class Layout extends Component {
     });
     let thType = "0";
     let layerTempObj = {};
+    let layerData = {};
     let mainKey = -1;
     let addState = "headerAdd";
     let sortNum = otherObj.sortNum;
+    if(otherObj&&otherObj.mainKey){
+      mainKey = otherObj.mainKey;
+    }
     if(otherObj&&otherObj.state=="leftAdd"){
         thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
-        mainKey = otherObj.mainKey;
         addState = otherObj.state;
         chartId = otherObj.data.id;
-    }else{
-      layerTempObj = {
-        "id": 4,
-        "parentid": 1,
-        "name": "京津冀年卡景点20190",
-        "type": "THEMERING_CHART",
-        "service": null,
-        "layername": null,
-        "renderer": null,
-        "thType": "0",
-        "type2": null,
-        "desp": "",
-        "isText": null,
-        "showType": null,
-        "realtimeupdate": null,
-        "serialize": null,
-        "show": null
-      }
+    }else if(otherObj&&otherObj.state=="headerAdd"){
+      otherObj.showVal = layerTempObj;
+      layerData = otherObj.otherJson;
     }
-    
     let addChartObj = {
         chartId:chartId,
         thType:thType,
@@ -506,17 +494,18 @@ class Layout extends Component {
     let parentDom = window.parent.document;
     let prevDataShow = parentDom.getElementById("dataShow");
     var dataShow = prevDataShow.contentWindow.document;
-    var hiddenDiv = dataShow.getElementsByTagName("div");
+    // var hiddenDiv = dataShow.getElementsByTagName("div");
+    let hiddenDiv = dataShow.getElementsByClassName("oneDiv");
     var tpEditorObj = dataShow.getElementById("tpEditor");
     if(hiddenDiv&&hiddenDiv.length>0){
-     for(let i=0;i<hiddenDiv.length;i++){
-      hiddenDiv[i].style.opacity = "0";
-     }
+      for(let i=0;i<hiddenDiv.length;i++){
+        hiddenDiv[i].style.opacity = "0";
+      }
     }
     layerObj.editState = "editPage";
-    tpEditorObj.style.opacity = "1";
-    tpEditorObj.parentNode.style.opacity = "1";
-    tpEditorObj.previousElementSibling.style.opacity = "1";
+    // tpEditorObj.style.opacity = "1";
+    // tpEditorObj.parentNode.style.opacity = "1";
+    // tpEditorObj.previousElementSibling.style.opacity = "1";
     prevDataShow.style.zIndex = 11;
     prevDataShow.contentWindow.topicEditor(layerObj,1)
    /*  let tempChart = this.state.cptChartIdList[layerIndex];
@@ -634,6 +623,7 @@ class Layout extends Component {
             height: 260,
             left: 450,
             top: 160,
+            rotate:0,
             opacity: this.state.cptPropertyObj.cptBorderObj.opacity,
             layerBorderWidth: 0,
             layerBorderStyle: 'solid',
@@ -735,14 +725,15 @@ class Layout extends Component {
     // index = this.state.cptIndex;
     const width = e.rect.width;
     const height = e.rect.height;
+    // const left = e.x0;
+    // const top = e.y0;
+    // console.log(e);
     var prevObjStyle = e.target.parentNode.style;
     const left = parseInt(prevObjStyle.left);
     const top = parseInt(prevObjStyle.top);
     const layerBorderWidth = parseInt(prevObjStyle.borderWidth);
     const layerBorderStyle = prevObjStyle.borderStyle;
     const layerBorderColor = prevObjStyle.borderColor;
-    // const left = parseInt(e.rect.left);
-    // const top = parseInt(e.rect.top);
     const opacity = this.state.cptPropertyObj.cptBorderObj.opacity;
     let cptpList = this.state.cptPropertyList;
     const t = cptpList[index].cptType ? cptpList[index].cptType : 'bg';
@@ -754,6 +745,7 @@ class Layout extends Component {
         left,
         top,
         opacity,
+        rotate:0,
         layerBorderWidth,
         layerBorderStyle,
         layerBorderColor
@@ -1261,9 +1253,10 @@ class Layout extends Component {
                       cptIndex={this.state.cptIndex}
                       delIndex={i}
                       obj={this.state.cptPropertyList[i]}
+                      keyData={item}
                       chartData={this.state.cptChartIdList[i]}
                       handleResizeMove={this.handleResizeMove}
-                      handleDown={this.handleDown}
+                      handleDown={this.handleDown.bind(this)}
                       updateGlobalEditData={this.updateGlobalEditData.bind(this)}
                       del={this.ondelItemPrev.bind(this, i)}
                       editItem={this.editItemPrev.bind(this,i)}
@@ -1274,7 +1267,6 @@ class Layout extends Component {
               })}
             </div>
           </div>
-         
             <Config
               ref='rightConfig'
               changeProperties={this.changeProperties.bind(this)}

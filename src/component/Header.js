@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as html2canvas from 'html2canvas';
-import { addPageImage, addOneOtherLayer } from '../api/api';
+import { addPageImage, addOneOtherLayer,getShareDesc} from '../api/api';
 import ShareItemModal from './ModelCom/ShareItemModal';
 import store from '../redux/store';
 import '../index.css';
@@ -120,7 +120,7 @@ class Header extends Component {
       text: {
         all: [
           { id: 'singleRowText', text: '单行文本', layerType: 'text' },
-          { id: 'moreRowText', text: '多行文本', layerType: 'text' }
+          { id: 'moreRowText', text: '当前时间', layerType: 'text' }
         ],
         textWidth: [{ id: 'singleRowText', text: '单行文本', layerType: 'text' }],
         textHeight: [{ id: 'moreRowText', text: '多行文本', layerType: 'text' }]
@@ -287,15 +287,10 @@ class Header extends Component {
    */
   onClickAdd(layerObj) {
     let layerType = layerObj.layerType;
+    let layerId = layerObj.id;
     var comLength = this.props.comLength+1;
-    if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
-      let shareid = window.parent.document.getElementById('shareID').value;
-      let comLengthVal = comLength+1;
-      let layerName = layerType + comLength;
-      let defaultLayerJson = '';
-      let defaultShowVal = {};
-      let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${comLengthVal}"}`;
-      if (layerType == 'text') {
+    let defaultShowVal = {};
+    if (layerType == 'text') {
         defaultShowVal = {
           textCenter: '标题',
           fontFamily: 'auto',
@@ -306,18 +301,23 @@ class Header extends Component {
           writingMode: 'horizontal-tb',
           hyperlinkCenter: '',
           isNewWindow: false
-        };
-      } else if (layerType == 'border') {
-        defaultShowVal = {
-          borderWidth: '1',
-          borderStyle: 'solid',
-          borderColor: 'rgba(255, 47, 3 ,1)'
-        };
-      } else if (layerType == 'iframe') {
-        defaultShowVal = {
-          iframeUrl: ''
-        };
-      }
+       }
+    } else if (layerType == 'border') {
+      defaultShowVal = {
+        borderWidth: '1',
+        borderStyle: 'solid',
+        borderColor: 'rgba(255, 47, 3 ,1)'
+      };
+    } else if (layerType == 'iframe') {
+      defaultShowVal = {
+        iframeUrl: ''
+      };
+    }
+    if (layerType == 'text' || layerType == 'border' || layerType == 'iframe') {
+      let shareid = window.parent.document.getElementById('shareID').value;
+      let layerName = layerType + comLength;
+      let defaultLayerJson = '';
+      let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
       defaultShowVal.positionObj = JSON.parse(defaultPosition);
       defaultLayerJson = JSON.stringify(defaultShowVal);
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
@@ -327,21 +327,31 @@ class Header extends Component {
         tabid: 0,
         shareid: shareid,
         json: defaultLayerJson,
-        sortNum:comLength
+        sortNum:comLength,
+        cellTypeId:layerId,
       };
       addOneOtherLayer(otherData)
         .then(result => {
-          if (result.n == 1) {
+          if (result.flag == 1) {
+             this.props.onClickAdd(layerObj, {
+              data: {},
+              State: 'headerAdd',
+              mainKey:result.mainKey,
+              sortNum:comLength,
+              otherJson:defaultLayerJson,
+            });
             console.log('图层添加成功');
           }
         })
         .catch(error => console.log(error));
+    } else{
+       this.props.onClickAdd(layerObj, {
+        data: {},
+        State: 'headerAdd',
+        mainKey:-1,
+        sortNum:comLength,
+      });
     }
-    this.props.onClickAdd(layerObj, {
-      data: {},
-      State: 'headerAdd',
-      sortNum:comLength
-    });
   }
 
   handleChartMouseOver(obj) {
@@ -394,20 +404,36 @@ class Header extends Component {
       base64: base64,
       name: name
     };
+    getShareDesc()
+    .then(result => {
+      let rows = result.rows[0];
+      //模拟点击全部可视化
+      window.parent.document.getElementById('dataShow').contentWindow.shareShow(rows);
+      addPageImage(PageImageObj)
+      .then(res => {
+        this.returnPrePage();
+      })
+      .catch(error => {
+        this.returnPrePage();
+        console.info(error);
+      });
+    }).catch(error => console.log(error));
+    
+  }
+  returnPrePage(){
     let parentDom = window.parent.document;
     let dataShow = parentDom.getElementById('dataShow');
     let dataShowEdit = parentDom.getElementById('dataShowEdit');
+    let prevDataShow = dataShow.contentWindow.document;
+    let hiddenDiv = prevDataShow.getElementsByClassName("oneDiv");
+    if(hiddenDiv&&hiddenDiv.length>0){
+      for(let i=0;i<hiddenDiv.length;i++){
+       hiddenDiv[i].style.opacity = "1";
+      }
+    }
     dataShowEdit.style.zIndex = 5;
     dataShow.style.zIndex = 10;
-    addPageImage(PageImageObj)
-      .then(res => {
-        
-      })
-      .catch(error => {
-        console.info(error);
-      });
   }
-
   render() {
     const ttype = this.state.ttype;
     return (

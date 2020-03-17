@@ -49,6 +49,9 @@ class EditSimpleMainInfo extends Component {
           {showData.map((item, i) => {
             let itemType = item.type;
             if (itemType == 'InputNumber') {
+              if(!item.value){
+                item.value = 0;
+              }
               let tempVal = parseInt(item.value);
               return (
                 <div className='pro-item-simple'>
@@ -66,6 +69,9 @@ class EditSimpleMainInfo extends Component {
                 </div>
               );
             } else if (itemType == 'Slider') {
+              if(!item.value){
+                item.value = 0;
+              }
               return (
                 <div>
                   <div className='pro-item-simple pro-item-slider'>

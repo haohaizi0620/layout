@@ -173,7 +173,7 @@ class Properties extends Component {
           ],
           layerType: 'default'
         },
-        /* {
+        {
               ename: 'rotationAngle',
               name: '旋转角度',
               includeSelect: false,
@@ -187,7 +187,7 @@ class Properties extends Component {
                       maxNumber: 360,
                       minNumber: 0
                     }]
-        }, */
+        },
         {
           ename: 'opacity',
           name: '透明度',
@@ -550,8 +550,6 @@ class Properties extends Component {
       layerDataSource: []
     };
     store.subscribe(() => {
-      console.log(store)
-      console.log(store.getState())
           this.updateStateVal()
     });
   }
@@ -624,17 +622,18 @@ class Properties extends Component {
       let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
       let tempChartArr = this.state.chart;
       let tempChart = [];
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         tempChart.push(tempChartArr[i]);
       }
       tempChart[0].childer[0].value = cptBorderObj.width;
       tempChart[0].childer[1].value = cptBorderObj.height;
       tempChart[1].childer[0].value = cptBorderObj.left;
       tempChart[1].childer[1].value = cptBorderObj.top;
-      tempChart[2].childer[0].value = cptBorderObj.opacity;
-      tempChart[3].childer[0].value = cptBorderObj.layerBorderWidth;
-      tempChart[3].childer[1].value = cptBorderObj.layerBorderStyle;
-      tempChart[3].childer[2].value = cptBorderObj.layerBorderColor;
+      tempChart[2].childer[0].value = cptBorderObj.rotate;
+      tempChart[3].childer[0].value = cptBorderObj.opacity;
+      tempChart[4].childer[0].value = cptBorderObj.layerBorderWidth;
+      tempChart[4].childer[1].value = cptBorderObj.layerBorderStyle;
+      tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
       if (tempLayerType == 'chart') {
         tempLayer = this.state.layerOneselfInfo;
         if (dataObj) {

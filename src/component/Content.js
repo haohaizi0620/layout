@@ -5,6 +5,10 @@ import fontawesome from '@fortawesome/fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import store from '../redux/store';
 import Mymap from './Mymap';
+import CurrentTime from './otherLayer/CurrentTime';
+import DefaultText from './otherLayer/DefaultText';
+import IframeLayer from './otherLayer/IframeLayer';
+
 import {
   updateShowLayerFieldVal,
   replaceShowLayerFieldVal,
@@ -20,6 +24,8 @@ class Child1 extends Component {
   render() {
     {
       let cptObj = this.props.cptObj;
+      let keyData = this.props.keyData;
+      let layerSinId = keyData.id;
       let tempLayerType = cptObj.type;
       let cptBorderObj = cptObj.cptBorderObj;
       let chartData = this.props.chartData.layerData;
@@ -40,34 +46,23 @@ class Child1 extends Component {
               height: cptBorderObj.height - 25 + 'px',
               left: '10px',
               top: '20px',
-              /* borderWidth:cptBorderObj.layerBorderWidth?cptBorderObj.layerBorderWidth:'0px',
-                            borderStyle:cptBorderObj.layerBorderStyle?cptBorderObj.layerBorderStyle:'',
-                            borderColor:cptBorderObj.layerBorderColor?cptBorderObj.layerBorderColor:'', */
-              textAlign:
-                tempLayerType == 'text' ? (chartData.textAlign ? chartData.textAlign : '') : ''
+              textAlign:tempLayerType == 'text'&&chartData ? (chartData.textAlign ? chartData.textAlign : '') : ''
             }}>
-            {tempLayerType == 'text' ? (
-              <a
-                className={'textLayer'}
-                src={chartData.hyperlinkCenter ? chartData.hyperlinkCenter : ''}
-                target={chartData.isNewWindow ? '_blank' : '_self'}
-                style={{
-                  fontSize: chartData.fontSize ? chartData.fontSize : '30px',
-                  fontFamily: chartData.fontFamily ? chartData.fontFamily : 'auto',
-                  color: chartData.fontColor ? chartData.fontColor : 'rgba(255,255,255,1)',
-                  fontWeight: chartData.fontWeight ? chartData.fontWeight : 'normal',
-                  writingMode: chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
-                }}>
-                {chartData.textCenter ? chartData.textCenter : '标题'}
-              </a>
-            ) : null}
-            {tempLayerType == 'iframe' ? (
-              <iframe
-                className='iframeObj'
-                src={chartData.iframeUrl ? chartData.iframeUrl : ''}
-                height='100%'
-                width='100%'></iframe>
-            ) : null}
+            {tempLayerType == 'text' ? 
+                layerSinId=="moreRowText" 
+                  ?<CurrentTime
+                      chartData = {chartData}
+                  />
+                  :<DefaultText
+                     chartData = {chartData}
+                  />
+                  : null
+            }
+            {tempLayerType == 'iframe' 
+                ? <IframeLayer
+                  chartData = {chartData}
+                />
+              : null}
           </div>
         </div>
       );
@@ -76,7 +71,6 @@ class Child1 extends Component {
 }
 
 const ReactableChild = reactable(Child1);
-
 class Content extends Component {
   constructor(props) {
     super(props);
@@ -93,9 +87,6 @@ class Content extends Component {
    * @return:
    */
   handleDragMove = e => {
-    if (!this.isSelect()) {
-      return;
-    }
     let tempStateLeft = this.state.left;
     let tempStateTop = this.state.top;
     const { dx, dy } = e;
@@ -131,25 +122,15 @@ class Content extends Component {
     ]);
   };
   handleResizeMove = e => {
-    if (this.isSelect()) {
       this.props.handleResizeMove(e);
-    }
   };
   handleEnd = e => {
     this.props.editDataSource();
   };
   handleDown = e => {
-    if (this.isSelect()) {
       this.props.handleDown(e);
-    }
-  };
-
-  isSelect() {
-    // return this.props.cptIndex == this.props.delIndex;
-    return true;
   }
-
-  /**
+    /**
    * @description:  通过指定图层的index进行删除指定的图层
    * @param {type}
    * @return:
@@ -173,7 +154,7 @@ class Content extends Component {
           top: tempCptObj.top,
           width: parseInt(tempCptObj.width),
           height: parseInt(tempCptObj.height),
-          transform:`rotate(${tempCptObj.rotate})`,
+          transform:`rotate(${tempCptObj.rotate}deg)`,
           borderStyle: tempCptObj.layerBorderStyle,
           borderWidth: tempCptObj.layerBorderWidth + 'px',
           borderColor: tempCptObj.layerBorderColor
@@ -218,6 +199,7 @@ class Content extends Component {
           delIndex={this.props.delIndex}
           cptObj={this.props.obj}
           chartData={this.props.chartData}
+          keyData={this.props.keyData}
           id={this.props.id}>
           >
         </ReactableChild>

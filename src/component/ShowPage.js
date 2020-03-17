@@ -40,10 +40,11 @@ class ShowPage extends Component {
       isOpenNewWindowFlag: false, //是否打开预览页面
       nameData: {} //保存当前页面的基本信息
     };
-    this.initProxyShare();
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.initProxyShare();
+  }
 
   GetUrlParam(paraName) {
     var url = document.location.toString();
@@ -101,19 +102,22 @@ class ShowPage extends Component {
               tempData.map((item, index) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
+                let sortNumChart = item.sortNum;
                 let tempCptChartObj = {
                   chartId: item.id,
                   thType: item.thType,
                   timeKey: timeKey,
                   mainKey: item.mainKey,
                   addState: "defaultState",
-                  layerObj: item
+                  layerObj: item,
+                  layerData:{},
+                  sortNum:sortNumChart,
                 };
                 if (tempLayerPosition != "") {
                   tempLayerPosition = JSON.parse(tempLayerPosition);
                 } else {
                   tempLayerPosition = JSON.parse(
-                    '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
+                    '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
                   );
                 }
                 tempLayerPosition.type = "chart";
@@ -136,6 +140,8 @@ class ShowPage extends Component {
                 resultData.map((layerItem, layerIndex) => {
                   timeKey++;
                   let layerType = layerItem.celltype;
+                  let sinSoreNum = layerItem.sortNum;
+                  let layerId = layerItem.cellTypeId;
                   let layerName = layerItem.cellname;
                   let layerJsonObj = JSON.parse(layerItem.celljson);
                   let mainKey = layerItem.ID;
@@ -151,16 +157,17 @@ class ShowPage extends Component {
                       mainKey: layerItem.id,
                       addState: "defaultState",
                       layerObj: layerItem,
-                      layerData: layerJsonObj
+                      layerData: layerJsonObj,
+                      sortNum:sinSoreNum,
                     };
                     if (!positionObj && positionObj == "") {
                       positionObj = JSON.parse(
-                        `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
+                        `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
                       );
                     }
                     tempCptKeyList.push({
                       key: timeKey,
-                      id: layerName,
+                      id: layerId,
                       title: layerName,
                       layerType: layerType,
                       simpleType: ""
@@ -233,19 +240,22 @@ class ShowPage extends Component {
         tempData.map((item, index) => {
           timeKey++;
           let tempLayerPosition = item.layerPosition;
+          let sortNumChart = item.sortNum;
           let tempCptChartObj = {
             chartId: item.id,
             thType: item.thType,
             timeKey: timeKey,
             mainKey: item.mainKey,
             addState: "defaultState",
-            layerObj: item
+            layerObj: item,
+            layerData:{},
+            sortNum:sortNumChart,
           };
           if (tempLayerPosition != "") {
             tempLayerPosition = JSON.parse(tempLayerPosition);
           } else {
             tempLayerPosition = JSON.parse(
-              '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
+              '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
             );
           }
           tempLayerPosition.type = "chart";
@@ -266,8 +276,10 @@ class ShowPage extends Component {
               let bgObj = {};
               resultData.map((layerItem, layerIndex) => {
                 timeKey++;
+                let sinSoreNum = layerItem.SORTNUM;
                 let layerType = layerItem.CELLTYPE;
                 let layerName = layerItem.CELLNAME;
+                let layerId = layerItem.CELLTYPEID;
                 let layerJsonObj = JSON.parse(layerItem.CELLJSON);
                 let mainKey = layerItem.ID;
                 if (layerType == "bg") {
@@ -282,16 +294,17 @@ class ShowPage extends Component {
                     mainKey: layerItem.ID,
                     addState: "defaultState",
                     layerObj: layerItem,
-                    layerData: layerJsonObj
+                    layerData: layerJsonObj,
+                    sortNum:sinSoreNum,
                   };
                   if (!positionObj && positionObj == "") {
                     positionObj = JSON.parse(
-                      `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
+                      `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
                     );
                   }
                   tempCptKeyList.push({
                     key: timeKey,
-                    id: layerName,
+                    id: layerId,
                     title: layerName,
                     layerType: layerType,
                     simpleType: ""
@@ -349,9 +362,10 @@ class ShowPage extends Component {
                 <div index={index} key={item.key}>
                   <ShowContent
                     id={item.timeKey}
-                    chartData={this.state.cptChartIdList[index]}
+                    chartData={item}
                     cptObj={this.state.cptPropertyList[index]}
                     delIndex={index}
+                    keyData={this.state.cptKeyList[index]}
                   ></ShowContent>
                 </div>
               );
@@ -361,4 +375,5 @@ class ShowPage extends Component {
     );
   }
 }
+
 export default ShowPage;

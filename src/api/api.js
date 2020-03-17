@@ -38,6 +38,15 @@ export function getKSHChart(getKshObj) {
   });
 }
 
+export function getShareDesc(getKshObj) {
+  return request({
+    url: 'http://localhost:8080/data/share/getShareDesc.do',
+    method: 'post',
+    data:Qs.stringify(getKshObj)
+  });
+}
+
+
 export function addOneLayer(addLayerObj){
   return request({
     url: 'http://localhost:8080/data/thematic/addKSHChart.do',
