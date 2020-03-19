@@ -31,6 +31,62 @@
   .ant-select-arrow {
     color: gray;
   }
+  
+  /*添加编辑json的滚动条*/
+  #edit-json-react-ajrm-noEdit{
+
+  }
+
+  /*设置滚动条样式*/
+  #edit-json-react-ajrm-noEdit::-webkit-scrollbar-thumb {
+    display: block;
+    width: 6px;
+    margin: 0 auto;
+    background: #61b6eb;
+    border-radius: 2px;
+  }
+  #edit-json-react-ajrm-noEdit::-webkit-scrollbar {
+    width: 3px;
+    height: 1px;
+  }
+  #edit-json-react-ajrm-noEdit::-webkit-scrollbar-track {
+    border-radius: 2px;
+  }
+  #edit-json-react-ajrm-noEdit::-webkit-scrollbar-thumb:hover {
+    background: #61b6eb;
+  }
+  #edit-json-react-ajrm-noEdit::-webkit-scrollbar-corner {
+    background: #61b6eb;
+  }
+
+  #edit-json-react-ajrm-edit::-webkit-scrollbar-thumb {
+    display: block;
+    width: 6px;
+    margin: 0 auto;
+    background: #61b6eb;
+    border-radius: 2px;
+  }
+  #edit-json-react-ajrm-edit::-webkit-scrollbar {
+    width: 3px;
+    height: 1px;
+  }
+  #edit-json-react-ajrm-edit::-webkit-scrollbar-track {
+    border-radius: 2px;
+  }
+  #edit-json-react-ajrm-edit::-webkit-scrollbar-thumb:hover {
+    background: #61b6eb;
+  }
+  #edit-json-react-ajrm-edit::-webkit-scrollbar-corner {
+    background: #61b6eb;
+  }
+
+    
+
+
+}
+
+.pro-item-simple-block{
+  display: block;
 }
 .pro-item-slider {
   vertical-align: top;

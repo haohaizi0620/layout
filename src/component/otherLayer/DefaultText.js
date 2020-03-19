@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-13 17:19:16
+ * @LastEditTime: 2020-03-18 18:13:35
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \layout\src\component\otherLayer\DefaultText.js
+ */
 import React, { Component } from 'react';
 class DefaultText extends Component {
     constructor(props) {
@@ -26,8 +34,6 @@ class DefaultSpanText extends Component {
         return ( 
             <span
                       className={'textLayer'}
-                      src={chartData&&chartData.hyperlinkCenter ? chartData.hyperlinkCenter : ''}
-                      target={chartData&&chartData.isNewWindow ? '_blank' : '_self'}
                       style={{
                         fontSize: chartData&&chartData.fontSize ? chartData.fontSize : '30px',
                         fontFamily: chartData&&chartData.fontFamily ? chartData.fontFamily : 'auto',
@@ -35,7 +41,7 @@ class DefaultSpanText extends Component {
                         fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
                         writingMode:chartData&& chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
                       }}>
-                      {chartData&&chartData.textCenter ? chartData.textCenter : '标题'}</span>
+                      {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}</span>
          );
     }
 }
@@ -57,7 +63,7 @@ class DefaultLinkText extends Component {
                         fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
                         writingMode:chartData&& chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
                       }}>
-                      {chartData&&chartData.textCenter ? chartData.textCenter : '标题'}</a>
+                      {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}</a>
          );
     }
 }

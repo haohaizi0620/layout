@@ -491,7 +491,8 @@ class Layout extends Component {
     this.refs.delModal.setDefaultValue(layerIndex);
   }
   editItemPrev(layerIndex){
-    let layerObj = this.state.cptChartIdList[layerIndex].layerObj
+    let chartObj = this.state.cptChartIdList[layerIndex];
+    let layerObj = chartObj.layerObj
     let parentDom = window.parent.document;
     let prevDataShow = parentDom.getElementById("dataShow");
     var dataShow = prevDataShow.contentWindow.document;
@@ -668,21 +669,17 @@ class Layout extends Component {
   editItemDataBaseOneLayerPrev(layerIndex,tempOptionObj){
     let chartObj = this.state.cptChartIdList[layerIndex];   
     let editJson = this.refs.editModal.getEditJson(chartObj,tempOptionObj);
-    this.editItemDataBaseOneLayer(layerIndex,editJson,tempOptionObj);
+    this.editItemDataBaseOneLayer(layerIndex,editJson);
   }
   /**
    * @description: 编辑指定的图层
    * @param {number} layerIndex 当前图层对应的index值
    * @param {Object} editData 用来进行编辑的json字符串
-   * @param {Object} tempOptionObj 用来编辑成功进行更新的optionos和queryId对象
    * @return:
    */
-  editItemDataBaseOneLayer(layerIndex,editData,tempOptionObj){
-    let _this = this;
+  editItemDataBaseOneLayer(layerIndex,editData){
     let thType = "0";
     let leftChartObj = this.state.cptChartIdList[layerIndex];
-    let timeKey = leftChartObj.timeKey;
-    let chartId = leftChartObj.chartId;
     if(leftChartObj){
       thType = leftChartObj.thType;
     }
@@ -712,7 +709,12 @@ class Layout extends Component {
     let tempCptObj = this.state.cptPropertyList[layerIndex];
     if (type == 'multi') {
       fieldArr.forEach(item => {
-        tempCptObj.cptBorderObj[item.fieldEname] = item.fieldValue;
+        let fieldEname = item.fieldEname;
+        let fieldValue = item.fieldValue;
+        store.dispatch(
+          updateShowLayerFieldVal({ fieldEname: fieldEname, fieldValue: fieldValue, layerType: 'chart' })
+        );
+        tempCptObj.cptBorderObj[fieldEname] =fieldValue;
       });
     }
     this.state.cptPropertyList[layerIndex] = tempCptObj;
@@ -786,16 +788,29 @@ class Layout extends Component {
     let cptpList = this.state.cptPropertyList;
     let cptChartIdList = this.state.cptChartIdList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
+    var tempObj;
+    if(tabsKey == 2||tabsKey == 1){
+      var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
+      let tempLayerId = mapObjArr[cptIndex].layerId;
+      tempObj = document.getElementById(tempLayerId);
+    }
     if (tabsKey == 2) {
-      if (layerType == 'chart') {
-        if (fieldEname == 'chartDataFile') {
-          /*  let tempFieldArray = fieldValue.split("\n");
-                        tempFieldArray.map((tempItem,tempIndex) => {
-                            tempFieldArray[tempIndex] = JSON.parse(tempItem);
-                        }) */
-          cptOptionObj.layerOption[0].myMapTable.result = fieldValue;
+      if (layerType=="chart"||layerType == 'border'||layerType == 'iframe') {
+        
+      }else if(layerType=="text"){
+        tempObj = tempObj.getElementsByClassName('textLayer')[0];
+        if(fieldEname=="textCenter"){
+          tempObj.innerText = fieldValue.value;
         }
-        this.updateChartsStyle("update")
+        cptOptionObj.layerOption[fieldEname] = fieldValue;
+      }
+      if(layerType=="text"){
+        let tempOptionObj = {
+          cptIndex:cptIndex,
+          layerOption:cptOptionObj.layerOption
+        }
+        store.dispatch(editCptOptionsList(tempOptionObj));
+        _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList) 
       }
     } else if (tabsKey == 1) {
       if (
@@ -841,14 +856,9 @@ class Layout extends Component {
           layerType == 'iframe' ||
           layerType == 'chart'
         ) {
-          var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-          let tempLayerId = mapObjArr[cptIndex].layerId;
-          let tempObj = document.getElementById(tempLayerId);
           if (layerType == 'text') {
             tempObj = tempObj.getElementsByClassName('textLayer')[0];
-            if (fieldEname == 'textCenter') {
-              tempObj.innerText = fieldValue;
-            } else if (fieldEname == 'fontSize') {
+            if (fieldEname == 'fontSize') {
               tempObj.style.fontSize = fieldValue + 'px';
             } else if (fieldEname == 'fontColor') {
               tempObj.style.color = fieldValue;
@@ -873,7 +883,7 @@ class Layout extends Component {
             tempObj = tempObj.parentNode;
             if (fieldEname == 'borderWidth') {
               tempObj.style.borderWidth = fieldValue + 'px';
-            }else  if (fieldEname == 'borderBg') {
+            }else  if (fieldEname == 'borderImage') {
               tempObj.style.borderImage =`url(${require(`../img/${fieldValue}`)}) 30`;
             }
           } else if (layerType == 'iframe') {
@@ -907,16 +917,20 @@ class Layout extends Component {
               cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
             }
           }
+          if(layerType == 'text' ||
+            layerType == 'border' ||
+            layerType == 'iframe'){
+            cptOptionObj.layerOption[fieldEname] = fieldValue;
+          }
           let tempOptionObj = {
             cptIndex:cptIndex,
             layerOption:cptOptionObj.layerOption
           }
-          store.dispatch(editCptOptionsList(tempOptionObj));
-          if (layerType == 'chart') {            
+          store.dispatch(editCptOptionsList(tempOptionObj)); 
+          if (layerType == 'chart') {         
             _this.updateChartsStyle("update");
             _this.debounce(this.editChartPrev,2000,cptIndex,tempOptionObj)
           } else {
-            cptOptionObj.layerOption[fieldEname] = fieldValue;
             _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList)
           }
         }
@@ -1223,6 +1237,7 @@ class Layout extends Component {
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
     window.open(`http://localhost:8080/share/build/index.html?sid=${sidVal}`, '_blank');
   }
+
 
   render() {
 

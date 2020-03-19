@@ -32,7 +32,10 @@ class Child1 extends Component {
           className={this.props.cptIndex == this.props.delIndex ? 'itemClick item' : 'item'}
           style={{
             width: '100%',
-            height: '100%'
+            height: '100%',
+            borderWidth:tempLayerType == 'border'?chartData.borderWidth+"px":'0px',
+            borderStyle:tempLayerType == 'border'?'solid':'none',
+            borderImage:tempLayerType == 'border'?`url(${require("../img/"+chartData.borderImage)}) 30`:'none'
           }}
           ref={this.props.getRef}>
           <div
@@ -107,12 +110,6 @@ class Content extends Component {
       left: xl,
       top: xt
     });
-    store.dispatch(
-      updateShowLayerFieldVal({ fieldEname: 'left', fieldValue: xl, layerType: 'chart' })
-    );
-    store.dispatch(
-      updateShowLayerFieldVal({ fieldEname: 'top', fieldValue: xt, layerType: 'chart' })
-    );
     this.props.updateLayerPosition(this.props.delIndex, 'multi', [
       { fieldEname: 'left', fieldValue: xl },
       { fieldEname: 'top', fieldValue: xt }
@@ -139,67 +136,127 @@ class Content extends Component {
   onEditItem() {
     this.props.editItem();
   }
+
+  onRotateMouseDown = e => {
+    console.log("onRotateMouseDown")
+    document.addEventListener('mousemove', this.onRotateMouseMove);
+    document.addEventListener('mouseup', this.onRotateMouseUp);
+  }
+  onRotateMouseUp = e => {
+    console.log("onRotateMouseUp")
+    document.removeEventListener('mousemove', this.onRotateMouseMove);
+    // document.removeEventListener('mouseup', this.onRotateMouseUp);
+  }
+  onRotateMouseMove = e => {
+    console.log("onRotateMouseMove")
+    e.stopPropagation();
+    e.preventDefault();
+    e.cancelBubble = true;
+    e.returnValue = false;
+    let chartData  = this.props.chartData;
+    if(!chartData)
+        return;
+    let showDiv = document.getElementById("grid"+chartData.timeKey);
+    const centerX = parseInt(showDiv.style.left)  + (showDiv.clientWidth / 2);
+    const centerY = parseInt(showDiv.style.top) + (showDiv.clientHeight / 2);
+    const mouseX = e.pageX - (document.documentElement.scrollLeft || document.body.scrollLeft);
+    const mouseY = e.pageY - (document.documentElement.scrollTop || document.body.scrollTop);
+    const angleRad = Math.atan2(mouseX - centerX, -(mouseY - centerY));
+    const angleDeg = parseInt(angleRad * ( 180 / Math.PI));
+    // showDiv.style.transform = `rotate(${angleDeg}deg)`
+    this.props.updateLayerPosition(this.props.delIndex, 'multi', [
+      { fieldEname: 'rotate', fieldValue:angleDeg },
+    ]);
+  }
   render() {
     let tempCptObj = this.props.obj.cptBorderObj;
+    let timeKey = this.props.id;
+    let chartData = this.props.chartData;
+    let thType = chartData.thType;
     return (
-      <div
-        className='grid-item'
-        style={{
-          opacity: tempCptObj.opacity,
-          left: tempCptObj.left,
-          top: tempCptObj.top,
-          width: parseInt(tempCptObj.width),
-          height: parseInt(tempCptObj.height),
-          transform:`rotate(${tempCptObj.rotate}deg)`,
-          borderStyle: tempCptObj.layerBorderStyle,
-          borderWidth: tempCptObj.layerBorderWidth + 'px',
-          borderColor: tempCptObj.layerBorderColor
-        }}>
-          <FontAwesomeIcon
-          icon={faUserEdit}
-          className='remove'
-          title='编辑'
-          style={{
-            left: tempCptObj.width - 50  + 'px',
-            top: 2 + 'px',
-            width: '20px',
-            color: 'white'
-          }}
-          onClick={this.onEditItem.bind(this)}
-        />
-        <FontAwesomeIcon
-          icon={faUserTimes}
-          className='remove'
-          title='移除'
-          style={{
-            left: tempCptObj.width - 30 + 'px',
-            top: 2 + 'px',
-            width: '20px',
-            color: 'white'
-          }}
-          onClick={this.onRemoveItem.bind(this)}
-        />
-        <ReactableChild
-          draggable
-          gesturable
-          resizable={{
-            // resize from all edges and corners
-            edges: { /*left: true,*/ right: true, bottom: true /*, top: true*/ }
-          }}
-          onDragMove={this.handleDragMove}
-          onDragEnd={this.handleEnd}
-          onDown={this.handleDown}
-          onResizeMove={this.handleResizeMove}
-          onResizeEnd={this.handleEnd}
-          cptIndex={this.props.cptIndex}
-          delIndex={this.props.delIndex}
-          cptObj={this.props.obj}
-          chartData={this.props.chartData}
-          keyData={this.props.keyData}
-          id={this.props.id}>
-          >
-        </ReactableChild>
-      </div>
+      <Fragment>
+          <div
+            className='grid-item'
+            id={'grid'+timeKey}
+            style={{
+              opacity: tempCptObj.opacity,
+              left: tempCptObj.left,
+              top: tempCptObj.top,
+              width: parseInt(tempCptObj.width),
+              height: parseInt(tempCptObj.height),
+              transform:`rotate(${tempCptObj.rotate}deg)`,
+              borderStyle: tempCptObj.layerBorderStyle,
+              borderWidth: tempCptObj.layerBorderWidth + 'px',
+              borderColor: tempCptObj.layerBorderColor,
+            }}>
+              {
+                this.state.cptIndex != -1 ? 
+                <div
+                onMouseDown={this.onRotateMouseDown}
+                style={{
+                  position: 'absolute',
+                  height:'100px',
+                  width:'100px',
+                  left:'-100px',
+                  top:'-100px',
+                  opacity:0,
+                  cursor:`url(${require('../img/icon/rotateIcon.png')}) 14 14,pointer`
+                }}></div>:null
+              }
+              {
+               thType=="0"||thType=="1"?
+               <FontAwesomeIcon
+                  icon={faUserEdit}
+                  className='remove'
+                  title='编辑'
+                  style={{
+                    left: tempCptObj.width - 50  + 'px',
+                    top: 2 + 'px',
+                    width: '20px',
+                    color: 'white'
+                  }}
+                  onClick={this.onEditItem.bind(this)}
+                />
+               :null
+              }
+              {
+                 thType=="0"||thType=="1"?
+                 <FontAwesomeIcon
+                 icon={faUserTimes}
+                 className='remove'
+                 title='移除'
+                 style={{
+                   left: tempCptObj.width - 30 + 'px',
+                   top: 2 + 'px',
+                   width: '20px',
+                   color: 'white'
+                 }}
+                 onClick={this.onRemoveItem.bind(this)} />
+                :null
+              }
+              
+            <ReactableChild
+              draggable
+              gesturable
+              resizable={{
+                // resize from all edges and corners
+                edges: { /*left: true,*/ right: true, bottom: true /*, top: true*/ }
+              }}
+              onDragMove={this.handleDragMove}
+              onDragEnd={this.handleEnd}
+              onDown={this.handleDown}
+              onResizeMove={this.handleResizeMove}
+              onResizeEnd={this.handleEnd}
+              cptIndex={this.props.cptIndex}
+              delIndex={this.props.delIndex}
+              cptObj={this.props.obj}
+              chartData={this.props.chartData}
+              keyData={this.props.keyData}
+              id={this.props.id}>
+              >
+            </ReactableChild>
+          </div>
+      </Fragment>
     );
   }
 }

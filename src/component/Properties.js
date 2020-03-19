@@ -32,12 +32,11 @@ class Properties extends Component {
       layerBorderStyle: 'solid',
       layerBorderColor: 'rgb(0,0,0,1)',
       borderWidth: 10,
-      borderBg:'border/border1.png',
+      borderImage:'border/border1.png',
       iframeUrl: '',
      
     };
     this.state = {
-      cptChartData:{},
       bg: [
         {
           ename: 'screenSize',
@@ -175,10 +174,11 @@ class Properties extends Component {
                     {
                       ename: 'rotate',
                       cname: '角度',
-                      type: 'InputNumber',
+                      type: 'Slider',
                       value: cptBorderObj.rotate,
                       maxNumber: 360,
-                      minNumber: 0
+                      minNumber: 0,
+                      step:1,
                     }]
         },
         {
@@ -191,6 +191,9 @@ class Properties extends Component {
               ename: 'opacity',
               cname: '透明度',
               type: 'Slider',
+              maxNumber: 1,
+              minNumber: 0,
+              step:0.01,
               value: cptBorderObj.opacity
             }
           ],
@@ -239,23 +242,48 @@ class Properties extends Component {
           layerType: 'default'
         }
       ],
-      text: [
+      dataSource:[],
+      layerDataSource: [
         {
-          ename: 'textCenter',
-          name: '标题内容',
-          includeSelect: false,
+          ename: 'staticData',
+          name: '数据源',
+          includeSelect: true,
           type: '',
           childer: [
             {
-              ename: 'textCenter',
-              cname: '标题内容',
-              type: 'Input',
-              value: textFieldObj.textCenter,
-              placeholder: '标题内容'
+              ename: 'staticDataEdit',
+              cname: '数据编辑',
+              type: 'EditJsonReactAjrm',
+              value: {},
+              isEdit:true,
+            },
+            {
+              ename: 'staticDataEdit',
+              cname: '数据展示',
+              type: 'EditJsonReactAjrm',
+              value: {},
+              isEdit:false,
             }
           ],
-          layerType: 'text'
-        },
+          layerType: 'chart'
+        }
+      ],
+      noContent: [
+        {
+          ename: 'noContent',
+          name: '暂无数据',
+          includeSelect: true,
+          type: '',
+          childer: [
+            {
+              ename: 'noContent',
+              type: 'noContent',
+            }
+          ],
+          layerType: 'chart'
+        }
+      ],
+      text: [
         {
           ename: 'fontStyle',
           name: '字体样式',
@@ -395,16 +423,16 @@ class Properties extends Component {
           layerType: 'border'
         },
           {
-            ename: 'borderBg',
+            ename: 'borderImage',
             name: '边框背景',
             includeSelect: false,
             type: '',
             childer: [
               {
-                ename: 'borderBg',
+                ename: 'borderImage',
                 cname: '',
                 type: 'Select',
-                value:  textFieldObj.borderBg,
+                value:  textFieldObj.borderImage,
                 defaultOption: '边框一',
                 optionValues: [
                   { cname: '边框一', value: 'border/border1.png',src :'border/border1.png' },
@@ -433,105 +461,14 @@ class Properties extends Component {
           layerType: 'iframe'
         }
       ],
-      layerOneselfInfo: [
-        {
-          ename: 'optionName',
-          name: '图层名称',
-          includeSelect: false,
-          type: '',
-          childer: [
-            {
-              ename: 'optionName',
-              cname: '图层名称',
-              type: 'Input',
-              value: '',
-              placeholder: '图层名称'
-            }
-          ],
-          layerType: 'chart'
-        },
-        {
-          ename: 'optionLegend',
-          name: '图例',
-          includeSelect: false,
-          type: 'Collapse',
-          childer: [
-            {
-              ename: 'oneLegend',
-              name: '图例一',
-              includeSelect: false,
-              type: 'Collapse',
-              childer: [
-                {
-                  ename: 'legendName',
-                  cname: '图例名称',
-                  type: 'Input',
-                  value: '',
-                  placeholder: '图例名称',
-                  disabled:true,
-                },
-                {
-                  ename: 'legendColor',
-                  cname: '图例颜色',
-                  type: 'Color',
-                  value: textFieldObj.fontColor
-                }
-              ]
-            }
-          ],
-          layerType: 'chart'
-        }
-      ],
-      chartData: [
-        {
-          ename: 'chartDataSource',
-          name: '数据源',
-          includeSelect: true,
-          type: '',
-          childer: [
-            /* {
-                            "ename": "dataSourceType",
-                            "cname": "数据源类型",
-                            "type": "Select",
-                            "value": "static",
-                            "defaultOption": "static",
-                            "optionValues": [
-                                { "cname": '静态资源', "value": 'static' },
-                            ]
-                        }, */
-            {
-              ename: 'chartDataFile',
-              cname: '数据展示',
-              type: 'ReactJson',
-              value: {},
-              placeholder: '请输入图层数据'
-            },
-            {
-              ename: 'chartDataFileShow',
-              cname: '数据展示',
-              type: 'JsonShow',
-              value: {},
-              placeholder: '请输入图层数据'
-            }
-          ],
-          layerType: 'chart'
-        }
-      ],
-      layerDataSource: []
     };
     store.subscribe(() => {
-          this.updateStateVal()
+       this.updateStateVal()
     });
   }
 
   componentWillReceiveProps(newProp){
-      let cptChartData = newProp.cptChartData;
-      if(cptChartData){
-          this.setState({
-            cptChartData:cptChartData,
-          })
-      }
-      
+     
 
   }
 
@@ -547,48 +484,33 @@ class Properties extends Component {
  
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
-    let cptChartData = this.props.cptChartData;
-    let chartId = cptChartData.chartId;
-    let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
-   /*  let dataObj = {};
-    tempLists.map(item => {
-      if(item.queryId == chartId){
-        dataObj = item;
-      }
-    }) */
     var tempLayerType = this.props.cptPropertyObj.type;
-    var tempLayer = [];
+    let otherLayerId = ""
+    if(tempKeyVal==1||tempKeyVal==2){
+      let cptChartData = this.props.cptChartData;
+      let cptLayerAttr = this.props.cptLayerAttr;
+      otherLayerId = cptLayerAttr.id;
+    }
+    let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
     if (tempKeyVal == 2) {
-      if (tempLayerType == 'chart') {
-        tempLayer = this.state.chartData;
+      let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
+      if(tempLayerType=="chart"||tempLayerType == 'border'||tempLayerType == 'iframe'){
+          dataSource = JSON.parse(JSON.stringify(this.state.noContent));
+      }else if(tempLayerType=="text"&&otherLayerId!="moreRowText"){
         if (dataObj) {
-           /* let layerOption = dataObj.layerOption[0];
-                    let resultTable = layerOption.myMapTable.result;
-                    let resultVal = "";
-                    
-                     if(typeof resultTable != 'string' ){
-                        tempLayer[0].childer[1].value = resultTable;
-                        resultTable.map((tableItem,tableIndex) => {
-                            resultTable[tableIndex] =  JSON.stringify(tableItem);
-                        })
-                        layerOption.myMapTable.result = resultTable.join('\n');
-                        resultVal = layerOption.myMapTable.result;
-                    }else{
-                        resultVal = resultTable;
-                    }
-                    resultVal = resultTable;
-                    tempLayer[0].childer[1].value = resultVal;
-                    tempLayer[0].childer[0].value = resultVal; */
+          let tempTextLayerObj = dataObj.layerOption;
+          let showData = tempTextLayerObj.textCenter;
+          dataSource[0].childer[0].value = showData;
+          dataSource[0].childer[0].ename = "textCenter";
+          dataSource[0].childer[1].value = showData;
+          dataSource[0].childer[1].ename = "textCenter";
         }
       }
-      this.setState(
-        {
-          layerDataSource: tempLayer,
-          tempLayerType: tempLayer
-        },
-        () => {}
-      );
+      this.setState({
+          dataSource: dataSource,
+      });
     } else if (tempKeyVal == 1) {
+      let tempLayer = [];
       let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
       let tempChartArr = this.state.chart;
       let tempChart = [];
@@ -605,60 +527,26 @@ class Properties extends Component {
       tempChart[4].childer[1].value = cptBorderObj.layerBorderStyle;
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
       if (tempLayerType == 'chart') {
-        tempLayer = this.state.layerOneselfInfo;
-        if (dataObj) {
-          let layerOption = dataObj.layerOption[0];
-          if(layerOption){
-            tempLayer[0].childer[0].value = layerOption.mapInfor.result[0].NAME;
-            let legendResult = layerOption.myLegend.result;
-            let tempLegendArr = [];
-            legendResult.map((legendItem, itemIndex) => {
-              tempLegendArr.push({
-                ename: 'oneLegend',
-                name: legendItem.fieldName,//'图例' + (itemIndex + 1),
-                includeSelect: false,
-                type: 'Collapse',
-                childer: [
-                  {
-                    ename: 'legendName',
-                    cname: '图例名称',
-                    type: 'Input',
-                    value: legendItem.fieldName,
-                    placeholder: '图例名称',
-                    disabled:true,
-                  },
-                  {
-                    ename: 'legendColor',
-                    cname: '图例颜色',
-                    type: 'Color',
-                    value: legendItem.color
-                  }
-                ]
-              });
-            });
-            tempLayer[1].childer = tempLegendArr;
-          }
-        }
+        
       } else if (tempLayerType == 'text') {
         tempLayer = this.state.text;
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
-          tempLayer[0].childer[0].value = tempTextLayerObj['textCenter'];
-          tempLayer[1].childer[0].value = tempTextLayerObj['fontFamily'];
-          tempLayer[1].childer[1].value = tempTextLayerObj['fontSize'];
-          tempLayer[1].childer[2].value = tempTextLayerObj['fontColor'];
-          tempLayer[1].childer[3].value = tempTextLayerObj['fontWeight'];
-          tempLayer[2].childer[0].value = tempTextLayerObj['textAlign'];
-          tempLayer[3].childer[0].value = tempTextLayerObj['writingMode'];
-          tempLayer[4].childer[0].value = tempTextLayerObj['hyperlinkCenter'];
-          tempLayer[4].childer[1].value = tempTextLayerObj['isNewWindow'];
+          tempLayer[0].childer[0].value = tempTextLayerObj['fontFamily'];
+          tempLayer[0].childer[1].value = tempTextLayerObj['fontSize'];
+          tempLayer[0].childer[2].value = tempTextLayerObj['fontColor'];
+          tempLayer[0].childer[3].value = tempTextLayerObj['fontWeight'];
+          tempLayer[1].childer[0].value = tempTextLayerObj['textAlign'];
+          tempLayer[2].childer[0].value = tempTextLayerObj['writingMode'];
+          tempLayer[3].childer[0].value = tempTextLayerObj['hyperlinkCenter'];
+          tempLayer[3].childer[1].value = tempTextLayerObj['isNewWindow'];
         }
       } else if (tempLayerType == 'border') {
         tempLayer = this.state.border;
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
           tempLayer[0].childer[0].value = tempTextLayerObj['borderWidth'];
-          tempLayer[1].childer[0].value = tempTextLayerObj['borderBg'];
+          tempLayer[1].childer[0].value = tempTextLayerObj['borderImage'];
         }
       } else if (tempLayerType == 'iframe') {
         tempLayer = this.state.iframe;
@@ -670,10 +558,8 @@ class Properties extends Component {
       this.setState(
         {
           chart: tempChart.concat(JSON.parse(JSON.stringify(tempLayer))),
-          tempLayerType: tempLayer
         },
         () => {
-          // console.log(this.state.text[0].childer[0].value );
         }
       );
     } else if (tempKeyVal == 0) {
@@ -819,9 +705,9 @@ class Properties extends Component {
       fieldDatas = this.state['bg'];
     } else {
       if (tempTabsKey == 2) {
-        fieldDatas = this.state['layerDataSource'];
+        fieldDatas = this.state.dataSource;
       } else if (tempTabsKey == 1) {
-        fieldDatas = this.state['chart'];
+        fieldDatas = this.state.chart;
       }
     }
     if (fieldDatas) {

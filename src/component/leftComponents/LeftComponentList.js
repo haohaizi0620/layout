@@ -161,7 +161,7 @@ class LeftComponentList extends Component {
       .then(res => {
         _this.props.onClickAdd(
           {
-            id: layerObj.THEMERING_CHART,
+            id: layerObj.type,
             layerType: "chart",
             text: layerObj.name,
             simpleType: ""

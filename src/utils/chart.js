@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-03-17 16:40:26
+ * @LastEditTime: 2020-03-18 18:05:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -107,12 +107,14 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                     layerObj.style.borderStyle = "solid";
                     layerObj.style.borderWidth = "10px";
                     tempSaveObj = {
-                        borderBg:'border/border1.png',
+                        borderImage:'border/border1.png',
                         borderWidth:10
                     }
                 } else if (layerType == "text") {
                     tempSaveObj = {
-                        textCenter: '标题',
+                        textCenter: {
+                            value:"标题"
+                        },
                         fontFamily: 'auto',
                         fontSize: 30,
                         fontColor: 'rgba(255,255,255,1)',
@@ -296,7 +298,9 @@ export function showChartsOption(chartsList) {
                     }
                 } else if (thType == "text") {
                     tempSaveObj = {
-                        textCenter: layerData.textCenter,
+                        textCenter: {
+                            value:layerData.textCenter.value
+                        },
                         fontFamily: layerData.fontFamily,
                         fontSize: layerData.fontSize,
                         fontColor: layerData.fontColor,

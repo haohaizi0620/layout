@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 09:56:36
- * @LastEditTime: 2020-02-19 11:18:32
+ * @LastEditTime: 2020-03-18 10:02:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ShowContent.js
@@ -29,9 +29,9 @@ class Child1 extends Component {
                     style={{
                         width: '100%',
                         height: '100%',
-                        borderWidth:cptObj.layerBorderWidth,
-                        borderStyle:cptObj.layerBorderStyle,
-                        borderColor:cptObj.layerBorderColor,
+                        borderWidth:tempLayerType == 'border'?chartData.borderWidth+"px":'0px',
+                        borderStyle:tempLayerType == 'border'?'solid':'none',
+                        borderImage:tempLayerType == 'border'?`url(${require("../img/"+chartData.borderImage)}) 30`:'none'
                     }} 
                     >
                     <div id={this.props.id}
@@ -86,7 +86,11 @@ class Content extends Component {
                     left: cptBorderObj.left,
                     top: cptBorderObj.top,
                     width: parseInt(cptBorderObj.width),
-                    height: parseInt(cptBorderObj.height)
+                    height: parseInt(cptBorderObj.height),
+                    transform:`rotate(${cptBorderObj.rotate}deg)`,
+                    borderStyle: cptBorderObj.layerBorderStyle,
+                    borderWidth: cptBorderObj.layerBorderWidth + 'px',
+                    borderColor: cptBorderObj.layerBorderColor,
                 }}>
                 <Child1
                     cptObj={cptObj}

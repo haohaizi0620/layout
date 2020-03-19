@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactColor from '../globalCom/SketchColor.js';
-import ReactJson from 'react-json-view';
 import ImageUploading from '../globalCom/ImageUploading';
+import JSONInput from 'react-json-editor-ajrm';
+import locale    from 'react-json-editor-ajrm/locale/en';
 import {
   Input,
   InputNumber,
@@ -28,6 +29,7 @@ class EditSimpleMainInfo extends Component {
       showImageOptionFlag: false
     };
   }
+  
   render() {
     let showData = this.props.childer;
     var defaultOneColVal = 6;
@@ -77,9 +79,9 @@ class EditSimpleMainInfo extends Component {
                 <div>
                   <div className='pro-item-simple pro-item-slider'>
                     <Slider
-                      min={0}
-                      max={1}
-                      step={0.01}
+                      min={item.minNumber}
+                      max={item.maxNumber}
+                      step={item.step}
                       onChange={event => {
                         this.updateChartField(event, item.ename);
                       }}
@@ -89,9 +91,9 @@ class EditSimpleMainInfo extends Component {
                   <div className='pro-item-simple pro-item-number'>
                     <InputNumber
                       size='small'
-                      step={0.01}
-                      min={0}
-                      max={1}
+                      min={item.minNumber}
+                      max={item.maxNumber}
+                      step={item.step}
                       value={typeof item.value === 'number' ? item.value : 0}
                       onChange={event => {
                         this.updateChartField(event, item.ename);
@@ -217,23 +219,43 @@ class EditSimpleMainInfo extends Component {
                   </pre>
                 </div>
               );
-            } else if (itemType == 'ReactJson') {
+            } else if(itemType == "EditJsonReactAjrm"){
+              let isEdit = item.isEdit;
+              let editJsonId = 'edit-json-react-ajrm-edit'
+              if(!isEdit){
+                editJsonId = 'edit-json-react-ajrm-noEdit'
+              }
+              return (
+                <div className='pro-item-simple-block pro-item-simple'  >
+                  <span>{item.cname}</span>
+                      <JSONInput
+                        id          = {editJsonId}
+                        placeholder = { item.value }
+                        locale      = { locale }
+                        height      = '300px'
+                        width       = '400px'
+                        onChange={this.editJsonChange}
+                        onChange={event => {
+                          this.editJsonChange(event, item.ename);
+                        }}
+                        viewOnly = {!isEdit}
+                      />
+                </div>
+              )
+            }else if (itemType == 'noContent') {
               return (
                 <div className='pro-item-simple'>
-                  <ReactJson
-                    src={item.value}
-                    onEdit={event => {
-                      this.updateChartFieldPrevEditJson(event, item.ename);
-                    }}
-                  />
+                  <span>暂无数据</span>
                 </div>
               );
-            }
+            } 
           })}
         </Col>
       </Row>
     );
   }
+
+
 
   /**
    * @description: 鼠标进入图片预览的里面显示选项文本
@@ -296,6 +318,13 @@ class EditSimpleMainInfo extends Component {
     this.updateChartField(event.updated_src, fieldEname);
   }
 
+  editJsonChange = (event,fieldEname) =>{
+    if(event.error)
+      return;
+    let jsonStr = event.json;
+    let jsonObj = event.jsObject;
+    this.updateChartField(event.jsObject, fieldEname);
+  }
   text(f, a) {
     let s = f;
   }

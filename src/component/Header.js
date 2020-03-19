@@ -236,7 +236,9 @@ class Header extends Component {
     let defaultShowVal = {};
     if (layerType == 'text') {
         defaultShowVal = {
-          textCenter: '标题',
+          textCenter: {
+            value:"标题"
+          },
           fontFamily: 'auto',
           fontSize: 30,
           fontColor: 'rgba(255,255,255,1)',
@@ -248,7 +250,8 @@ class Header extends Component {
        }
     } else if (layerType == 'border') {
       defaultShowVal = {
-        borderBg:'border/border1.png'
+        borderImage:'border/border1.png',
+        borderWidth:10
       };
     } else if (layerType == 'iframe') {
       defaultShowVal = {

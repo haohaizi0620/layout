@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-12-31 16:33:25
- * @LastEditTime : 2020-02-14 17:21:09
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-03-18 18:30:08
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout-master\src\component\Config.js
  */
@@ -31,7 +31,6 @@ class Config extends Component {
           defaultSelect: false
         }
       ],
-      cptChartData:{}
     };
   }
 
@@ -40,13 +39,8 @@ class Config extends Component {
   }
   
   componentWillReceiveProps(newProp){
-    let cptChartData = newProp.cptChartData;
-    if(cptChartData){
-        this.setState({
-          cptChartData:cptChartData,
-        })
-    }
-}
+    
+  }
 
 
   /**
@@ -79,7 +73,7 @@ class Config extends Component {
             <Properties
               ref='editMainCenter'
               tabsKey={0}
-              cptChartData={this.state.cptChartData}
+              cptChartData={this.props.cptChartData}
               param={this.changeProperties.bind(this)}
               cptPropertyObj={this.props.cptPropertyObj}
               cptIndex={this.props.cptIndex}></Properties>
@@ -92,13 +86,11 @@ class Config extends Component {
           <div className='control-panel-header control-panel-header-bg'>
             <span className='control-panel-header-bg-title'>组件设置</span>
           </div>
-          {/* <div className='control-panel-header'>
+          <div className='control-panel-header'  style={{height:'50px'}} >
             控制面板，当前操作组件下标：{this.props.cptIndex}
             <br />
             名称：{this.props.cptLayerAttr.title}
-          </div> */}
-
-          
+          </div>
           <div className='control-panel-container'>
             <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs.bind(this)}>
               {this.state.tabKeys.map(item => {
@@ -118,6 +110,7 @@ class Config extends Component {
                         param={this.changeProperties.bind(this)}
                         tabsKey={this.state.tabsKey}
                         cptPropertyObj={this.props.cptPropertyObj}
+                        cptLayerAttr={this.props.cptLayerAttr}
                         cptIndex={this.props.cptIndex}></Properties>
                     </TabPane>
                   );
