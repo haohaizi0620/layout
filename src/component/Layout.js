@@ -788,31 +788,7 @@ class Layout extends Component {
     let cptpList = this.state.cptPropertyList;
     let cptChartIdList = this.state.cptChartIdList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
-    var tempObj;
-    if(tabsKey == 2||tabsKey == 1){
-      var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
-      let tempLayerId = mapObjArr[cptIndex].layerId;
-      tempObj = document.getElementById(tempLayerId);
-    }
-    if (tabsKey == 2) {
-      if (layerType=="chart"||layerType == 'border'||layerType == 'iframe') {
-        
-      }else if(layerType=="text"){
-        tempObj = tempObj.getElementsByClassName('textLayer')[0];
-        if(fieldEname=="textCenter"){
-          tempObj.innerText = fieldValue.value;
-        }
-        cptOptionObj.layerOption[fieldEname] = fieldValue;
-      }
-      if(layerType=="text"){
-        let tempOptionObj = {
-          cptIndex:cptIndex,
-          layerOption:cptOptionObj.layerOption
-        }
-        store.dispatch(editCptOptionsList(tempOptionObj));
-        _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList) 
-      }
-    } else if (tabsKey == 1) {
+    if (tabsKey == 1||tabsKey == 2) {
       if (
         fieldEname == 'width' ||
         fieldEname == 'height' ||
@@ -828,21 +804,17 @@ class Layout extends Component {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         var cptpObj = this.state.cptPropertyList[cptIndex];
         if (cptIndex != -1) {
-          // if(layerType=="chart"){
           cptpObj.cptBorderObj[fieldEname] = fieldValue;
-          // }
           cptpList[cptIndex] = cptpObj;
         } else {
           cptpObj = store.getState().showLayerDatas.showDatas;
         }
         this.setState(
           {
-            cptIndex: cptIndex,
             cptPropertyList: cptpList,
             cptPropertyObj: cptpObj
           },
           () => {
-            // console.log(`这个组合:${this.state}`);
             {
               this.updateChartsStyle("noUpdate")
               this.editDataBaseLayerPositionPrevs();
@@ -850,90 +822,27 @@ class Layout extends Component {
           }
         );
       } else {
-        if (
-          layerType == 'text' ||
-          layerType == 'border' ||
-          layerType == 'iframe' ||
-          layerType == 'chart'
-        ) {
-          if (layerType == 'text') {
-            tempObj = tempObj.getElementsByClassName('textLayer')[0];
-            if (fieldEname == 'fontSize') {
-              tempObj.style.fontSize = fieldValue + 'px';
-            } else if (fieldEname == 'fontColor') {
-              tempObj.style.color = fieldValue;
-            } else if (fieldEname == 'fontFamily') {
-              tempObj.style.fontFamily = fieldValue;
-            } else if (fieldEname == 'fontWeight') {
-              tempObj.style.fontWeight = fieldValue;
-            } else if (fieldEname == 'writingMode') {
-              tempObj.style.writingMode = fieldValue;
-            } else if (fieldEname == 'textAlign') {
-              tempObj.parentNode.style.textAlign = fieldValue;
-            } else if (fieldEname == 'hyperlinkCenter') {
-              tempObj.href = fieldValue;
-            } else if (fieldEname == 'isNewWindow') {
-              let tempTargetVal = '_self';
-              if (fieldValue) {
-                tempTargetVal = '_blank';
-              }
-              tempObj.target = tempTargetVal;
-            }
-          } else if (layerType == 'border') {
-            tempObj = tempObj.parentNode;
-            if (fieldEname == 'borderWidth') {
-              tempObj.style.borderWidth = fieldValue + 'px';
-            }else  if (fieldEname == 'borderImage') {
-              tempObj.style.borderImage =`url(${require(`../img/${fieldValue}`)}) 30`;
-            }
-          } else if (layerType == 'iframe') {
-            if (fieldEname == 'iframeUrl') {
-              tempObj.getElementsByClassName('iframeObj')[0].src = fieldValue;
-            }
-          } else if (layerType == 'chart') {
-            tempObj = tempObj.parentNode;
-            if (fieldEname == 'optionName') {
-              cptOptionObj.layerOption[0].mapInfor.result[0].NAME = fieldValue;
-            } else if (fieldEname == 'legendName') {
-              let tempLegendName = cptOptionObj.layerOption[0].myLegend.result[0].fieldName;
-              cptOptionObj.layerOption[0].myLegend.result[0].fieldName = fieldValue;
-              cptOptionObj.layerOption[0].myLegend.result[0].name = fieldValue;
-              let resultTable = cptOptionObj.layerOption[0].myMapTable.result;
-              let keyMap = {
-                [tempLegendName]: fieldValue
-              };
-              for (var i = 0; i < resultTable.length; i++) {
-                var obj = resultTable[i];
-                for (var key in obj) {
-                  var newKey = keyMap[key];
-                  if (newKey) {
-                    obj[newKey] = obj[key];
-                    delete obj[key];
-                  }
-                }
-              }
-              cptOptionObj.layerOption[0].myMapTable.result = resultTable;
-            } else if (fieldEname == 'legendColor') {
-              cptOptionObj.layerOption[0].myLegend.result[0].color = fieldValue;
-            }
-          }
           if(layerType == 'text' ||
             layerType == 'border' ||
             layerType == 'iframe'){
             cptOptionObj.layerOption[fieldEname] = fieldValue;
+            cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
           }
-          let tempOptionObj = {
-            cptIndex:cptIndex,
-            layerOption:cptOptionObj.layerOption
-          }
-          store.dispatch(editCptOptionsList(tempOptionObj)); 
-          if (layerType == 'chart') {         
-            _this.updateChartsStyle("update");
-            _this.debounce(this.editChartPrev,2000,cptIndex,tempOptionObj)
-          } else {
-            _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList)
-          }
-        }
+          this.setState({
+            cptChartIdList:cptChartIdList
+          },() => {
+            let tempOptionObj = {
+              cptIndex:cptIndex,
+              layerOption:cptOptionObj.layerOption
+            }
+            store.dispatch(editCptOptionsList(tempOptionObj)); 
+            if (layerType == 'chart') {         
+              _this.updateChartsStyle("update");
+              _this.debounce(this.editChartPrev,2000,cptIndex,tempOptionObj)
+            } else {
+              _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList)
+            }
+          })
       }
     } else if (tabsKey == 0) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
@@ -948,7 +857,6 @@ class Layout extends Component {
         );
     }
   }
-   
 
   debounce(fn, delay) {
     // 维护一个 timer

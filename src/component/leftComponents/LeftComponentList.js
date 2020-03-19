@@ -1,67 +1,80 @@
 import React, { Component } from "react";
-import { Collapse, Button ,message} from "antd";
-import ComponentList from './ComponentList';
+import { Collapse, Button, message,Tabs, Icon} from "antd";
+import ComponentList from "./ComponentList";
 import { getAllZTT, getShareById, addOneLayer } from "../../api/api";
 import * as html2canvas from "html2canvas";
 import "./LeftComponentList.css";
 const { Panel } = Collapse;
+const { TabPane } = Tabs;
 /*
  * 样式面板组件
  */
 class LeftComponentList extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       componentData: [],
       nameData: [],
       left: 0,
       top: 0,
-      ComponentList:[],
-      cptIndex:[],
+      ComponentList: [],
+      cptIndex: [],
+      tabsKey:1,
+      tabKeys: [
+        {
+          serialNumber: '1',
+          tabCname: '图表',
+          IconEname: 'apple',
+          defaultSelect: true
+        },
+        {
+          serialNumber: '2',
+          tabCname: '位置',
+          IconEname: 'android',
+          defaultSelect: false
+        }
+      ],
     };
   }
 
-  componentWillReceiveProps(newProps){
+  componentWillReceiveProps(newProps) {
     let nameData = newProps.nameData;
-    if(nameData){
+    if (nameData) {
       this.setState({
-        nameData:nameData,
-        ComponentList:newProps.ComponentList,
-        cptIndex:newProps.cptIndex,
+        nameData: nameData,
+        ComponentList: newProps.ComponentList,
+        cptIndex: newProps.cptIndex
       });
     }
   }
-
 
   componentDidMount() {
     this.initLeftDatas();
   }
 
-  moveShowLayer(event,updateState){
+  moveShowLayer(event, updateState) {
     let ComponentList = this.state.ComponentList;
     let cptIndex = this.state.cptIndex;
     let updateIndex = -1;
-    if(ComponentList.length>0&&cptIndex!=-1){
-      if(updateState==1){
-        if(cptIndex<this.state.ComponentList.length-1){
-          updateIndex = cptIndex+1;
-        }else{
+    if (ComponentList.length > 0 && cptIndex != -1) {
+      if (updateState == 1) {
+        if (cptIndex < this.state.ComponentList.length - 1) {
+          updateIndex = cptIndex + 1;
+        } else {
           console.log("已经到底了");
           return;
         }
-      }else if(updateState==-1){
-        if(cptIndex>0){
-          updateIndex = cptIndex-1;
-        }else{
+      } else if (updateState == -1) {
+        if (cptIndex > 0) {
+          updateIndex = cptIndex - 1;
+        } else {
           console.log("已经到顶了");
           return;
         }
       }
-      this.props.selectSingleLayer(event, cptIndex,updateIndex);
+      this.props.selectSingleLayer(event, cptIndex, updateIndex);
     }
   }
-
 
   initLeftDatas() {
     /* let tempArr = [
@@ -118,44 +131,53 @@ class LeftComponentList extends Component {
       });
   }
 
-  isAddLayer(thisThType,vVal){
+  isAddLayer(thisThType, vVal) {
     let cptChartIdList = this.props.cptChartIdList;
-    let isExist = false;//图层是否已存在，默认不存在
+    let isExist = false; //图层是否已存在，默认不存在
     cptChartIdList.map(item => {
       let layerObj = item.layerObj;
       let thType = layerObj.thType;
-      if((thisThType == thType&&thType == '0'&&vVal == layerObj.id)||(thisThType == thType&&thType == '1'&&vVal == layerObj.service+'；'+layerObj.layername+'；'+layerObj.name)){//图表
-          isExist = true;
+      if (
+        (thisThType == thType && thType == "0" && vVal == layerObj.id) ||
+        (thisThType == thType &&
+          thType == "1" &&
+          vVal ==
+            layerObj.service + "；" + layerObj.layername + "；" + layerObj.name)
+      ) {
+        //图表
+        isExist = true;
       }
-    })
+    });
     return isExist;
   }
-  
+
   onClickAdd(layerObj) {
     let _this = this;
     let pageLayerObj = this.state.nameData;
     let thType = layerObj.thType;
     let vVal = "-1";
-    if(thType=="0"){
+    if (thType == "0") {
       vVal = layerObj.id;
-    }else if(thType=="1"){
-      vVal = layerObj.service+"；"+layerObj.layername+"；"+layerObj.name;
+    } else if (thType == "1") {
+      vVal =
+        layerObj.service + "；" + layerObj.layername + "；" + layerObj.name;
     }
-    let isExist = this.isAddLayer(thType,vVal)
-    if(isExist){
-      message.info('当前图表已存在');
+    let isExist = this.isAddLayer(thType, vVal);
+    if (isExist) {
+      message.info("当前图表已存在");
       return;
     }
     layerObj.vVal = vVal;
-    let sortNum = this.props.comLength+1;
+    let sortNum = this.props.comLength + 1;
     let addLayerObj = {
       type: thType,
       pid: window.parent.document.getElementById("kshID").value,
       kshname: pageLayerObj.KSHNAME,
       kshid: pageLayerObj.ID,
       v: vVal,
-      layerPosition:'{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"rotate":0,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
-      sortNum:sortNum,
+      layerPosition:
+        '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"rotate":0,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}',
+      sortNum: sortNum
     };
     addOneLayer(addLayerObj)
       .then(res => {
@@ -169,8 +191,8 @@ class LeftComponentList extends Component {
           {
             data: layerObj,
             state: "leftAdd",
-            mainKey:res.mainKey,
-            sortNum:sortNum
+            mainKey: res.mainKey,
+            sortNum: sortNum
           }
         );
       })
@@ -178,7 +200,17 @@ class LeftComponentList extends Component {
         console.info(error);
       });
   }
-
+ /**
+   * @description: 基本设置和数据设置之间的切换
+   * @param {Integer} key 表示当前是那个设置
+   * @return:
+   */
+  switchTabs(key) {
+    this.setState(
+      {
+        tabsKey: parseInt(key)
+      });
+  }
   render() {
     let listData = this.state.ComponentList;
     let cptIndex = this.state.cptIndex;
@@ -188,51 +220,105 @@ class LeftComponentList extends Component {
           <span>图层数据</span>
         </div>
         <div className="custom-left-list-p">
-          <Collapse expandIconPosition="right" bordered={false}>
-            {this.state.componentData.map((bigDataItem, bigIndex) => {
-              return (
-                <Panel header={bigDataItem.service.name} key={bigIndex}>
-                  {bigDataItem.data.map((item, index) => {
-                    return (
-                      <div class="showLayerName">
-                        <div onClick={this.onClickAdd.bind(this, item)}>
-                          {item.name}
-                        </div>
-                        <div
-                          className="moveLayerName moveLayerNameHide"
-                          style={{ left: this.state.left, top: this.state.top }}
-                        >
-                          {item.name}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </Panel>
-              );
-            })}
-          </Collapse>
-        </div>
-        <div  className="custom-left-list-p">
-                <div className=""><span>图层（{listData?listData.length:0}）个</span> </div>
-                <div className="move-button">
-                  <Button  size='small' onClick={event => { this.moveShowLayer(event,-1) }}  >
-                    上移
-                  </Button>
-                  <Button  size='small'  onClick={event => { this.moveShowLayer(event,1) }}   >
-                    下移
-                  </Button>
-                </div>
-                <div className="">
-                    {
-                        listData?listData.map((item, layerIndex) => {
-                            return (
-                                <div key={layerIndex}    style={{backgroundColor:(layerIndex==cptIndex)?'#2483ff':''}}  onClick={event => { this.props.singleSwitchLayer(event, layerIndex) }}      >
-                                    <div style={{color:'#bcc9d4'}} name={item.key}>{item.title}</div>
-                                </div>
-                            )
-                        }):null
+            <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs.bind(this)}>
+                  {this.state.tabKeys.map(item => {
+                    if (item.serialNumber == 1) {
+                      return (
+                        <TabPane
+                      tab={
+                        <span>
+                          <Icon type={item.IconEname} />
+                          {item.tabCname}
+                        </span>
+                      }
+                      key={item.serialNumber}>
+                        <Collapse expandIconPosition="right" bordered={false}>
+                              {this.state.componentData.map((bigDataItem, bigIndex) => {
+                                return (
+                                  <Panel header={bigDataItem.service.name} key={bigIndex}>
+                                    {bigDataItem.data.map((item, index) => {
+                                      return (
+                                        <div class="showLayerName">
+                                          <div onClick={this.onClickAdd.bind(this, item)}>
+                                            {item.name}
+                                          </div>
+                                          <div
+                                            className="moveLayerName moveLayerNameHide"
+                                            style={{ left: this.state.left, top: this.state.top }}
+                                          >
+                                            {item.name}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </Panel>
+                                );
+                              })}
+                            </Collapse>
+                    </TabPane>
+                        
+                      );
+                    } else {
+                      return (
+                        <TabPane
+                          tab={
+                            <span>
+                              <Icon type={item.IconEname} />
+                              {item.tabCname}
+                            </span>
+                          }
+                          key={item.serialNumber}>
+                             <div className="">
+                              <span>图层（{listData ? listData.length : 0}）个</span>{" "}
+                            </div>
+                            <div className="move-button">
+                              <Button
+                                size="small"
+                                onClick={event => {
+                                  this.moveShowLayer(event, -1);
+                                }}
+                              >
+                                上移
+                              </Button>
+                              <Button
+                                size="small"
+                                onClick={event => {
+                                  this.moveShowLayer(event, 1);
+                                }}
+                              >
+                                下移
+                              </Button>
+                            </div>
+                            <div className="">
+                              {listData
+                                ? listData.map((item, layerIndex) => {
+                                    return (
+                                      <div
+                                        key={layerIndex}
+                                        style={{
+                                          backgroundColor: layerIndex == cptIndex ? "#2483ff" : ""
+                                        }}
+                                        onClick={event => {
+                                          this.props.singleSwitchLayer(event, layerIndex);
+                                        }}
+                                      >
+                                        <div style={{ color: "#bcc9d4" }} name={item.key}>
+                                          {item.title}
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                                : null}
+                            </div>
+                          </TabPane>
+                      );
                     }
-                </div>
+                  })}
+                </Tabs>
+          
+        </div>
+        <div className="custom-left-list-p">
+         
         </div>
       </div>
     );

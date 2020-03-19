@@ -121,12 +121,15 @@ class Header extends Component {
       otherLayer:{
         text: [
             { id: 'singleRowText', text: '单行文本', layerType: 'text' },
-            { id: 'moreRowText', text: '当前时间', layerType: 'text' }
+            { id: 'moreRowText', text: '当前时间', layerType: 'text' },
         ],
         border:[
             { id: 'singleBorder', text: '背景边框', layerType: 'border' },
           ],
         iframe: [{ id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' }],
+        other:[
+              { id: 'singleImage', text: '单独图片', layerType: 'other' }
+        ]
       },
       //生成对应的UIstate
       layerDatas: [
@@ -209,6 +212,12 @@ class Header extends Component {
               thisType: otherStr,
               titleName: '嵌套页面',
               IconObj: faBus,
+            },
+            {
+              prevName: 'other',
+              thisType: otherStr,
+              titleName: '其他图层',
+              IconObj: faBus,
             }
           ]
       }]
@@ -257,12 +266,16 @@ class Header extends Component {
       defaultShowVal = {
         iframeUrl: ''
       };
+    } else if (layerType == 'other'){
+      if(layerId=="singleImage"){
+        defaultShowVal = {
+          iframeUrl: ''
+        };
+      } 
     }
-  
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-   
-   /*  this.props.onClickAdd(layerObj, {
+    /* this.props.onClickAdd(layerObj, {
       data: {},
       state: 'headerAdd',
       mainKey:-1,

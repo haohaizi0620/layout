@@ -365,19 +365,19 @@ class Properties extends Component {
         },
         {
           ename: 'writingMode',
-          name: '文字排列方式',
+          name: '排列方式',
           includeSelect: false,
           childer: [
             {
               ename: 'writingMode',
-              cname: '文字排列方式',
+              cname: '排列方式',
               type: 'Select',
               value: textFieldObj.fontFamily,
               defaultOption: 'horizontal-tb',
               optionValues: [
                 { cname: '水平', value: 'horizontal-tb' },
                 { cname: '垂直', value: 'vertical-rl' }
-              ]
+              ],
             }
           ],
           layerType: 'text'
@@ -397,7 +397,7 @@ class Properties extends Component {
             {
               ename: 'isNewWindow',
               cname: '是否打开新窗口',
-              type: 'Switch ',
+              type: 'Switch',
               value: textFieldObj.textCenter
             }
           ],
@@ -413,7 +413,7 @@ class Properties extends Component {
           childer: [
             {
               ename: 'borderWidth',
-              cname: '边框宽度',
+              cname: '',
               type: 'InputNumber',
               value: textFieldObj.borderWidth,
               maxNumber: 30,
@@ -470,10 +470,32 @@ class Properties extends Component {
           layerType: 'iframe'
         }
       ],
+      singleImage:[
+        {
+          ename: 'singleImage',
+          name: '背景图片',
+          includeSelect: false,
+          type: '',
+          childer: [
+              {
+                ename: 'singleImageload',
+                cname: '预览图片',
+                type: 'ImageUploading',
+                value: bgFieldObj.uploadImage,
+                optionFlag: false
+              }
+            ],
+            layerType: 'other'
+          }
+      ]
     };
+   
+  }
+
+  componentDidMount(){
     store.subscribe(() => {
-       this.updateStateVal()
-    });
+      this.updateStateVal()
+   });
   }
 
   componentWillReceiveProps(newProp){

@@ -148,7 +148,6 @@ class Content extends Component {
     // document.removeEventListener('mouseup', this.onRotateMouseUp);
   }
   onRotateMouseMove = e => {
-    console.log("onRotateMouseMove")
     e.stopPropagation();
     e.preventDefault();
     e.cancelBubble = true;

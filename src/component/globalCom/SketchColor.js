@@ -1,16 +1,29 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-10 19:45:00
+ * @LastEditTime: 2020-03-19 14:47:46
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \layout\src\component\globalCom\SketchColor.js
+ */
 import React from 'react';
 import reactCSS from 'reactcss';
 import { SketchPicker } from 'react-color';
 
 /* 取色板组件 */
 class SketchColor extends React.Component {
+
+  static defaultProps = {
+    colorVal:'rgba(255,255,255,0)'
+  }
+
   constructor(props) {
     super(props);
   }
 
   state = {
     displayColorPicker: false,
-    color: 'rgba(241,112,19,1)'
+    color: this.props.colorVal
   };
 
   handleClick = () => {
@@ -45,7 +58,7 @@ class SketchColor extends React.Component {
           cursor: 'pointer'
         },
         popover: {
-          position: 'absolute',
+          // position: 'absolute',
           zIndex: '2',
           right: '0px'
         },

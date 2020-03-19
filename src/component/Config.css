@@ -28,6 +28,10 @@
 .control-panel-container {
   padding: 5px;
 }
+.control-panel-container .ant-tabs-content{
+  /* overflow: auto; */
+}
+
 
 .control-panel-container span {
   font-size: 14px;

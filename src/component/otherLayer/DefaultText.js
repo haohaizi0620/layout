@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-13 17:19:16
- * @LastEditTime: 2020-03-18 18:13:35
+ * @LastEditTime: 2020-03-19 15:10:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\DefaultText.js
@@ -32,16 +32,22 @@ class DefaultSpanText extends Component {
     render() { 
        let chartData = this.props.chartData;
         return ( 
-            <span
+            <div
                       className={'textLayer'}
                       style={{
+                        height:'100%',
+                        width:'100%',
+                        textIndent: '32px',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
                         fontSize: chartData&&chartData.fontSize ? chartData.fontSize : '30px',
                         fontFamily: chartData&&chartData.fontFamily ? chartData.fontFamily : 'auto',
                         color: chartData&&chartData.fontColor ? chartData.fontColor : 'rgba(255,255,255,1)',
                         fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
                         writingMode:chartData&& chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
                       }}>
-                      {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}</span>
+                      {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}</div>
          );
     }
 }

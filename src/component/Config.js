@@ -42,7 +42,6 @@ class Config extends Component {
     
   }
 
-
   /**
    * @description: 基本设置和数据设置之间的切换
    * @param {Integer} key 表示当前是那个设置

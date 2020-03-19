@@ -34,6 +34,7 @@ class EditSimpleMainInfo extends Component {
     let showData = this.props.childer;
     var defaultOneColVal = 6;
     var defaultTwoColVal = 18;
+    let oneClassName = "";
     if (this.props.includeSelectFlag) {
       //当前的childer的
       defaultOneColVal = 0;
@@ -41,6 +42,9 @@ class EditSimpleMainInfo extends Component {
     }
     if (this.props.updateArrFlag) {
       showData = [showData];
+    }
+    if(showData.length==1){
+       oneClassName = "pro-item-single";
     }
     return (
       <Row>
@@ -52,7 +56,7 @@ class EditSimpleMainInfo extends Component {
             let itemType = item.type;
             if (itemType == 'InputNumber') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'} >
                   <InputNumber
                     size='small'
                     min={item.minNumber}
@@ -62,8 +66,11 @@ class EditSimpleMainInfo extends Component {
                     }}
                     value={typeof item.value === 'number' ? item.value : 0}
                   />
-
-                  <span>{item.cname}</span>
+                  {
+                    showData.length>1?
+                    <span>{item.cname}</span>
+                    :null
+                  }
                 </div>
               );
             } else if (itemType == 'Slider') {
@@ -104,7 +111,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'Color') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <ReactColor
                     key={item.ename}
                     colorVal={item.value}
@@ -114,7 +121,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'ImageUploading') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <div
                     className='previewImage'
                     onMouseEnter={this.handleMouseEnter.bind(this)}
@@ -149,7 +156,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'Input') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <Input
                     placeholder={item.placeholder}
                     key={item.ename}
@@ -163,7 +170,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'Select') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <Select
                     size='small'
                     key={item.ename}
@@ -189,9 +196,9 @@ class EditSimpleMainInfo extends Component {
                   </Select>
                 </div>
               );
-            } else if (itemType == 'Switch ') {
+            } else if (itemType == 'Switch') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <Switch
                     onChange={event => {
                       this.updateChartField(event, item.ename);
@@ -201,7 +208,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'TextArea') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <TextArea
                     value={item.value}
                     placeholder={item.placeholder}
@@ -213,7 +220,7 @@ class EditSimpleMainInfo extends Component {
               );
             } else if (itemType == 'JsonShow') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <pre style={{ maxHeight: '200px', outline: '1px solid white' }}>
                     <code id='json'>{JSON.stringify(item.value, null, '  ')}</code>
                   </pre>
@@ -244,7 +251,7 @@ class EditSimpleMainInfo extends Component {
               )
             }else if (itemType == 'noContent') {
               return (
-                <div className='pro-item-simple'>
+                <div className={oneClassName+' pro-item-simple'}>
                   <span>暂无数据</span>
                 </div>
               );

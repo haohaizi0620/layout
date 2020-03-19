@@ -421,7 +421,9 @@ body {
 .iframeCenterbg {
   background-image: url(img/text/singleRowText.png);
 }
-
+.singleImagebg {
+  background-image: url(img/text/singleRowText.png);
+}
 .breakLinebg {
   background-image: url(img/text/singleRowText.png);
 }
