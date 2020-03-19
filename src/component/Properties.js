@@ -438,6 +438,15 @@ class Properties extends Component {
                   { cname: '边框一', value: 'border/border1.png',src :'border/border1.png' },
                   { cname: '边框二', value: 'border/border2.png',src :'border/border2.png' },
                   { cname: '边框三', value: 'border/border3.png',src :'border/border3.png' },
+                  { cname: '边框四', value: 'border/border4.gif',src :'border/border4.gif' },
+                  { cname: '边框五', value: 'border/border5.png',src :'border/border5.png' },
+                  { cname: '边框六', value: 'border/border6.png',src :'border/border6.png' },
+                  { cname: '边框七', value: 'border/border7.png',src :'border/border7.png' },
+                  { cname: '边框八', value: 'border/border8.png',src :'border/border8.png' },
+                  { cname: '边框九', value: 'border/border9.gif',src :'border/border9.gif' },
+                  { cname: '边框十', value: 'border/border10.gif',src :'border/border10.gif' },
+                  { cname: '边框十一', value: 'border/border11.gif',src :'border/border11.gif' },
+                  { cname: '边框十二', value: 'border/border12.png',src :'border/border12.png' },
                 ]
               }],
               layerType: 'border'
