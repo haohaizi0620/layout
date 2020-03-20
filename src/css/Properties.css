@@ -96,6 +96,7 @@
 
 .pro-items .ant-collapse > .ant-collapse-item > .ant-collapse-header {
   color: white;
+  padding-left: 0px;
 }
 
 .pro-items .ant-collapse-borderless {

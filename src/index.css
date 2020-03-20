@@ -310,11 +310,11 @@ body {
 }
 
 .custom-header-menu-li .moreRowText{
-  background-image: url(img/text/moreRowText.png);
+  background-image: url(img/other/text/moreRowText.png);
 }
 
 .custom-header-menu-li .singleRowText{
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/text/singleRowText.png);
 }
  */
 
@@ -404,28 +404,31 @@ body {
 }
 
 .moreRowTextbg {
-  background-image: url(img/text/moreRowText.png);
+  background-image: url(img/other/text/moreRowText.png);
 }
 
 .singleRowTextbg {
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/text/singleRowText.png);
+}
+
+.multiLineTextbg {
+  background-image: url(img/other/text/multiLineText.png);
 }
 
 .singleBorderbg {
-  background-image: url(img/text/singleRowText.png);
-}
-
-.singleBorderbg {
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/singleBorder.png);
 }
 .iframeCenterbg {
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/iframeCenter.png);
 }
 .singleImagebg {
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/text/singleRowText.png);
+}
+.baseTablebg {
+  background-image: url(img/other/text/singleRowText.png);
 }
 .breakLinebg {
-  background-image: url(img/text/singleRowText.png);
+  background-image: url(img/other/text/singleRowText.png);
 }
 
 .custom-header-menu-li-txt {
@@ -441,4 +444,16 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   margin-bottom: 17px;
+}
+
+.ant-select-dropdown-menu-item{
+  background-color: #262c33 ;
+  color: white !important;
+/*   display: inline-block;
+  width: 50%;
+  padding: 0px; */
+}
+
+.ant-select-dropdown-menu-item:hover:not(.ant-select-dropdown-menu-item-disabled){
+  background-color: #a79f9f ;
 }

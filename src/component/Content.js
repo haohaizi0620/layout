@@ -1,18 +1,17 @@
-import React, { Component, Fragment } from 'react';
-import reactable from 'reactablejs';
-import './Content.css';
-import fontawesome from '@fortawesome/fontawesome';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import store from '../redux/store';
-import Mymap from './Mymap';
-import CurrentTime from './otherLayer/CurrentTime';
-import DefaultText from './otherLayer/DefaultText';
-import IframeLayer from './otherLayer/IframeLayer';
-
+import React, { Component, Fragment } from "react";
+import reactable from "reactablejs";
+import "./Content.css";
+import fontawesome from "@fortawesome/fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import IframeLayer from "./otherLayer/IframeLayer";
+import BaseTable from "./otherLayer/BaseTable";
+import TextLayer from "./otherLayer/TextLayer";
 import {
-  updateShowLayerFieldVal
-} from '../redux/actions/showLayerDatas';
-import { faEdit, faUserEdit, faUserTimes, faRedo } from '@fortawesome/fontawesome-free-solid';
+  faEdit,
+  faUserEdit,
+  faUserTimes,
+  faRedo
+} from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(faEdit, faUserEdit, faUserTimes, faRedo);
 
 class Child1 extends Component {
@@ -27,44 +26,73 @@ class Child1 extends Component {
       let tempLayerType = cptObj.type;
       let cptBorderObj = cptObj.cptBorderObj;
       let chartData = this.props.chartData.layerData;
+      let timeKey = this.props.timeKey;
+      let existTypes = ["text", "0", "1"]; //border，iframe,table
       return (
         <div
-          className={this.props.cptIndex == this.props.delIndex ? 'itemClick item' : 'item'}
+          className={
+            this.props.cptIndex == this.props.delIndex
+              ? "itemClick item"
+              : "item"
+          }
           style={{
-            width: '100%',
-            height: '100%',
-            borderWidth:tempLayerType == 'border'?chartData.borderWidth+"px":'0px',
-            borderStyle:tempLayerType == 'border'?'solid':'none',
-            borderImage:tempLayerType == 'border'?`url(${require("../img/"+chartData.borderImage)}) 30`:'none'
+            width: "100%",
+            height: "100%",
+            borderWidth:
+              tempLayerType == "border" ? chartData.borderWidth + "px" : "0px",
+            borderStyle: tempLayerType == "border" ? "solid" : "none",
+            borderImage:
+              tempLayerType == "border"
+                ? `url(${require("../img/" + chartData.borderImage)}) 30`
+                : "none"
           }}
-          ref={this.props.getRef}>
-          <div
-            id={this.props.id}
-            className='singleChart'
-            style={{
-              position: 'absolute',
-              width: cptBorderObj.width - 20 + 'px',
-              height: cptBorderObj.height - 25 + 'px',
-              left: '10px',
-              top: '20px',
-              textAlign:tempLayerType == 'text'&&chartData ? (chartData.textAlign ? chartData.textAlign : '') : ''
-            }}>
-            {tempLayerType == 'text' ? 
-                layerSinId=="moreRowText" 
-                  ?<CurrentTime
-                      chartData = {chartData}
-                  />
-                  :<DefaultText
-                     chartData = {chartData}
-                  />
-                  : null
-            }
-            {tempLayerType == 'iframe' 
-                ? <IframeLayer
-                  chartData = {chartData}
-                />
-              : null}
-          </div>
+          ref={this.props.getRef}
+        >
+          {tempLayerType == "text" ? (
+            <TextLayer
+              timeKey={timeKey}
+              chartData={chartData}
+              layerSinId={layerSinId}
+            />
+          ) : null}
+          {//存放图表和地图的dom
+          tempLayerType == "0" || tempLayerType == "1" ? (
+            <div
+              id={timeKey}
+              className="singleChart"
+              style={{
+                position: "absolute",
+                width: cptBorderObj.width - 20 + "px",
+                height: cptBorderObj.height - 25 + "px",
+                left: "10px",
+                top: "20px",
+                textAlign:
+                  tempLayerType == "text" && chartData
+                    ? chartData.textAlign
+                      ? chartData.textAlign
+                      : ""
+                    : ""
+              }}
+            ></div>
+          ) : null}
+          {//当前类型没有在上面添加判断的话都进到这个里面
+          !existTypes.includes(tempLayerType) ? (
+            <div
+              id={timeKey}
+              style={{
+                width: "100%",
+                height: "100%",
+                textAlign: chartData
+                  ? chartData.textAlign
+                    ? chartData.textAlign
+                    : ""
+                  : ""
+              }}
+            >
+              {tempLayerType == "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
+              {tempLayerType == "table" ? ( <BaseTable  /> ) : null}
+            </div>
+          ) : null}
         </div>
       );
     }
@@ -110,21 +138,21 @@ class Content extends Component {
       left: xl,
       top: xt
     });
-    this.props.updateLayerPosition(this.props.delIndex, 'multi', [
-      { fieldEname: 'left', fieldValue: xl },
-      { fieldEname: 'top', fieldValue: xt }
+    this.props.updateLayerPosition(this.props.delIndex, "multi", [
+      { fieldEname: "left", fieldValue: xl },
+      { fieldEname: "top", fieldValue: xt }
     ]);
   };
   handleResizeMove = e => {
-      this.props.handleResizeMove(e);
+    this.props.handleResizeMove(e);
   };
   handleEnd = e => {
     this.props.editDataSource();
   };
   handleDown = e => {
-      this.props.handleDown(e);
-  }
-    /**
+    this.props.handleDown(e);
+  };
+  /**
    * @description:  通过指定图层的index进行删除指定的图层
    * @param {type}
    * @return:
@@ -138,35 +166,33 @@ class Content extends Component {
   }
 
   onRotateMouseDown = e => {
-    console.log("onRotateMouseDown")
-    document.addEventListener('mousemove', this.onRotateMouseMove);
-    document.addEventListener('mouseup', this.onRotateMouseUp);
-  }
+    document.addEventListener("mousemove", this.onRotateMouseMove);
+    document.addEventListener("mouseup", this.onRotateMouseUp);
+  };
   onRotateMouseUp = e => {
-    console.log("onRotateMouseUp")
-    document.removeEventListener('mousemove', this.onRotateMouseMove);
-    // document.removeEventListener('mouseup', this.onRotateMouseUp);
-  }
+    document.removeEventListener("mousemove", this.onRotateMouseMove);
+  };
   onRotateMouseMove = e => {
     e.stopPropagation();
     e.preventDefault();
     e.cancelBubble = true;
     e.returnValue = false;
-    let chartData  = this.props.chartData;
-    if(!chartData)
-        return;
-    let showDiv = document.getElementById("grid"+chartData.timeKey);
-    const centerX = parseInt(showDiv.style.left)  + (showDiv.clientWidth / 2);
-    const centerY = parseInt(showDiv.style.top) + (showDiv.clientHeight / 2);
-    const mouseX = e.pageX - (document.documentElement.scrollLeft || document.body.scrollLeft);
-    const mouseY = e.pageY - (document.documentElement.scrollTop || document.body.scrollTop);
+    let chartData = this.props.chartData;
+    if (!chartData) return;
+    let showDiv = document.getElementById("grid" + chartData.timeKey);
+    const centerX = parseInt(showDiv.style.left) + showDiv.clientWidth / 2;
+    const centerY = parseInt(showDiv.style.top) + showDiv.clientHeight / 2;
+    const mouseX =
+      e.pageX -
+      (document.documentElement.scrollLeft || document.body.scrollLeft);
+    const mouseY =
+      e.pageY - (document.documentElement.scrollTop || document.body.scrollTop);
     const angleRad = Math.atan2(mouseX - centerX, -(mouseY - centerY));
-    const angleDeg = parseInt(angleRad * ( 180 / Math.PI));
-    // showDiv.style.transform = `rotate(${angleDeg}deg)`
-    this.props.updateLayerPosition(this.props.delIndex, 'multi', [
-      { fieldEname: 'rotate', fieldValue:angleDeg },
+    const angleDeg = parseInt(angleRad * (180 / Math.PI));
+    this.props.updateLayerPosition(this.props.delIndex, "multi", [
+      { fieldEname: "rotate", fieldValue: angleDeg }
     ]);
-  }
+  };
   render() {
     let tempCptObj = this.props.obj.cptBorderObj;
     let timeKey = this.props.id;
@@ -174,87 +200,88 @@ class Content extends Component {
     let thType = chartData.thType;
     return (
       <Fragment>
-          <div
-            className='grid-item'
-            id={'grid'+timeKey}
-            style={{
-              opacity: tempCptObj.opacity,
-              left: tempCptObj.left,
-              top: tempCptObj.top,
-              width: parseInt(tempCptObj.width),
-              height: parseInt(tempCptObj.height),
-              transform:`rotate(${tempCptObj.rotate}deg)`,
-              borderStyle: tempCptObj.layerBorderStyle,
-              borderWidth: tempCptObj.layerBorderWidth + 'px',
-              borderColor: tempCptObj.layerBorderColor,
-            }}>
-              {
-                this.state.cptIndex != -1 ? 
-                <div
-                onMouseDown={this.onRotateMouseDown}
-                style={{
-                  position: 'absolute',
-                  height:'100px',
-                  width:'100px',
-                  left:'-100px',
-                  top:'-100px',
-                  opacity:0,
-                  cursor:`url(${require('../img/icon/rotateIcon.png')}) 14 14,pointer`
-                }}></div>:null
-              }
-              {
-               thType=="0"||thType=="1"?
-               <FontAwesomeIcon
-                  icon={faUserEdit}
-                  className='remove'
-                  title='编辑'
-                  style={{
-                    left: tempCptObj.width - 50  + 'px',
-                    top: 2 + 'px',
-                    width: '20px',
-                    color: 'white'
-                  }}
-                  onClick={this.onEditItem.bind(this)}
-                />
-               :null
-              }
-              {
-                 thType=="0"||thType=="1"?
-                 <FontAwesomeIcon
-                 icon={faUserTimes}
-                 className='remove'
-                 title='移除'
-                 style={{
-                   left: tempCptObj.width - 30 + 'px',
-                   top: 2 + 'px',
-                   width: '20px',
-                   color: 'white'
-                 }}
-                 onClick={this.onRemoveItem.bind(this)} />
-                :null
-              }
-              
-            <ReactableChild
-              draggable
-              gesturable
-              resizable={{
-                // resize from all edges and corners
-                edges: { /*left: true,*/ right: true, bottom: true /*, top: true*/ }
+        <div
+          className="grid-item"
+          id={"grid" + timeKey}
+          style={{
+            opacity: tempCptObj.opacity,
+            left: tempCptObj.left,
+            top: tempCptObj.top,
+            width: parseInt(tempCptObj.width),
+            height: parseInt(tempCptObj.height),
+            transform: `rotate(${tempCptObj.rotate}deg)`,
+            borderStyle: tempCptObj.layerBorderStyle,
+            borderWidth: tempCptObj.layerBorderWidth + "px",
+            borderColor: tempCptObj.layerBorderColor
+          }}
+        >
+          {this.state.cptIndex != -1 ? (
+            <div
+              onMouseDown={this.onRotateMouseDown}
+              style={{
+                position: "absolute",
+                height: "100px",
+                width: "100px",
+                left: "-100px",
+                top: "-100px",
+                opacity: 0,
+                cursor: `url(${require("../img/icon/rotateIcon.png")}) 14 14,pointer`
               }}
-              onDragMove={this.handleDragMove}
-              onDragEnd={this.handleEnd}
-              onDown={this.handleDown}
-              onResizeMove={this.handleResizeMove}
-              onResizeEnd={this.handleEnd}
-              cptIndex={this.props.cptIndex}
-              delIndex={this.props.delIndex}
-              cptObj={this.props.obj}
-              chartData={this.props.chartData}
-              keyData={this.props.keyData}
-              id={this.props.id}>
-              >
-            </ReactableChild>
-          </div>
+            ></div>
+          ) : null}
+          {thType == "0" || thType == "1" ? (
+            <FontAwesomeIcon
+              icon={faUserEdit}
+              className="remove"
+              title="编辑"
+              style={{
+                left: tempCptObj.width - 50 + "px",
+                top: 2 + "px",
+                width: "20px",
+                color: "white"
+              }}
+              onClick={this.onEditItem.bind(this)}
+            />
+          ) : null}
+          {
+            <FontAwesomeIcon
+              icon={faUserTimes}
+              className="remove"
+              title="移除"
+              style={{
+                left: tempCptObj.width - 30 + "px",
+                top: 2 + "px",
+                width: "20px",
+                color: "white"
+              }}
+              onClick={this.onRemoveItem.bind(this)}
+            />
+          }
+          <ReactableChild
+            draggable
+            gesturable
+            resizable={{
+              // resize from all edges and corners
+              edges: {
+                /*left: true,*/ right: true,
+                bottom: true /*, top: true*/
+              }
+            }}
+            onDragMove={this.handleDragMove}
+            onDragEnd={this.handleEnd}
+            onDown={this.handleDown}
+            onResizeMove={this.handleResizeMove}
+            onResizeEnd={this.handleEnd}
+            cptIndex={this.props.cptIndex}
+            delIndex={this.props.delIndex}
+            cptObj={this.props.obj}
+            chartData={this.props.chartData}
+            keyData={this.props.keyData}
+            timeKey={this.props.timeKey}
+          >
+            >
+          </ReactableChild>
+        </div>
       </Fragment>
     );
   }

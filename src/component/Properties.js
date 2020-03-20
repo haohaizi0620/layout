@@ -152,7 +152,7 @@ class Properties extends Component {
               type: 'InputNumber',
               value: cptBorderObj.left,
               maxNumber: 2000,
-              minNumber: 10
+              minNumber: 0
             },
             {
               ename: 'top',
@@ -160,7 +160,7 @@ class Properties extends Component {
               type: 'InputNumber',
               value: cptBorderObj.top,
               maxNumber: 2000,
-              minNumber: 10
+              minNumber: 0
             }
           ],
           layerType: 'default'
@@ -518,14 +518,13 @@ class Properties extends Component {
     var tempLayerType = this.props.cptPropertyObj.type;
     let otherLayerId = ""
     if(tempKeyVal==1||tempKeyVal==2){
-      let cptChartData = this.props.cptChartData;
       let cptLayerAttr = this.props.cptLayerAttr;
       otherLayerId = cptLayerAttr.id;
     }
     let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
     if (tempKeyVal == 2) {
       let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
-      if(tempLayerType=="chart"||tempLayerType == 'border'||tempLayerType == 'iframe'){
+      if(tempLayerType=="chart"||tempLayerType == 'border'||tempLayerType == 'iframe'||otherLayerId=="moreRowText"){
           dataSource = JSON.parse(JSON.stringify(this.state.noContent));
       }else if(tempLayerType=="text"&&otherLayerId!="moreRowText"){
         if (dataObj) {
@@ -747,7 +746,7 @@ class Properties extends Component {
           {fieldDatas.map((item, i) => {
             if (item.type == 'Collapse') {
               return (
-                <Collapse expandIconPosition='right' bordered={false} onChange={this.callback}>
+                <Collapse expandIconPosition='right'  key={i} bordered={false} onChange={this.callback}>
                   <Panel header={item.name} key='1'>
                     {item.childer.map((itemLayer, itemIndex) => {
                       {

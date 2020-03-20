@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 09:56:36
- * @LastEditTime: 2020-03-18 10:02:55
+ * @LastEditTime: 2020-03-20 18:36:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ShowContent.js
  */
 import React, { Component, Fragment } from 'react'
 import './Content.css';
-import store from '../redux/store';
-import CurrentTime from './otherLayer/CurrentTime';
-import DefaultText from './otherLayer/DefaultText';
+import CurrentTime from './otherLayer/textLayer/CurrentTime';
+import SingleRowText from './otherLayer/textLayer/SingleRowText';
 import IframeLayer from './otherLayer/IframeLayer';
+import TextLayer from "./otherLayer/TextLayer";
 class Child1 extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +23,8 @@ class Child1 extends Component {
         let chartData = this.props.chartData.layerData;
         let keyData = this.props.keyData;
         let layerSinId = keyData.id;    
+        let timeKey = this.props.id;
+        let existTypes = ["text", "0", "1"]; //border，iframe,table
         {
             return (
                 <div
@@ -34,32 +36,48 @@ class Child1 extends Component {
                         borderImage:tempLayerType == 'border'?`url(${require("../img/"+chartData.borderImage)}) 30`:'none'
                     }} 
                     >
-                    <div id={this.props.id}
-                        className="singleChart"
-                        style={{
-                            position: "absolute",
-                            width: cptBorderObj.width - 20 + 'px',
-                            height: cptBorderObj.height - 25 + 'px',
-                            left: '10px',
-                            top: '20px',
-                            textAlign:tempLayerType == 'text' ?chartData.textAlign?chartData.textAlign:'':'',
-                        }}>
-                       {tempLayerType == 'text' ? 
-                            layerSinId=="moreRowText" 
-                            ?<CurrentTime
-                                chartData = {chartData}
+                        {tempLayerType == "text" ? (
+                            <TextLayer
+                            timeKey={timeKey}
+                            chartData={chartData}
+                            layerSinId={layerSinId}
                             />
-                            :<DefaultText
-                                chartData = {chartData}
-                            />
-                            : null
-                        }
-                        {tempLayerType == 'iframe' 
-                            ? <IframeLayer
-                            chartData = {chartData}
-                            />
-                        : null}
-                    </div>
+                        ) : null}
+                   {//存放图表和地图的dom
+                        tempLayerType == "0" || tempLayerType == "1" ? (
+                            <div
+                            id={timeKey}
+                            className="singleChart"
+                            style={{
+                                position: "absolute",
+                                width: cptBorderObj.width + "px",
+                                height: cptBorderObj.height + "px",
+                                textAlign:
+                                tempLayerType == "text" && chartData
+                                    ? chartData.textAlign
+                                    ? chartData.textAlign
+                                    : ""
+                                    : ""
+                            }}
+                            ></div>
+                        ) : null}
+                        {//当前类型没有在上面添加判断的话都进到这个里面
+                        !existTypes.includes(tempLayerType) ? (
+                            <div
+                            id={timeKey}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                textAlign: chartData
+                                ? chartData.textAlign
+                                    ? chartData.textAlign
+                                    : ""
+                                : ""
+                            }}
+                            >
+                            {tempLayerType == "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
+                            </div>
+                        ) : null}
                 </div>
             )
         }

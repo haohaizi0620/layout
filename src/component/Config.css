@@ -29,9 +29,14 @@
   padding: 5px;
 }
 .control-panel-container .ant-tabs-content{
-  /* overflow: auto; */
+ /*  overflow-y: auto;
+  max-height: 740px; */
 }
 
+.control-panel-container .ant-tabs-tabpane{
+  overflow-y: auto;
+  max-height: 740px; 
+}
 
 .control-panel-container span {
   font-size: 14px;
@@ -43,4 +48,7 @@
 
 .control-panel-container .ant-tabs-nav-wrap {
   text-align: center;
+}
+.control-panel-container ::-webkit-scrollbar{
+  display: none;
 }

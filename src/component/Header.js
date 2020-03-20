@@ -18,9 +18,10 @@ import {
   faMapPin,
   faTextWidth,
   faTextHeight,
-  faBus
+  faBus,
+  faOutdent
 } from '@fortawesome/fontawesome-free-solid';
-import { Button } from 'antd';
+import { Button,Tooltip } from 'antd';
 import 'antd/dist/antd.css';
 fontawesome.library.add(
   faCheckSquare,
@@ -34,7 +35,8 @@ fontawesome.library.add(
   faMapPin,
   faTextWidth,
   faTextHeight,
-  faBus
+  faBus,
+  faOutdent
 );
 
 class Header extends Component {
@@ -121,6 +123,7 @@ class Header extends Component {
       otherLayer:{
         text: [
             { id: 'singleRowText', text: '单行文本', layerType: 'text' },
+            { id: 'multiLineText', text: '多行文本', layerType: 'text' },
             { id: 'moreRowText', text: '当前时间', layerType: 'text' },
         ],
         border:[
@@ -128,7 +131,10 @@ class Header extends Component {
           ],
         iframe: [{ id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' }],
         other:[
-              { id: 'singleImage', text: '单独图片', layerType: 'other' }
+             /*  { id: 'singleImage', text: '单独图片', layerType: 'other' },
+              { id: 'baseTable', text: '表格数据', layerType: 'table' }, */
+              { id: 'iframeCenter', text: '嵌入页面', layerType: 'iframe' },
+              { id: 'singleBorder', text: '背景边框', layerType: 'border' }
         ]
       },
       //生成对应的UIstate
@@ -201,7 +207,7 @@ class Header extends Component {
               titleName: '文本',
               IconObj: faFont,
             },
-            {
+           /*  {
               prevName: 'border',
               thisType: otherStr,
               titleName: '背景边框',
@@ -212,12 +218,12 @@ class Header extends Component {
               thisType: otherStr,
               titleName: '嵌套页面',
               IconObj: faBus,
-            },
+            }, */
             {
               prevName: 'other',
               thisType: otherStr,
               titleName: '其他图层',
-              IconObj: faBus,
+              IconObj: faOutdent,
             }
           ]
       }]
@@ -244,9 +250,15 @@ class Header extends Component {
     var comLength = this.props.comLength+1;
     let defaultShowVal = {};
     if (layerType == 'text') {
+      let textCenterVal = "标题";
+        if(layerId=="multiLineText"){
+          textCenterVal = "这是一个可以换行的文本......."
+        }else if(layerId=="moreRowText"){
+          textCenterVal = "";
+        }
         defaultShowVal = {
           textCenter: {
-            value:"标题"
+            value:textCenterVal
           },
           fontFamily: 'auto',
           fontSize: 30,
@@ -269,13 +281,13 @@ class Header extends Component {
     } else if (layerType == 'other'){
       if(layerId=="singleImage"){
         defaultShowVal = {
-          iframeUrl: ''
+          imageUrl: ''
         };
       } 
     }
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-    /* this.props.onClickAdd(layerObj, {
+   /*  this.props.onClickAdd(layerObj, {
       data: {},
       state: 'headerAdd',
       mainKey:-1,
@@ -325,7 +337,7 @@ class Header extends Component {
 
   handleChartMouseOver(obj) {
     const t = obj.currentTarget.getAttribute('t');
-    const thisType = obj.currentTarget.getAttribute('thisType');
+    const thisType = obj.currentTarget.getAttribute('thistype');
     this.setState({
       otype: thisType,
       ttype: t
@@ -424,74 +436,72 @@ class Header extends Component {
         </div>
         <div className='custom-header-component'>
           <ul className='custom-header-ul'>
-           
-
-
             {this.state.layerDatas.map((item, index) => {
               return (
                 /* 顶部目录栏 */
-                <li
-                  className='custom-header-li'
-                  onMouseEnter={e => {
-                    this.handleMenuMouseEnter(item);
-                  }}
-                  ref={item.refName}
-                  title={item.titleName}>
-                  <FontAwesomeIcon icon={item.IconObj} />
-                  <div className='custom-header-li-c'>
-                    <table className='custom-header-table'>
-                      <tbody className='custom-header-tbody'>
-                        <tr>
-                          <td className='custom-header-sub-list left'>
-                            <ul className='custom-header-sub-ul'>
-                              {item.leftIconLists.map((iconItem, i) => {
-                                return (
-                                  /* 左侧tab栏 */
-                                  <li
-                                    className='custom-header-sub-li'
-                                    t={iconItem.prevName}
-                                    thisType={iconItem.thisType}
-                                    title={iconItem.titleName}
-                                    onMouseOver={this.handleChartMouseOver.bind(this)}>
-                                    <div>
-                                      <FontAwesomeIcon icon={iconItem.IconObj} />
-                                    </div>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </td>
-                          <td className='custom-header-sub-list'>
-                            <div className='custom-header-menu-c'>
-                              <ul className='custom-header-menu-ul'>
-                                {
-                               showData.map((item, i) => {
-                                  const c = `custom-header-menu-li-bg ${item.id}bg`;
-                                  item['simpleType'] = ttype;
+                  <li
+                    className='custom-header-li'
+                    onMouseEnter={e => {
+                      this.handleMenuMouseEnter(item);
+                    }}
+                    title={item.titleName} 
+                    ref={item.refName}>
+                    <FontAwesomeIcon icon={item.IconObj} />
+                    <div className='custom-header-li-c'>
+                      <table className='custom-header-table'>
+                        <tbody className='custom-header-tbody'>
+                          <tr>
+                            <td className='custom-header-sub-list left'>
+                              <ul className='custom-header-sub-ul'>
+                                {item.leftIconLists.map((iconItem, iconIndex) => {
                                   return (
-                                    /* 每个具体的组件 */
+                                    /* 左侧tab栏 */
                                     <li
-                                      onClick={this.onClickAdd.bind(this, item)}
-                                      className='custom-header-menu-li'
-                                      type={item.layerType}
-                                      id={item.id}
-                                      title={item.text}
-                                      key={item.id}>
-                                      <div className={c}></div>
-                                      <p className='custom-header-menu-li-txt'>{item.text}</p>
+                                      key = {iconIndex}
+                                      className='custom-header-sub-li'
+                                      t={iconItem.prevName}
+                                      thistype={iconItem.thisType}
+                                      title={iconItem.titleName}
+                                      onMouseOver={this.handleChartMouseOver.bind(this)}>
+                                      <div>
+                                        <FontAwesomeIcon icon={iconItem.IconObj} />
+                                      </div>
                                     </li>
                                   );
-                                })
-                                // :true
-                                }
+                                })}
                               </ul>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </li>
+                            </td>
+                            <td className='custom-header-sub-list'>
+                              <div className='custom-header-menu-c'>
+                                <ul className='custom-header-menu-ul'>
+                                  {
+                                showData.map((item, i) => {
+                                    const c = `custom-header-menu-li-bg ${item.id}bg`;
+                                    item['simpleType'] = ttype;
+                                    return (
+                                      /* 每个具体的组件 */
+                                      <li
+                                        onClick={this.onClickAdd.bind(this, item)}
+                                        className='custom-header-menu-li'
+                                        type={item.layerType}
+                                        id={item.id}
+                                        title={item.text}
+                                        key={item.id}>
+                                        <div className={c}></div>
+                                        <p className='custom-header-menu-li-txt'>{item.text}</p>
+                                      </li>
+                                    );
+                                  })
+                                  // :true
+                                  }
+                                </ul>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </li>
               );
             })}
           </ul>

@@ -144,8 +144,13 @@
 	"chartId": -1,
 	"layerType": "text"
 }, {
-	"id": "moreRowText",
+	"id": "multiLineText",
 	"text": "多行文本",
+	"chartId": -1,
+	"layerType": "text"
+},{
+	"id": "moreRowText",
+	"text": "当前时间",
 	"chartId": -1,
 	"layerType": "text"
 }, {
@@ -163,4 +168,14 @@
 	"text": "嵌入页面",
 	"chartId": -1,
 	"layerType": "iframe"
+}, {
+	"id": "singleImage",
+	"text": "单独图片",
+	"chartId": -1,
+	"layerType": "other"
+}, {
+	"id": "baseTable",
+	"text": "表格数据",
+	"chartId": -1,
+	"layerType": "table"
 }]

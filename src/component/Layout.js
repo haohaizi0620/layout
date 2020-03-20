@@ -8,16 +8,12 @@ import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
 import EditItemModal from './ModelCom/EditItemModal';
 import ShareItemModal from './ModelCom/ShareItemModal';
+import ContentBottom from './content/ContentBottom';
 import $ from 'jquery';
-
-// import LoadChart from "./LoadChart";
 import store from '../redux/store';
 import { chartOption,showChartsOption} from '../utils/chart';
-
-import { Link } from 'react-router-dom';
 import { notification, Modal, Button } from 'antd';
 import { selectGetOneMainLayer, addMainLayer, selectPostOneMainLayer } from '../api/apiAxios';
-// import Mock from 'mockjs'
 import {
   updateShowLayerFieldVal,
   replaceShowLayerFieldVal,
@@ -50,6 +46,7 @@ class Layout extends Component {
       nameData:{},//保存当前页面的基本信息
       shareId:1,//当前页面需要的shareid
       kshId:1,//当前的kshId
+      scale:1,//当前内容的缩放比例
     };
   }
   componentDidMount() {
@@ -800,7 +797,6 @@ class Layout extends Component {
         fieldEname == 'layerBorderStyle' ||
         fieldEname == 'layerBorderColor'
       ) {
-        //更新strore里卖弄的数据
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         var cptpObj = this.state.cptPropertyList[cptIndex];
         if (cptIndex != -1) {
@@ -815,10 +811,8 @@ class Layout extends Component {
             cptPropertyObj: cptpObj
           },
           () => {
-            {
               this.updateChartsStyle("noUpdate")
               this.editDataBaseLayerPositionPrevs();
-            }
           }
         );
       } else {
@@ -838,9 +832,9 @@ class Layout extends Component {
             store.dispatch(editCptOptionsList(tempOptionObj)); 
             if (layerType == 'chart') {         
               _this.updateChartsStyle("update");
-              _this.debounce(this.editChartPrev,2000,cptIndex,tempOptionObj)
+              _this.debounce(this.editChartPrev,500,cptIndex,tempOptionObj)
             } else {
-              _this.debounce(_this.editOtherLayerPrev,2000,cptOptionObj,cptChartIdList)
+              _this.debounce(_this.editOtherLayerPrev,500,cptOptionObj,cptChartIdList)
             }
           })
       }
@@ -858,7 +852,7 @@ class Layout extends Component {
     }
   }
 
-  debounce(fn, delay) {
+  debounce(fn, delay = 500) {
     // 维护一个 timer
     let timer = null;
     let context = this;
@@ -869,7 +863,7 @@ class Layout extends Component {
     }, delay);
   }
   debouncePrevNotArgs(fn){
-    this.debounce(fn, 2000);
+    this.debounce(fn, 500);
   }
 
 
@@ -879,7 +873,7 @@ class Layout extends Component {
    * @return: 
    */
   editDataBaseLayerPositionPrevs(){
-    this.debouncePrevNotArgs(this.editDataBaseLayerPosition, 2000);
+    this.debouncePrevNotArgs(this.editDataBaseLayerPosition, 500);
   }
   editDataBaseLayerPosition(){
         let thType = "0";
@@ -1132,6 +1126,11 @@ class Layout extends Component {
  
   }
 
+  setContentScale = scaleValue => {
+      this.setState({scale:scaleValue})
+  }
+
+
   savePagePrev(){
     let preState = this.state;
     let nameData = preState.nameData;
@@ -1172,56 +1171,67 @@ class Layout extends Component {
           singleSwitchLayer={this.singleSwitchLayer.bind(this)}
           selectSingleLayer={this.selectSingleLayer.bind(this)}/>
           <div className='custom-content-p'>
-            <div
-              className={'custom-content-canvs '+this.state.globalBg.bgImageName}
-              style={{
-                height: this.state.globalBg.bjHeight,
-                width: this.state.globalBg.bjWidth,
-                backgroundColor: this.state.globalBg.bgColor,
-                backgroundSize: '100% 100%'
-              }}
-              onClick={event => {
-                this.singleSwitchLayer(event, -1);
-              }}>
-              <DeleteItemModal
-                ref="delModal"
-                delItem={this.deleteDataBaseOneLayer.bind(this)}
-              />
-              <EditItemModal
-                ref="editModal"
-                ChartDatas={this.state.cptChartIdList}
-                editItem={this.editItemDataBaseOneLayer.bind(this)}
-              />
-              <ShareItemModal
-              ref="shareModel"
-              saveShowPageData={this.saveShowPageData.bind(this)}
-              />
-              {this.state.cptKeyList.map((item, i) => {
-                return (
-                  <div
-                    index={i}
-                    key={item.key}
+            <div  className={'custom-content-top'}>
+                <div
+                    className={'custom-content-canvs '+this.state.globalBg.bgImageName}
+                    style={{
+                      height: this.state.globalBg.bjHeight,
+                      width: this.state.globalBg.bjWidth,
+                      backgroundColor: this.state.globalBg.bgColor,
+                      backgroundSize: '100% 100%',
+                      transform: `scale(${this.state.scale})`
+                    }}
                     onClick={event => {
-                      this.singleSwitchLayer(event, i);
+                      this.singleSwitchLayer(event, -1);
                     }}>
-                    <Content
-                      id={item.key}
-                      cptIndex={this.state.cptIndex}
-                      delIndex={i}
-                      obj={this.state.cptPropertyList[i]}
-                      keyData={item}
-                      chartData={this.state.cptChartIdList[i]}
-                      handleResizeMove={this.handleResizeMove}
-                      handleDown={this.handleDown.bind(this)}
-                      del={this.ondelItemPrev.bind(this, i)}
-                      editItem={this.editItemPrev.bind(this,i)}
-                      updateLayerPosition={this.updateLayerPosition.bind(this)}
-                      editDataSource={this.editDataBaseLayerPositionPrevs.bind(this)}></Content>
-                  </div>
-                );
-              })}
+                    <DeleteItemModal
+                      ref="delModal"
+                      delItem={this.deleteDataBaseOneLayer.bind(this)}
+                    />
+                    <EditItemModal
+                      ref="editModal"
+                      ChartDatas={this.state.cptChartIdList}
+                      editItem={this.editItemDataBaseOneLayer.bind(this)}
+                    />
+                    <ShareItemModal
+                    ref="shareModel"
+                    saveShowPageData={this.saveShowPageData.bind(this)}
+                    />
+                    {this.state.cptKeyList.map((item, i) => {
+                      return (
+                        <div
+                          index={i}
+                          key={item.key}
+                          onClick={event => {
+                            this.singleSwitchLayer(event, i);
+                          }}>
+                          <Content
+                            timeKey={item.key}
+                            cptIndex={this.state.cptIndex}
+                            delIndex={i}
+                            obj={this.state.cptPropertyList[i]}
+                            keyData={item}
+                            chartData={this.state.cptChartIdList[i]}
+                            handleResizeMove={this.handleResizeMove}
+                            handleDown={this.handleDown.bind(this)}
+                            del={this.ondelItemPrev.bind(this, i)}
+                            editItem={this.editItemPrev.bind(this,i)}
+                            updateLayerPosition={this.updateLayerPosition.bind(this)}
+                            editDataSource={this.editDataBaseLayerPositionPrevs.bind(this)}></Content>
+                        </div>
+                      );
+                    })}
+                </div>
+            </div>
+            <div 
+              className={'custom-content-bottom'} >
+                  <ContentBottom
+                      value = {this.state.scale}
+                      setContentScale = {this.setContentScale.bind(this)}
+                  />
             </div>
           </div>
+          
             <Config
               ref='rightConfig'
               changeProperties={this.changeProperties.bind(this)}

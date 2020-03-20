@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-31 16:33:25
- * @LastEditTime: 2020-03-18 18:30:08
+ * @LastEditTime: 2020-03-19 18:50:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout-master\src\component\Config.js
@@ -38,9 +38,6 @@ class Config extends Component {
     this.props.changeProperties(updateFieldObj);
   }
   
-  componentWillReceiveProps(newProp){
-    
-  }
 
   /**
    * @description: 基本设置和数据设置之间的切换
@@ -131,6 +128,13 @@ class Config extends Component {
         </div>
       );
     }
+  }
+
+  componentWillUnmount(){
+      this.setState=()=>{
+          return;
+    }
+
   }
 }
 export default Config;

@@ -289,7 +289,7 @@ class LeftComponentList extends Component {
                                 下移
                               </Button>
                             </div>
-                            <div className="">
+                            <div >
                               {listData
                                 ? listData.map((item, layerIndex) => {
                                     return (
@@ -300,9 +300,8 @@ class LeftComponentList extends Component {
                                         }}
                                         onClick={event => {
                                           this.props.singleSwitchLayer(event, layerIndex);
-                                        }}
-                                      >
-                                        <div style={{ color: "#bcc9d4" }} name={item.key}>
+                                        }}>
+                                        <div className={'custom-left-move-name'}  name={item.key}>
                                           {item.title}
                                         </div>
                                       </div>

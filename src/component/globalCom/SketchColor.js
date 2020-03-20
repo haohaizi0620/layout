@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-10 19:45:00
- * @LastEditTime: 2020-03-19 14:47:46
+ * @LastEditTime: 2020-03-20 14:42:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\globalCom\SketchColor.js
@@ -9,7 +9,7 @@
 import React from 'react';
 import reactCSS from 'reactcss';
 import { SketchPicker } from 'react-color';
-
+import { Input } from 'antd';
 /* 取色板组件 */
 class SketchColor extends React.Component {
 
@@ -35,21 +35,30 @@ class SketchColor extends React.Component {
   };
 
   handleChange = color => {
-    let colorPick = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`;
-    this.setState({ color: colorPick });
-    this.props.setBgColor(colorPick);
+    let colorRgb = color.rgb;
+    let colorPick = `rgba(${colorRgb.r},${colorRgb.g},${colorRgb.b},${colorRgb.a})`;
+    this.updateColor(colorPick);
   };
 
+  updateColor = color => {
+    this.setState({ color: color });
+    this.props.setBgColor(color);
+  }
+
+  
   render() {
     const styles = reactCSS({
       default: {
         color: {
-          width: '70px',
+          width: '20px',
           height: '14px',
           borderRadius: '2px',
           background: this.state.color
         },
         swatch: {
+          left:'70px',
+          position: 'relative',
+          top: '-26px',
           padding: '3px',
           background: '#fff',
           borderRadius: '0px',
@@ -58,9 +67,10 @@ class SketchColor extends React.Component {
           cursor: 'pointer'
         },
         popover: {
-          // position: 'absolute',
+          position: 'relative',
           zIndex: '2',
-          right: '0px'
+          right: '30px',
+          color: 'black'
         },
         cover: {
           position: 'fixed',
@@ -74,6 +84,12 @@ class SketchColor extends React.Component {
 
     return (
       <div>
+        <Input
+          onChange={event => {
+            this.inputChange(event.target.value);
+          }}
+           value={this.state.color}
+           />
         <div style={styles.swatch} onClick={this.handleClick}>
           <div style={styles.color} />
         </div>

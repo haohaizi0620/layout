@@ -9,8 +9,15 @@
 .custom-content-p {
   width: calc(100% - 450px);
   height: 100%;
-  overflow: auto;
+ 
   position: relative;
+}
+.custom-content-top{
+  height:97%;
+  overflow: auto;
+}
+.custom-content-bottom{
+  height: 3%;
 }
 .custom-content-canvs {
   height: 100%;
