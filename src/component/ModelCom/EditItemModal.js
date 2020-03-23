@@ -144,7 +144,6 @@ class EditItemModal extends React.Component {
             editAffirmFlag: false
           },
           () => {
-           this.props.editItem(this.state.editIndex,editJson);
           }
         ); 
       };

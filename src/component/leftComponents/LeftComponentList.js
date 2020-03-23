@@ -56,20 +56,34 @@ class LeftComponentList extends Component {
     let ComponentList = this.state.ComponentList;
     let cptIndex = this.state.cptIndex;
     let updateIndex = -1;
-    if (ComponentList.length > 0 && cptIndex != -1) {
-      if (updateState == 1) {
-        if (cptIndex < this.state.ComponentList.length - 1) {
+    let maxIndex = this.state.ComponentList.length - 1;
+    if (ComponentList.length > 0 && cptIndex !== -1) {
+      if (updateState === 1) {
+        if (cptIndex < maxIndex ) {
           updateIndex = cptIndex + 1;
         } else {
           console.log("已经到底了");
           return;
         }
-      } else if (updateState == -1) {
+      } else if (updateState === -1) {
         if (cptIndex > 0) {
           updateIndex = cptIndex - 1;
         } else {
           console.log("已经到顶了");
           return;
+        }
+      } else if(updateState === "top"||updateState === "bottom"){
+        if(cptIndex >= maxIndex){
+          console.log("已经到底了");
+          return;
+        }else if(cptIndex === 0){
+          console.log("已经到顶了");
+          return;
+        }else{
+          if(updateState === "top")
+            updateIndex = 0;
+          if(updateState === "bottom")
+            updateIndex = maxIndex;
         }
       }
       this.props.selectSingleLayer(event, cptIndex, updateIndex);
@@ -227,7 +241,7 @@ class LeftComponentList extends Component {
                         <TabPane
                       tab={
                         <span>
-                          <Icon type={item.IconEname} />
+                          {/* <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
@@ -263,7 +277,7 @@ class LeftComponentList extends Component {
                         <TabPane
                           tab={
                             <span>
-                              <Icon type={item.IconEname} />
+                             {/*  <Icon type={item.IconEname} /> */}
                               {item.tabCname}
                             </span>
                           }
@@ -288,6 +302,22 @@ class LeftComponentList extends Component {
                               >
                                 下移
                               </Button>
+                             {/*  <Button
+                                size="small"
+                                onClick={event => {
+                                  this.moveShowLayer(event, "top");
+                                }}
+                              >
+                                置顶
+                              </Button>
+                              <Button
+                                size="small"
+                                onClick={event => {
+                                  this.moveShowLayer(event, "bottom");
+                                }}
+                              >
+                                置底
+                              </Button> */}
                             </div>
                             <div >
                               {listData

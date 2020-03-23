@@ -7,21 +7,27 @@
   height: calc(100% - 42px);
 }
 .custom-content-p {
-  width: calc(100% - 450px);
+  width: calc(100% - 525px);
   height: 100%;
- 
   position: relative;
 }
 .custom-content-top{
-  height:97%;
+  position: relative;
+  height:96%;
   overflow: auto;
 }
 .custom-content-bottom{
-  height: 3%;
+  height: 4%;
 }
 .custom-content-canvs {
   height: 100%;
   width: 100%;
+  position: absolute;
+  transform-origin: 0 0;
+  left:60px;
+  top:60px;
+  background-size: 100% 100%;
+  box-shadow: rgba(0,0,0,.5) 0 0 30px 0;
 }
 
 .ant-collapse-borderless > .ant-collapse-item {

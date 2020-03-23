@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-20 10:53:15
- * @LastEditTime: 2020-03-20 18:27:57
+ * @LastEditTime: 2020-03-23 10:12:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\ContentBottom.js
@@ -31,11 +31,11 @@ class ContentBottom extends Component {
         let props = this.props;
         let scaleValue = props.value;
         return ( 
-            <div className="custom-content-bottom-right">
-                <div className="custom-content-bottom-right-item" >
+            <div className="custom-content-bottom-left">
+                <div className="custom-content-bottom-left-item" >
                      <span>{(scaleValue.toFixed(2)*100)+'%'}</span>
                 </div>
-                <div className="custom-content-bottom-right-item" >
+                <div className="custom-content-bottom-left-item"  style={{width:'100px'}}>
                     <Slider
                         min={props.minNumber}
                         max={props.maxNumber}

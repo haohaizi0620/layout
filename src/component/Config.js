@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-31 16:33:25
- * @LastEditTime: 2020-03-19 18:50:41
+ * @LastEditTime: 2020-03-23 10:53:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout-master\src\component\Config.js
@@ -10,7 +10,6 @@ import './Config.css';
 import React, { Component, Fragment } from 'react';
 import Properties from './Properties';
 import { Tabs, Icon } from 'antd';
-import { Item } from 'rc-menu';
 const { TabPane } = Tabs;
 class Config extends Component {
   constructor(props) {
@@ -50,9 +49,7 @@ class Config extends Component {
         tabsKey: parseInt(key)
       },
       () => {
-        {
           this.refs.editMainCenter.updateStateVal();
-        }
       }
     );
   }
@@ -95,7 +92,7 @@ class Config extends Component {
                     <TabPane
                       tab={
                         <span>
-                          <Icon type={item.IconEname} />
+                          {/*  <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
@@ -115,7 +112,7 @@ class Config extends Component {
                     <TabPane
                       tab={
                         <span>
-                          <Icon type={item.IconEname} />
+                          {/*  <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
