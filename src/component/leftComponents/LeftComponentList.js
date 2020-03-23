@@ -25,7 +25,7 @@ class LeftComponentList extends Component {
           serialNumber: '1',
           tabCname: '图表',
           IconEname: 'apple',
-          defaultSelect: true
+          defaultSelect: true,
         },
         {
           serialNumber: '2',

@@ -242,7 +242,7 @@ class EditSimpleMainInfo extends Component {
                         placeholder = { item.value }
                         locale      = { locale }
                         height      = '300px'
-                        width       = '400px'
+                        width       = '300px'
                         onChange={this.editJsonChange}
                         onChange={event => {
                           this.editJsonChange(event, item.ename);
