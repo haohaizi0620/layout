@@ -3,7 +3,7 @@
   position: relative;
   width: 250px;
   height: 100%;
-  background: #1d1f26;
+  /* background: #1d1f26; */
   border-right: 1px solid #000000;
   overflow: auto;
   display: flex;

@@ -2,7 +2,7 @@ import './Layout.css';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
-import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,editLayerSortNum,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
+import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,editLayerSortNum,editLayerSortTopOrBottom,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
@@ -22,6 +22,7 @@ import {
   editCptOptionsList,
   saveShowPageData,
   replaceGlobalBg,
+  replaceOptionsList,
 } from '../redux/actions/showLayerDatas';
 import { Redirect } from 'react-router-dom';
 
@@ -150,7 +151,11 @@ class Layout extends Component {
       });
 
     }
-
+    /**
+     * @description: 加载默认所需的数据
+     * @param {type} 
+     * @return: 
+     */
     initLeftDatas2(){
         let _this = this;
         var shareId = 1;
@@ -239,7 +244,7 @@ class Layout extends Component {
                     layerData:{},
                     sortNum:sortNumChart,
                 };
-                if(tempLayerPosition!=""){
+                if(tempLayerPosition!==""){
                   tempLayerPosition = JSON.parse(tempLayerPosition)
                 }else{
                   tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
@@ -263,7 +268,7 @@ class Layout extends Component {
                           let layerName = layerItem.CELLNAME;
                           let layerJsonObj = JSON.parse(layerItem.CELLJSON);
                           let mainKey = layerItem.ID;
-                          if(layerType=="bg"){
+                          if(layerType==="bg"){
                             layerJsonObj.mainKey = mainKey;
                             bgObj = layerJsonObj;
                           }else{
@@ -278,7 +283,7 @@ class Layout extends Component {
                                     layerData:layerJsonObj,
                                     sortNum:sinSoreNum,
                                 };
-                                if(!positionObj&&positionObj==""){
+                                if(!positionObj&&positionObj===""){
                                   positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
                                 }
                                 positionObj.sortNum = sinSoreNum;
@@ -300,7 +305,6 @@ class Layout extends Component {
                             }
                         }
                         store.dispatch(replaceGlobalBg(bgObj));
-                        // let resultObj = _this.sortDefaultData(tempCptKeyList,tempCptPropertyList,tempCptChartIdList);
                         if(tempCptKeyList.length>1){
                           tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
                           tempCptPropertyList = tempCptPropertyList.sort(this.compare("sortNum"));
@@ -320,42 +324,21 @@ class Layout extends Component {
                           },
                           cptChartIdList:tempCptChartIdList
                         }, () => {
-                          {   
                             showChartsOption(tempCptChartIdList);
-                          }
                         });
-
                       }
                     })
                     .catch(error => console.info(error));
         }).catch(error => console.info(error));
     }
 
-   /**
-   * @description: 用来将所有的默认的图层都按照sortNum进行排序
-   * @param {type}
-   * @return:
-   */
-    sortDefaultData(cptKeyList,cptPropertyList,cptChartIdList){
-      
-      if(cptChartIdList&&cptChartIdList.length>0){
-       
-      }
-      var sortObj = cptChartIdList.sort(this.compare("sortNum"));
-      return {
-        cptKeyList:cptKeyList,
-        cptPropertyList:cptPropertyList,
-        cptChartIdList:cptChartIdList
-      }
-    }
-
-    compare(property){
+  compare(property){
          return function(obj1,obj2){
              var value1 = obj1[property];
              var value2 = obj2[property];
              return value1 - value2;     // 升序
          }
-    }
+  }
 
 
 
@@ -377,11 +360,6 @@ class Layout extends Component {
    * @return:
    */
   onClickAdd(layerObj, otherObj) {
-    /* test().then(res => {
-      console.info(res);
-    }).catch(error => {
-
-    }); */
     const id = layerObj.id;
     const type = layerObj.layerType;
     const showTitle = layerObj.text;
@@ -397,7 +375,7 @@ class Layout extends Component {
 
     const len = this.state.cptKeyList.length;
     let tempHeightValue = 350;
-    if (type == 'text') {
+    if (type === 'text') {
       tempHeightValue = 80;
     }
     const cptpObj = {
@@ -433,11 +411,11 @@ class Layout extends Component {
     if(otherObj&&otherObj.mainKey){
       mainKey = otherObj.mainKey;
     }
-    if(otherObj&&otherObj.state=="leftAdd"){
+    if(otherObj&&otherObj.state==="leftAdd"){
         thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
         chartId = otherObj.data.id;
-    }else if(otherObj&&otherObj.state=="headerAdd"){
+    }else if(otherObj&&otherObj.state==="headerAdd"){
         otherObj.showVal = layerTempObj;
         layerData = otherObj.otherJson;
         thType = type;
@@ -463,9 +441,7 @@ class Layout extends Component {
         cptChartIdList: [...this.state.cptChartIdList,addChartObj ]
       },
       () => {
-        {
           chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate', otherObj);
-        }
       }
     );
   }
@@ -574,7 +550,7 @@ class Layout extends Component {
     }else if(thType==="text"||thType==="border"||thType==="iframe"){
       let mainKey = chartObj.mainKey;
       let delObj = {
-        id:mainKey
+        id:mainKey,
       }
       delOneOtherLayer(delObj)
       .then(result => {
@@ -721,9 +697,7 @@ class Layout extends Component {
         cptPropertyObj: cptpObj
       },
       () => {
-        {
-          this.updateChartsStyle("noUpdate")
-        }
+          this.updateChartsStyle("noUpdate");
       }
     );
   };
@@ -1099,64 +1073,99 @@ class Layout extends Component {
     }
 
    /**
-    * @description: 用来切换两个图层之间的先后顺序
+    * @description: 用来切换两个图层之间的先后顺序,上移和下移
     * @param {type}
     * @return:
     */
-    selectSingleLayer(event,layerIndex,updateIndex){
+    selectSingleLayer(event,layerIndex,updateIndex,stateVal){
       event.stopPropagation();
-      let updateState = -1;
-      let chartLists = this.state.cptChartIdList;
+      let state = this.state;
+      let chartLists =state.cptChartIdList;
       let thisLayer = chartLists[layerIndex];
-      let updateLayer = chartLists[updateIndex];
-      let thisAddState = thisLayer.addState;
-      let updateAddState = updateLayer.addState;
-      if(thisAddState=="leftAdd"&&updateAddState=="leftAdd"){
-        updateState = 1;
-      }else if(thisAddState=="headerAdd"&&updateAddState=="headerAdd"){
-        updateState = 2;
-      }else if(thisAddState=="leftAdd"&&updateAddState=="headerAdd"){
-        updateState = 3;
-      }else if(thisAddState=="headerAdd"&&updateAddState=="leftAdd"){
-        updateState = 4;
+      if(stateVal===1||stateVal===-1){
+        let updateState = -1;
+        let updateLayer = chartLists[updateIndex];
+        let thisAddState = thisLayer.addState;
+        let updateAddState = updateLayer.addState;
+        if(thisAddState==="leftAdd"&&updateAddState==="leftAdd"){
+          updateState = 1;
+        }else if(thisAddState==="headerAdd"&&updateAddState==="headerAdd"){
+          updateState = 2;
+        }else if(thisAddState==="leftAdd"&&updateAddState==="headerAdd"){
+          updateState = 3;
+        }else if(thisAddState==="headerAdd"&&updateAddState==="leftAdd"){
+          updateState = 4;
+        }
+        let updateSortNumObj = {
+          thisMainKey : thisLayer.mainKey,
+          thisSortNum : thisLayer.sortNum,
+          updateMainKey : updateLayer.mainKey,
+          updateSortNum : updateLayer.sortNum,
+          updateState:updateState,
+        }
+        editLayerSortNum(updateSortNumObj)
+        .then( result => {
+          if(result.flag===2){
+            this.mainSwitchLayer(layerIndex,updateIndex,stateVal);
+          }
+        })
+        .catch(error => console.log(error));
+      }else if(stateVal==='top'||stateVal==='bottom'){
+        let startIndex = 0;
+        let endIndex = chartLists.length;
+        let updateLayers = [];
+        if(stateVal==="top"){
+          endIndex = layerIndex-1;
+        }else if(stateVal==="bottom"){
+          startIndex = layerIndex+1;
+        }
+        updateLayers.push({
+          addState:thisLayer.addState,
+          mainKey:thisLayer.mainKey,
+          updateIndex:updateIndex
+        })
+        for(let i=startIndex;i<endIndex;i++){
+          let item = chartLists[i];
+          let updateIndex = i;
+          if(stateVal==="top"){
+            updateIndex = i+1;
+          }else if(stateVal==="bottom"){
+            updateIndex = i-1;
+          }
+          updateLayers.push({
+            addState:item.addState,
+            mainKey:item.mainKey,
+            updateIndex:updateIndex
+          })
+        }
+        editLayerSortTopOrBottom({
+          updateLayers:JSON.stringify(updateLayers)
+        })
+        .then( result => {
+          if(result.flag===updateLayers.length){
+            this.mainSwitchLayer(layerIndex,updateIndex,stateVal);
+          }
+        })
+        .catch(error => console.log(error));
       }
-      let updateSortNumObj = {
-        thisMainKey : thisLayer.mainKey,
-        thisSortNum : thisLayer.sortNum,
-        updateMainKey : updateLayer.mainKey,
-        updateSortNum : updateLayer.sortNum,
-        updateState:updateState,
-      }
-      editLayerSortNum(updateSortNumObj)
-      .then( result => {
-        this.mainSwitchLayer(layerIndex,updateIndex);
-      })
-      .catch(error => console.log(error));
     }
 
-    mainSwitchLayer(layerIndex,updateIndex){
+    /**
+     * @description: 数据库中字段更改成功后进行更换程序里面的图层顺序
+     * @param {type} 
+     * @return: 
+     */
+    mainSwitchLayer(layerIndex,updateIndex,updateState){
       let arr = window.arr ? window.arr : [];
       let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
       if (arr.length > 0) {
-        window.arr =  this.replaceData(arr,layerIndex,updateIndex);
-        window.mapObjArr =  this.replaceData(mapObjArr,layerIndex,updateIndex);
+        window.arr =  this.replaceData(arr,layerIndex,updateIndex,updateState);
+        window.mapObjArr =  this.replaceData(mapObjArr,layerIndex,updateIndex,updateState);
       }
-
       let cptOptionsList = store.getState().showLayerDatas.cptOptionsList;
-      let tempOptionLists = [].concat(
-        JSON.parse(JSON.stringify(cptOptionsList))
-      );
-      let layOption = tempOptionLists[layerIndex];
-      let updOption = tempOptionLists[updateIndex];
-      
-      store.dispatch(editCptOptionsList({
-        cptIndex:layerIndex,
-        layerOption:updOption.layerOption
-      }));
-      store.dispatch(editCptOptionsList({
-        cptIndex:updateIndex,
-        layerOption:layOption.layerOption
-      }))
+      let tempOptionLists = [].concat(JSON.parse(JSON.stringify(cptOptionsList)));
+      tempOptionLists = this.replaceData(tempOptionLists,layerIndex,updateIndex,updateState)
+      store.dispatch(replaceOptionsList(tempOptionLists));
       let state = this.state;
       let cptPropertyList = state.cptPropertyList;
       let cptIndex = state.cptIndex;
@@ -1170,45 +1179,55 @@ class Layout extends Component {
       cptType = thisChartObj.chartId;
       cptKey = thisChartObj.timeKey;
       cptPropertyObj = cptPropertyList[layerIndex];
-      cptKeyList = this.replaceData(cptKeyList,layerIndex,updateIndex);
-      cptPropertyList = this.replaceData(cptPropertyList,layerIndex,updateIndex);
-      cptChartIdList = this.replaceData(cptChartIdList,layerIndex,updateIndex);
+      cptKeyList = this.replaceData(cptKeyList,layerIndex,updateIndex,updateState);
+      cptPropertyList = this.replaceData(cptPropertyList,layerIndex,updateIndex,updateState);
+      cptChartIdList = this.replaceData(cptChartIdList,layerIndex,updateIndex,updateState);
       this.setState({
-        cptIndex: updateIndex,
+        cptIndex: cptIndex,
         cptKey: cptKey,
         cptType:cptType,
         cptKeyList: cptKeyList,
         cptPropertyList: cptPropertyList,
         cptChartIdList: cptChartIdList,
         cptPropertyObj: cptPropertyObj,
-      },() => {
       })
     }
 
-    replaceData(dataArrays,layerIndex,updateIndex){
-      let layCptData = dataArrays[layerIndex];
-      let updCptData = dataArrays[updateIndex];
-      dataArrays[updateIndex] = layCptData;
-      dataArrays[layerIndex] = updCptData;
+    /**
+     * @description: 替换数组两个位置的值
+     * @param {type} 
+     * @return: 
+     */
+    replaceData(dataArrays,layerIndex,updateIndex,updateState){
+      if(updateState==="top"||updateState==="bottom"){
+        let tempObj = dataArrays[layerIndex];
+        dataArrays.splice(layerIndex,1);
+        if(updateState==="top"){
+          dataArrays.unshift(tempObj);
+        }else if(updateState==="bottom"){
+          dataArrays.push(tempObj);
+        }
+      }else if(updateState===1||updateState===-1){
+        [dataArrays[updateIndex],dataArrays[layerIndex]] = [dataArrays[layerIndex],dataArrays[updateIndex]];
+      }
       return dataArrays;
     }
 
-
  
   /**
-   * @description: 用来保存当前编辑页面的所有图表的数据
-   * @param {type}
-   * @return:
-   */
-  async saveLayoutData() {
- 
-  }
-
+   * @description: 画布下方的滚动条控制中间的显示画布的缩放比例
+   * @param {number} scaleValue
+   * @return: 
+   */  
   setContentScale = scaleValue => {
       this.setState({scale:scaleValue})
   }
 
-
+  /**
+   * @description: 将预览的对话框展示出来
+   * @param {type} 
+   * @return: 
+   */
   savePagePrev(){
     let preState = this.state;
     let nameData = preState.nameData;
@@ -1216,6 +1235,11 @@ class Layout extends Component {
     this.refs.shareModel.setDefaultValue(`http://localhost:8080/share/build/index.html?sid=${sidVal}`);
   }
 
+  /**
+   * @description: 点击确定打开新的标签页,展示分享页面
+   * @param {type} 
+   * @return: 
+   */
   saveShowPageData() {
     let preState = this.state;
     let nameData = preState.nameData;
@@ -1230,7 +1254,6 @@ class Layout extends Component {
       <Fragment>
         <Header
           ref='Header'
-          saveLayoutData={this.saveLayoutData.bind(this)}
           onClickAdd={this.onClickAdd.bind(this)}
           savePagePrev={this.savePagePrev.bind(this)}
           nameData={this.state.nameData}

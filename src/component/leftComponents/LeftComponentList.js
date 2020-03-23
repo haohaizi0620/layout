@@ -72,21 +72,22 @@ class LeftComponentList extends Component {
           console.log("已经到顶了");
           return;
         }
-      } else if(updateState === "top"||updateState === "bottom"){
-        if(cptIndex >= maxIndex){
-          console.log("已经到底了");
-          return;
-        }else if(cptIndex === 0){
+      } else if(updateState === "top"){
+        if (cptIndex > 0) {
+          updateIndex = 0;
+        } else {
           console.log("已经到顶了");
           return;
-        }else{
-          if(updateState === "top")
-            updateIndex = 0;
-          if(updateState === "bottom")
-            updateIndex = maxIndex;
+        }
+      } else if(updateState === "bottom"){
+        if (cptIndex < maxIndex ) {
+          updateIndex = maxIndex;
+        } else {
+          console.log("已经到底了");
+          return;
         }
       }
-      this.props.selectSingleLayer(event, cptIndex, updateIndex);
+      this.props.selectSingleLayer(event, cptIndex, updateIndex,updateState);
     }
   }
 
@@ -302,7 +303,7 @@ class LeftComponentList extends Component {
                               >
                                 下移
                               </Button>
-                             {/*  <Button
+                             <Button
                                 size="small"
                                 onClick={event => {
                                   this.moveShowLayer(event, "top");
@@ -317,7 +318,7 @@ class LeftComponentList extends Component {
                                 }}
                               >
                                 置底
-                              </Button> */}
+                              </Button>
                             </div>
                             <div >
                               {listData

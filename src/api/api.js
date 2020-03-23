@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-25 16:49:24
- * @LastEditTime: 2020-02-28 14:55:39
+ * @LastEditTime: 2020-03-23 16:36:41
  * @LastEditors: Please set LastEditors
  * @Description: 用来进行提供调用的接口
  * @FilePath: \layout - 副本 (2) - 副本\src\api\api.js
@@ -127,6 +127,14 @@ export function editKSHChartPosition(editLayerObj){
 export function editLayerSortNum(editLayerObj){
   return request({
     url: 'http://localhost:8080/data/thematic/editLayerSortNum.do',
+    method: 'post',
+    data:Qs.stringify(editLayerObj)
+  });
+}
+
+export function editLayerSortTopOrBottom(editLayerObj){
+  return request({
+    url: 'http://localhost:8080/data/thematic/editLayerSortTopOrBottom.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });

@@ -45,7 +45,7 @@ body {
   display: flex;
   height: 42px;
   z-index: 100;
-  background: #222528;
+  background: #181a2c;
   position: relative;
   border-bottom: 1px solid #000000;
 }
@@ -147,12 +147,12 @@ body {
   vertical-align: top;
   padding: 0;
   padding-bottom: 20px;
-  background: #1c1f25;
+  background: #181a2c;
 }
 
 .custom-header-sub-list.left {
   width: 55px;
-  background: #2b2e36;
+  background: #181a2c;
 }
 
 .custom-header-sub-ul {

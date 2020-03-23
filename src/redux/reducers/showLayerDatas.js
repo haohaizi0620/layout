@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 14:08:58
- * @LastEditTime: 2020-02-24 16:44:07
+ * @LastEditTime: 2020-03-23 15:11:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \one-react\src\redux\reducers\counter.js
@@ -15,6 +15,7 @@ import {
     EDITCPTOPTIONSLIST,
     SAVESHOWPAGEDATA,
     REPLACEGLOBALBG,
+    REPLACEOPTIONSLIST,
 } from '../actions/showLayerDatas';
 
  
@@ -88,6 +89,10 @@ export default function reducer(state = cptPropertyObj, action) {
         case REPLACEFIELDVAL:
              newState.showDatas.cptBorderObj = action.showLayerObj
             return { ...state, ...newState };
+        case REPLACEOPTIONSLIST: 
+            return Object.assign({}, state, {
+                cptOptionsList: action.OptionsList
+            });
             //全部的基本值进行替换
         case REPLACEALLFIELDVAL:
             return Object.assign({}, state, {

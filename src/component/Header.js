@@ -287,7 +287,7 @@ class Header extends Component {
     }
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-   /*  this.props.onClickAdd(layerObj, {
+    /* this.props.onClickAdd(layerObj, {
       data: {},
       state: 'headerAdd',
       mainKey:-1,
@@ -356,14 +356,6 @@ class Header extends Component {
     });
   }
 
-  /**
-   * @description: 用来保存当前编辑页面的所有图表的数据
-   * @param {type}
-   * @return:
-   */
-  saveLayoutData() {
-    this.props.saveLayoutData();
-  }
 
   savePagePrev() {
     this.props.savePagePrev();
@@ -508,9 +500,6 @@ class Header extends Component {
         </div>
 
         <div className='custom-header-button'>
-          <Button type='primary' size='small' onClick={this.saveLayoutData.bind(this)}>
-            保存
-          </Button>
           <Button type='primary' size='small' onClick={this.savePagePrev.bind(this)}>
             预览
           </Button>

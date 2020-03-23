@@ -2,7 +2,7 @@
   width: 325px;
   height: 100%;
   z-index: 90;
-  background: #1c1f25;
+  /* background: #1c1f25; */
   border-left: 1px solid black;
   position: relative;
   color: white;
