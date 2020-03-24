@@ -4,7 +4,7 @@ import "./Content.css";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IframeLayer from "./otherLayer/IframeLayer";
-import BaseTable from "./otherLayer/BaseTable";
+import BaseTable from "./otherLayer/BaseTable.jsx";
 import TextLayer from "./otherLayer/TextLayer";
 import {
   faEdit,
@@ -19,7 +19,6 @@ class Child1 extends Component {
     super(props);
   }
   render() {
-    {
       let cptObj = this.props.cptObj;
       let keyData = this.props.keyData;
       let layerSinId = keyData.id;
@@ -39,16 +38,16 @@ class Child1 extends Component {
             width: "100%",
             height: "100%",
             borderWidth:
-              tempLayerType == "border" ? chartData.borderWidth + "px" : "0px",
-            borderStyle: tempLayerType == "border" ? "solid" : "none",
+              tempLayerType === "border" ? chartData.borderWidth + "px" : "0px",
+            borderStyle: tempLayerType === "border" ? "solid" : "none",
             borderImage:
-              tempLayerType == "border"
+              tempLayerType === "border"
                 ? `url(${require("../img/" + chartData.borderImage)}) 30`
                 : "none"
           }}
           ref={this.props.getRef}
         >
-          {tempLayerType == "text" ? (
+          {tempLayerType === "text" ? (
             <TextLayer
               timeKey={timeKey}
               chartData={chartData}
@@ -56,7 +55,7 @@ class Child1 extends Component {
             />
           ) : null}
           {//存放图表和地图的dom
-          tempLayerType == "0" || tempLayerType == "1" ? (
+          tempLayerType === "0" || tempLayerType === "1" ? (
             <div
               id={timeKey}
               className="singleChart"
@@ -67,7 +66,7 @@ class Child1 extends Component {
                 left: "10px",
                 top: "20px",
                 textAlign:
-                  tempLayerType == "text" && chartData
+                  tempLayerType === "text" && chartData
                     ? chartData.textAlign
                       ? chartData.textAlign
                       : ""
@@ -89,13 +88,12 @@ class Child1 extends Component {
                   : ""
               }}
             >
-              {tempLayerType == "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
-              {tempLayerType == "table" ? ( <BaseTable  /> ) : null}
+              {tempLayerType === "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
+              {tempLayerType === "table" ? ( <BaseTable data={chartData.tableData} config={chartData.tableConfig} columns={chartData.tableColumns}     /> ) : null}
             </div>
           ) : null}
         </div>
       );
-    }
   }
 }
 

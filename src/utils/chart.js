@@ -1,20 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-03-18 18:05:36
+ * @LastEditTime: 2020-03-24 17:17:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
  */
 import store from '../redux/store';
 import {getSpecify, getMapDataWFS, getRecursionMap} from '../api/api';
-// import dmapgl  from './dmap-gl-dev.js';
 import {addCptOptionsList, editCptOptionsList} from '../redux/actions/showLayerDatas';
 import $ from 'jquery';
 let chartTestData = require('../datasource/chartTestData.json');
-let mapTestData = require('../datasource/mapTestData.json');
-// import 'http://172.26.50.89/TileServer/dmap4.0/css/dmap4.0.css';
-
+let otherDefaultData = require('../datasource/otherDefaultData.json');
 const chartData = require('../datasource/chartDatas.json');
 /**
  * @description: 创建一个对应的图表
@@ -24,7 +21,7 @@ const chartData = require('../datasource/chartDatas.json');
  * @param  {String} chartState 代表当前图表是改变数据还是不改变数据   noUpdate不改变数据   update 改变数据
  * @return:  正常添加一个图表,否则就是移动位置改变大小，如果没有找到当前图表对应的接口id直接返回
  */
-export function chartOption(chartName, id, _this, chartState, otherObj) {
+export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
     var arr = window.arr
         ? window.arr
         : [];
@@ -37,31 +34,31 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
     if (arr) {
         arr
             .forEach(function (e, item) {
-                if (e == id) {
+                if (e == timeKey) {
                     flag = true;
                     return false;
                 }
             });
     }
-    if (otherObj && otherObj.state == "leftAdd") {
+    if (otherObj && otherObj.state === "leftAdd") {
         let layerObj = otherObj.data;
         if (!flag) {
-            arr.push(id);
+            arr.push(timeKey);
             window.arr = arr;
-            addChart(layerObj, id, addIndex, _this);
+            addChart(layerObj, timeKey, addIndex, _this);
         } else {
             let newOptions = store
                 .getState()
                 .showLayerDatas
                 .cptOptionsList[_this.state.cptIndex]
                 .layerOption;
-            let tempThisObj = document.getElementById(id);
+            let tempThisObj = document.getElementById(timeKey);
 
             var thType = layerObj.thType;
-            if ("0" == thType) { //图表
+            if ("0" === thType) { //图表
                 var e_instance = tempThisObj.getAttribute("_echarts_instance_");
-                if (chartState == "update") {
-                    new window.dmapgl.commonlyCharts(id, {data: newOptions});
+                if (chartState === "update") {
+                    new window.dmapgl.commonlyCharts(timeKey, {data: newOptions});
                 } else {
                     if (window.echarts.getInstanceById(e_instance)) {
                         window
@@ -70,10 +67,10 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                             .resize();
                     }
                 }
-            } else if ("1" == thType) { //wms或wfs
+            } else if ("1" === thType) { //wms或wfs
                 let mapObj = mapObjArr[_this.state.cptIndex]
-                if (mapObj && mapObj.layerId == id) {
-                    if (chartState == "update") {} else {
+                if (mapObj && mapObj.layerId == timeKey) {
+                    if (chartState === "update") {} else {
                         if (mapObj.layerMap) {
                             mapObj
                                 .layerMap
@@ -83,63 +80,48 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                 }
             }
         }
-    } else {
+    } else if (otherObj && otherObj.state === "headerAdd"){
         let layerType = "chart";
         let chartId = 101;
         chartData.map(item => {
-            if (item.id == chartName) {
+            if (item.id === chartName) {
                 layerType = item.layerType;
                 chartId = item.chartId;
             }
         })
-        var layerObj = document
-            .getElementById(id)
-            .parentNode;
         if (!flag) {
-            if (layerType == "text" || layerType == "border" || layerType == "iframe") {
-                arr.push(id);
-                mapObjArr.push({layerId: id, layerMap: {}});
+            if (layerType === "text" || layerType === "border" || layerType === "iframe"|| layerType === "table") {
+                arr.push(timeKey);
+                mapObjArr.push({layerId: timeKey, layerMap: {}});
                 window.arr = arr;
                 window.mapObjArr = mapObjArr;
                 let tempSaveObj = {};
-                if (layerType == "border") {
-                    layerObj.style.borderImage =`url(${require("../img/border/border1.png")}) 30`;
-                    layerObj.style.borderStyle = "solid";
-                    layerObj.style.borderWidth = "10px";
-                    tempSaveObj = {
-                        borderImage:'border/border1.png',
-                        borderWidth:10
+                if (layerType === "border") {
+                    tempSaveObj = otherDefaultData.border;
+                } else if (layerType === "text") {
+                    let textCenterVal = "标题";
+                    if (chartName === "multiLineText") {
+                        textCenterVal = "这是一个可以换行的文本.......";
+                    } else if (chartName === "moreRowText") {
+                        textCenterVal = "";
                     }
-                } else if (layerType == "text") {
-                    tempSaveObj = {
-                        textCenter: {
-                            value:"标题"
-                        },
-                        fontFamily: 'auto',
-                        fontSize: 30,
-                        fontColor: 'rgba(255,255,255,1)',
-                        fontWeight: 'normal',
-                        textAlign: "center",
-                        writingMode: "horizontal-tb",
-                        hyperlinkCenter: "",
-                        isNewWindow: false
-                    };
-                } else if (layerType == "iframe") {
-                    tempSaveObj = {
-                        iframeUrl: ""
-                    }
+                    let tempTextObj = otherDefaultData.text;
+                    tempTextObj.textCenter.value = textCenterVal;
+                    tempSaveObj = tempTextObj;
+                } else if (layerType === "iframe") {
+                    tempSaveObj = otherDefaultData.iframe;
+                }else if (layerType === "table") {
+                    tempSaveObj = otherDefaultData.table;
                 }
                 store.dispatch(addCptOptionsList(chartId, tempSaveObj));
-            } else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
+            } else if (layerType === "chart" || layerType === "map" || layerType === "chartMap") {
                 let tempIndex = Math.ceil(Math.random() * 3) - 1;
                 var data = chartTestData[tempIndex];
-                var a;
-                var map;
-                var tempMap = null;
-                if (layerType == "map" || layerType == "chartMap") {
+                var a,map;
+                if (layerType === "map" || layerType === "chartMap") {
                     store.dispatch(addCptOptionsList(chartId, []))
                     map = new window.dmapgl.Map({
-                            container: id,
+                            container: timeKey,
                             zoom: 8,
                             minZoom: 8,
                             maxZoom: 20,
@@ -165,29 +147,27 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                             console.info(error);
                         });
                     });
-                } else if (layerType == "chart") {
-                    a = new window.dmapgl.commonlyCharts(id, {data: data});
+                } else if (layerType === "chart") {
+                    a = new window.dmapgl.commonlyCharts(timeKey, {data: data});
                     store.dispatch(addCptOptionsList(chartId, data))
                 }
-                arr.push(id);
-                mapObjArr.push({layerId: id, layerMap: map});
+                arr.push(timeKey);
+                mapObjArr.push({layerId: timeKey, layerMap: map});
                 window.arr = arr;
                 window.mapObjArr = mapObjArr;
-            } else {}
+            } 
         } else {
-            if (layerType == "text" || layerType == "border") {
-                
-            } else if (layerType == "chart" || layerType == "map" || layerType == "chartMap") {
+           if (layerType === "chart" || layerType === "map" || layerType === "chartMap") {
                 let newOptions = store
                     .getState()
                     .showLayerDatas
                     .cptOptionsList[_this.state.cptIndex]
                     .layerOption;
-                let tempThisObj = document.getElementById(id);
-                if (layerType == "chart") {
+                let tempThisObj = document.getElementById(timeKey);
+                if (layerType === "chart") {
                     var e_instance = tempThisObj.getAttribute("_echarts_instance_");
-                    if (chartState == "update") {
-                        new window.dmapgl.commonlyCharts(id, {data: newOptions});
+                    if (chartState === "update") {
+                        new window.dmapgl.commonlyCharts(timeKey, {data: newOptions});
                     } else {
                         if (window.echarts.getInstanceById(e_instance)) {
                             window
@@ -196,10 +176,10 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                                 .resize();
                         }
                     }
-                } else if (layerType == "map" || layerType == "chartMap") {
+                } else if (layerType === "map" || layerType === "chartMap") {
                     let mapObj = mapObjArr[_this.state.cptIndex]
-                    if (mapObj.layerId == id) {
-                        if (chartState == "update") {} else {
+                    if (mapObj.layerId === timeKey) {
+                        if (chartState === "update") {} else {
                             if (mapObj.layerMap) {
                                 mapObj
                                     .layerMap
@@ -208,11 +188,15 @@ export function chartOption(chartName, id, _this, chartState, otherObj) {
                         }
                     }
                 }
-            } else {}
+            }
         }
     }
 }
-
+/**
+ * @description: 打开当前页面的时候向后台请求到当前页面的数据后,对数据进行渲染.
+ * @param {type} 
+ * @return: 
+ */
 export function showChartsOption(chartsList) {
     if (chartsList && chartsList[0]) {
         var arr = window.arr
@@ -230,8 +214,8 @@ export function showChartsOption(chartsList) {
                 .timeKey
                 .toString();
             let map = {};
-            if (thType == "0") {
-                store.dispatch(addCptOptionsList(chartId, []));
+            store.dispatch(addCptOptionsList(chartId, []));
+            if (thType === "0") {
                 getSpecify(chartId).then(function (result) {
                     if (result.data) {
                         console.log("接口没有数据")
@@ -247,8 +231,7 @@ export function showChartsOption(chartsList) {
                     store.dispatch(editCptOptionsList(tempOptionObj));
 
                 }).catch(e => console.log("error", e));
-            } else if (thType == "1") {
-                let dataShow = data.show;
+            } else if (thType === "1") {
                 map = new window.dmapgl.Map({
                         container: timeKey,
                         zoom: 8,
@@ -265,11 +248,12 @@ export function showChartsOption(chartsList) {
                         // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
                         // Regular","SimSun,Regular"',
                     });
-                store.dispatch(addCptOptionsList(chartId, []));
+               
                 map.on('load', function () {
-                    if (data.show == "1") {
+                    let dataShow = data.show;
+                    if (dataShow == "1") {
                         addMapWFS(data, map);
-                    } else if (data.show == "2") {
+                    } else if (dataShow == "2") {
                         addMapWMS(data, map);
                     }
                     getSpecify(chartId).then(result => {
@@ -282,21 +266,14 @@ export function showChartsOption(chartsList) {
                         console.info(error);
                     });
                 });
-            } else if (thType == "text" || thType == "border" || thType == "iframe") {
+            } else if (thType === "text" || thType === "border" || thType === "iframe"|| thType === "table") {
                 let tempSaveObj = {};
-                if (thType == "border") {
-                    var layerObj = document
-                        .getElementById(timeKey)
-                        .parentNode;
-                    layerObj.style.borderWidth = layerData.borderWidth + "px";
-                    layerObj.style.borderStyle = layerData.borderStyle;
-                    layerObj.style.borderColor = layerData.borderColor;
+                if (thType === "border") {
                     tempSaveObj = {
-                        borderWidth: layerData.borderWidth,
-                        borderStyle: layerData.borderStyle,
-                        borderColor: layerData.borderColor
+                        borderImage:layerData.borderImage,
+                        borderWidth:layerData.borderWidth,
                     }
-                } else if (thType == "text") {
+                } else if (thType === "text") {
                     tempSaveObj = {
                         textCenter: {
                             value:layerData.textCenter.value
@@ -310,16 +287,24 @@ export function showChartsOption(chartsList) {
                         hyperlinkCenter: layerData.hyperlinkCenter,
                         isNewWindow: layerData.isNewWindow
                     };
-                } else if (thType == "iframe") {
+                } else if (thType === "iframe") {
                     tempSaveObj = {
                         iframeUrl: layerData.iframeUrl
                     }
+                } else if (thType === "table") {
+                    tempSaveObj = {
+                        tableData: layerData.tableData,
+                        tableColumns: layerData.tableColumns,
+                    }
                 }
-                store.dispatch(addCptOptionsList(chartId, tempSaveObj));
+                let tempOptionObj = {
+                    cptIndex: index,
+                    layerOption: tempSaveObj
+                }
+                store.dispatch(editCptOptionsList(tempOptionObj));
             }
             arr.push(timeKey);
             mapObjArr.push({layerId: timeKey, layerMap: map});
-
         })
         window.mapObjArr = mapObjArr;
         window.arr = arr;
@@ -335,6 +320,7 @@ function addChart(data, timeId, addIndex, _this) {
     var thType = data.thType;
     var catalogId = data.id;
     var map = {};
+    store.dispatch(addCptOptionsList(catalogId, []));
     if ("0" == thType) { //图表
         var type1 = data.type
             ? data.type
@@ -345,7 +331,6 @@ function addChart(data, timeId, addIndex, _this) {
 			 * THEMEPIE_CHART（一般饼状图）
 			 * THEMERING_CHART（一般圆环图）
 			 */
-        store.dispatch(addCptOptionsList(catalogId, []))
         getSpecify(catalogId).then(result => {
             var a = new window.dmapgl.commonlyCharts(timeId, {data: result});
             let tempOptionObj = {
@@ -380,8 +365,6 @@ function addChart(data, timeId, addIndex, _this) {
                 // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
                 // Regular","SimSun,Regular"',
             });
-        store.dispatch(addCptOptionsList(catalogId, []))
-
         map.on('load', function () {
             if (data.show == "1") {
                 addMapWFS(data, map);

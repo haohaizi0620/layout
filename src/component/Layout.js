@@ -716,17 +716,17 @@ class Layout extends Component {
     let cptpList = this.state.cptPropertyList;
     let cptChartIdList = this.state.cptChartIdList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
-    if (tabsKey == 1||tabsKey == 2) {
+    if (tabsKey === 1||tabsKey === 2) {
       if (
-        fieldEname == 'width' ||
-        fieldEname == 'height' ||
-        fieldEname == 'left' ||
-        fieldEname == 'top' ||
-        fieldEname == 'opacity' ||
-        fieldEname == 'rotate' ||
-        fieldEname == 'layerBorderWidth' ||
-        fieldEname == 'layerBorderStyle' ||
-        fieldEname == 'layerBorderColor'
+        fieldEname === 'width' ||
+        fieldEname === 'height' ||
+        fieldEname === 'left' ||
+        fieldEname === 'top' ||
+        fieldEname === 'opacity' ||
+        fieldEname === 'rotate' ||
+        fieldEname === 'layerBorderWidth' ||
+        fieldEname === 'layerBorderStyle' ||
+        fieldEname === 'layerBorderColor'
       ) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         var cptpObj = this.state.cptPropertyList[cptIndex];
@@ -747,9 +747,61 @@ class Layout extends Component {
           }
         );
       } else {
-          if(layerType == 'text' ||
-            layerType == 'border' ||
-            layerType == 'iframe'){
+          if(layerType==="table"){
+            let layerData = cptChartIdList[cptIndex].layerData;
+          /*   if(fieldEname === "tablePageSize"){
+              layerData.tableConfig.table.pageSize = fieldValue;
+            }else if(fieldEname === "tableHeaderFontFamily"||fieldEname === "tableHeaderfontSize"||fieldEname === "tableHeaderfontColor"||fieldEname === "tableHeaderfontWeight"){
+              layerData.tableConfig.table.header.textStyle[fieldEname] = fieldValue
+            }else if(fieldEname === "tableHeaderBorderWidth"||fieldEname === "tableHeaderBorderWidth"){
+              layerData.tableConfig.table.header.borderStyle[fieldEname] = fieldValue
+            }else if(fieldEname === "tableHeaderbgColor"||fieldEname === "tableHeaderTextAlign"){
+              layerData.tableConfig.table.header[fieldEname] = fieldValue
+            }else if(fieldEname === "tableBodyFontFamily"||fieldEname === "tableBodyfontSize"||fieldEname === "tableBodyfontColor"||fieldEname === "tableBodyfontWeight"){
+              layerData.tableConfig.table.textStyle[fieldEname] = fieldValue
+            }else if(fieldEname === "tableBodyBorderWidth"||fieldEname === "tableBodyBorderWidth"){
+              layerData.tableConfig.table.borderStyle[fieldEname] = fieldValue
+            }else if(fieldEname === "tableBodybgColor"||fieldEname === "tableBodyTextAlign"){
+              layerData.tableConfig.table[fieldEname] = fieldValue
+            } */
+            if(fieldEname === "tablePageSize"){
+              layerData.tableConfig.table.pageSize = fieldValue;
+            } else if(fieldEname === "tableHeaderFontFamily"){
+             layerData.tableConfig.table.header.textStyle.fontFamily = fieldValue
+            } else if(fieldEname === "tableHeaderfontSize"){
+              layerData.tableConfig.table.header.textStyle.fontSize = fieldValue
+            } else if(fieldEname === "tableHeaderfontColor"){
+              layerData.tableConfig.table.header.textStyle.color = fieldValue
+             } else if(fieldEname === "tableHeaderfontWeight"){
+               layerData.tableConfig.table.header.textStyle.fontWeight = fieldValue
+             } else if(fieldEname === "tableHeaderBorderWidth"){
+              layerData.tableConfig.table.header.borderStyle.width = fieldValue
+             } else if(fieldEname === "tableHeaderBorderColor"){
+               layerData.tableConfig.table.header.borderStyle.color = fieldValue
+             } else if(fieldEname === "tableHeaderbgColor"){
+              layerData.tableConfig.table.header.backgroundColor = fieldValue
+             } else if(fieldEname === "tableHeaderTextAlign"){
+               layerData.tableConfig.table.header.textAlign = fieldValue
+             } else if(fieldEname === "tableBodyFontFamily"){
+              layerData.tableConfig.table.textStyle.fontFamily = fieldValue
+              } else if(fieldEname === "tableBodyfontSize"){
+                layerData.tableConfig.table.textStyle.fontSize = fieldValue
+              } else if(fieldEname === "tableBodyfontColor"){
+                layerData.tableConfig.table.textStyle.color = fieldValue
+              } else if(fieldEname === "tableBodyfontWeight"){
+                layerData.tableConfig.table.textStyle.fontWeight = fieldValue
+              } else if(fieldEname === "tableBodyBorderWidth"){
+                layerData.tableConfig.table.borderStyle.width = fieldValue
+              } else if(fieldEname === "tableBodyBorderColor"){
+                layerData.tableConfig.table.borderStyle.color = fieldValue
+              } else if(fieldEname === "tableBodybgColor"){
+                layerData.tableConfig.table.backgroundColor = fieldValue
+              } else if(fieldEname === "tableBodyTextAlign"){
+                layerData.tableConfig.table.textAlign = fieldValue
+              }
+            cptOptionObj.layerOption  = layerData;
+            cptChartIdList[cptIndex].layerData = layerData;
+          }else{
             cptOptionObj.layerOption[fieldEname] = fieldValue;
             cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
           }
@@ -761,22 +813,21 @@ class Layout extends Component {
               layerOption:cptOptionObj.layerOption
             }
             store.dispatch(editCptOptionsList(tempOptionObj)); 
-            if (layerType == 'chart') {         
+            if (layerType === 'chart') {         
               this.updateChartsStyle("update");
               this.debounce(this.editChartData,cptIndex,tempOptionObj)
             } else {
-              this.debounce(this.editOtherLayer,cptOptionObj,cptChartIdList,cptIndex)
+              // this.debounce(this.editOtherLayer,cptOptionObj,cptChartIdList,cptIndex)
             }
           })
       }
-    } else if (tabsKey == 0) {
+    } else if (tabsKey === 0) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         let bgObj = store.getState().showLayerDatas.bgFieldObj;
         this.setState(
           {
             globalBg: bgObj
-          },
-          () => {
+          },() => {
             this.debounce(this.editBgConfig);
           }
         );

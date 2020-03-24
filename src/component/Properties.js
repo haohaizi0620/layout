@@ -8,6 +8,7 @@ import '../css/Spinner.css';
 import '../css/Properties.css';
 import '../css/base.css';
 import store from '../redux/store';
+let otherDefaultData = require('../datasource/otherDefaultData.json');
 const { Panel } = Collapse;
 /*
  * 样式面板组件
@@ -17,25 +18,25 @@ class Properties extends Component {
     super(props);
     let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
     let bgFieldObj = store.getState().showLayerDatas.bgFieldObj;
-    let textFieldObj = {
-      fontSize: 30,
-      fontColor: 'rgba(255,255,255,1)',
-      textCenter: '标题',
-      fontFamily: 'auto',
-      fontWeight: 'normal',
-      width: 280,
-      height: 260,
-      left: 450,
-      top: 160,
-      opacity: 1,
-      layerBorderWidth: 0,
-      layerBorderStyle: 'solid',
-      layerBorderColor: 'rgb(0,0,0,1)',
-      borderWidth: 10,
-      borderImage:'border/border1.png',
-      iframeUrl: '',
-     
-    };
+
+    const tableType = "table";
+    const borderType = "border";
+    const iframeType = "iframe";
+    const textType = "text";
+    const bgType = "bg";
+    const defaultType = "default";
+    const otherType = "other";
+    const chartType = "chart";
+    let textFieldObj = otherDefaultData.text;
+    let borderFieldObj = otherDefaultData.border;
+    let iframeFieldObj = otherDefaultData.iframe;
+    let tableFieldObj = otherDefaultData.table.tableConfig.table;
+    let tableFieldHeaderObj = tableFieldObj.header;
+    let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
+    let tableBodyTextObj = tableFieldObj.textStyle;
+    let tableBodyBaseObj = tableFieldObj.ZebraLine;
+    let tableBodyBorderObj = tableFieldObj.borderStyle;
+    
     this.state = {
       bg: [
         {
@@ -57,7 +58,7 @@ class Properties extends Component {
               value: bgFieldObj.bjHeight
             }
           ],
-          layerType: 'bg'
+          layerType: bgType
         },
         {
           ename: 'backgroundColor',
@@ -72,7 +73,7 @@ class Properties extends Component {
               value: bgFieldObj.bgColor
             }
           ],
-          layerType: 'bg'
+          layerType: bgType
         },
         {
           ename: 'bgImageName',
@@ -111,7 +112,7 @@ class Properties extends Component {
               optionFlag: false
             } */
           ],
-          layerType: 'bg'
+          layerType:bgType
         }
       ],
       chart: [
@@ -138,7 +139,7 @@ class Properties extends Component {
               minNumber: 80
             }
           ],
-          layerType: 'default'
+          layerType: defaultType
         },
         {
           ename: 'chartPosition',
@@ -163,7 +164,7 @@ class Properties extends Component {
               minNumber: 0
             }
           ],
-          layerType: 'default'
+          layerType: defaultType
         },
         {
               ename: 'rotationAngle',
@@ -197,7 +198,7 @@ class Properties extends Component {
               value: cptBorderObj.opacity
             }
           ],
-          layerType: 'default'
+          layerType: defaultType
         },
         {
           ename: 'LayerBorder',
@@ -239,7 +240,7 @@ class Properties extends Component {
               value: cptBorderObj.layerBorderColor
             }
           ],
-          layerType: 'default'
+          layerType: defaultType
         }
       ],
       dataSource:[],
@@ -256,16 +257,9 @@ class Properties extends Component {
               type: 'EditJsonReactAjrm',
               value: {},
               isEdit:true,
-            },
-            {
-              ename: 'staticDataEdit',
-              cname: '数据展示',
-              type: 'EditJsonReactAjrm',
-              value: {},
-              isEdit:false,
             }
           ],
-          layerType: 'chart'
+          layerType: chartType
         }
       ],
       noContent: [
@@ -280,7 +274,7 @@ class Properties extends Component {
               type: 'noContent',
             }
           ],
-          layerType: 'chart'
+          layerType: chartType
         }
       ],
       text: [
@@ -341,7 +335,7 @@ class Properties extends Component {
               ]
             }
           ],
-          layerType: 'text'
+          layerType: textType
         },
         {
           ename: 'textAlign',
@@ -361,7 +355,7 @@ class Properties extends Component {
               ]
             }
           ],
-          layerType: 'text'
+          layerType: textType
         },
         {
           ename: 'writingMode',
@@ -372,7 +366,7 @@ class Properties extends Component {
               ename: 'writingMode',
               cname: '排列方式',
               type: 'Select',
-              value: textFieldObj.fontFamily,
+              value: textFieldObj.writingMode,
               defaultOption: 'horizontal-tb',
               optionValues: [
                 { cname: '水平', value: 'horizontal-tb' },
@@ -380,7 +374,7 @@ class Properties extends Component {
               ],
             }
           ],
-          layerType: 'text'
+          layerType: textType
         },
         {
           ename: 'hyperlink',
@@ -392,17 +386,217 @@ class Properties extends Component {
               ename: 'hyperlinkCenter',
               cname: '超链接',
               type: 'Input',
-              value: textFieldObj.textCenter
+              value: textFieldObj.hyperlinkCenter
             },
             {
               ename: 'isNewWindow',
               cname: '是否打开新窗口',
               type: 'Switch',
-              value: textFieldObj.textCenter
+              value: textFieldObj.isNewWindow
             }
           ],
-          layerType: 'text'
+          layerType: textType
         }
+      ],
+      table: [
+        {
+          ename: 'tableHeader',
+          name: '行头',
+          includeSelect: true,
+          type: 'Collapse',
+          childer: [
+             {
+                  ename: 'tableHeaderTextAlign',
+                  cname: '对齐方式',
+                  type: 'Select',
+                  value: tableFieldHeaderObj.textAlign,
+                  defaultOption: 'center',
+                  optionValues: [
+                    { cname: '左对齐', value: 'left' },
+                    { cname: '右对齐', value: 'right' },
+                    { cname: '居中对齐', value: 'center' }
+                  ]
+            },
+            {
+              ename: 'tableHeaderFontFamily',
+              cname: '字体',
+              type: 'Select',
+              value: tableHeaderTextObj.fontFamily,
+              defaultOption: 'auto',
+              optionValues: [
+                { cname: 'auto', value: 'auto' },
+                { cname: 'cursive', value: 'cursive' },
+                { cname: 'monospace', value: 'monospace' },
+                { cname: 'serif', value: 'serif' }
+              ]
+            },
+            {
+              ename: 'tableHeaderfontSize',
+              cname: '字号大小',
+              type: 'InputNumber',
+              value: tableHeaderTextObj.fontSize,
+              maxNumber: 200,
+              minNumber: 12
+            },
+            {
+              ename: 'tableHeaderfontColor',
+              cname: '字体颜色',
+              type: 'Color',
+              value: tableHeaderTextObj.fontColor
+            },
+            {
+              ename: 'tableHeaderfontWeight',
+              cname: '字体粗细',
+              type: 'Select',
+              value: tableHeaderTextObj.fontWeight,
+              defaultOption: 'normal',
+              optionValues: [
+                { cname: 'normal', value: 'normal' },
+                { cname: 'bold', value: 'bold' },
+                { cname: 'bolder', value: 'bolder' },
+                { cname: 'lighter', value: 'lighter' },
+                { cname: '100', value: '100' },
+                { cname: '200', value: '200' },
+                { cname: '300', value: '300' },
+                { cname: '400', value: '400' },
+                { cname: '500', value: '500' },
+                { cname: '600', value: '600' },
+                { cname: '700', value: '700' },
+                { cname: '800', value: '800' },
+                { cname: '900', value: '900' },
+                { cname: 'inherit', value: 'inherit' }
+              ]
+            },
+            {
+              ename: 'tableHeaderBorderWidth',
+              cname: '边框宽度',
+              type: 'InputNumber',
+              value: tableFieldHeaderObj.borderStyle.width,
+              maxNumber: 30,
+              minNumber: 0
+            },
+            {
+              ename: 'tableHeaderBorderColor',
+              cname: '边框颜色',
+              type: 'Color',
+              value: tableFieldHeaderObj.borderStyle.color
+            },
+            {
+                  ename: 'tableHeaderbgColor',
+                  cname: '背景颜色',
+                  type: 'Color',
+                  value: tableFieldHeaderObj.backgroundColor
+            }
+          ],
+          layerType: tableType
+        },
+        {
+          ename: 'tablePageSize',
+          name: '数据行数',
+          includeSelect: false,
+          childer: [
+            {
+              ename: 'tablePageSize',
+              cname: '数据行数',
+              type: 'InputNumber',
+              value: tableFieldObj.pageSize,
+              maxNumber: 40,
+              minNumber: 1
+            }
+          ],
+          layerType: tableType
+        },
+        {
+          ename: 'tableBody',
+          name: '内容',
+          includeSelect: true,
+          type: 'Collapse',
+          childer: [
+             {
+                  ename: 'tableBodyTextAlign',
+                  cname: '对齐方式',
+                  type: 'Select',
+                  value: tableBodyBaseObj.textAlign,
+                  defaultOption: 'center',
+                  optionValues: [
+                    { cname: '左对齐', value: 'left' },
+                    { cname: '右对齐', value: 'right' },
+                    { cname: '居中对齐', value: 'center' }
+                  ]
+            },
+            {
+              ename: 'tableBodyfontFamily',
+              cname: '字体',
+              type: 'Select',
+              value: tableBodyTextObj.fontFamily,
+              defaultOption: 'auto',
+              optionValues: [
+                { cname: 'auto', value: 'auto' },
+                { cname: 'cursive', value: 'cursive' },
+                { cname: 'monospace', value: 'monospace' },
+                { cname: 'serif', value: 'serif' }
+              ]
+            },
+            {
+              ename: 'tableBodyfontSize',
+              cname: '字号大小',
+              type: 'InputNumber',
+              value: tableBodyTextObj.fontSize,
+              maxNumber: 200,
+              minNumber: 12
+            },
+            {
+              ename: 'tableBodyfontColor',
+              cname: '字体颜色',
+              type: 'Color',
+              value: tableBodyTextObj.fontColor
+            },
+            {
+              ename: 'tableBodyfontWeight',
+              cname: '字体粗细',
+              type: 'Select',
+              value: tableBodyTextObj.fontWeight,
+              defaultOption: 'normal',
+              optionValues: [
+                { cname: 'normal', value: 'normal' },
+                { cname: 'bold', value: 'bold' },
+                { cname: 'bolder', value: 'bolder' },
+                { cname: 'lighter', value: 'lighter' },
+                { cname: '100', value: '100' },
+                { cname: '200', value: '200' },
+                { cname: '300', value: '300' },
+                { cname: '400', value: '400' },
+                { cname: '500', value: '500' },
+                { cname: '600', value: '600' },
+                { cname: '700', value: '700' },
+                { cname: '800', value: '800' },
+                { cname: '900', value: '900' },
+                { cname: 'inherit', value: 'inherit' }
+              ]
+            },
+            {
+              ename: 'tableBodyBorderWidth',
+              cname: '边框宽度',
+              type: 'InputNumber',
+              value: tableBodyBorderObj.width,
+              maxNumber: 30,
+              minNumber: 0
+            },
+            {
+              ename: 'tableBodyBorderColor',
+              cname: '边框颜色',
+              type: 'Color',
+              value: tableBodyBorderObj.color
+            },
+            {
+                  ename: 'tableBodybgColor',
+                  cname: '背景颜色',
+                  type: 'Color',
+                  value: tableBodyBaseObj.backgroundColor
+            }
+          ],
+          layerType: tableType
+        },
       ],
       border: [
         {
@@ -415,14 +609,14 @@ class Properties extends Component {
               ename: 'borderWidth',
               cname: '',
               type: 'InputNumber',
-              value: textFieldObj.borderWidth,
+              value: borderFieldObj.borderWidth,
               maxNumber: 30,
               minNumber: 0
             }
           ],
-          layerType: 'border'
+          layerType: borderType
         },
-          {
+        {
             ename: 'borderImage',
             name: '边框背景',
             includeSelect: false,
@@ -432,7 +626,7 @@ class Properties extends Component {
                 ename: 'borderImage',
                 cname: '',
                 type: 'Select',
-                value:  textFieldObj.borderImage,
+                value:  borderFieldObj.borderImage,
                 defaultOption: '边框一',
                 optionValues: [
                   { cname: '边框一', value: 'border/border1.png',src :'border/border1.png' },
@@ -449,8 +643,8 @@ class Properties extends Component {
                   { cname: '边框十二', value: 'border/border12.png',src :'border/border12.png' },
                 ]
               }],
-              layerType: 'border'
-            },
+              layerType: borderType
+         },
       ],
       iframe: [
         {
@@ -463,11 +657,11 @@ class Properties extends Component {
               ename: 'iframeUrl',
               cname: '页面地址',
               type: 'Input',
-              value: textFieldObj.iframeUrl,
+              value: iframeFieldObj.iframeUrl,
               placeholder: '页面地址'
             }
           ],
-          layerType: 'iframe'
+          layerType: iframeType
         }
       ],
       singleImage:[
@@ -481,11 +675,11 @@ class Properties extends Component {
                 ename: 'singleImageload',
                 cname: '预览图片',
                 type: 'ImageUploading',
-                value: bgFieldObj.uploadImage,
+                value: iframeFieldObj.uploadImage,
                 optionFlag: false
               }
             ],
-            layerType: 'other'
+            layerType: otherType
           }
       ]
     };
@@ -517,12 +711,12 @@ class Properties extends Component {
     var tempKeyVal = this.props.tabsKey;
     var tempLayerType = this.props.cptPropertyObj.type;
     let otherLayerId = ""
-    if(tempKeyVal==1||tempKeyVal==2){
+    if(tempKeyVal===1||tempKeyVal===2){
       let cptLayerAttr = this.props.cptLayerAttr;
       otherLayerId = cptLayerAttr.id;
     }
     let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
-    if (tempKeyVal == 2) {
+    if (tempKeyVal === 2) {
       let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
       if(tempLayerType=="chart"||tempLayerType == 'border'||tempLayerType == 'iframe'||otherLayerId=="moreRowText"){
           dataSource = JSON.parse(JSON.stringify(this.state.noContent));
@@ -532,14 +726,19 @@ class Properties extends Component {
           let showData = tempTextLayerObj.textCenter;
           dataSource[0].childer[0].value = showData;
           dataSource[0].childer[0].ename = "textCenter";
-          dataSource[0].childer[1].value = showData;
-          dataSource[0].childer[1].ename = "textCenter";
+        }
+      }else if(tempLayerType==="table"){
+        if (dataObj) {
+          let tempTextLayerObj = dataObj.layerOption;
+          let showData = tempTextLayerObj.tableData;
+          dataSource[0].childer[0].value = showData;
+          dataSource[0].childer[0].ename = "tableData";
         }
       }
       this.setState({
           dataSource: dataSource,
       });
-    } else if (tempKeyVal == 1) {
+    } else if (tempKeyVal === 1) {
       let tempLayer = [];
       let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
       let tempChartArr = this.state.chart;
@@ -556,9 +755,9 @@ class Properties extends Component {
       tempChart[4].childer[0].value = cptBorderObj.layerBorderWidth;
       tempChart[4].childer[1].value = cptBorderObj.layerBorderStyle;
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
-      if (tempLayerType == 'chart') {
+      if (tempLayerType === 'chart') {
         
-      } else if (tempLayerType == 'text') {
+      } else if (tempLayerType === 'text') {
         tempLayer = this.state.text;
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
@@ -571,18 +770,46 @@ class Properties extends Component {
           tempLayer[3].childer[0].value = tempTextLayerObj['hyperlinkCenter'];
           tempLayer[3].childer[1].value = tempTextLayerObj['isNewWindow'];
         }
-      } else if (tempLayerType == 'border') {
+      } else if (tempLayerType === 'border') {
         tempLayer = this.state.border;
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
           tempLayer[0].childer[0].value = tempTextLayerObj['borderWidth'];
           tempLayer[1].childer[0].value = tempTextLayerObj['borderImage'];
         }
-      } else if (tempLayerType == 'iframe') {
+      } else if (tempLayerType === 'iframe') {
         tempLayer = this.state.iframe;
         if (dataObj) {
           let tempTextLayerObj = dataObj.layerOption;
           tempLayer[0].childer[0].value = tempTextLayerObj['iframeUrl'];
+        }
+      } else if (tempLayerType === 'table') {
+        tempLayer = this.state.table;
+        if (dataObj) {
+          let tempTextLayerObj = dataObj.layerOption.tableConfig;
+          let tableFieldObj = tempTextLayerObj.table;
+          let tableFieldHeaderObj = tableFieldObj.header;
+          let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
+          let tableBodyTextObj = tableFieldObj.textStyle;
+          let tableBodyBaseObj = tableFieldObj.ZebraLine;
+          let tableBodyBorderObj = tableFieldObj.borderStyle;
+          tempLayer[0].childer[0].value = tableFieldHeaderObj.textAlign;
+          tempLayer[0].childer[1].value = tableHeaderTextObj.fontFamily;
+          tempLayer[0].childer[2].value = tableHeaderTextObj.fontSize;
+          tempLayer[0].childer[3].value = tableHeaderTextObj.fontColor;
+          tempLayer[0].childer[4].value = tableHeaderTextObj.fontWeight;
+          tempLayer[0].childer[5].value = tableFieldObj.borderStyle.width;
+          tempLayer[0].childer[6].value = tableFieldObj.borderStyle.color;
+          tempLayer[0].childer[7].value = tableFieldObj.backgroundColor;
+          tempLayer[1].childer[0].value = tableFieldHeaderObj.pageSize;
+          tempLayer[2].childer[0].value = tableBodyBaseObj.textAlign;
+          tempLayer[2].childer[1].value = tableBodyTextObj.fontFamily;
+          tempLayer[2].childer[2].value = tableBodyTextObj.fontSize;
+          tempLayer[2].childer[3].value = tableBodyTextObj.fontColor;
+          tempLayer[2].childer[4].value = tableBodyTextObj.fontWeight;
+          tempLayer[2].childer[5].value = tableBodyBorderObj.width;
+          tempLayer[2].childer[6].value = tableBodyBorderObj.color;
+          tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
         }
       }
       this.setState(
@@ -592,7 +819,7 @@ class Properties extends Component {
         () => {
         }
       );
-    } else if (tempKeyVal == 0) {
+    } else if (tempKeyVal === 0) {
       let bgFieldObj = store.getState().showLayerDatas.bgFieldObj;
       let tempBg = this.state.bg;
       tempBg[0].childer[0].value = bgFieldObj.bjWidth;
@@ -615,13 +842,13 @@ class Properties extends Component {
    * @return:  调用layout里面的编辑当前图表的方法
    */
   updateThisCharsField(layerType, fieldValue, fieldEname) {
-    if (layerType == 'text') {
+    if (layerType === 'text') {
       let templayer = this.state.text;
-      if (fieldEname == 'textCenter') {
+      if (fieldEname === 'textCenter') {
         templayer[0].childer[0].value = fieldValue;
-      } else if (fieldEname == 'textSize') {
+      } else if (fieldEname === 'textSize') {
         templayer[1].childer[0].value = fieldValue;
-      } else if (fieldEname == 'textColor') {
+      } else if (fieldEname === 'textColor') {
         templayer[2].childer[0].value = fieldValue;
       }
       this.setState({

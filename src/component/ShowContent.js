@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 09:56:36
- * @LastEditTime: 2020-03-20 18:36:17
+ * @LastEditTime: 2020-03-24 16:39:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ShowContent.js
@@ -25,7 +25,6 @@ class Child1 extends Component {
         let layerSinId = keyData.id;    
         let timeKey = this.props.id;
         let existTypes = ["text", "0", "1"]; //border，iframe,table
-        {
             return (
                 <div
                     style={{
@@ -80,7 +79,6 @@ class Child1 extends Component {
                         ) : null}
                 </div>
             )
-        }
     }
 }
 

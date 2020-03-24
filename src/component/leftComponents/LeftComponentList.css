@@ -115,3 +115,7 @@
   color: #bcc9d4;
   font-size: 15px;
 }
+
+.custom-left-list span {
+  font-size: 14px;
+}

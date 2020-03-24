@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-31 16:33:25
- * @LastEditTime: 2020-03-23 10:53:04
+ * @LastEditTime: 2020-03-24 09:17:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout-master\src\component\Config.js
@@ -18,13 +18,13 @@ class Config extends Component {
       tabsKey: 1,
       tabKeys: [
         {
-          serialNumber: '1',
+          serialNumber: 1,
           tabCname: '配置',
           IconEname: 'apple',
           defaultSelect: true
         },
         {
-          serialNumber: '2',
+          serialNumber: 2,
           tabCname: '数据',
           IconEname: 'android',
           defaultSelect: false
@@ -55,8 +55,7 @@ class Config extends Component {
   }
 
   render() {
-    if (this.props.cptIndex == -1) {
-      this.state.tabsKey = 1;
+    if (this.props.cptIndex === -1) {
       return (
         <div className='control-panel'>
           <div className='control-panel-header control-panel-header-bg'>
@@ -87,7 +86,7 @@ class Config extends Component {
           <div className='control-panel-container'>
             <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs.bind(this)}>
               {this.state.tabKeys.map(item => {
-                if (item.serialNumber == this.state.tabsKey) {
+                if (item.serialNumber === this.state.tabsKey) {
                   return (
                     <TabPane
                       tab={

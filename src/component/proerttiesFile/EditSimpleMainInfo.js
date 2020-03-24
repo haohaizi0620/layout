@@ -235,7 +235,7 @@ class EditSimpleMainInfo extends Component {
                 editJsonId = 'edit-json-react-ajrm-noEdit'
               }
               return (
-                <div className='pro-item-simple-block pro-item-simple'  key={i}  >
+                <div className='pro-item-simple-block pro-item-simple'  key={i} style={{textAlign: 'left'}}   >
                   <span>{item.cname}</span>
                       <JSONInput
                         id          = {editJsonId}
@@ -243,11 +243,10 @@ class EditSimpleMainInfo extends Component {
                         locale      = { locale }
                         height      = '300px'
                         width       = '300px'
-                        onChange={this.editJsonChange}
-                        onChange={event => {
-                          this.editJsonChange(event, item.ename);
-                        }}
+                        onChange={event => {this.editJsonChange(event, item.ename);}}
                         viewOnly = {!isEdit}
+                        confirmGood = {false}
+                        onKeyPressUpdate = {false}
                       />
                 </div>
               )
