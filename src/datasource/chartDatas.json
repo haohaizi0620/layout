@@ -172,7 +172,7 @@
 	"id": "singleImage",
 	"text": "单独图片",
 	"chartId": -1,
-	"layerType": "other"
+	"layerType": "image"
 }, {
 	"id": "baseTable",
 	"text": "表格数据",

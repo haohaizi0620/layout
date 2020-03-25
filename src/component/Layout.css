@@ -18,6 +18,7 @@
 }
 .custom-content-bottom{
   height: 4%;
+  border-bottom: 2px solid #434b55;
 }
 .custom-content-canvs {
   height: 100%;
@@ -65,4 +66,10 @@
 }
 .bg6{
   background-image: url('../img/bg/bg6.png');
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

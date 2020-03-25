@@ -1,0 +1,85 @@
+.control-panel {
+  width: 325px;
+  height: 100%;
+  z-index: 90;
+  /* background: #1c1f25; */
+  border-left: 1px solid black;
+  position: relative;
+  color: white;
+  transition: width 0.25s ease-in-out;
+
+
+  .control-panel-header {
+    position: relative;
+    /* background-color: #ddd; */
+    height: 30px;
+    line-height: 34px;
+    
+    .control-panel-header-bg-title {
+      font-size: 14px;
+    }
+
+    .control-panel-header-title{
+      .version-tag{
+        color: #647279;
+        font-size: 12px;
+        height: 20px;
+      }
+      .title-name{
+        font-size: 14px;
+        height: 20px;
+      }
+    }
+  }
+  .control-panel-header-bg {
+    text-align: center;
+    color: #bcc9d4;
+    background-color: #2e343c;
+    line-height: 2.2;
+  }
+
+  
+  
+  .control-panel-container {
+    padding: 5px;
+
+    .ant-tabs-content{
+      /*  overflow-y: auto;
+       max-height: 740px; */
+     }
+     .ant-tabs-tabpane{
+        overflow-y: auto;
+        max-height: 740px; 
+      }
+      span {
+        font-size: 14px;
+      }
+      .ant-tabs {
+        color: white;
+      }
+
+      .ant-tabs-nav-wrap {
+        text-align: center;
+      }
+      ::-webkit-scrollbar{
+        display: none;
+      }
+      .ant-tabs-nav-scroll{
+        width:100%;
+      }
+      .ant-tabs-nav{
+        width:100%;
+      }
+      .ant-tabs-ink-bar{
+        width:50%;
+      }
+      .ant-tabs-nav .ant-tabs-tab{
+        width:50%;
+        margin: 0px;
+        padding: 0px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+      }
+  }
+}

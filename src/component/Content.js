@@ -6,13 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IframeLayer from "./otherLayer/IframeLayer";
 import BaseTable from "./otherLayer/BaseTable.jsx";
 import TextLayer from "./otherLayer/TextLayer";
+import SingleImage from "./otherLayer/imageLayer/SingleImage";
 import {
   faEdit,
+  faTimes,
   faUserEdit,
   faUserTimes,
-  faRedo
+  faRedo,
+  faTrash
 } from "@fortawesome/fontawesome-free-solid";
-fontawesome.library.add(faEdit, faUserEdit, faUserTimes, faRedo);
+fontawesome.library.add(faEdit, faTimes, faUserEdit, faUserTimes, faRedo,faTrash);
 
 class Child1 extends Component {
   constructor(props) {
@@ -90,6 +93,7 @@ class Child1 extends Component {
             >
               {tempLayerType === "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
               {tempLayerType === "table" ? ( <BaseTable data={chartData.tableData} config={chartData.tableConfig} columns={chartData.tableColumns}     /> ) : null}
+              {tempLayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage chartData={chartData} /> ) : null}
             </div>
           ) : null}
         </div>
@@ -227,9 +231,9 @@ class Content extends Component {
               }}
             ></div>
           ) : null}
-          {thType == "0" || thType == "1" ? (
+          {thType === "0" || thType === "1" ? (
             <FontAwesomeIcon
-              icon={faUserEdit}
+              icon={faEdit}
               className="remove"
               title="编辑"
               style={{
@@ -240,10 +244,10 @@ class Content extends Component {
               }}
               onClick={this.onEditItem.bind(this)}
             />
-          ) : null}
+           ) : null} 
           {
             <FontAwesomeIcon
-              icon={faUserTimes}
+              icon={faTrash}
               className="remove"
               title="移除"
               style={{

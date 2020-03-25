@@ -441,7 +441,7 @@ class Layout extends Component {
         cptChartIdList: [...this.state.cptChartIdList,addChartObj ]
       },
       () => {
-          chartOption(this.state.cptType, this.state.cptKey, this, 'noUpdate', otherObj);
+          chartOption(id, key, this, 'noUpdate', otherObj);
       }
     );
   }
@@ -713,8 +713,11 @@ class Layout extends Component {
     const fieldValue = updateFieldObj.fieldValue;
     const fieldEname = updateFieldObj.fieldEname;
     const layerType = updateFieldObj.layerType;
-    let cptpList = this.state.cptPropertyList;
-    let cptChartIdList = this.state.cptChartIdList;
+    let state = this.state;
+    let cptpList = state.cptPropertyList;
+    let cptChartIdList = state.cptChartIdList;
+    let cptKeyObj = state.cptKeyList[cptIndex];
+    let otherLayerId = cptKeyObj.id;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
     if (tabsKey === 1||tabsKey === 2) {
       if (
@@ -729,7 +732,7 @@ class Layout extends Component {
         fieldEname === 'layerBorderColor'
       ) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
-        var cptpObj = this.state.cptPropertyList[cptIndex];
+        var cptpObj = state.cptPropertyList[cptIndex];
         if (cptIndex !== -1) {
           cptpObj.cptBorderObj[fieldEname] = fieldValue;
           cptpList[cptIndex] = cptpObj;
@@ -801,6 +804,16 @@ class Layout extends Component {
               }
             cptOptionObj.layerOption  = layerData;
             cptChartIdList[cptIndex].layerData = layerData;
+          }else if(layerType==="image"){
+            if(otherLayerId==="singleImage"){
+                if(fieldEname === 'url'||fieldEname === 'ifBlank'){
+                  cptOptionObj.layerOption.urlConfig[fieldEname] = fieldValue;
+                  cptChartIdList[cptIndex].layerData.urlConfig[fieldEname] = fieldValue;
+                }else{
+                  cptOptionObj.layerOption[fieldEname] = fieldValue;
+                  cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
+                }
+            }
           }else{
             cptOptionObj.layerOption[fieldEname] = fieldValue;
             cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;

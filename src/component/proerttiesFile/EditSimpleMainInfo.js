@@ -43,7 +43,7 @@ class EditSimpleMainInfo extends Component {
     if (this.props.updateArrFlag) {
       showData = [showData];
     }
-    if(showData.length==1){
+    if(showData.length===1){
        oneClassName = "pro-item-single";
     }
     return (

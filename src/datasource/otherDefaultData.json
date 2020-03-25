@@ -88,5 +88,14 @@
             "pagination": {},
             "columns": {}
         }
-	}
+    },
+    "singleImage":{
+        "backgroundImage": "https://img.alicdn.com/tfs/TB1J3GkgeH2gK0jSZJnXXaT1FXa-600-360.png",
+        "repeat": "no-repeat",
+        "radius": 0,
+        "urlConfig": {
+            "url": "",
+            "ifBlank": true
+        }
+    }
 }

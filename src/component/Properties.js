@@ -27,9 +27,12 @@ class Properties extends Component {
     const defaultType = "default";
     const otherType = "other";
     const chartType = "chart";
+    const imageType = "image";
     let textFieldObj = otherDefaultData.text;
     let borderFieldObj = otherDefaultData.border;
     let iframeFieldObj = otherDefaultData.iframe;
+    let singleImageFieldObj = otherDefaultData.singleImage;
+    let singleImageurlConfig = singleImageFieldObj.urlConfig;
     let tableFieldObj = otherDefaultData.table.tableConfig.table;
     let tableFieldHeaderObj = tableFieldObj.header;
     let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
@@ -666,21 +669,95 @@ class Properties extends Component {
       ],
       singleImage:[
         {
-          ename: 'singleImage',
+          ename: 'backgroundImage',
+          name: '背景图片路径',
+          includeSelect: false,
+          type: '',
+          childer: [
+            {
+              ename: 'singleImageIntegerUrl',
+              cname: '在线图片',
+              type: 'Input',
+              value: singleImageFieldObj.backgroundImage,
+              placeholder: '图片路径'
+            },
+          ],
+          layerType:imageType
+        },
+        {
+          ename: 'backgroundImage',
           name: '背景图片',
           includeSelect: false,
           type: '',
           childer: [
-              {
-                ename: 'singleImageload',
-                cname: '预览图片',
-                type: 'ImageUploading',
-                value: iframeFieldObj.uploadImage,
-                optionFlag: false
-              }
-            ],
-            layerType: otherType
-          }
+            {
+              ename: 'uploadImage',
+              cname: '预览图片',
+              type: 'ImageUploading',
+              value: singleImageFieldObj.backgroundImage,
+              optionFlag: false
+            }
+          ],
+          layerType:imageType
+        },
+        {
+          ename: 'singleImageRepeat',
+          name: '图片重复',
+          includeSelect: false,
+          type: '',
+          childer: [
+            {
+              ename: 'repeat',
+              cname: '',
+              type: 'Select',
+              value: singleImageFieldObj.repeat,
+              defaultOption: '无',
+              optionValues: [
+                { cname: '不重复,拉伸满', value: 'no-repeat'},
+                { cname: '水平和垂直重复', value: 'repeat'},
+                { cname: '水平重复', value: 'repeat-x'},
+                { cname: '垂直重复', value: 'repeat-y'}
+              ]
+            }
+          ]
+        },
+        {
+          ename: 'singleImageRadius',
+          name: '图片圆角',
+          includeSelect: false,
+          type: '',
+          childer: [
+            {
+              ename: 'radius',
+              cname: '距左',
+              type: 'InputNumber',
+              value: singleImageFieldObj.radius,
+              maxNumber: 100,
+              minNumber: 0
+            }
+          ]
+        },
+        {
+          ename: 'singleImageHyperlink',
+          name: '超链接配置',
+          includeSelect: true,
+          type: 'Collapse',
+          childer: [
+            {
+              ename: 'url',
+              cname: '超链接',
+              type: 'Input',
+              value: singleImageurlConfig.url
+            },
+            {
+              ename: 'ifBlank',
+              cname: '是否打开新窗口',
+              type: 'Switch',
+              value: singleImageurlConfig.ifBlank
+            }
+          ],
+          layerType: textType
+        }
       ]
     };
    
@@ -710,7 +787,7 @@ class Properties extends Component {
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
     var tempLayerType = this.props.cptPropertyObj.type;
-    let otherLayerId = ""
+    let otherLayerId = "";
     if(tempKeyVal===1||tempKeyVal===2){
       let cptLayerAttr = this.props.cptLayerAttr;
       otherLayerId = cptLayerAttr.id;
@@ -810,6 +887,19 @@ class Properties extends Component {
           tempLayer[2].childer[5].value = tableBodyBorderObj.width;
           tempLayer[2].childer[6].value = tableBodyBorderObj.color;
           tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
+        }
+      }else if(tempLayerType === 'image'){
+        if(otherLayerId==="singleImage"){
+          tempLayer = this.state.singleImage;
+          if (dataObj) {
+            let tempImageLayerObj = dataObj.layerOption;
+            tempLayer[0].childer[0].value = tempImageLayerObj['backgroundImage'];
+            tempLayer[1].childer[0].value = tempImageLayerObj['backgroundImage'];
+            tempLayer[2].childer[0].value = tempImageLayerObj['repeat'];
+            tempLayer[3].childer[0].value = tempImageLayerObj['radius'];
+            tempLayer[4].childer[0].value = tempImageLayerObj.urlConfig['url'];
+            tempLayer[4].childer[1].value = tempImageLayerObj.urlConfig['ifBlank'];
+          }
         }
       }
       this.setState(

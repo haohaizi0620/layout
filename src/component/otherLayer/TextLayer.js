@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-20 09:37:00
- * @LastEditTime: 2020-03-20 10:09:58
+ * @LastEditTime: 2020-03-25 17:57:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\TextLayer.js
@@ -27,7 +27,7 @@ class TextLayer extends Component {
        let chartData = this.props.chartData;
        let layerSinId = this.props.layerSinId;
        let timeKey = this.props.timeKey
-       if(layerSinId=="multiLineText"){
+       if(layerSinId==="multiLineText"){
          return (
              <MultiLineText
                 chartData={chartData}
@@ -44,10 +44,10 @@ class TextLayer extends Component {
                         textAlign:chartData ? (chartData.textAlign ? chartData.textAlign : '') : ''
                     }}>
                     {
-                        layerSinId=="singleRowText"?<SingleRowText  chartData = {chartData} />:null
+                        layerSinId==="singleRowText"?<SingleRowText  chartData = {chartData} />:null
                     }
                     {
-                        layerSinId=="moreRowText"?<CurrentTime  chartData = {chartData} />:null
+                        layerSinId==="moreRowText"?<CurrentTime  chartData = {chartData} />:null
                     }
             </div>  
          )

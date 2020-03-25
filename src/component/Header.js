@@ -129,7 +129,7 @@ class Header extends Component {
         border: [{ id: "singleBorder", text: "背景边框", layerType: "border" }],
         iframe: [{ id: "iframeCenter", text: "嵌入页面", layerType: "iframe" }],
         other: [
-          /*  { id: 'singleImage', text: '单独图片', layerType: 'other' },*/
+          { id: 'singleImage', text: '单独图片', layerType: 'image' },
           { id: "baseTable", text: "表格数据", layerType: "table" },
           { id: "iframeCenter", text: "嵌入页面", layerType: "iframe" },
           { id: "singleBorder", text: "背景边框", layerType: "border" }
@@ -262,9 +262,9 @@ class Header extends Component {
       defaultShowVal = otherDefaultData.border;
     } else if (layerType === "iframe") {
       defaultShowVal = otherDefaultData.iframe;
-    } else if (layerType === "other") {
+    } else if (layerType === "image") {
       if (layerId === "singleImage") {
-        defaultShowVal = otherDefaultData.iframe;
+        defaultShowVal = otherDefaultData.singleImage;
       }
     } else if (layerType === "table") {
       defaultShowVal = otherDefaultData.table;

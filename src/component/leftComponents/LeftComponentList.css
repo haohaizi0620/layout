@@ -99,6 +99,9 @@
   float: right;
 }
 .move-button .ant-btn-sm {
+  width: 22.3%;
+  padding: 0px 2px;
+  left: 1%;
   color: #b6c2cd;
   background-color: #303640 !important;
   border-color: #303640 !important;
