@@ -43,7 +43,14 @@ class Layout extends Component {
       cptPropertyList: [], //所有组件基本属性的数组
       cptChartIdList: [], //保存所有前图层对应的接口的id值和cttype
       cptPropertyObj: store.getState().showLayerDatas.showDatas, //当前点击的图层的基本属性
-      globalBg: store.getState().showLayerDatas.bgFieldObj, //中间dom的属性
+      globalBg: {
+          bgColor: 'rgba(15, 42, 67,1)',
+          bjWidth: 1470,
+          bjHeight: 937,
+          bgImageName:"none",
+          bgImageIntegerUrl:"",
+          mainKey:-1
+      }, //中间dom的属性
       nameData:{},//保存当前页面的基本信息
       shareId:1,//当前页面需要的shareid
       kshId:1,//当前的kshId
@@ -184,10 +191,8 @@ class Layout extends Component {
                         bgColor: 'rgba(15, 42, 67,1)',
                         bjWidth: 1470,
                         bjHeight: 937,
-                        bjImage:'none',
-                        bgImageName:"无",
+                        bgImageName:"none",
                         bgImageIntegerUrl:"",
-                        uploadImage:"",
                     }),
                     sortNum:0
                   }
@@ -359,7 +364,7 @@ class Layout extends Component {
    * @param {type}
    * @return:
    */
-  onClickAdd(layerObj, otherObj) {
+  onClickAdd = ( layerObj , otherObj) => {
     const id = layerObj.id;
     const type = layerObj.layerType;
     const showTitle = layerObj.text;
@@ -500,7 +505,7 @@ class Layout extends Component {
    * @param delIndex {int} 
    * @return: 
    */
-  deleteDataBaseOneLayer(delIndex) {
+  deleteDataBaseOneLayer = delIndex => {
     let _this = this;
     let cptIndex = delIndex;
     let chartObj = this.state.cptChartIdList[cptIndex];
@@ -608,18 +613,13 @@ class Layout extends Component {
           type: 'bg',
           cptType: 'bg'
         };
-    let tempIndex = -1;
-    if (cptpList.length > 0) {
-      tempIndex = 0;
-    }
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
     //将option在store的集合里面删掉
     store.dispatch(delCptOptionsList(layerIndex));
-    this.refs.rightConfig.switchTabs('1');
     this.setState(
       {
-        cptIndex: tempIndex,
+        cptIndex: -1,
         cptKey: '',
         cptType: cptpObj.cptType ? cptpObj.cptType : '',
         cptKeyList: cptkList,
@@ -707,19 +707,29 @@ class Layout extends Component {
    * @param {Object} updateFieldObj 保存要修改的面板的index,属性英文名和值 和对应的类型
    * @return:
    */
-  changeProperties(updateFieldObj) {
-    const tabsKey = updateFieldObj.tabsKey;
-    var cptIndex = updateFieldObj.thisIndex;
+  changeProperties = updateFieldObj => {
     const fieldValue = updateFieldObj.fieldValue;
     const fieldEname = updateFieldObj.fieldEname;
-    const layerType = updateFieldObj.layerType;
     let state = this.state;
+    const cptIndex = state.cptIndex;
+    const layerType = state.cptPropertyObj.type;
     let cptpList = state.cptPropertyList;
     let cptChartIdList = state.cptChartIdList;
-    let cptKeyObj = state.cptKeyList[cptIndex];
-    let otherLayerId = cptKeyObj.id;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
-    if (tabsKey === 1||tabsKey === 2) {
+    if(cptIndex === -1){
+      store.dispatch(updateShowLayerFieldVal(updateFieldObj));
+        let globalBg =  state.globalBg;
+        globalBg[fieldEname] = fieldValue;
+        this.setState(
+          {
+            globalBg: globalBg
+          },() => {
+            this.debounce(this.editBgConfig);
+          }
+        );
+    }else{
+      let cptKeyObj = state.cptKeyList[cptIndex];
+      let otherLayerId = cptKeyObj.id;
       if (
         fieldEname === 'width' ||
         fieldEname === 'height' ||
@@ -752,21 +762,6 @@ class Layout extends Component {
       } else {
           if(layerType==="table"){
             let layerData = cptChartIdList[cptIndex].layerData;
-          /*   if(fieldEname === "tablePageSize"){
-              layerData.tableConfig.table.pageSize = fieldValue;
-            }else if(fieldEname === "tableHeaderFontFamily"||fieldEname === "tableHeaderfontSize"||fieldEname === "tableHeaderfontColor"||fieldEname === "tableHeaderfontWeight"){
-              layerData.tableConfig.table.header.textStyle[fieldEname] = fieldValue
-            }else if(fieldEname === "tableHeaderBorderWidth"||fieldEname === "tableHeaderBorderWidth"){
-              layerData.tableConfig.table.header.borderStyle[fieldEname] = fieldValue
-            }else if(fieldEname === "tableHeaderbgColor"||fieldEname === "tableHeaderTextAlign"){
-              layerData.tableConfig.table.header[fieldEname] = fieldValue
-            }else if(fieldEname === "tableBodyFontFamily"||fieldEname === "tableBodyfontSize"||fieldEname === "tableBodyfontColor"||fieldEname === "tableBodyfontWeight"){
-              layerData.tableConfig.table.textStyle[fieldEname] = fieldValue
-            }else if(fieldEname === "tableBodyBorderWidth"||fieldEname === "tableBodyBorderWidth"){
-              layerData.tableConfig.table.borderStyle[fieldEname] = fieldValue
-            }else if(fieldEname === "tableBodybgColor"||fieldEname === "tableBodyTextAlign"){
-              layerData.tableConfig.table[fieldEname] = fieldValue
-            } */
             if(fieldEname === "tablePageSize"){
               layerData.tableConfig.table.pageSize = fieldValue;
             } else if(fieldEname === "tableHeaderFontFamily"){
@@ -834,16 +829,6 @@ class Layout extends Component {
             }
           })
       }
-    } else if (tabsKey === 0) {
-        store.dispatch(updateShowLayerFieldVal(updateFieldObj));
-        let bgObj = store.getState().showLayerDatas.bgFieldObj;
-        this.setState(
-          {
-            globalBg: bgObj
-          },() => {
-            this.debounce(this.editBgConfig);
-          }
-        );
     }
   }
 
@@ -869,7 +854,7 @@ class Layout extends Component {
    * @return: 
    */
   editBgConfig(){
-    let bgObj = store.getState().showLayerDatas.bgFieldObj;
+    let bgObj = this.state.globalBg;
     let editObj = {
       id: bgObj.mainKey,
       tabid: 0,
@@ -1120,7 +1105,7 @@ class Layout extends Component {
      * @param {Strign} timeId 当前点击的图层的d
      * @return:
      */
-    singleSwitchLayer(event, layerIndex) {
+    singleSwitchLayer = (event, layerIndex) => {
       if(layerIndex===-1){
         this.setState({ 
           cptIndex: layerIndex,
@@ -1292,7 +1277,7 @@ class Layout extends Component {
    * @param {type} 
    * @return: 
    */
-  savePagePrev(){
+  savePagePrev = () =>{
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
@@ -1304,75 +1289,77 @@ class Layout extends Component {
    * @param {type} 
    * @return: 
    */
-  saveShowPageData() {
+  saveShowPageData = () => {
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
     window.open(`http://localhost:8080/share/build/index.html?sid=${sidVal}`, '_blank');
   }
 
-
   render() {
-    let cptIndex = this.state.cptIndex;
+    let {cptIndex,nameData,cptKeyList,cptChartIdList,scale,cptPropertyObj,cptPropertyList,globalBg} = this.state;
+    let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = globalBg;
     return (
       <Fragment>
         <Header
           ref='Header'
-          onClickAdd={this.onClickAdd.bind(this)}
-          savePagePrev={this.savePagePrev.bind(this)}
-          nameData={this.state.nameData}
-          comLength={this.state.cptKeyList.length}
-          cptChartIdList={this.state.cptChartIdList}
+          onClickAdd={this.onClickAdd}
+          savePagePrev={this.savePagePrev}
+          nameData={nameData}
+          comLength={cptKeyList.length}
+          cptChartIdList={cptChartIdList}
         />
         <div className='custom-content'>
            <LeftComponentList 
           ref="leftComponentList"
-          nameData={this.state.nameData}
-          ComponentList={this.state.cptKeyList}
-          cptChartIdList={this.state.cptChartIdList}
-          comLength={this.state.cptKeyList.length}
+          nameData={nameData}
+          ComponentList={cptKeyList}
+          cptChartIdList={cptChartIdList}
+          comLength={cptKeyList.length}
           cptIndex={cptIndex}
-          onClickAdd={this.onClickAdd.bind(this)}
-          singleSwitchLayer={this.singleSwitchLayer.bind(this)}
-          selectSingleLayer={this.selectSingleLayer.bind(this)}/>
+          onClickAdd={this.onClickAdd}
+          singleSwitchLayer={this.singleSwitchLayer}
+          selectSingleLayer={this.selectSingleLayer}/>
           <div className='custom-content-p'>
             <div  className={'custom-content-top'}>
                 <div
-                    className={'custom-content-canvs '+this.state.globalBg.bgImageName}
+                    className={'custom-content-canvs '+bgImageName}
                     style={{
-                      height: this.state.globalBg.bjHeight,
-                      width: this.state.globalBg.bjWidth,
-                      backgroundColor: this.state.globalBg.bgColor,
-                      transform: `scale(${this.state.scale}) translate(0px, 0px)`,
+                      height: bjHeight,
+                      width: bjWidth,
+                      backgroundColor: bgColor,
+                      transform: `scale(${scale}) translate(0px, 0px)`,
+                      backgroundImage:`url(${bgImageIntegerUrl})`
                     }}
                     onClick={event => {
                       this.singleSwitchLayer(event, -1);
                     }}>
                     <DeleteItemModal
                       ref="delModal"
-                      delItem={this.deleteDataBaseOneLayer.bind(this)}
+                      delItem={this.deleteDataBaseOneLayer}
                     />
                     <ShareItemModal
                     ref="shareModel"
-                    saveShowPageData={this.saveShowPageData.bind(this)}
+                    saveShowPageData={this.saveShowPageData}
                     />
-                    {this.state.cptKeyList.map((item, i) => {
+                    {cptKeyList.map((item, i) => {
+                      let timeKey = item.key;
                       return (
                         <div
                           index={i}
-                          key={item.key}
+                          key={timeKey}
                           onClick={event => {
                             this.singleSwitchLayer(event, i);
                           }}>
                           <Content
-                            timeKey={item.key}
+                            timeKey={timeKey}
                             cptIndex={cptIndex}
                             delIndex={i}
-                            obj={this.state.cptPropertyList[i]}
+                            obj={cptPropertyList[i]}
                             keyData={item}
-                            chartData={this.state.cptChartIdList[i]}
+                            chartData={cptChartIdList[i]}
                             handleResizeMove={this.handleResizeMove}
-                            handleDown={this.handleDown.bind(this)}
+                            handleDown={this.handleDown}
                             del={this.ondelItemPrev.bind(this, i)}
                             editItem={this.editItemPrev.bind(this,i)}
                             updateLayerPosition={this.updateLayerPosition.bind(this)}
@@ -1385,26 +1372,27 @@ class Layout extends Component {
             <div 
               className={'custom-content-bottom'} >
                   <ContentBottom
-                      value = {this.state.scale}
-                      setContentScale = {this.setContentScale.bind(this)}
+                      value = {scale}
+                      setContentScale = {this.setContentScale}
                   />
             </div>
           </div>
           
             <Config
               ref='rightConfig'
-              changeProperties={this.changeProperties.bind(this)}
-              cptPropertyObj={this.state.cptPropertyObj}
+              changeProperties={this.changeProperties}
+              cptPropertyObj={cptPropertyObj}
               cptIndex={cptIndex}
-              cptChartData={this.state.cptChartIdList[cptIndex]}
-              cptLayerAttr={this.state.cptKeyList[cptIndex]}
+              cptChartData={cptChartIdList[cptIndex]}
+              cptLayerAttr={cptKeyList[cptIndex]}
+              globalBg={globalBg}
             />
             {/* <PageSetting
               ref='rightConfig'
-              changeProperties={this.changeProperties.bind(this)}
-              cptPropertyObj={this.state.cptPropertyObj}
+              changeProperties={this.changeProperties}
+              cptPropertyObj={cptPropertyObj}
               cptIndex={cptIndex}
-              cptLayerAttr={this.state.cptKeyList[cptIndex]}></PageSetting> */}
+              cptLayerAttr={cptKeyList[cptIndex]}></PageSetting> */}
         </div>
       </Fragment>
     );

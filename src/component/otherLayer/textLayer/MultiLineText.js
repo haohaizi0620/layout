@@ -14,7 +14,7 @@ class MultiLineText extends Component {
          }
     }
     render() { 
-       let chartData = this.props.chartData;
+       let layerData = this.props.layerData;
        let timeKey = this.props.timeKey;
         return ( 
             <div
@@ -22,17 +22,17 @@ class MultiLineText extends Component {
             style={{
                 width: '100%',
                 height: '100%',
-                fontSize: chartData&&chartData.fontSize ? chartData.fontSize : '30px',
-                fontFamily: chartData&&chartData.fontFamily ? chartData.fontFamily : 'auto',
-                color: chartData&&chartData.fontColor ? chartData.fontColor : 'rgba(255,255,255,1)',
-                fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
+                fontSize: layerData&&layerData.fontSize ? layerData.fontSize : '30px',
+                fontFamily: layerData&&layerData.fontFamily ? layerData.fontFamily : 'auto',
+                color: layerData&&layerData.fontColor ? layerData.fontColor : 'rgba(255,255,255,1)',
+                fontWeight: layerData&&layerData.fontWeight ? layerData.fontWeight : 'normal',
                 textIndent: '32px',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'normal',
                 overflow: 'hidden',
             }}
             >
-            {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}</div>
+            {layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'}</div>
          );
     }
    

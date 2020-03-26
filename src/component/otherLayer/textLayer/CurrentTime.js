@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-03-13 16:27:45
+ * @LastEditTime: 2020-03-26 16:30:55
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \layout\src\component\otherLayer\textLayer\CurrentTime.js
+ */
 import React, { Component } from 'react';
 class CurrentTime extends Component {
     constructor(props) {
@@ -37,15 +45,15 @@ class CurrentTime extends Component {
         }, 1000);
     };
     render() { 
-       let chartData = this.props.chartData;
+       let layerData = this.props.layerData;
         return ( 
             <span className={'textLayer'}
             style={{
-              fontSize: chartData&&chartData.fontSize ? chartData.fontSize : '30px',
-              fontFamily: chartData&&chartData.fontFamily ? chartData.fontFamily : 'auto',
-              color: chartData&&chartData.fontColor ? chartData.fontColor : 'rgba(255,255,255,1)',
-              fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
-              writingMode:chartData&& chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
+              fontSize: layerData&&layerData.fontSize ? layerData.fontSize : '30px',
+              fontFamily: layerData&&layerData.fontFamily ? layerData.fontFamily : 'auto',
+              color: layerData&&layerData.fontColor ? layerData.fontColor : 'rgba(255,255,255,1)',
+              fontWeight: layerData&&layerData.fontWeight ? layerData.fontWeight : 'normal',
+              writingMode:layerData&& layerData.writingMode ? layerData.writingMode : 'horizontal-tb'
             }}>{this.state.timeVal}</span>
          );
     }

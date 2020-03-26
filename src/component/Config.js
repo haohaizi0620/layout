@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2019-12-31 16:33:25
- * @LastEditTime: 2020-03-25 16:59:19
+ * @LastEditTime: 2020-03-26 15:37:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout-master\src\component\Config.js
  */
 import "./Config.scss";
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Properties from "./Properties";
-import { Tabs, Icon } from "antd";
+import { Tabs } from "antd";
 const { TabPane } = Tabs;
 class Config extends Component {
   constructor(props) {
@@ -32,8 +32,8 @@ class Config extends Component {
       ]
     };
   }
-
-  changeProperties(updateFieldObj) {
+  
+  changeProperties = updateFieldObj => {
     this.props.changeProperties(updateFieldObj);
   }
 
@@ -42,7 +42,7 @@ class Config extends Component {
    * @param {Integer} key 表示当前是那个设置
    * @return:
    */
-  switchTabs(key) {
+  switchTabs = key => {
     this.setState(
       {
         tabsKey: parseInt(key)
@@ -54,7 +54,9 @@ class Config extends Component {
   }
 
   render() {
-    if (this.props.cptIndex === -1) {
+    let {cptIndex,cptLayerAttr} = this.props;
+    let {tabsKey,tabKeys} = this.state;
+    if (cptIndex === -1) {
       return (
         <div className="control-panel">
           <div className="control-panel-header control-panel-header-bg">
@@ -64,31 +66,29 @@ class Config extends Component {
             <Properties
               ref="editMainCenter"
               tabsKey={0}
-              cptChartData={this.props.cptChartData}
-              param={this.changeProperties.bind(this)}
-              cptPropertyObj={this.props.cptPropertyObj}
-              cptIndex={this.props.cptIndex}
+              param={this.changeProperties}
+              {...this.props}
             ></Properties>
           </div>
         </div>
       );
     } else {
+      let {title:layerTitle} = cptLayerAttr;
       return (
         <div className="control-panel">
           <div className="control-panel-header control-panel-header-bg">
             <span className="control-panel-header-bg-title">组件设置</span>
           </div>
           <div className="control-panel-header" style={{ height: "30px" }}>
-            {/* 控制面板，当前操作组件下标：{this.props.cptIndex} <br />*/}
             <div class="control-panel-header-title">
               <div class="title-name">
-                <span class="ellipsis" title={this.props.cptLayerAttr.title}>
-                    {this.props.cptLayerAttr.title}
+                <span class="ellipsis" title={layerTitle}>
+                    {layerTitle}
                 </span>
               </div>
               <div class="version-tag">
                 <span>
-                  索引:{this.props.cptIndex} | {this.props.cptLayerAttr.title}
+                  索引:{cptIndex} | {layerTitle}
                 </span>
               </div>
             </div>
@@ -97,15 +97,14 @@ class Config extends Component {
             <Tabs
               defaultActiveKey="1"
               size="large"
-              onChange={this.switchTabs.bind(this)}
+              onChange={this.switchTabs}
             >
-              {this.state.tabKeys.map(item => {
-                if (item.serialNumber === this.state.tabsKey) {
+              {tabKeys.map(item => {
+                if (item.serialNumber === tabsKey) {
                   return (
                     <TabPane
                       tab={
                         <span>
-                          {/*  <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
@@ -113,13 +112,10 @@ class Config extends Component {
                     >
                       <Properties
                         ref="editMainCenter"
-                        cptChartData={this.props.cptChartData}
-                        param={this.changeProperties.bind(this)}
-                        tabsKey={this.state.tabsKey}
-                        cptPropertyObj={this.props.cptPropertyObj}
-                        cptLayerAttr={this.props.cptLayerAttr}
-                        cptIndex={this.props.cptIndex}
-                      ></Properties>
+                        param={this.changeProperties}
+                        tabsKey={tabsKey}
+                        {...this.props}
+                       />
                     </TabPane>
                   );
                 } else {
@@ -127,12 +123,11 @@ class Config extends Component {
                     <TabPane
                       tab={
                         <span>
-                          {/*  <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
                       key={item.serialNumber}
-                    ></TabPane>
+                    />
                   );
                 }
               })}

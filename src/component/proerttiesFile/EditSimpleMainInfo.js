@@ -113,9 +113,9 @@ class EditSimpleMainInfo extends Component {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <ReactColor
-                    key={item.ename}
+                    ename={item.ename}
                     colorVal={item.value}
-                    setBgColor={this.setBgColor.bind(this, item.ename)}
+                    setBgColor={this.updateChartField}
                   />
                 </div>
               );
@@ -124,8 +124,8 @@ class EditSimpleMainInfo extends Component {
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <div
                     className='previewImage'
-                    onMouseEnter={this.handleMouseEnter.bind(this)}
-                    onMouseLeave={this.handleMouseLeave.bind(this)}
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
                     style={{
                       backgroundImage: `url(${item.value})`,
                       backgroundSize: '100% 100%'
@@ -133,23 +133,23 @@ class EditSimpleMainInfo extends Component {
                     {
                       // item.value?<img src={item.value}  id="previewImageObj"  style={{ width: '100%',height:'auto',padding: '20px 20px'}} />:true
                     }
-                    {this.state.showImageOptionFlag ? (
-                      <div className='previewOption'>
-                        <span className='previewOptionText'>
-                          <span onClick={this.setUploadPageBg.bind(this)}>更改</span>|
-                          <span onClick={this.deletePageBg.bind(this)}>删除</span>
-                        </span>
-                      </div>
-                    ) : (
-                      true
-                    )}
+                    {
+                      this.state.showImageOptionFlag 
+                      ? <div className='previewOption'>
+                          <span className='previewOptionText'>
+                            <span onClick={this.setUploadPageBg}>更改</span>|
+                            <span onClick={this.deletePageBg.bind(this,item.ename)}>删除</span>
+                          </span>
+                        </div>
+                      : null
+                     }
                   </div>
                   <div style={{ display: 'none' }}>
                     <ImageUploading
                       ref='ImageUploading'
-                      key={item.ename}
+                      ename={item.ename}
                       colorVal={item.value}
-                      setShowPreview={this.setShowPreview.bind(this)}
+                      setShowPreview={this.updateChartField}
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ class EditSimpleMainInfo extends Component {
                     value={item.value}
                     placeholder={item.placeholder}
                     onChange={event => {
-                      this.updateChartFieldPrev(event, item.ename);
+                      this.updateChartField(event.target.value, item.ename);
                     }}
                   />
                 </div>
@@ -263,7 +263,34 @@ class EditSimpleMainInfo extends Component {
     );
   }
 
+  /**
+   * @description: 在编辑面板上面修改一个单独的值,进行调用
+   * @param {type}
+   * @return:
+   */
+  updateChartField = (fieldValue, fieldEname) => {
+    this.props.updateThisCharsField(fieldValue,fieldEname);
+  }
 
+  /**
+   * @description: 对json静态数据进行编辑
+   * @param {type} 
+   * @return: 
+   */
+  editJsonChange = (event,fieldEname) =>{
+    if(event.error) return;
+    this.updateChartField(event.jsObject, fieldEname);
+  }
+
+   
+  deletePageBg = (ename) => {
+    this.updateChartField('', ename);
+    this.refs.ImageUploading.deleteImageUrl();
+  }
+
+  setUploadPageBg= () =>  {
+    this.refs.ImageUploading.imitationClick();
+  }
 
   /**
    * @description: 鼠标进入图片预览的里面显示选项文本
@@ -282,60 +309,17 @@ class EditSimpleMainInfo extends Component {
     this.updateImagePreView(false);
   };
 
+  /**
+   * @description: 是否显示更改和删除图片按钮
+   * @param {type} 
+   * @return: 
+   */
   updateImagePreView(Imageflag) {
     this.setState({
       showImageOptionFlag: Imageflag
     });
   }
 
-  deletePageBg() {
-    this.props.deletePageBg();
-    this.refs.ImageUploading.deleteImageUrl();
-  }
-
-  setUploadPageBg() {
-    this.refs.ImageUploading.imitationClick();
-  }
-
-  setShowPreview(imageUrl) {
-    this.props.setShowPreview(imageUrl);
-  }
-
-  /**
-   * @description:  给画布设置背景颜色
-   * @param {string}  colorObj  是一个rgba值
-   * @return:
-   */
-  setBgColor(eName, colorObj) {
-    this.props.setBgColor(eName, colorObj);
-  }
-  /**
-   * @description: 在编辑面板上面修改一个单独的值,进行调用
-   * @param {type}
-   * @return:
-   */
-  updateChartField(fieldValue, fieldEname) {
-    this.props.updateThisCharsField(fieldValue, fieldEname);
-  }
-
-  updateChartFieldPrev(event, fieldEname) {
-    this.updateChartField(event.target.value, fieldEname);
-  }
-
-  updateChartFieldPrevEditJson(event, fieldEname) {
-    this.updateChartField(event.updated_src, fieldEname);
-  }
-
-  editJsonChange = (event,fieldEname) =>{
-    if(event.error)
-      return;
-    let jsonStr = event.json;
-    let jsonObj = event.jsObject;
-    this.updateChartField(event.jsObject, fieldEname);
-  }
-  text(f, a) {
-    let s = f;
-  }
 }
 
 export default EditSimpleMainInfo;

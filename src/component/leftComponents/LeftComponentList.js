@@ -220,35 +220,33 @@ class LeftComponentList extends Component {
    * @param {Integer} key 表示当前是那个设置
    * @return:
    */
-  switchTabs(key) {
+  switchTabs = (key) => {
     this.setState(
       {
         tabsKey: parseInt(key)
       });
   }
   render() {
-    let listData = this.state.ComponentList;
-    let cptIndex = this.state.cptIndex;
+    let {tabKeys,cptIndex,ComponentList:listData,componentData,left,top} = this.state;
     return (
       <div className="custom-left-list">
         <div className="custom-left-list-tools">
           <span>图层数据</span>
         </div>
         <div className="custom-left-list-p">
-            <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs.bind(this)}>
-                  {this.state.tabKeys.map(item => {
+            <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs}>
+                  {tabKeys.map(item => {
                     if (item.serialNumber == 1) {
                       return (
                         <TabPane
                       tab={
                         <span>
-                          {/* <Icon type={item.IconEname} /> */}
                           {item.tabCname}
                         </span>
                       }
                       key={item.serialNumber}>
                         <Collapse expandIconPosition="right" bordered={false}>
-                              {this.state.componentData.map((bigDataItem, bigIndex) => {
+                              {componentData.map((bigDataItem, bigIndex) => {
                                 return (
                                   <Panel header={bigDataItem.service.name} key={bigIndex}>
                                     {bigDataItem.data.map((item, index) => {
@@ -259,7 +257,7 @@ class LeftComponentList extends Component {
                                           </div>
                                           <div
                                             className="moveLayerName moveLayerNameHide"
-                                            style={{ left: this.state.left, top: this.state.top }}
+                                            style={{ left: left, top: top }}
                                           >
                                             {item.name}
                                           </div>
@@ -346,9 +344,6 @@ class LeftComponentList extends Component {
                   })}
                 </Tabs>
           
-        </div>
-        <div className="custom-left-list-p">
-         
         </div>
       </div>
     );

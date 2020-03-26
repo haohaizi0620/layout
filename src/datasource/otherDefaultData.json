@@ -97,5 +97,8 @@
             "url": "",
             "ifBlank": true
         }
-    }
+    },
+    "decorate": {
+		"decorateImage": "decorate/zs1.gif"
+	}
 }

@@ -7,11 +7,11 @@ class IframeLayer extends Component {
     }
 
     render() { 
-       let chartData = this.props.chartData;
+       let layerData = this.props.layerData;
         return ( 
             <iframe
             className='iframeObj'
-            src={chartData&&chartData.iframeUrl ? chartData.iframeUrl : ''}
+            src={layerData&&layerData.iframeUrl ? layerData.iframeUrl : ''}
             height='100%'
             width='100%'></iframe>
          );

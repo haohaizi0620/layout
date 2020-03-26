@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-10 19:45:00
- * @LastEditTime: 2020-03-20 14:42:20
+ * @LastEditTime: 2020-03-26 14:08:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\globalCom\SketchColor.js
@@ -42,7 +42,7 @@ class SketchColor extends React.Component {
 
   updateColor = color => {
     this.setState({ color: color });
-    this.props.setBgColor(color);
+    this.props.setBgColor(color,this.props.ename);
   }
 
   

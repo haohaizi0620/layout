@@ -16,30 +16,13 @@ const { Panel } = Collapse;
 class Properties extends Component {
   constructor(props) {
     super(props);
-    let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
-    let bgFieldObj = store.getState().showLayerDatas.bgFieldObj;
-
-    const tableType = "table";
-    const borderType = "border";
-    const iframeType = "iframe";
-    const textType = "text";
-    const bgType = "bg";
-    const defaultType = "default";
-    const otherType = "other";
-    const chartType = "chart";
-    const imageType = "image";
-    let textFieldObj = otherDefaultData.text;
-    let borderFieldObj = otherDefaultData.border;
-    let iframeFieldObj = otherDefaultData.iframe;
-    let singleImageFieldObj = otherDefaultData.singleImage;
-    let singleImageurlConfig = singleImageFieldObj.urlConfig;
+    let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
+    cptBorderObj = cptBorderObj.cptBorderObj;
+    let {text:textFieldObj,border:borderFieldObj,iframe:iframeFieldObj,singleImage:singleImageFieldObj,decorate} = otherDefaultData;
+    let {urlConfig:singleImageUrlConfig} = singleImageFieldObj;
     let tableFieldObj = otherDefaultData.table.tableConfig.table;
-    let tableFieldHeaderObj = tableFieldObj.header;
-    let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
-    let tableBodyTextObj = tableFieldObj.textStyle;
-    let tableBodyBaseObj = tableFieldObj.ZebraLine;
-    let tableBodyBorderObj = tableFieldObj.borderStyle;
-    
+    let {header:tableFieldHeaderObj,textStyle:tableBodyTextObj,ZebraLine:tableBodyBaseObj,borderStyle:tableBodyBorderObj} = tableFieldObj;
+    let {textStyle:tableHeaderTextObj} = tableFieldHeaderObj;
     this.state = {
       bg: [
         {
@@ -61,7 +44,6 @@ class Properties extends Component {
               value: bgFieldObj.bjHeight
             }
           ],
-          layerType: bgType
         },
         {
           ename: 'backgroundColor',
@@ -76,7 +58,6 @@ class Properties extends Component {
               value: bgFieldObj.bgColor
             }
           ],
-          layerType: bgType
         },
         {
           ename: 'bgImageName',
@@ -100,22 +81,38 @@ class Properties extends Component {
                 { cname: '背景六', value: 'bg6',src :'bg/bg6.png'}
               ]
             },
-            /* {
+            
+          ],
+        },
+        {
+          ename: 'bgImageIntegerUrl',
+          name: '图片路径',
+          includeSelect: false,
+          type: '',
+          childer: [
+            {
               ename: 'bgImageIntegerUrl',
               cname: '在线图片',
               type: 'Input',
               value: bgFieldObj.bgImageIntegerUrl,
               placeholder: '图片路径'
             },
+          ],
+        },
+        {
+          ename: 'bgImageIntegerUrl',
+          name: '背景图片',
+          includeSelect: false,
+          type: '',
+          childer: [
             {
-              ename: 'uploadImage',
+              ename: 'bgImageIntegerUrl',
               cname: '预览图片',
               type: 'ImageUploading',
-              value: bgFieldObj.uploadImage,
+              value: bgFieldObj.bgImageIntegerUrl,
               optionFlag: false
-            } */
+            }
           ],
-          layerType:bgType
         }
       ],
       chart: [
@@ -142,7 +139,6 @@ class Properties extends Component {
               minNumber: 80
             }
           ],
-          layerType: defaultType
         },
         {
           ename: 'chartPosition',
@@ -167,7 +163,6 @@ class Properties extends Component {
               minNumber: 0
             }
           ],
-          layerType: defaultType
         },
         {
               ename: 'rotationAngle',
@@ -201,7 +196,6 @@ class Properties extends Component {
               value: cptBorderObj.opacity
             }
           ],
-          layerType: defaultType
         },
         {
           ename: 'LayerBorder',
@@ -243,7 +237,6 @@ class Properties extends Component {
               value: cptBorderObj.layerBorderColor
             }
           ],
-          layerType: defaultType
         }
       ],
       dataSource:[],
@@ -262,7 +255,6 @@ class Properties extends Component {
               isEdit:true,
             }
           ],
-          layerType: chartType
         }
       ],
       noContent: [
@@ -277,7 +269,6 @@ class Properties extends Component {
               type: 'noContent',
             }
           ],
-          layerType: chartType
         }
       ],
       text: [
@@ -338,7 +329,6 @@ class Properties extends Component {
               ]
             }
           ],
-          layerType: textType
         },
         {
           ename: 'textAlign',
@@ -358,7 +348,6 @@ class Properties extends Component {
               ]
             }
           ],
-          layerType: textType
         },
         {
           ename: 'writingMode',
@@ -377,7 +366,6 @@ class Properties extends Component {
               ],
             }
           ],
-          layerType: textType
         },
         {
           ename: 'hyperlink',
@@ -398,7 +386,6 @@ class Properties extends Component {
               value: textFieldObj.isNewWindow
             }
           ],
-          layerType: textType
         }
       ],
       table: [
@@ -491,7 +478,6 @@ class Properties extends Component {
                   value: tableFieldHeaderObj.backgroundColor
             }
           ],
-          layerType: tableType
         },
         {
           ename: 'tablePageSize',
@@ -507,7 +493,6 @@ class Properties extends Component {
               minNumber: 1
             }
           ],
-          layerType: tableType
         },
         {
           ename: 'tableBody',
@@ -598,7 +583,6 @@ class Properties extends Component {
                   value: tableBodyBaseObj.backgroundColor
             }
           ],
-          layerType: tableType
         },
       ],
       border: [
@@ -617,7 +601,6 @@ class Properties extends Component {
               minNumber: 0
             }
           ],
-          layerType: borderType
         },
         {
             ename: 'borderImage',
@@ -646,7 +629,6 @@ class Properties extends Component {
                   { cname: '边框十二', value: 'border/border12.png',src :'border/border12.png' },
                 ]
               }],
-              layerType: borderType
          },
       ],
       iframe: [
@@ -664,25 +646,23 @@ class Properties extends Component {
               placeholder: '页面地址'
             }
           ],
-          layerType: iframeType
         }
       ],
       singleImage:[
         {
           ename: 'backgroundImage',
-          name: '背景图片路径',
+          name: '图片路径',
           includeSelect: false,
           type: '',
           childer: [
             {
-              ename: 'singleImageIntegerUrl',
+              ename: 'backgroundImage',
               cname: '在线图片',
               type: 'Input',
               value: singleImageFieldObj.backgroundImage,
               placeholder: '图片路径'
             },
           ],
-          layerType:imageType
         },
         {
           ename: 'backgroundImage',
@@ -691,14 +671,13 @@ class Properties extends Component {
           type: '',
           childer: [
             {
-              ename: 'uploadImage',
+              ename: 'backgroundImage',
               cname: '预览图片',
               type: 'ImageUploading',
               value: singleImageFieldObj.backgroundImage,
               optionFlag: false
             }
           ],
-          layerType:imageType
         },
         {
           ename: 'singleImageRepeat',
@@ -747,18 +726,55 @@ class Properties extends Component {
               ename: 'url',
               cname: '超链接',
               type: 'Input',
-              value: singleImageurlConfig.url
+              value: singleImageUrlConfig.url
             },
             {
               ename: 'ifBlank',
               cname: '是否打开新窗口',
               type: 'Switch',
-              value: singleImageurlConfig.ifBlank
+              value: singleImageUrlConfig.ifBlank
             }
           ],
-          layerType: textType
         }
-      ]
+      ],
+      decorate: [
+        {
+            ename: 'decorateImage',
+            name: '边框背景',
+            includeSelect: false,
+            type: '',
+            childer: [
+              {
+                ename: 'decorateImage',
+                cname: '',
+                type: 'Select',
+                value:  decorate.decorateImage,
+                defaultOption: '装饰一',
+                optionValues: [
+                  { cname: '装饰一', value: 'decorate/zs1.gif',src :'decorate/zs1.gif' },
+                  { cname: '装饰二', value: 'decorate/zs2.gif',src :'decorate/zs2.gif' },
+                  { cname: '装饰三', value: 'decorate/zs3.gif',src :'decorate/zs3.gif' },
+                  { cname: '装饰四', value: 'decorate/zs4.gif',src :'decorate/zs4.gif' },
+                  { cname: '装饰五', value: 'decorate/zs5.gif',src :'decorate/zs5.gif' },
+                  { cname: '装饰六', value: 'decorate/zs6.gif',src :'decorate/zs6.gif' },
+                  { cname: '装饰七', value: 'decorate/zs7.gif',src :'decorate/zs7.gif' },
+                  { cname: '装饰八', value: 'decorate/zs8.gif',src :'decorate/zs8.gif' },
+                  { cname: '装饰九', value: 'decorate/zs9.gif',src :'decorate/zs9.gif' },
+                  { cname: '装饰十', value: 'decorate/zs10.gif',src :'decorate/zs10.gif' },
+                  { cname: '装饰十一', value: 'decorate/zs11.png',src :'decorate/zs11.png' },
+                  { cname: '装饰十二', value: 'decorate/zs12.png',src :'decorate/zs12.png' },
+                  { cname: '装饰十三', value: 'decorate/zs13.png',src :'decorate/zs13.png' },
+                  { cname: '装饰十四', value: 'decorate/zs14.png',src :'decorate/zs14.png' },
+                  { cname: '装饰十五', value: 'decorate/zs15.png',src :'decorate/zs15.png' },
+                  { cname: '装饰十六', value: 'decorate/zs16.png',src :'decorate/zs16.png' },
+                  { cname: '装饰十七', value: 'decorate/zs17.png',src :'decorate/zs17.png' },
+                  { cname: '装饰十八', value: 'decorate/zs18.png',src :'decorate/zs18.png' },
+                  { cname: '装饰十九', value: 'decorate/zs19.png',src :'decorate/zs19.png' },
+                  { cname: '装饰二十', value: 'decorate/zs20.png',src :'decorate/zs20.png' },
+                ]
+              }],
+         },
+      ],
     };
    
   }
@@ -769,44 +785,39 @@ class Properties extends Component {
    });
   }
 
-  componentWillReceiveProps(newProp){
-     
-
+  componentWillReceiveProps(){
+    this.updateStateVal();
   }
-
-  propsParam(paramObj){
-    this.props.param({
-      fieldValue: paramObj.fieldValue,
-      fieldEname: paramObj.fieldEname,
-      thisIndex: paramObj.thisIndex,
-      layerType: paramObj.layerType,
-      tabsKey: paramObj.tabsKey
-    });
-  }
- 
+  
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
-    var tempLayerType = this.props.cptPropertyObj.type;
+    let cptPropertyObj = this.props.cptPropertyObj;
+    var LayerType = cptPropertyObj.type;
     let otherLayerId = "";
     if(tempKeyVal===1||tempKeyVal===2){
       let cptLayerAttr = this.props.cptLayerAttr;
       otherLayerId = cptLayerAttr.id;
     }
-    let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
+    let dataObj = {};
+    let cptChartData = this.props.cptChartData;
+    if(cptChartData){
+      dataObj = cptChartData.layerData;
+    }
+    // let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
     if (tempKeyVal === 2) {
       let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
-      if(tempLayerType=="chart"||tempLayerType == 'border'||tempLayerType == 'iframe'||otherLayerId=="moreRowText"){
+      if(LayerType=="chart"||LayerType == 'border'||LayerType == 'iframe'||otherLayerId=="moreRowText"){
           dataSource = JSON.parse(JSON.stringify(this.state.noContent));
-      }else if(tempLayerType=="text"&&otherLayerId!="moreRowText"){
+      }else if(LayerType=="text"&&otherLayerId!="moreRowText"){
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption;
+          let tempTextLayerObj = dataObj;
           let showData = tempTextLayerObj.textCenter;
           dataSource[0].childer[0].value = showData;
           dataSource[0].childer[0].ename = "textCenter";
         }
-      }else if(tempLayerType==="table"){
+      }else if(LayerType==="table"){
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption;
+          let tempTextLayerObj = dataObj;
           let showData = tempTextLayerObj.tableData;
           dataSource[0].childer[0].value = showData;
           dataSource[0].childer[0].ename = "tableData";
@@ -817,7 +828,8 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer = [];
-      let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
+      // let cptBorderObj = store.getState().showLayerDatas.showDatas.cptBorderObj;
+      let cptBorderObj = cptPropertyObj.cptBorderObj;
       let tempChartArr = this.state.chart;
       let tempChart = [];
       for (let i = 0; i < 5; i++) {
@@ -832,38 +844,38 @@ class Properties extends Component {
       tempChart[4].childer[0].value = cptBorderObj.layerBorderWidth;
       tempChart[4].childer[1].value = cptBorderObj.layerBorderStyle;
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
-      if (tempLayerType === 'chart') {
+      if (LayerType === 'chart') {
         
-      } else if (tempLayerType === 'text') {
+      } else if (LayerType === 'text') {
         tempLayer = this.state.text;
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption;
-          tempLayer[0].childer[0].value = tempTextLayerObj['fontFamily'];
-          tempLayer[0].childer[1].value = tempTextLayerObj['fontSize'];
-          tempLayer[0].childer[2].value = tempTextLayerObj['fontColor'];
-          tempLayer[0].childer[3].value = tempTextLayerObj['fontWeight'];
-          tempLayer[1].childer[0].value = tempTextLayerObj['textAlign'];
-          tempLayer[2].childer[0].value = tempTextLayerObj['writingMode'];
-          tempLayer[3].childer[0].value = tempTextLayerObj['hyperlinkCenter'];
-          tempLayer[3].childer[1].value = tempTextLayerObj['isNewWindow'];
+          let {fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,hyperlinkCenter,isNewWindow} = dataObj;
+          tempLayer[0].childer[0].value = fontFamily;
+          tempLayer[0].childer[1].value = fontSize;
+          tempLayer[0].childer[2].value = fontColor;
+          tempLayer[0].childer[3].value = fontWeight;
+          tempLayer[1].childer[0].value = textAlign;
+          tempLayer[2].childer[0].value = writingMode;
+          tempLayer[3].childer[0].value = hyperlinkCenter;
+          tempLayer[3].childer[1].value = isNewWindow;
         }
-      } else if (tempLayerType === 'border') {
+      } else if (LayerType === 'border') {
         tempLayer = this.state.border;
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption;
-          tempLayer[0].childer[0].value = tempTextLayerObj['borderWidth'];
-          tempLayer[1].childer[0].value = tempTextLayerObj['borderImage'];
+          let {borderWidth,borderImage} = dataObj;
+          tempLayer[0].childer[0].value = borderWidth;
+          tempLayer[1].childer[0].value = borderImage;
         }
-      } else if (tempLayerType === 'iframe') {
+      } else if (LayerType === 'iframe') {
         tempLayer = this.state.iframe;
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption;
-          tempLayer[0].childer[0].value = tempTextLayerObj['iframeUrl'];
+          let {iframeUrl} = dataObj;
+          tempLayer[0].childer[0].value = iframeUrl;
         }
-      } else if (tempLayerType === 'table') {
+      } else if (LayerType === 'table') {
         tempLayer = this.state.table;
         if (dataObj) {
-          let tempTextLayerObj = dataObj.layerOption.tableConfig;
+          let tempTextLayerObj = dataObj.tableConfig;
           let tableFieldObj = tempTextLayerObj.table;
           let tableFieldHeaderObj = tableFieldObj.header;
           let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
@@ -888,11 +900,11 @@ class Properties extends Component {
           tempLayer[2].childer[6].value = tableBodyBorderObj.color;
           tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
         }
-      }else if(tempLayerType === 'image'){
+      }else if(LayerType === 'image'){
         if(otherLayerId==="singleImage"){
           tempLayer = this.state.singleImage;
           if (dataObj) {
-            let tempImageLayerObj = dataObj.layerOption;
+            let tempImageLayerObj = dataObj;
             tempLayer[0].childer[0].value = tempImageLayerObj['backgroundImage'];
             tempLayer[1].childer[0].value = tempImageLayerObj['backgroundImage'];
             tempLayer[2].childer[0].value = tempImageLayerObj['repeat'];
@@ -901,173 +913,106 @@ class Properties extends Component {
             tempLayer[4].childer[1].value = tempImageLayerObj.urlConfig['ifBlank'];
           }
         }
+      }else if (LayerType === 'decorate') {
+        tempLayer = this.state.decorate;
+        if (dataObj) {
+          let {decorateImage} = dataObj;
+          tempLayer[0].childer[0].value = decorateImage;
+        }
       }
       this.setState(
         {
           chart: tempChart.concat(JSON.parse(JSON.stringify(tempLayer))),
-        },
-        () => {
-        }
-      );
+        });
     } else if (tempKeyVal === 0) {
-      let bgFieldObj = store.getState().showLayerDatas.bgFieldObj;
       let tempBg = this.state.bg;
-      tempBg[0].childer[0].value = bgFieldObj.bjWidth;
-      tempBg[0].childer[1].value = bgFieldObj.bjHeight;
-      tempBg[1].childer[0].value = bgFieldObj.bgColor;
-      tempBg[2].childer[0].value = bgFieldObj.bgImageName;
-/*       tempBg[2].childer[1].value = bgFieldObj.bgImageIntegerUrl;
-      tempBg[2].childer[2].value = bgFieldObj.bgImageIntegerUrl; */
+      let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = this.props.globalBg;
+      tempBg[0].childer[0].value = bjWidth;
+      tempBg[0].childer[1].value = bjHeight;
+      tempBg[1].childer[0].value = bgColor;
+      tempBg[2].childer[0].value = bgImageName;
+      tempBg[3].childer[0].value = bgImageIntegerUrl;
+      tempBg[4].childer[0].value = bgImageIntegerUrl;
       this.setState({
         bg: tempBg
       });
     }
   }
 
+  
+  propsParam(paramObj){
+    let {fieldValue,fieldEname} = paramObj;
+    this.props.param({
+      fieldValue,
+      fieldEname
+    });
+  }
+ 
+
+
   /**
    * @description:  改变编辑面板里面的值,并修改中间图表的数据
    * @param {number} fieldValue 当前的属性的value值
    * @param {String} fieldEname 当前属性值
-   * @param {String} layerType 当前图层的类型是背景还是图层     bg  代表背景     chart  代表其他图层   text 代表文字
    * @return:  调用layout里面的编辑当前图表的方法
    */
-  updateThisCharsField(layerType, fieldValue, fieldEname) {
-    if (layerType === 'text') {
-      let templayer = this.state.text;
-      if (fieldEname === 'textCenter') {
-        templayer[0].childer[0].value = fieldValue;
-      } else if (fieldEname === 'textSize') {
-        templayer[1].childer[0].value = fieldValue;
-      } else if (fieldEname === 'textColor') {
-        templayer[2].childer[0].value = fieldValue;
-      }
-      this.setState({
-        text: templayer
-      });
-    }
-    let tempKeyVal = this.props.tabsKey;
-    if (tempKeyVal == 0) {
-      layerType = 'bg';
-    }
+  updateThisCharsField = (fieldValue, fieldEname) => {
     this.propsParam(
       {
         fieldValue: fieldValue,
         fieldEname: fieldEname,
-        thisIndex: this.props.cptIndex,
-        layerType: layerType,
-        tabsKey: this.props.tabsKey
       }
     )
   }
 
-  setBgColor(layerType, eName, rgbObj) {
-    this.propsParam({
-      fieldValue: rgbObj,
-      fieldEname: eName,
-      thisIndex: this.props.cptIndex,
-      layerType: layerType,
-      tabsKey: this.props.tabsKey
-    });
-  }
-
-  setShowPreview(imageUrl) {
-    let bgImage = [
-      {
-        fieldValue: imageUrl,
-        fieldEname: 'bgImageIntegerUrl',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
-      },
-      {
-        fieldValue: imageUrl,
-        fieldEname: 'bjImage',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
-      },
-      {
-        fieldValue: imageUrl,
-        fieldEname: 'uploadImage',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
-      }
-    ]
-    bgImage.map((item,index) => {
-      this.propsParam(item);
-    })
-  }
+ 
 
   /**
    * @description: 将背景设置还原
    * @param {type}
    * @return:
    */
-  deletePageBg() {
+  deletePageBg = () => {
     let deletePageBgs = [
       {
-        fieldValue: '无',
-        fieldEname: 'bgImageName',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
+        fieldValue: 'none',
+        fieldEname: 'bgImageName'
       },
       {
         fieldValue: '',
-        fieldEname: 'bgImageIntegerUrl',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
+        fieldEname: 'bgImageIntegerUrl'
       },
-      {
-        fieldValue: '',
-        fieldEname: 'bjImage',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
-      },
-      {
-        fieldValue: '',
-        fieldEname: 'uploadImage',
-        thisIndex: this.props.cptIndex,
-        layerType: 'bg',
-        tabsKey: this.props.tabsKey
-      }
     ];  
-    deletePageBgs.map((item,index) => {
-      this.props.param(item);
+    deletePageBgs.map(item => {
+      this.propsParam(item);
     })
   }
 
 
-  callback(key) {
-    // console.log(key);
-  }
 
   render() {
     var fieldDatas = [];
-    var tempTabsKey = this.props.tabsKey;
-    if (tempTabsKey == 0) {
-      fieldDatas = this.state['bg'];
+    let {bg,dataSource,chart} = this.state;
+    let {tabsKey} = this.props;
+    if (tabsKey === 0) {
+      fieldDatas = bg;
     } else {
-      if (tempTabsKey == 2) {
-        fieldDatas = this.state.dataSource;
-      } else if (tempTabsKey == 1) {
-        fieldDatas = this.state.chart;
+      if (tabsKey === 2) {
+        fieldDatas = dataSource;
+      } else if (tabsKey === 1) {
+        fieldDatas = chart;
       }
     }
     if (fieldDatas) {
       return (
         <div className='pro-items'>
           {fieldDatas.map((item, i) => {
-            if (item.type == 'Collapse') {
+            if (item.type === 'Collapse') {
               return (
-                <Collapse expandIconPosition='right'  key={i} bordered={false} onChange={this.callback}>
+                <Collapse expandIconPosition='right'  key={i} bordered={false} >
                   <Panel header={item.name} key='1'>
                     {item.childer.map((itemLayer, itemIndex) => {
-                      {
-                        if (itemLayer.type == 'Collapse') {
+                        if (itemLayer.type === 'Collapse') {
                           return (
                             <Collapse expandIconPosition='right' bordered={false}>
                               <Panel header={itemLayer.name} key='1'>
@@ -1079,15 +1024,8 @@ class Properties extends Component {
                                       childer={itemTwo}
                                       name={itemTwo.cname}
                                       includeSelectFlag={itemTwo.includeSelect}
-                                      updateThisCharsField={this.updateThisCharsField.bind(
-                                        this,
-                                        this.props.cptPropertyObj.type
-                                      )}
-                                      setBgColor={this.setBgColor.bind(this, item.layerType)}
-                                      setShowPreview={this.setShowPreview.bind(this)}
-                                      deletePageBg={this.deletePageBg.bind(
-                                        this
-                                      )}/>
+                                      updateThisCharsField={this.updateThisCharsField}
+                                      />
                                   );
                                 })}
                               </Panel>
@@ -1101,16 +1039,10 @@ class Properties extends Component {
                               childer={itemLayer}
                               name={itemLayer.cname}
                               includeSelectFlag={itemLayer.includeSelect}
-                              updateThisCharsField={this.updateThisCharsField.bind(
-                                this,
-                                this.props.cptPropertyObj.type
-                              )}
-                              setBgColor={this.setBgColor.bind(this, item.layerType)}
-                              setShowPreview={this.setShowPreview.bind(this)}
-                              deletePageBg={this.deletePageBg.bind(this)}/>
+                              updateThisCharsField={this.updateThisCharsField}
+                              />
                           );
                         }
-                      }
                     })}
                   </Panel>
                 </Collapse>
@@ -1123,13 +1055,8 @@ class Properties extends Component {
                   childer={item.childer}
                   name={item.name}
                   includeSelectFlag={item.includeSelect}
-                  updateThisCharsField={this.updateThisCharsField.bind(
-                    this,
-                    this.props.cptPropertyObj.type
-                  )}
-                  setBgColor={this.setBgColor.bind(this, item.layerType)}
-                  setShowPreview={this.setShowPreview.bind(this)}
-                  deletePageBg={this.deletePageBg.bind(this)}></EditSimpleMainInfo>
+                  updateThisCharsField={this.updateThisCharsField}
+                  />
               );
             }
           })}

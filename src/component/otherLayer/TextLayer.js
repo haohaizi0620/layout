@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-20 09:37:00
- * @LastEditTime: 2020-03-25 17:57:05
+ * @LastEditTime: 2020-03-26 16:30:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\TextLayer.js
@@ -13,7 +13,7 @@ import MultiLineText from './textLayer/MultiLineText';
 
 class TextLayer extends Component {
     static defaultProps = {
-        chartData : {},
+        layerData : {},
         layerSinId : "",
         timeKey : ""
     }
@@ -24,13 +24,13 @@ class TextLayer extends Component {
          }
     }
     render() { 
-       let chartData = this.props.chartData;
+       let layerData = this.props.layerData;
        let layerSinId = this.props.layerSinId;
        let timeKey = this.props.timeKey
        if(layerSinId==="multiLineText"){
          return (
              <MultiLineText
-                chartData={chartData}
+                layerData={layerData}
                 timeKey={timeKey}
              />
          ); 
@@ -41,13 +41,13 @@ class TextLayer extends Component {
                     style={{
                         width: '100%',
                         height: '100%',
-                        textAlign:chartData ? (chartData.textAlign ? chartData.textAlign : '') : ''
+                        textAlign:layerData ? (layerData.textAlign ? layerData.textAlign : '') : ''
                     }}>
                     {
-                        layerSinId==="singleRowText"?<SingleRowText  chartData = {chartData} />:null
+                        layerSinId==="singleRowText"?<SingleRowText  layerData = {layerData} />:null
                     }
                     {
-                        layerSinId==="moreRowText"?<CurrentTime  chartData = {chartData} />:null
+                        layerSinId==="moreRowText"?<CurrentTime  layerData = {layerData} />:null
                     }
             </div>  
          )

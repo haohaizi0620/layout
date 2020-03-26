@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-13 17:19:16
- * @LastEditTime: 2020-03-25 18:57:44
+ * @LastEditTime: 2020-03-26 16:29:52
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\SingleImage.js
@@ -14,16 +14,16 @@ class SingleImage extends Component {
          }
     }
     render() { 
-       let chartData = this.props.chartData;
-       let urlConfig = chartData.urlConfig;
+       let layerData = this.props.layerData;
+       let urlConfig = layerData.urlConfig;
         return ( 
             <div
             style={{
               height:'100%',
               width:'100%',
-              backgroundImage: `url(${chartData.backgroundImage})`,
-              borderRadius: `${chartData.radius}px`,
-              backgroundRepeat: chartData.repeat,
+              backgroundImage: `url(${layerData.backgroundImage})`,
+              borderRadius: `${layerData.radius}px`,
+              backgroundRepeat: layerData.repeat,
               imageRendering: '-webkit-optimize-contrast',
               backgroundSize: '100% 100%'
             }}>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-03-25 18:46:21
+ * @LastEditTime: 2020-03-26 19:40:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -90,7 +90,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
             }
         })
         if (!flag) {
-            if (layerType === "text" || layerType === "border" || layerType === "iframe"|| layerType === "table" || layerType === "image" ) {
+            if (layerType === "text" || layerType === "border" || layerType === "iframe"|| layerType === "decorate"||layerType === "table" || layerType === "image" ) {
                 arr.push(timeKey);
                 mapObjArr.push({layerId: timeKey, layerMap: {}});
                 window.arr = arr;
@@ -116,6 +116,8 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
                     if(chartName === "singleImage"){
                         tempSaveObj = otherDefaultData.singleImage;
                     }
+                } else if (layerType === "decorate"){
+                    tempSaveObj = otherDefaultData.decorate;
                 }
                 store.dispatch(addCptOptionsList(chartId, tempSaveObj));
             } else if (layerType === "chart" || layerType === "map" || layerType === "chartMap") {

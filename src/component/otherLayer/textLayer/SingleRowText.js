@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-13 17:19:16
- * @LastEditTime: 2020-03-20 10:46:11
+ * @LastEditTime: 2020-03-26 16:31:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\SingleRowText.js
@@ -14,7 +14,7 @@ class SingleRowText extends Component {
          }
     }
     render() { 
-       let chartData = this.props.chartData;
+       let layerData = this.props.layerData;
         return ( 
             <div
             style={{
@@ -23,20 +23,20 @@ class SingleRowText extends Component {
               textOverflow: 'clip',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
-              fontSize: chartData&&chartData.fontSize ? chartData.fontSize : '30px',
-              fontFamily: chartData&&chartData.fontFamily ? chartData.fontFamily : 'auto',
-              color: chartData&&chartData.fontColor ? chartData.fontColor : 'rgba(255,255,255,1)',
-              fontWeight: chartData&&chartData.fontWeight ? chartData.fontWeight : 'normal',
-              writingMode:chartData&& chartData.writingMode ? chartData.writingMode : 'horizontal-tb'
+              fontSize: layerData&&layerData.fontSize ? layerData.fontSize : '30px',
+              fontFamily: layerData&&layerData.fontFamily ? layerData.fontFamily : 'auto',
+              color: layerData&&layerData.fontColor ? layerData.fontColor : 'rgba(255,255,255,1)',
+              fontWeight: layerData&&layerData.fontWeight ? layerData.fontWeight : 'normal',
+              writingMode:layerData&& layerData.writingMode ? layerData.writingMode : 'horizontal-tb'
             }}>
                 {
-                    chartData&&chartData.hyperlinkCenter
-                    ?<a src={chartData&&chartData.hyperlinkCenter ? chartData.hyperlinkCenter : ''}
+                    layerData&&layerData.hyperlinkCenter
+                    ?<a src={layerData&&layerData.hyperlinkCenter ? layerData.hyperlinkCenter : ''}
                         className={'textLayer'}
-                        target={chartData&&chartData.isNewWindow ? '_blank' : '_self'}>
-                        {chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'}
+                        target={layerData&&layerData.isNewWindow ? '_blank' : '_self'}>
+                        {layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'}
                         </a>
-                    :chartData&&chartData.textCenter&&chartData.textCenter.value ? chartData.textCenter.value : '标题'
+                    :layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'
                 }
             </div>
          );

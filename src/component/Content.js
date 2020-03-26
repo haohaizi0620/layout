@@ -5,6 +5,7 @@ import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IframeLayer from "./otherLayer/IframeLayer";
 import BaseTable from "./otherLayer/BaseTable.jsx";
+import DecorateLayer from "./otherLayer/DecorateLayer";
 import TextLayer from "./otherLayer/TextLayer";
 import SingleImage from "./otherLayer/imageLayer/SingleImage";
 import {
@@ -22,18 +23,15 @@ class Child1 extends Component {
     super(props);
   }
   render() {
-      let cptObj = this.props.cptObj;
-      let keyData = this.props.keyData;
-      let layerSinId = keyData.id;
-      let tempLayerType = cptObj.type;
-      let cptBorderObj = cptObj.cptBorderObj;
-      let chartData = this.props.chartData.layerData;
-      let timeKey = this.props.timeKey;
+      let {obj:cptObj,keyData,timeKey,chartData,delIndex,cptIndex,getRef} = this.props;
+      let {id:layerSinId} = keyData;
+      let {type:LayerType,cptBorderObj} = cptObj;
+      let layerData = chartData.layerData;
       let existTypes = ["text", "0", "1"]; //border，iframe,table
       return (
         <div
           className={
-            this.props.cptIndex == this.props.delIndex
+            cptIndex == delIndex
               ? "itemClick item"
               : "item"
           }
@@ -41,24 +39,24 @@ class Child1 extends Component {
             width: "100%",
             height: "100%",
             borderWidth:
-              tempLayerType === "border" ? chartData.borderWidth + "px" : "0px",
-            borderStyle: tempLayerType === "border" ? "solid" : "none",
+              LayerType === "border" ? layerData.borderWidth + "px" : "0px",
+            borderStyle: LayerType === "border" ? "solid" : "none",
             borderImage:
-              tempLayerType === "border"
-                ? `url(${require("../img/" + chartData.borderImage)}) 30`
+              LayerType === "border"
+                ? `url(${require("../img/" + layerData.borderImage)}) 30`
                 : "none"
           }}
-          ref={this.props.getRef}
+          ref={getRef}
         >
-          {tempLayerType === "text" ? (
+          {LayerType === "text" ? (
             <TextLayer
               timeKey={timeKey}
-              chartData={chartData}
+              layerData={layerData}
               layerSinId={layerSinId}
             />
           ) : null}
           {//存放图表和地图的dom
-          tempLayerType === "0" || tempLayerType === "1" ? (
+          LayerType === "0" || LayerType === "1" ? (
             <div
               id={timeKey}
               className="singleChart"
@@ -69,31 +67,32 @@ class Child1 extends Component {
                 left: "10px",
                 top: "20px",
                 textAlign:
-                  tempLayerType === "text" && chartData
-                    ? chartData.textAlign
-                      ? chartData.textAlign
+                  LayerType === "text" && layerData
+                    ? layerData.textAlign
+                      ? layerData.textAlign
                       : ""
                     : ""
               }}
             ></div>
           ) : null}
           {//当前类型没有在上面添加判断的话都进到这个里面
-          !existTypes.includes(tempLayerType) ? (
+          !existTypes.includes(LayerType) ? (
             <div
               id={timeKey}
               style={{
                 width: "100%",
                 height: "100%",
-                textAlign: chartData
-                  ? chartData.textAlign
-                    ? chartData.textAlign
+                textAlign: layerData
+                  ? layerData.textAlign
+                    ? layerData.textAlign
                     : ""
                   : ""
               }}
             >
-              {tempLayerType === "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
-              {tempLayerType === "table" ? ( <BaseTable data={chartData.tableData} config={chartData.tableConfig} columns={chartData.tableColumns}     /> ) : null}
-              {tempLayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage chartData={chartData} /> ) : null}
+              {LayerType === "iframe" ? ( <IframeLayer layerData={layerData} /> ) : null}
+              {LayerType === "table" ? ( <BaseTable data={layerData.tableData} config={layerData.tableConfig} columns={layerData.tableColumns}     /> ) : null}
+              {LayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={layerData} /> ) : null}
+              {LayerType === "decorate"  ? ( <DecorateLayer layerData={layerData} /> ) : null}
             </div>
           ) : null}
         </div>
@@ -154,19 +153,19 @@ class Content extends Component {
   handleDown = e => {
     this.props.handleDown(e);
   };
-  /**
+    /**
    * @description:  通过指定图层的index进行删除指定的图层
    * @param {type}
    * @return:
    */
-  onRemoveItem() {
+  onRemoveItem = () => {
     this.props.del();
   }
 
-  onEditItem() {
+  onEditItem = () =>  {
     this.props.editItem();
   }
-
+ 
   onRotateMouseDown = e => {
     document.addEventListener("mousemove", this.onRotateMouseMove);
     document.addEventListener("mouseup", this.onRotateMouseUp);
@@ -196,28 +195,27 @@ class Content extends Component {
     ]);
   };
   render() {
-    let tempCptObj = this.props.obj.cptBorderObj;
-    let timeKey = this.props.id;
-    let chartData = this.props.chartData;
-    let thType = chartData.thType;
+    let {timeKey,chartData,obj} = this.props;
+    let {opacity,left,top,width,height,rotate,layerBorderStyle,layerBorderWidth,layerBorderColor} = obj.cptBorderObj;
+    let {thType} = chartData;
     return (
       <Fragment>
         <div
           className="grid-item"
           id={"grid" + timeKey}
           style={{
-            opacity: tempCptObj.opacity,
-            left: tempCptObj.left,
-            top: tempCptObj.top,
-            width: parseInt(tempCptObj.width),
-            height: parseInt(tempCptObj.height),
-            transform: `rotate(${tempCptObj.rotate}deg)`,
-            borderStyle: tempCptObj.layerBorderStyle,
-            borderWidth: tempCptObj.layerBorderWidth + "px",
-            borderColor: tempCptObj.layerBorderColor
+            opacity: opacity,
+            left: left,
+            top: top,
+            width: parseInt(width),
+            height: parseInt(height),
+            transform: `rotate(${rotate}deg)`,
+            borderStyle: layerBorderStyle,
+            borderWidth: layerBorderWidth + "px",
+            borderColor: layerBorderColor
           }}
         >
-          {this.state.cptIndex != -1 ? (
+          {this.state.cptIndex !== -1 ? (
             <div
               onMouseDown={this.onRotateMouseDown}
               style={{
@@ -237,12 +235,12 @@ class Content extends Component {
               className="remove"
               title="编辑"
               style={{
-                left: tempCptObj.width - 50 + "px",
+                left: width - 50 + "px",
                 top: 2 + "px",
                 width: "20px",
                 color: "white"
               }}
-              onClick={this.onEditItem.bind(this)}
+              onClick={this.onEditItem}
             />
            ) : null} 
           {
@@ -251,12 +249,12 @@ class Content extends Component {
               className="remove"
               title="移除"
               style={{
-                left: tempCptObj.width - 30 + "px",
+                left: width - 30 + "px",
                 top: 2 + "px",
                 width: "20px",
                 color: "white"
               }}
-              onClick={this.onRemoveItem.bind(this)}
+              onClick={this.onRemoveItem}
             />
           }
           <ReactableChild
@@ -274,12 +272,7 @@ class Content extends Component {
             onDown={this.handleDown}
             onResizeMove={this.handleResizeMove}
             onResizeEnd={this.handleEnd}
-            cptIndex={this.props.cptIndex}
-            delIndex={this.props.delIndex}
-            cptObj={this.props.obj}
-            chartData={this.props.chartData}
-            keyData={this.props.keyData}
-            timeKey={this.props.timeKey}
+            {...this.props}
           >
             >
           </ReactableChild>

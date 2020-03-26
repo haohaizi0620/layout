@@ -132,7 +132,8 @@ class Header extends Component {
           { id: 'singleImage', text: '单独图片', layerType: 'image' },
           { id: "baseTable", text: "表格数据", layerType: "table" },
           { id: "iframeCenter", text: "嵌入页面", layerType: "iframe" },
-          { id: "singleBorder", text: "背景边框", layerType: "border" }
+          { id: "singleBorder", text: "背景边框", layerType: "border" },
+          { id: "singleDecorate", text: "装饰", layerType: "decorate" }
         ]
       },
       //生成对应的UIstate
@@ -268,6 +269,8 @@ class Header extends Component {
       }
     } else if (layerType === "table") {
       defaultShowVal = otherDefaultData.table;
+    } else if (layerType === "decorate"){
+      defaultShowVal = otherDefaultData.decorate;
     }
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
@@ -341,11 +344,11 @@ class Header extends Component {
     });
   }
 
-  savePagePrev() {
+  savePagePrev = () => {
     this.props.savePagePrev();
   }
 
-  outRollbackPage() {
+  outRollbackPage = () => {
     let _this = this;
     html2canvas(document.querySelector(".custom-content-p")).then(canvas => {
       _this.canvasToImage(canvas);
@@ -399,9 +402,9 @@ class Header extends Component {
     dataShow.style.zIndex = 10;
   }
   render() {
-    const ttype = this.state.ttype;
+    let {ttype,otype,layerDatas} = this.state;
     let showData = [];
-    let show = this.state[this.state.otype][ttype];
+    let show = this.state[otype][ttype];
     if (show) {
       showData = show;
     }
@@ -411,17 +414,18 @@ class Header extends Component {
           <Button
             className="outRollback"
             size="small"
-            onClick={this.outRollbackPage.bind(this)}
+            onClick={this.outRollbackPage}
           >
             我的可视化
           </Button>
         </div>
         <div className="custom-header-component">
           <ul className="custom-header-ul">
-            {this.state.layerDatas.map((item, index) => {
+            {layerDatas.map((item, index) => {
               return (
                 /* 顶部目录栏 */
                 <li
+                  key = {index}
                   className="custom-header-li"
                   onMouseEnter={e => {
                     this.handleMenuMouseEnter(item);
@@ -496,12 +500,11 @@ class Header extends Component {
             })}
           </ul>
         </div>
-
         <div className="custom-header-button">
           <Button
             type="primary"
             size="small"
-            onClick={this.savePagePrev.bind(this)}
+            onClick={this.savePagePrev}
           >
             预览
           </Button>

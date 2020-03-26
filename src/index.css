@@ -418,6 +418,10 @@ body {
 .singleBorderbg {
   background-image: url(img/other/singleBorder.png);
 }
+.singleDecoratebg{
+  background-image: url(img/other/singleDecorate.png);
+}
+
 .iframeCenterbg {
   background-image: url(img/other/iframeCenter.png);
 }

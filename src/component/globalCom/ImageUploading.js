@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-02-11 18:42:33
- * @LastEditTime : 2020-02-12 18:52:42
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-03-26 14:15:10
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\globalCom\ImageUploading.js
  */
@@ -31,10 +31,20 @@ class ImageUploading extends React.Component {
     loading: false,
   };
 
+  /**
+   * @description: 模仿点击上传按钮
+   * @param {type} 
+   * @return: 
+   */
   imitationClick() {
-    document.getElementById("uploadShowOption").click();
+    this.refs.upload.click();
   }
 
+  /**
+   * @description: 将图片源置空,和展示页面没关系
+   * @param {type} 
+   * @return: 
+   */
   deleteImageUrl() {
     this.setState({
       imageUrl: '',
@@ -42,6 +52,11 @@ class ImageUploading extends React.Component {
     })
   }
 
+  /**
+   * @description: 上传文件成功,并通知上层组件图表改变
+   * @param {type} 
+   * @return: 
+   */
   handleChange = info => {
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
@@ -54,20 +69,13 @@ class ImageUploading extends React.Component {
           imageUrl,
           loading: false,
         }, () => {
-          this.props.setShowPreview(imageUrl);
+          this.props.setShowPreview(imageUrl,this.props.ename);
         }),
       );
     }
   };
 
   render() {
-    const uploadButton = (
-      <div id="uploadShowOption" >
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    const { imageUrl } = this.state;
     return (
       <Upload
         name="avatar"
@@ -77,8 +85,7 @@ class ImageUploading extends React.Component {
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         beforeUpload={beforeUpload}
         onChange={this.handleChange}>
-        {uploadButton}
-        {/* imageUrl!='' ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton */}
+          <div   ref="upload" ></div>
       </Upload>
     );
   }
