@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-25 16:49:24
- * @LastEditTime: 2020-03-23 16:36:41
+ * @LastEditTime: 2020-03-27 18:22:17
  * @LastEditors: Please set LastEditors
  * @Description: 用来进行提供调用的接口
  * @FilePath: \layout - 副本 (2) - 副本\src\api\api.js
@@ -26,13 +26,15 @@ export function test() {
     method: 'get'
   });
 }
-
+const deployPrev = "http://121.8.161.110:8082/data/";
+const localPrev = "http://localhost:8080/data/";
+const defaultPrev = deployPrev;
+const sharePrev = "http://121.8.161.110:8082/share/";
 
 
 export function getKSHChart(getKshObj) {
   return request({
-    //http://localhost:8080/data/thematic/GetKSHChart.do
-    url: 'http://localhost:8080/data/thematic/GetKSHChart.do',
+    url: defaultPrev+'thematic/GetKSHChart.do',
     method: 'post',
     data:Qs.stringify(getKshObj)
   });
@@ -40,7 +42,7 @@ export function getKSHChart(getKshObj) {
 
 export function getShareDesc(getKshObj) {
   return request({
-    url: 'http://localhost:8080/data/share/getShareDesc.do',
+    url: defaultPrev+'share/getShareDesc.do',
     method: 'post',
     data:Qs.stringify(getKshObj)
   });
@@ -49,7 +51,7 @@ export function getShareDesc(getKshObj) {
 
 export function addOneLayer(addLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/addKSHChart.do',
+    url: defaultPrev+'thematic/addKSHChart.do',
     method: 'post',
     data:Qs.stringify(addLayerObj)
   });
@@ -60,7 +62,7 @@ export function addOneLayer(addLayerObj){
 //用来获取背景的数据的id,如果不存在进行添加。
 export function getBgIndex(getLayerObj){
   return request({
-    url: 'http://localhost:8080/data/cell/getCellByPars.do',
+    url: defaultPrev+'cell/getCellByPars.do',
     method: 'post',
     data:Qs.stringify(getLayerObj)
   });
@@ -68,7 +70,7 @@ export function getBgIndex(getLayerObj){
 
 export function getOtherLayer(getLayerObj){
   return request({
-    url: 'http://localhost:8080/data/cell/getCells.do',
+    url: defaultPrev+'cell/getCells.do',
     method: 'post',
     data:Qs.stringify(getLayerObj)
   });
@@ -76,7 +78,7 @@ export function getOtherLayer(getLayerObj){
 
 export function addOneOtherLayer(addLayerObj){
   return request({
-    url: 'http://localhost:8080/data/cell/addCell.do',
+    url: defaultPrev+'cell/addCell.do',
     method: 'post',
     data:Qs.stringify(addLayerObj)
   });
@@ -84,14 +86,14 @@ export function addOneOtherLayer(addLayerObj){
 
 export function editOneOtherLayer(updLayerObj){
   return request({
-    url: 'http://localhost:8080/data/cell/updateCell.do',
+    url: defaultPrev+'cell/updateCell.do',
     method: 'post',
     data:Qs.stringify(updLayerObj)
   });
 }
 export function delOneOtherLayer(delLayerObj){
   return request({
-    url: 'http://localhost:8080/data/cell/deleteCell.do',
+    url: defaultPrev+'cell/deleteCell.do',
     method: 'post',
     data:Qs.stringify(delLayerObj)
   });
@@ -101,7 +103,7 @@ export function delOneOtherLayer(delLayerObj){
 
 export function delOneLayer(delLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/DelKSHChart.do',
+    url: defaultPrev+'thematic/DelKSHChart.do',
     method: 'post',
     data:Qs.stringify(delLayerObj)
   });
@@ -110,14 +112,14 @@ export function delOneLayer(delLayerObj){
 
 export function editOneLayer(editLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/Edit.do',
+    url: defaultPrev+'thematic/Edit.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });
 }
 export function editKSHChartPosition(editLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/editKSHChartPosition.do',
+    url: defaultPrev+'thematic/editKSHChartPosition.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });
@@ -126,7 +128,7 @@ export function editKSHChartPosition(editLayerObj){
 
 export function editLayerSortNum(editLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/editLayerSortNum.do',
+    url: defaultPrev+'thematic/editLayerSortNum.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });
@@ -134,7 +136,7 @@ export function editLayerSortNum(editLayerObj){
 
 export function editLayerSortTopOrBottom(editLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/editLayerSortTopOrBottom.do',
+    url: defaultPrev+'thematic/editLayerSortTopOrBottom.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });
@@ -142,7 +144,7 @@ export function editLayerSortTopOrBottom(editLayerObj){
 
 export function editKSHChartData(editLayerObj){
   return request({
-    url: 'http://localhost:8080/data/thematic/Edit.do',
+    url: defaultPrev+'thematic/Edit.do',
     method: 'post',
     data:Qs.stringify(editLayerObj)
   });
@@ -150,7 +152,7 @@ export function editKSHChartData(editLayerObj){
 
 export function addPageImage(PageImageObj){
   return request({
-    url: 'http://localhost:8080/data/share/saveImage.do',
+    url: defaultPrev+'share/saveImage.do',
     method: 'post',
     data:Qs.stringify(PageImageObj)
   });
@@ -159,7 +161,7 @@ export function addPageImage(PageImageObj){
 
 export function getAllZTT() {
   return request({
-    url: 'http://localhost:8080/data/thematic/GetAllZTT.do',
+    url: defaultPrev+'thematic/GetAllZTT.do',
     method: 'get'
   });
 }
@@ -167,7 +169,7 @@ export function getAllZTT() {
 
 export function getShareById(shareID) {
   return request({
-    url: 'http://localhost:8080/data/share/getShareById.do?id='+shareID,
+    url: defaultPrev+'share/getShareById.do?id='+shareID,
     method: 'get'
   });
 }
@@ -196,7 +198,7 @@ export function getRecursionMap(url){
 
 export function getShareObj(shareObj) {
   return request({
-    url: 'http://localhost:8080/share/getSharesById',
+    url: sharePrev+'getSharesById',
     method: 'post',
     data:Qs.stringify(shareObj)
   });
@@ -204,7 +206,7 @@ export function getShareObj(shareObj) {
 
 export function getShareCells(shareObj) {
   return request({
-    url: 'http://localhost:8080/share/getCells',
+    url: sharePrev+'getCells',
     method: 'post',
     data:Qs.stringify(shareObj)
   });

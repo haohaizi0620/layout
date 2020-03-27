@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-01-06 12:08:04
- * @LastEditTime: 2020-03-26 19:40:07
+ * @LastEditTime: 2020-03-27 19:25:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\utils\chart.js
@@ -13,6 +13,7 @@ import $ from 'jquery';
 let chartTestData = require('../datasource/chartTestData.json');
 let otherDefaultData = require('../datasource/otherDefaultData.json');
 const chartData = require('../datasource/chartDatas.json');
+const projectType = "/data/";// "/data/"
 /**
  * @description: 创建一个对应的图表
  * @param  {String} chartName 图标的拼音首字母小写
@@ -256,11 +257,13 @@ export function showChartsOption(chartsList) {
                     });
                
                 map.on('load', function () {
-                    let dataShow = data.show;
-                    if (dataShow == "1") {
-                        addMapWFS(data, map);
-                    } else if (dataShow == "2") {
-                        addMapWMS(data, map);
+                    let dataShowVal = data.show;
+                    // let parentDom = window.parent.document;
+                    // let dataShow = parentDom.getElementById("dataShow").contentWindow;
+                    if (dataShowVal == "1") {
+                        addLayerWFS(data, map);
+                    } else if (dataShowVal == "2") {
+                        addLayerWMS(data, map);
                     }
                     getSpecify(chartId).then(result => {
                         let tempOptionObj = {
@@ -323,6 +326,8 @@ export function showChartsOption(chartsList) {
  * @param n 序号
  */
 function addChart(data, timeId, addIndex, _this) {
+    // let parentDom = window.parent.document;
+    // let dataShow = parentDom.getElementById("dataShow").contentWindow;
     var thType = data.thType;
     var catalogId = data.id;
     var map = {};
@@ -373,9 +378,9 @@ function addChart(data, timeId, addIndex, _this) {
             });
         map.on('load', function () {
             if (data.show == "1") {
-                addMapWFS(data, map);
+                addLayerWFS(data, map);
             } else if (data.show == "2") {
-                addMapWMS(data, map);
+                addLayerWMS(data, map);
             }
             getSpecify(catalogId).then(result => {
                 let tempOptionObj = {
@@ -401,7 +406,7 @@ function addChart(data, timeId, addIndex, _this) {
  * @param renderer
  * @returns
  */
-function addMapWFS(obj, map) {
+function addLayerWFS(obj, map) {
     var userName = getCookie("userName");
     var renderer = obj.renderer;
     console.info(renderer);
@@ -413,7 +418,7 @@ function addMapWFS(obj, map) {
     //var group2 = $(group1).find('GROUPRENDERER');
     if ('GROUPRENDERER' == tagName) { //字体符号库
         var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
         $.ajax({
             type: "GET",
@@ -470,7 +475,7 @@ function addMapWFS(obj, map) {
             var fuhaokuName = grouperenderer.attr('fuhaokuName');
             var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
 
-            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -573,7 +578,7 @@ function addMapWFS(obj, map) {
                         map.addImage(icon, image);
                     });
             }
-            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -623,7 +628,7 @@ function addMapWFS(obj, map) {
             var width = parseInt(simplinesymbol.attr('width'));
             var color = simplinesymbol.attr('color');
 
-            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -691,7 +696,7 @@ function addMapWFS(obj, map) {
             var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
             var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
 
-            var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+            var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                     '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
             $.ajax({
                 type: "GET",
@@ -759,7 +764,7 @@ function addMapWFS(obj, map) {
 
 }
 
-function addMapWMS(obj, map) {
+function addLayerWMS(obj, map) {
     var userName = getCookie("userName");
     var name = obj.name;
     var layername = userName + "." + obj.layername;
@@ -789,7 +794,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var fuhaokuName = $(obj).attr('fuhaokuName');
         var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
         var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -872,7 +877,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var fuhaokuName = $(obj).attr('fuhaokuName')
         var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
         var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",
@@ -952,7 +957,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
     } else if ('精准线样式' == type) {
         var value = $(obj).attr('value');
         var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -1014,7 +1019,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var lower = $(obj).attr('lower');
         var upper = $(obj).attr('upper');
         var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",
@@ -1075,7 +1080,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
     } else if ('精准面样式' == type) {
         var value = $(obj).attr('value');
         var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
         $.ajax({
             type: "GET",
@@ -1140,7 +1145,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         var lower = $(obj).attr('lower');
         var upper = $(obj).attr('upper');
         var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
-        var url = '/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+        var url = projectType+'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
                 '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<ogc:Filter><PropertyIsBetween><PropertyName>' + field + '</PropertyName><LowerBoundary>' + lower + '</LowerBoundary><UpperBoundary>' + upper + '</UpperBoundary></PropertyIsBetween></ogc:Filter>');
         $.ajax({
             type: "GET",

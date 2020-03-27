@@ -121,19 +121,19 @@ class Content extends Component {
     let tempStateTop = this.state.top;
     const { dx, dy } = e;
     let xl, xt;
-    if (tempStateLeft > 10 || (tempStateLeft == 10 && dx > 0)) {
+    if (tempStateLeft > 0 || (tempStateLeft == 0 && dx > 0)) {
       xl = tempStateLeft + dx;
     } else if (dx == 0) {
       xl = tempStateLeft;
     } else {
-      xl = 10;
+      xl = 0;
     }
-    if (tempStateTop > 10 || (tempStateTop == 10 && dy > 0)) {
+    if (tempStateTop > 0 || (tempStateTop == 0 && dy > 0)) {
       xt = tempStateTop + dy;
     } else if (dy == 0) {
       xt = tempStateTop;
     } else {
-      xt = 10;
+      xt = 0;
     }
     this.setState({
       left: xl,

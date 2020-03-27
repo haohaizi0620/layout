@@ -552,7 +552,7 @@ class Layout extends Component {
             });
             console.info(error);
         })
-    }else if(thType==="text"||thType==="border"||thType==="iframe"){
+    }else{// if(thType==="text"||thType==="border"||thType==="iframe")
       let mainKey = chartObj.mainKey;
       let delObj = {
         id:mainKey,
@@ -825,7 +825,7 @@ class Layout extends Component {
               this.updateChartsStyle("update");
               this.debounce(this.editChartData,cptIndex,tempOptionObj)
             } else {
-              // this.debounce(this.editOtherLayer,cptOptionObj,cptChartIdList,cptIndex)
+              this.debounce(this.editOtherLayer,cptOptionObj,cptChartIdList,cptIndex)
             }
           })
       }
@@ -837,8 +837,8 @@ class Layout extends Component {
    * @param {type} 
    * @return: 
    */
-  debounce(...args) {
-    let delay = 500;
+  debounce = (...args) => {
+    let delay = 300;
     let fn = args.shift();
     // 维护一个 timer
     let timer = null;
@@ -853,7 +853,7 @@ class Layout extends Component {
    * @param {type} 
    * @return: 
    */
-  editBgConfig(){
+  editBgConfig = () => {
     let bgObj = this.state.globalBg;
     let editObj = {
       id: bgObj.mainKey,
@@ -874,8 +874,8 @@ class Layout extends Component {
    * @param  {Array} args  [cptIndex]
    * @return: 
    */
-  editDataBaseLayerPosition(...args){
-        let cptIndex = args[0];
+  editDataBaseLayerPosition = (...args) => {
+        let [cptIndex] = args;
         let thType = "0";
         let mainKey = -1;
         let state = this.state;
@@ -899,7 +899,7 @@ class Layout extends Component {
             }
           }).catch(error =>  console.info("编辑定位error"));
         }else{
-          if(thType==="text"||thType==="border"||thType==="iframe"){
+          // if(thType==="text"||thType==="border"||thType==="iframe"){
             let layerData = leftChartObj.layerData;
             layerData.positionObj = showDatas;
             let editObj = {
@@ -915,7 +915,7 @@ class Layout extends Component {
                 console.info("编辑定位error");
               }
             }).catch(error =>  console.info("编辑定位error"));
-          }
+          // }
         }
   }
 
@@ -924,7 +924,7 @@ class Layout extends Component {
    * @param {Array} args  [cptOptionObj,cptChartIdList,cptIndex]
    * @return: 
    */
-  editOtherLayer(...args){
+  editOtherLayer = (...args) => {
     let [cptOptionObj,cptChartIdList,cptIndex] = args;
     let layerOption = cptOptionObj.layerOption;
     layerOption.positionObj = store.getState().showLayerDatas.showDatas;
@@ -948,7 +948,7 @@ class Layout extends Component {
    * @param {Array} args  [layerIndex,tempOptionObj]
    * @return: 
    */
-  editChartData(...args){
+  editChartData = (...args) => {
       let [layerIndex,tempOptionObj] = args;
       let chartObj = this.state.cptChartIdList[layerIndex];   
       let editJson = this.getEditJson(chartObj,tempOptionObj);
@@ -1126,7 +1126,7 @@ class Layout extends Component {
     * @param {type}
     * @return:
     */
-    selectSingleLayer(event,layerIndex,updateIndex,stateVal){
+    selectSingleLayer = (event,layerIndex,updateIndex,stateVal) =>{
       event.stopPropagation();
       let state = this.state;
       let chartLists =state.cptChartIdList;
@@ -1204,7 +1204,7 @@ class Layout extends Component {
      * @param {type} 
      * @return: 
      */
-    mainSwitchLayer(layerIndex,updateIndex,updateState){
+    mainSwitchLayer = (layerIndex,updateIndex,updateState) => {
       let arr = window.arr ? window.arr : [];
       let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
       if (arr.length > 0) {
@@ -1247,7 +1247,7 @@ class Layout extends Component {
      * @param {type} 
      * @return: 
      */
-    replaceData(dataArrays,layerIndex,updateIndex,updateState){
+    replaceData = (dataArrays,layerIndex,updateIndex,updateState) => {
       if(updateState==="top"||updateState==="bottom"){
         let tempObj = dataArrays[layerIndex];
         dataArrays.splice(layerIndex,1);
@@ -1281,20 +1281,9 @@ class Layout extends Component {
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-    this.refs.shareModel.setDefaultValue(`http://localhost:8080/share/build/index.html?sid=${sidVal}`);
+    this.refs.shareModel.setDefaultValue(`http://121.8.161.110:8082/share/build/index.html?sid=${sidVal}`);
   }
 
-  /**
-   * @description: 点击确定打开新的标签页,展示分享页面
-   * @param {type} 
-   * @return: 
-   */
-  saveShowPageData = () => {
-    let preState = this.state;
-    let nameData = preState.nameData;
-    let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-    window.open(`http://localhost:8080/share/build/index.html?sid=${sidVal}`, '_blank');
-  }
 
   render() {
     let {cptIndex,nameData,cptKeyList,cptChartIdList,scale,cptPropertyObj,cptPropertyList,globalBg} = this.state;
@@ -1327,6 +1316,8 @@ class Layout extends Component {
                     style={{
                       height: bjHeight,
                       width: bjWidth,
+                      left:'60px',
+                      top:'60px',
                       backgroundColor: bgColor,
                       transform: `scale(${scale}) translate(0px, 0px)`,
                       backgroundImage:`url(${bgImageIntegerUrl})`
@@ -1340,7 +1331,6 @@ class Layout extends Component {
                     />
                     <ShareItemModal
                     ref="shareModel"
-                    saveShowPageData={this.saveShowPageData}
                     />
                     {cptKeyList.map((item, i) => {
                       let timeKey = item.key;
@@ -1363,7 +1353,7 @@ class Layout extends Component {
                             del={this.ondelItemPrev.bind(this, i)}
                             editItem={this.editItemPrev.bind(this,i)}
                             updateLayerPosition={this.updateLayerPosition.bind(this)}
-                            editDataSource={this.debounce.bind(this,this.editDataBaseLayerPosition,cptIndex)}></Content>
+                            editDataSource={this.debounce.bind(this,this.editDataBaseLayerPosition,i)}></Content>
                         </div>
                       );
                     })}

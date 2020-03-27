@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 11:52:23
- * @LastEditTime: 2020-03-20 18:54:25
+ * @LastEditTime: 2020-03-27 19:26:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\router\router.js
@@ -24,7 +24,7 @@ import {
 const BasicRoute = () => (
     <Router >
         <Switch>
-        <Route path="/" component={App} />
+          <Route path="/" component={App} />
         </Switch>
     </Router>
 );

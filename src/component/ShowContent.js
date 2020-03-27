@@ -1,17 +1,17 @@
 /*
  * @Author: your name
  * @Date: 2020-02-19 09:56:36
- * @LastEditTime: 2020-03-24 16:39:38
+ * @LastEditTime: 2020-03-27 16:39:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ShowContent.js
  */
 import React, { Component, Fragment } from 'react'
 import './Content.css';
-import CurrentTime from './otherLayer/textLayer/CurrentTime';
-import SingleRowText from './otherLayer/textLayer/SingleRowText';
 import IframeLayer from './otherLayer/IframeLayer';
 import TextLayer from "./otherLayer/TextLayer";
+import DecorateLayer from "./otherLayer/DecorateLayer";
+import SingleImage from "./otherLayer/imageLayer/SingleImage";
 class Child1 extends Component {
     constructor(props) {
         super(props);
@@ -38,7 +38,7 @@ class Child1 extends Component {
                         {tempLayerType == "text" ? (
                             <TextLayer
                             timeKey={timeKey}
-                            chartData={chartData}
+                            layerData={chartData}
                             layerSinId={layerSinId}
                             />
                         ) : null}
@@ -74,7 +74,9 @@ class Child1 extends Component {
                                 : ""
                             }}
                             >
-                            {tempLayerType == "iframe" ? ( <IframeLayer chartData={chartData} /> ) : null}
+                            {tempLayerType == "iframe" ? ( <IframeLayer layerData={chartData} /> ) : null}
+                            {tempLayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={chartData} /> ) : null}
+                            {tempLayerType === "decorate"  ? ( <DecorateLayer layerData={chartData} /> ) : null}
                             </div>
                         ) : null}
                 </div>

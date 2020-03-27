@@ -61,8 +61,11 @@ class EditSimpleMainInfo extends Component {
                     size='small'
                     min={item.minNumber}
                     max={item.maxNumber}
-                    onChange={event => {
-                      this.updateChartField(event, item.ename);
+                    // onChange={event => {
+                    //   this.updateChartField(event, item.ename);
+                    // }}
+                    onBlur={event => {
+                      this.updateChartField(parseInt(event.target.value), item.ename);
                     }}
                     value={typeof item.value === 'number' ? parseInt(item.value) : 0}
                   />
@@ -102,8 +105,8 @@ class EditSimpleMainInfo extends Component {
                       max={item.maxNumber}
                       step={item.step}
                       value={typeof item.value === 'number' ? item.value : 0}
-                      onChange={event => {
-                        this.updateChartField(event, item.ename);
+                      onBlur={event => {
+                        this.updateChartField(parseInt(event.target.value), item.ename);
                       }}
                     />
                   </div>
