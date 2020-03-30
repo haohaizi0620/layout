@@ -1,0 +1,9 @@
+$scale: 1;
+
+#edit {
+  position: fixed;
+}
+
+:export {
+  scale: $scale;
+}
