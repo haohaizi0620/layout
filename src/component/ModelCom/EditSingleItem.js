@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/EditSingleItem.css";
+import "./css/EditSingleItem.scss";
 import {
   Form,
   Input,

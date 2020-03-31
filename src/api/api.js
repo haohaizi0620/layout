@@ -28,7 +28,7 @@ export function test() {
 }
 const deployPrev = "http://121.8.161.110:8082/data/";
 const localPrev = "http://localhost:8080/data/";
-const defaultPrev = deployPrev;
+const defaultPrev = localPrev;
 const sharePrev = "http://121.8.161.110:8082/share/";
 
 

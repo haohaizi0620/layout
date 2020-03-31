@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Collapse, Button, message,Tabs, Icon} from "antd";
-import ComponentList from "./ComponentList";
 import { getAllZTT, getShareById, addOneLayer } from "../../api/api";
-import * as html2canvas from "html2canvas";
-import "./LeftComponentList.css";
+import "./LeftComponentList.scss";
 const { Panel } = Collapse;
 const { TabPane } = Tabs;
 /*
@@ -239,38 +237,31 @@ class LeftComponentList extends Component {
                     if (item.serialNumber == 1) {
                       return (
                         <TabPane
-                      tab={
-                        <span>
-                          {item.tabCname}
-                        </span>
-                      }
-                      key={item.serialNumber}>
-                        <Collapse expandIconPosition="right" bordered={false}>
-                              {componentData.map((bigDataItem, bigIndex) => {
-                                return (
-                                  <Panel header={bigDataItem.service.name} key={bigIndex}>
-                                    {bigDataItem.data.map((item, index) => {
-                                      return (
-                                        <div class="showLayerName">
-                                          <div onClick={this.onClickAdd.bind(this, item)}>
-                                            {item.name}
-                                          </div>
-                                          <div
-                                            className="moveLayerName moveLayerNameHide"
-                                            style={{ left: left, top: top }}
-                                          >
-                                            {item.name}
-                                          </div>
-                                        </div>
-                                      );
-                                    })}
-                                  </Panel>
-                                );
-                              })}
-                            </Collapse>
-                    </TabPane>
-                        
-                      );
+                          tab={
+                            <span>
+                              {item.tabCname}
+                            </span>
+                          }
+                          key={item.serialNumber}>
+                            <Collapse expandIconPosition="right" bordered={false}>
+                                  {componentData.map((bigDataItem, bigIndex) => {
+                                    return (
+                                      <Panel header={bigDataItem.service.name} key={bigIndex}>
+                                        {bigDataItem.data.map((item, index) => {
+                                          return (
+                                            <div class="showLayerName">
+                                              <div onClick={this.onClickAdd.bind(this, item)}>
+                                                {item.name}
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </Panel>
+                                    );
+                                  })}
+                                </Collapse>
+                        </TabPane>
+                        );
                     } else {
                       return (
                         <TabPane
@@ -342,7 +333,7 @@ class LeftComponentList extends Component {
                       );
                     }
                   })}
-                </Tabs>
+           </Tabs>
           
         </div>
       </div>

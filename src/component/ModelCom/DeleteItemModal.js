@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
-import './css/DeleteItemModal.css';
+import './css/DeleteItemModal.scss';
 import { Modal, Button } from 'antd';
 class DeleteItemModal extends React.Component {
     constructor() {

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import reactable from "reactablejs";
-import "./Content.css";
+import "./Content.scss";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import IframeLayer from "./otherLayer/IframeLayer";

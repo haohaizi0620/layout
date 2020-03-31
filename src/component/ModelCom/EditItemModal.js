@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
-import './css/EditItemModal.css';
+import './css/EditItemModal.scss';
 import { Modal, Button } from 'antd';
 import EditItemConfig from './EditItemConfig';
 class EditItemModal extends React.Component {

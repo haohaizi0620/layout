@@ -7,7 +7,7 @@
  * @FilePath: \layout\src\component\ShowContent.js
  */
 import React, { Component, Fragment } from 'react'
-import './Content.css';
+import './Content.scss';
 import IframeLayer from './otherLayer/IframeLayer';
 import TextLayer from "./otherLayer/TextLayer";
 import DecorateLayer from "./otherLayer/DecorateLayer";

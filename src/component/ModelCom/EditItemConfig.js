@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/EditItemModal.css";
+import "./css/EditItemModal.scss";
 import EditSingleItem from './EditSingleItem'
 class EditItemModal extends React.Component {
   constructor(props) {

@@ -1,31 +1,24 @@
-import './Layout.css';
+import './Layout.scss';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
-import { test, getKSHChart, delOneLayer,editOneLayer,getShareById,editKSHChartPosition,editKSHChartData,editLayerSortNum,editLayerSortTopOrBottom,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
+import {getKSHChart, delOneLayer,getShareById,editKSHChartPosition,editKSHChartData,editLayerSortNum,editLayerSortTopOrBottom,delOneOtherLayer,getSpecify,editOneOtherLayer,getBgIndex,getOtherLayer,addOneOtherLayer} from '../api/api';
 import LeftComponentList from './leftComponents/LeftComponentList';
 import Config from './Config';
 import DeleteItemModal from './ModelCom/DeleteItemModal';
-import EditItemModal from './ModelCom/EditItemModal';
 import ShareItemModal from './ModelCom/ShareItemModal';
 import ContentBottom from './content/ContentBottom';
-import $ from 'jquery';
 import store from '../redux/store';
 import { chartOption,showChartsOption} from '../utils/chart';
-import { notification, Modal, Button } from 'antd';
-import { selectGetOneMainLayer, addMainLayer, selectPostOneMainLayer } from '../api/apiAxios';
+import {  Modal, Button } from 'antd';
 import {
   updateShowLayerFieldVal,
-  replaceShowLayerFieldVal,
   replaceAllShowLayerFieldVal,
   delCptOptionsList,
   editCptOptionsList,
-  saveShowPageData,
   replaceGlobalBg,
   replaceOptionsList,
 } from '../redux/actions/showLayerDatas';
-import { Redirect } from 'react-router-dom';
-
 import PageSetting from '../style-config/page-setting/PageSetting';
 
 const chartData = require('../datasource/chartDatas.json');
@@ -1288,6 +1281,17 @@ class Layout extends Component {
   render() {
     let {cptIndex,nameData,cptKeyList,cptChartIdList,scale,cptPropertyObj,cptPropertyList,globalBg} = this.state;
     let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = globalBg;
+    let bgStyle = {
+      height: bjHeight,
+      width: bjWidth,
+      left:'60px',
+      top:'60px',
+      backgroundColor: bgColor,
+      transform: `scale(${scale}) translate(0px, 0px)`,
+    }
+    if(bgImageIntegerUrl!==""){
+      bgStyle.backgroundImage = `url(${bgImageIntegerUrl})`;
+    }
     return (
       <Fragment>
         <Header
@@ -1313,15 +1317,7 @@ class Layout extends Component {
             <div  className={'custom-content-top'}>
                 <div
                     className={'custom-content-canvs '+bgImageName}
-                    style={{
-                      height: bjHeight,
-                      width: bjWidth,
-                      left:'60px',
-                      top:'60px',
-                      backgroundColor: bgColor,
-                      transform: `scale(${scale}) translate(0px, 0px)`,
-                      backgroundImage:`url(${bgImageIntegerUrl})`
-                    }}
+                    style={bgStyle}
                     onClick={event => {
                       this.singleSwitchLayer(event, -1);
                     }}>
