@@ -32,6 +32,24 @@ class LeftComponentList extends Component {
           defaultSelect: false
         }
       ],
+      moveBottom:[
+        {
+          cname:'上移',
+          flag:-1,
+        },
+        {
+          cname:'下移',
+          flag:1,
+        },
+        {
+          cname:'置顶',
+          flag:'top',
+        },
+        {
+          cname:'置底',
+          flag:'bottom',
+        }
+      ]
     };
   }
 
@@ -90,40 +108,19 @@ class LeftComponentList extends Component {
   }
 
   initLeftDatas() {
-    /* let tempArr = [
+   /*  let tempArr = [
       {
         data:
-          '[{"id":3,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
+        '[{"id":4,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":4,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":4,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":4,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
         service: {
           id: 1,
           name: "CCC"
         }
-      },
-      {
-        data:
-          '[{"id":4,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMERING_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null},{"id":2,"parentid":1,"name":"京津冀年卡景点20190","type":"THEMEPIE_CHART","service":null,"layername":null,"renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":null,"show":null}]',
-        service: {
-          id: 2,
-          name: "KSH"
-        }
       }
     ];
-    let nameData = [
-      {
-        SHAREDATE: "",
-        KSHTYPE: "",
-        UPDATEDATE: "2020-02-20 11:41:02",
-        KSHDETAIL: "test",
-        ID: "bce15ee5747342c398db153c248c08b6",
-        USERNAME: "public",
-        PASSWORD: "public123",
-        KSHNAME: "test",
-        THEME: "dark",
-        CANCEL: 0
-      }
-    ];
-    tempArr[0].data = JSON.parse(tempArr[0].data);
-    tempArr[1].data = JSON.parse(tempArr[1].data);
+     tempArr = tempArr.filter(item =>  item.data = JSON.parse(item.data));
+
+
     this.setState({
       componentData: tempArr,
     }); */
@@ -225,7 +222,7 @@ class LeftComponentList extends Component {
       });
   }
   render() {
-    let {tabKeys,cptIndex,ComponentList:listData,componentData,left,top} = this.state;
+    let {tabKeys,cptIndex,ComponentList:listData,componentData,left,top,moveBottom} = this.state;
     return (
       <div className="custom-left-list">
         <div className="custom-left-list-tools">
@@ -272,42 +269,24 @@ class LeftComponentList extends Component {
                             </span>
                           }
                           key={item.serialNumber}>
-                             <div className="">
+                             <div className="custom-left-list-p-count">
                               <span>图层（{listData ? listData.length : 0}）个</span>{" "}
                             </div>
                             <div className="move-button">
-                              <Button
-                                size="small"
-                                onClick={event => {
-                                  this.moveShowLayer(event, -1);
-                                }}
-                              >
-                                上移
-                              </Button>
-                              <Button
-                                size="small"
-                                onClick={event => {
-                                  this.moveShowLayer(event, 1);
-                                }}
-                              >
-                                下移
-                              </Button>
-                             <Button
-                                size="small"
-                                onClick={event => {
-                                  this.moveShowLayer(event, "top");
-                                }}
-                              >
-                                置顶
-                              </Button>
-                              <Button
-                                size="small"
-                                onClick={event => {
-                                  this.moveShowLayer(event, "bottom");
-                                }}
-                              >
-                                置底
-                              </Button>
+                              {
+                                moveBottom.map(item => {
+                                    return (
+                                      <Button
+                                        size="small"
+                                        onClick={event => {
+                                          this.moveShowLayer(event, item.flag);
+                                        }}
+                                      >
+                                      {item.cname}
+                                      </Button>
+                                    )
+                                })
+                              }
                             </div>
                             <div >
                               {listData

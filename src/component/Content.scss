@@ -1,17 +1,50 @@
-.remove {
-    position: absolute;
-    right: 7px;
-    top: 1px;
-    cursor: pointer;
-    z-index: 999;
-    display: none;
-}
 
 .grid-item {
     position: absolute;
+    .grid-item-scale-show{
+        position: absolute;
+        /* height: 100px;
+        width: 100px;
+        left: -150px;
+        top: -150px;
+        opacity: 0; */
+        height:30%;
+        width:20%;
+        left:40%;
+        top: -30%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        .grid-item-scale-show-icon{
+            background: url("../img/icon/rotateIcon.png"); 
+            height: 50%;
+            width: 100%;
+            background-size: 100% 100%;
+        }
+        .grid-item-scale-show-line{
+            background-color: #896b6b;
+            height: 50%;
+            width: 3%;
+        }
+    }
+    .grid-item-update-icon {
+        position: absolute;
+        margin-top: 5px;
+        cursor: pointer;
+        z-index: 999;
+        display: none;
+        width: 20px;
+        color: white;
+        font-size: 17px;
+    }
+    
 }
 
-.grid-item:hover .remove {
+.grid-item:hover .grid-item-update-icon {
     display: inline-block;
 }
 

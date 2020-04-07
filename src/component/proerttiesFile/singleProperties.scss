@@ -5,11 +5,20 @@
   text-align: center;
   color:#647279;
   font-size: 12px;
+  .pro-item-simple-close{
+    display: none;
+  }
   .ant-input-number {
     position: relative;
     width: 100%;
     border-radius: 0px;
     border: 1px solid gray;
+  }
+  .ant-input-number-handler-wrap{
+    background: #fff0;
+    svg {
+      color:white;
+    }
   }
 
   .ant-select-sm {

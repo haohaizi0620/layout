@@ -20,14 +20,11 @@ import {
   replaceOptionsList,
 } from '../redux/actions/showLayerDatas';
 import PageSetting from '../style-config/page-setting/PageSetting';
-
 const chartData = require('../datasource/chartDatas.json');
 
 class Layout extends Component {
   constructor(props) {
     super(props);
-    // window.parent.document.getElementById("dataShow").topicEditor("",0);
-    console.log(window);
     this.state = {
       cptIndex: -1, //当前选中的组件
       cptType: '', //当前组件的类型
@@ -629,21 +626,20 @@ class Layout extends Component {
    * @param {type}
    * @return:
    */
-  updateLayerPosition(layerIndex, type, fieldArr) {
-    let tempCptObj = this.state.cptPropertyList[layerIndex];
-    if (type == 'multi') {
-      fieldArr.forEach(item => {
+  updateLayerPosition = fieldArr => {
+    let {cptPropertyList,cptIndex} = this.state;
+    let tempCptObj = cptPropertyList[cptIndex];
+    fieldArr.forEach(item => {
         let fieldEname = item.fieldEname;
         let fieldValue = item.fieldValue;
-        store.dispatch(
+       /*  store.dispatch(
           updateShowLayerFieldVal({ fieldEname: fieldEname, fieldValue: fieldValue, layerType: 'chart' })
-        );
+        ); */
         tempCptObj.cptBorderObj[fieldEname] =fieldValue;
-      });
-    }
-    this.state.cptPropertyList[layerIndex] = tempCptObj;
+    });
+    cptPropertyList[cptIndex] = tempCptObj;
     this.setState({
-      cptPropertyList: this.state.cptPropertyList //所有组件属性集合
+      cptPropertyList: cptPropertyList //所有组件属性集合
     });
   }
 
@@ -654,7 +650,6 @@ class Layout extends Component {
     const height = e.rect.height;
     // const left = e.x0;
     // const top = e.y0;
-    // console.log(e);
     var prevObjStyle = e.target.parentNode.style;
     const left = parseInt(prevObjStyle.left);
     const top = parseInt(prevObjStyle.top);
@@ -1281,6 +1276,7 @@ class Layout extends Component {
   render() {
     let {cptIndex,nameData,cptKeyList,cptChartIdList,scale,cptPropertyObj,cptPropertyList,globalBg} = this.state;
     let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = globalBg;
+    let comLength = cptKeyList.length;
     let bgStyle = {
       height: bjHeight,
       width: bjWidth,
@@ -1299,7 +1295,7 @@ class Layout extends Component {
           onClickAdd={this.onClickAdd}
           savePagePrev={this.savePagePrev}
           nameData={nameData}
-          comLength={cptKeyList.length}
+          comLength={comLength}
           cptChartIdList={cptChartIdList}
         />
         <div className='custom-content'>
@@ -1308,7 +1304,7 @@ class Layout extends Component {
           nameData={nameData}
           ComponentList={cptKeyList}
           cptChartIdList={cptChartIdList}
-          comLength={cptKeyList.length}
+          comLength={comLength}
           cptIndex={cptIndex}
           onClickAdd={this.onClickAdd}
           singleSwitchLayer={this.singleSwitchLayer}
@@ -1348,7 +1344,7 @@ class Layout extends Component {
                             handleDown={this.handleDown}
                             del={this.ondelItemPrev.bind(this, i)}
                             editItem={this.editItemPrev.bind(this,i)}
-                            updateLayerPosition={this.updateLayerPosition.bind(this)}
+                            updateLayerPosition={this.updateLayerPosition}
                             editDataSource={this.debounce.bind(this,this.editDataBaseLayerPosition,i)}></Content>
                         </div>
                       );

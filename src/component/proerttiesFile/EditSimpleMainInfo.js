@@ -30,6 +30,36 @@ class EditSimpleMainInfo extends Component {
     };
   }
   
+  componentDidMount(){
+    let inputNumber = document.getElementsByClassName("ant-input-number-handler");
+    if(inputNumber){
+      for(let element of inputNumber){
+        element.onclick = this.simulationInputNumberClick
+      }
+    }
+  }
+
+
+ simulationInputNumberClick = event => {
+    let target = event.target;
+    let tagName = target.tagName.toLowerCase();
+    let InputNumber = target.parentElement;
+    let spanElement = target;
+    if(tagName === "svg"){
+      InputNumber = InputNumber.parentElement.parentElement;
+      spanElement = target.parentElement.parentElement;
+    }
+    let className = spanElement.classList[1];
+    let value = parseInt(InputNumber.nextElementSibling.firstElementChild.value);
+    if(className==="ant-input-number-handler-up"){
+      value++;
+    }else if(className==="ant-input-number-handler-down"){
+      value--;
+    }
+    let ename = InputNumber.parentElement.previousSibling.innerText;
+    this.updateChartField(value,ename)
+  }
+
   render() {
     let showData = this.props.childer;
     var defaultOneColVal = 6;
@@ -56,14 +86,13 @@ class EditSimpleMainInfo extends Component {
             let itemType = item.type;
             if (itemType == 'InputNumber') {
               return (
-                <div key={i} className={oneClassName+' pro-item-simple'} >
+                <div key={i} className={oneClassName+' pro-item-simple'}  >
+                   <span class="pro-item-simple-close" >{item.ename}</span>
                   <InputNumber
                     size='small'
                     min={item.minNumber}
                     max={item.maxNumber}
-                    // onChange={event => {
-                    //   this.updateChartField(event, item.ename);
-                    // }}
+                    data-ename={item.ename}
                     onBlur={event => {
                       this.updateChartField(parseInt(event.target.value), item.ename);
                     }}
@@ -76,37 +105,41 @@ class EditSimpleMainInfo extends Component {
                   }
                 </div>
               );
-            } else if (itemType == 'Slider') {
-              let showVal = item.value;
+            } else if (itemType === 'Slider') {
+              let {value:showVal,step,minNumber,maxNumber,ename} = item;
               if(!showVal){
                 showVal = 0;
               }
-              if (typeof(showVal) == "number"&&showVal<0)
-              {
-                showVal = 0;
+              if(ename === 'rotate' && showVal<0){
+                showVal = 360 + showVal;
               }
               return (
                 <div key={i} >
                   <div className='pro-item-simple pro-item-slider'>
                     <Slider
-                      min={item.minNumber}
-                      max={item.maxNumber}
-                      step={item.step}
+                      min={minNumber}
+                      max={maxNumber}
+                      step={step}
                       onChange={event => {
-                        this.updateChartField(event, item.ename);
+                        this.updateChartField(event, ename);
                       }}
-                      value={typeof item.value === 'number' ? item.value : 0}
+                      value={showVal}
                     />
                   </div>
                   <div className='pro-item-simple pro-item-number'>
+                    <span  class="pro-item-simple-close" >{ename}</span>
                     <InputNumber
                       size='small'
-                      min={item.minNumber}
-                      max={item.maxNumber}
-                      step={item.step}
-                      value={typeof item.value === 'number' ? item.value : 0}
+                      min={minNumber}
+                      max={maxNumber}
+                      step={step}
+                      value={showVal}
                       onBlur={event => {
-                        this.updateChartField(parseInt(event.target.value), item.ename);
+                        let value = parseInt(event.target.value);
+                        this.updateChartField(value, ename);
+                      }}
+                      onChange={event => {
+                        // this.updateChartField(event, ename);
                       }}
                     />
                   </div>

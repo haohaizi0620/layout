@@ -1,3 +1,4 @@
+$color-white : white;
 .custom-content {
   flex: 1;
   display: flex;
@@ -35,13 +36,31 @@
     text-align: center;
     line-height: 2;
     span {
-      color: white;
+      color: $color-white;
     }
   }
- 
+
+}
+.ant-modal-header{
+  background-color: #181a2c;
+  color: $color-white;
 }
 
-   
+.ant-modal-content{
+  background-color: #181a2c;
+  color: $color-white;
+}
+.ant-modal-close{
+  color: $color-white;
+}
+.ant-modal-confirm-content{
+  color: $color-white;
+}
+.ant-modal-title{
+  color: $color-white;
+}
+
+
 .bg1{
   background-image: url('../img/bg/bg1.png');
 }

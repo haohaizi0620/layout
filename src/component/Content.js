@@ -38,8 +38,7 @@ class Child1 extends Component {
           style={{
             width: "100%",
             height: "100%",
-            borderWidth:
-              LayerType === "border" ? layerData.borderWidth + "px" : "0px",
+            borderWidth:LayerType === "border" ? layerData.borderWidth + "px" : "0px",
             borderStyle: LayerType === "border" ? "solid" : "none",
             borderImage:
               LayerType === "border"
@@ -87,8 +86,7 @@ class Child1 extends Component {
                     ? layerData.textAlign
                     : ""
                   : ""
-              }}
-            >
+              }}>
               {LayerType === "iframe" ? ( <IframeLayer layerData={layerData} /> ) : null}
               {LayerType === "table" ? ( <BaseTable data={layerData.tableData} config={layerData.tableConfig} columns={layerData.tableColumns}     /> ) : null}
               {LayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={layerData} /> ) : null}
@@ -108,7 +106,19 @@ class Content extends Component {
     this.state = {
       cptBorderObj: this.props.obj.cptBorderObj,
       left: cptBorderObj.left,
-      top: cptBorderObj.top
+      top: cptBorderObj.top,
+      gridEditIcon:[
+        {
+          icon:faEdit,
+          title:"编辑",
+          reduceVal:50,
+        },
+        {
+          icon:faTrash,
+          title:"移除",
+          reduceVal:30,
+        }
+      ]
     };
   }
   /**
@@ -117,8 +127,7 @@ class Content extends Component {
    * @return:
    */
   handleDragMove = e => {
-    let tempStateLeft = this.state.left;
-    let tempStateTop = this.state.top;
+    let {left:tempStateLeft,top:tempStateTop} = this.props.obj.cptBorderObj;
     const { dx, dy } = e;
     let xl, xt;
     if (tempStateLeft > 0 || (tempStateLeft == 0 && dx > 0)) {
@@ -135,11 +144,7 @@ class Content extends Component {
     } else {
       xt = 0;
     }
-    this.setState({
-      left: xl,
-      top: xt
-    });
-    this.props.updateLayerPosition(this.props.delIndex, "multi", [
+    this.props.updateLayerPosition([
       { fieldEname: "left", fieldValue: xl },
       { fieldEname: "top", fieldValue: xt }
     ]);
@@ -178,93 +183,97 @@ class Content extends Component {
     e.preventDefault();
     e.cancelBubble = true;
     e.returnValue = false;
-    let chartData = this.props.chartData;
-    if (!chartData) return;
-    let showDiv = document.getElementById("grid" + chartData.timeKey);
-    const centerX = parseInt(showDiv.style.left) + showDiv.clientWidth / 2;
-    const centerY = parseInt(showDiv.style.top) + showDiv.clientHeight / 2;
-    const mouseX =
-      e.pageX -
-      (document.documentElement.scrollLeft || document.body.scrollLeft);
-    const mouseY =
-      e.pageY - (document.documentElement.scrollTop || document.body.scrollTop);
+    let {chartData} = this.props;
+    let {timeKey} = chartData;
+    let showDiv = document.getElementById("grid" + timeKey);
+    let {offsetLeft,offsetTop,clientWidth,clientHeight}  = showDiv;
+    let {pageX,pageY} = e;
+    let {scrollLeft,scrollTop} = document.documentElement;
+    let {scrollLeft:BodyscrollLeft,scrollTop:BodyscrollTop} = document.body;
+    const centerX = parseInt(offsetLeft) + clientWidth / 2;
+    const centerY = parseInt(offsetTop) + clientHeight / 2;
+    const mouseX = pageX - (scrollLeft || BodyscrollLeft);
+    const mouseY =  pageY - (scrollTop || BodyscrollTop);
     const angleRad = Math.atan2(mouseX - centerX, -(mouseY - centerY));
     const angleDeg = parseInt(angleRad * (180 / Math.PI));
-    this.props.updateLayerPosition(this.props.delIndex, "multi", [
+    console.log("angleRad:"+angleRad+"angleDeg:"+angleDeg)
+    this.props.updateLayerPosition([
       { fieldEname: "rotate", fieldValue: angleDeg }
     ]);
   };
   render() {
-    let {timeKey,chartData,obj} = this.props;
+    let {gridEditIcon} = this.state;
+    let {timeKey,chartData,obj,cptIndex,delIndex} = this.props;
     let {opacity,left,top,width,height,rotate,layerBorderStyle,layerBorderWidth,layerBorderColor} = obj.cptBorderObj;
     let {thType} = chartData;
+    let grid = `grid${timeKey}`;
+    let gridStyle = {
+      opacity: opacity,
+      left: left,
+      top: top,
+      width: parseInt(width),
+      height: parseInt(height),
+      transform: `rotate(${rotate}deg)`,
+      borderStyle: layerBorderStyle,
+      borderWidth: layerBorderWidth + "px",
+      borderColor: layerBorderColor,
+    }
     return (
       <Fragment>
         <div
-          className="grid-item"
-          id={"grid" + timeKey}
-          style={{
-            opacity: opacity,
-            left: left,
-            top: top,
-            width: parseInt(width),
-            height: parseInt(height),
-            transform: `rotate(${rotate}deg)`,
-            borderStyle: layerBorderStyle,
-            borderWidth: layerBorderWidth + "px",
-            borderColor: layerBorderColor
-          }}
+          className={'grid-item'}
+          id={grid}
+          style={gridStyle}
         >
-          {this.state.cptIndex !== -1 ? (
-            <div
-              onMouseDown={this.onRotateMouseDown}
-              style={{
-                position: "absolute",
-                height: "100px",
-                width: "100px",
-                left: "-100px",
-                top: "-100px",
-                opacity: 0,
-                cursor: `url(${require("../img/icon/rotateIcon.png")}) 14 14,pointer`
-              }}
-            ></div>
-          ) : null}
-          {thType === "0" || thType === "1" ? (
-            <FontAwesomeIcon
-              icon={faEdit}
-              className="remove"
-              title="编辑"
-              style={{
-                left: width - 50 + "px",
-                top: 2 + "px",
-                width: "20px",
-                color: "white"
-              }}
-              onClick={this.onEditItem}
-            />
-           ) : null} 
           {
-            <FontAwesomeIcon
-              icon={faTrash}
-              className="remove"
-              title="移除"
-              style={{
-                left: width - 30 + "px",
-                top: 2 + "px",
-                width: "20px",
-                color: "white"
-              }}
-              onClick={this.onRemoveItem}
-            />
+            cptIndex === delIndex?
+            <div
+              className={'grid-item-scale-show'}
+              onMouseDown={this.onRotateMouseDown}
+              /* style={{
+                cursor: `url(${require("../img/icon/rotateIcon.png")}) 14 14,pointer`
+              }} */
+            >
+              <div className={'grid-item-scale-show-icon'} ></div>
+              <div className={'grid-item-scale-show-line'}></div>
+            </div>
+            :null
           }
-          <ReactableChild
+          {
+            gridEditIcon.map(item => {
+              let iconTitle = item.title;
+              let reduceVal = item.reduceVal;
+              let icon = item.icon;
+              let isFlag = false;
+              let eventObj =null;
+              if(iconTitle === "移除"||(iconTitle === "编辑"&&(thType  === "0" || thType === "1"))){
+                isFlag = true;
+              }
+              if(iconTitle === "移除"){
+                eventObj = this.onRemoveItem
+              }else  if(iconTitle === "编辑"){
+                eventObj = this.onEditItem
+              }
+              return(
+                    isFlag?
+                    <FontAwesomeIcon
+                            icon={icon}
+                            className={'grid-item-update-icon'}
+                            title={iconTitle}
+                            style={{
+                              left: width - reduceVal + "px",
+                            }}
+                            onClick={eventObj}/>:null
+                 )
+            })
+          }
+         { <ReactableChild
             draggable
             gesturable
             resizable={{
-              // resize from all edges and corners
               edges: {
-                /*left: true,*/ right: true,
-                bottom: true /*, top: true*/
+                left: true,top: true , 
+                bottom: true, right: true,
               }
             }}
             onDragMove={this.handleDragMove}
@@ -274,8 +283,7 @@ class Content extends Component {
             onResizeEnd={this.handleEnd}
             {...this.props}
           >
-            >
-          </ReactableChild>
+          </ReactableChild>}
         </div>
       </Fragment>
     );
