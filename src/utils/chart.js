@@ -305,6 +305,18 @@ export function showChartsOption(chartsList) {
                         tableData: layerData.tableData,
                         tableColumns: layerData.tableColumns,
                     }
+                } else if (thType === "image") {
+                    let {backgroundImage,repeat,radius,urlConfig} = layerData;
+                    let {url,ifBlank} = urlConfig;
+                    tempSaveObj = {
+                        backgroundImage: backgroundImage,
+                        repeat: repeat,
+                        radius: radius,
+                        urlConfig: {
+                            url: url,
+                            ifBlank: ifBlank
+                        }
+                    };
                 }
                 let tempOptionObj = {
                     cptIndex: index,

@@ -286,9 +286,9 @@ class EditSimpleMainInfo extends Component {
                       />
                 </div>
               )
-            }else if (itemType == 'noContent') {
+            }else if (itemType === 'noContent') {
               return (
-                <div key={i} className={oneClassName+' pro-item-simple'}>
+                <div key={i} className={'pro-item-single-all pro-item-simple'} >
                   <span>该组件不需要配置数据</span>
                 </div>
               );

@@ -18,86 +18,80 @@ import {
 } from "@fortawesome/fontawesome-free-solid";
 fontawesome.library.add(faEdit, faTimes, faUserEdit, faUserTimes, faRedo,faTrash);
 
-class Child1 extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-      let {obj:cptObj,keyData,timeKey,chartData,delIndex,cptIndex,getRef} = this.props;
-      let {id:layerSinId} = keyData;
-      let {type:LayerType,cptBorderObj} = cptObj;
-      let layerData = chartData.layerData;
-      let existTypes = ["text", "0", "1"]; //border，iframe,table
-      return (
-        <div
-          className={
-            cptIndex == delIndex
-              ? "itemClick item"
-              : "item"
-          }
-          style={{
-            width: "100%",
-            height: "100%",
-            borderWidth:LayerType === "border" ? layerData.borderWidth + "px" : "0px",
-            borderStyle: LayerType === "border" ? "solid" : "none",
-            borderImage:
-              LayerType === "border"
-                ? `url(${require("../img/" + layerData.borderImage)}) 30`
-                : "none"
-          }}
-          ref={getRef}
-        >
-          {LayerType === "text" ? (
-            <TextLayer
-              timeKey={timeKey}
-              layerData={layerData}
-              layerSinId={layerSinId}
-            />
-          ) : null}
-          {//存放图表和地图的dom
-          LayerType === "0" || LayerType === "1" ? (
-            <div
-              id={timeKey}
-              className="singleChart"
-              style={{
-                position: "absolute",
-                width: cptBorderObj.width - 20 + "px",
-                height: cptBorderObj.height - 25 + "px",
-                left: "10px",
-                top: "20px",
-                textAlign:
-                  LayerType === "text" && layerData
-                    ? layerData.textAlign
-                      ? layerData.textAlign
-                      : ""
-                    : ""
-              }}
-            ></div>
-          ) : null}
-          {//当前类型没有在上面添加判断的话都进到这个里面
-          !existTypes.includes(LayerType) ? (
-            <div
-              id={timeKey}
-              style={{
-                width: "100%",
-                height: "100%",
-                textAlign: layerData
-                  ? layerData.textAlign
-                    ? layerData.textAlign
-                    : ""
-                  : ""
-              }}>
-              {LayerType === "iframe" ? ( <IframeLayer layerData={layerData} /> ) : null}
-              {LayerType === "table" ? ( <BaseTable data={layerData.tableData} config={layerData.tableConfig} columns={layerData.tableColumns}     /> ) : null}
-              {LayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={layerData} /> ) : null}
-              {LayerType === "decorate"  ? ( <DecorateLayer layerData={layerData} /> ) : null}
-            </div>
-          ) : null}
-        </div>
-      );
-  }
+function Child1(props) {
+  const {obj:cptObj,keyData,timeKey,chartData,delIndex,cptIndex,getRef} = props;
+  const {id:layerSinId} = keyData;
+  const {type:LayerType,cptBorderObj} = cptObj;
+  const layerData = chartData.layerData;
+  const existTypes = ["text", "0", "1"]; //border，iframe,table
+  return (
+    <div
+    className={
+      cptIndex === delIndex
+        ? "itemClick item"
+        : "item"
+    }
+    style={{
+      width: "100%",
+      height: "100%",
+      borderWidth:LayerType === "border" ? layerData.borderWidth + "px" : "0px",
+      borderStyle: LayerType === "border" ? "solid" : "none",
+      borderImage:
+        LayerType === "border"
+          ? `url(${require("../img/" + layerData.borderImage)}) 30`
+          : "none"
+    }}
+    ref={getRef}
+  >
+    {LayerType === "text" ? (
+      <TextLayer
+        timeKey={timeKey}
+        layerData={layerData}
+        layerSinId={layerSinId}
+      />
+    ) : null}
+    {//存放图表和地图的dom
+    LayerType === "0" || LayerType === "1" ? (
+      <div
+        id={timeKey}
+        className="singleChart"
+        style={{
+          position: "absolute",
+          width: cptBorderObj.width - 20 + "px",
+          height: cptBorderObj.height - 25 + "px",
+          left: "10px",
+          top: "20px",
+          textAlign:
+            LayerType === "text" && layerData
+              ? layerData.textAlign
+                ? layerData.textAlign
+                : ""
+              : ""
+        }}
+      ></div>
+    ) : null}
+    {//当前类型没有在上面添加判断的话都进到这个里面
+    !existTypes.includes(LayerType) ? (
+      <div
+        id={timeKey}
+        style={{
+          width: "100%",
+          height: "100%",
+          textAlign: layerData
+            ? layerData.textAlign
+              ? layerData.textAlign
+              : ""
+            : ""
+        }}>
+        {LayerType === "iframe" ? ( <IframeLayer layerData={layerData} /> ) : null}
+        {LayerType === "table" ? ( <BaseTable data={layerData.tableData} config={layerData.tableConfig} columns={layerData.tableColumns}     /> ) : null}
+        {LayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={layerData} /> ) : null}
+        {LayerType === "decorate"  ? ( <DecorateLayer layerData={layerData} /> ) : null}
+      </div>
+    ) : null}
+  </div>
+  );
 }
-
 const ReactableChild = reactable(Child1);
 class Content extends Component {
   constructor(props) {

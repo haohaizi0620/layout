@@ -179,8 +179,8 @@ class Layout extends Component {
                     shareid: shareId,
                     json:  JSON.stringify({
                         bgColor: 'rgba(15, 42, 67,1)',
-                        bjWidth: 1470,
-                        bjHeight: 937,
+                        bjWidth: 1920,
+                        bjHeight: 1080,
                         bgImageName:"none",
                         bgImageIntegerUrl:"",
                     }),
@@ -632,9 +632,9 @@ class Layout extends Component {
     fieldArr.forEach(item => {
         let fieldEname = item.fieldEname;
         let fieldValue = item.fieldValue;
-       /*  store.dispatch(
+        store.dispatch(
           updateShowLayerFieldVal({ fieldEname: fieldEname, fieldValue: fieldValue, layerType: 'chart' })
-        ); */
+        );
         tempCptObj.cptBorderObj[fieldEname] =fieldValue;
     });
     cptPropertyList[cptIndex] = tempCptObj;
@@ -704,13 +704,14 @@ class Layout extends Component {
     let cptChartIdList = state.cptChartIdList;
     let cptOptionObj = store.getState().showLayerDatas.cptOptionsList[cptIndex];
     if(cptIndex === -1){
-      store.dispatch(updateShowLayerFieldVal(updateFieldObj));
+        store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         let globalBg =  state.globalBg;
         globalBg[fieldEname] = fieldValue;
         this.setState(
           {
             globalBg: globalBg
           },() => {
+            this.refs.rightConfig.refs.editMainCenter.updateStateVal();
             this.debounce(this.editBgConfig);
           }
         );
@@ -927,7 +928,6 @@ class Layout extends Component {
       if(result.n==1)
          console.info("编辑其他图层success")
     }).catch(error =>  console.info("编辑其他图层error"));
-    this.editOtherLayer(cptOptionObj,cptChartIdList,cptIndex);
   }
 
   /**
