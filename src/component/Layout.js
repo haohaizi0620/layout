@@ -649,7 +649,7 @@ class Layout extends Component {
     const { left:updLeft, top:updTop } = e.deltaRect;
     const width = rect.width/scale;
     const height = rect.height/scale;
-    var {prevLeft,prevTop,prevBorderWidth,prevBorderStyle,prevBorderColor} = target.parentNode.style;
+    var {left:prevLeft,top:prevTop,borderWidth:prevBorderWidth,borderStyle:prevBorderStyle,borderColor:prevBorderColor} = target.parentNode.style;
     const thisLeft = parseInt(prevLeft);
     const thisTop = parseInt(prevTop);
     const left = thisLeft + updLeft;
