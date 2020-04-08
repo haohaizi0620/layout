@@ -786,7 +786,7 @@ class Properties extends Component {
   }
 
   componentWillReceiveProps(){
-    this.updateStateVal();
+    // this.updateStateVal();
   }
   
   updateStateVal() {

@@ -35,8 +35,8 @@ class Layout extends Component {
       cptPropertyObj: store.getState().showLayerDatas.showDatas, //当前点击的图层的基本属性
       globalBg: {
           bgColor: 'rgba(15, 42, 67,1)',
-          bjWidth: 1470,
-          bjHeight: 937,
+          bjWidth: 1920,
+          bjHeight: 1080,
           bgImageName:"none",
           bgImageIntegerUrl:"",
           mainKey:-1
@@ -644,22 +644,22 @@ class Layout extends Component {
   }
 
   handleResizeMove = e => {
-    var index = parseInt(e.target.parentNode.parentNode.getAttribute('index'));
-    // index = this.state.cptIndex;
-    const width = e.rect.width;
-    const height = e.rect.height;
-    // const left = e.x0;
-    // const top = e.y0;
-    var prevObjStyle = e.target.parentNode.style;
-    const left = parseInt(prevObjStyle.left);
-    const top = parseInt(prevObjStyle.top);
-    const layerBorderWidth = parseInt(prevObjStyle.borderWidth);
-    const layerBorderStyle = prevObjStyle.borderStyle;
-    const layerBorderColor = prevObjStyle.borderColor;
-    const opacity = this.state.cptPropertyObj.cptBorderObj.opacity;
-    let cptpList = this.state.cptPropertyList;
-    const t = cptpList[index].cptType ? cptpList[index].cptType : 'bg';
-    const type = cptpList[index].type ? cptpList[index].type : 'bg';
+    let {scale,cptPropertyList:cptpList,cptPropertyObj,cptIndex} = this.state;
+    let {target,rect} = e;
+    const { left:updLeft, top:updTop } = e.deltaRect;
+    const width = rect.width/scale;
+    const height = rect.height/scale;
+    var {prevLeft,prevTop,prevBorderWidth,prevBorderStyle,prevBorderColor} = target.parentNode.style;
+    const thisLeft = parseInt(prevLeft);
+    const thisTop = parseInt(prevTop);
+    const left = thisLeft + updLeft;
+    const top = thisTop + updTop;
+    const layerBorderWidth = parseInt(prevBorderWidth);
+    const layerBorderStyle = prevBorderStyle;
+    const layerBorderColor = prevBorderColor;
+    const opacity = cptPropertyObj.cptBorderObj.opacity;
+    const t = cptpList[cptIndex].cptType ? cptpList[cptIndex].cptType : 'bg';
+    const type = cptpList[cptIndex].type ? cptpList[cptIndex].type : 'bg';
     let cptpObj = {
       cptBorderObj: {
         width,
@@ -675,12 +675,11 @@ class Layout extends Component {
       type: type,
       cptType: t
     };
-    cptpList[index] = cptpObj;
+    cptpList[cptIndex] = cptpObj;
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
     this.setState(
       {
-        cptIndex: index,
         cptPropertyList: cptpList,
         cptPropertyObj: cptpObj
       },
@@ -1334,6 +1333,7 @@ class Layout extends Component {
                             this.singleSwitchLayer(event, i);
                           }}>
                           <Content
+                            scale={scale}
                             timeKey={timeKey}
                             cptIndex={cptIndex}
                             delIndex={i}
