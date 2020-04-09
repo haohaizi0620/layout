@@ -8,24 +8,22 @@
  */
 import React from 'react';
 export default function SingleImage(props){
-  
-
-  const {layerData} = props;
-  const {urlConfig} = layerData;
+  const {urlConfig,backgroundImage,radius,repeat} = props.layerData;
+  const {url,ifBlank} = urlConfig;
    return ( 
        <div
        style={{
          height:'100%',
          width:'100%',
-         backgroundImage: `url(${layerData.backgroundImage})`,
-         borderRadius: `${layerData.radius}px`,
-         backgroundRepeat: layerData.repeat,
+         backgroundImage: `url(${backgroundImage})`,
+         borderRadius: `${radius}px`,
+         backgroundRepeat: repeat,
          imageRendering: '-webkit-optimize-contrast',
          backgroundSize: '100% 100%'
        }}>
          <a  
-           src={urlConfig.url ? urlConfig.url : ''}
-           target={urlConfig.ifBlank ? '_blank' : '_self'}
+           src={url ? url : ''}
+           target={ifBlank ? '_blank' : '_self'}
            style={{
              display: 'block',
              width: '100%',

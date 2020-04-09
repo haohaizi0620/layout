@@ -79,10 +79,8 @@ export default function reducer(state = cptPropertyObj, action) {
                 }else{
                     newState.bgFieldObj[fieldEname] = fieldValue     
                 }
-            } else if (updateLayer=="default"||updateLayer == "chart"||updateLayer == "text"||updateLayer == "border") {
-                newState.showDatas.cptBorderObj[fieldEname] = fieldValue
             }else{
-                //state.showDatas.cptBorderObj[updateObj.fieldEname] = updateObj.fieldValue
+                state.showDatas.cptBorderObj[fieldEname] = fieldValue;
             }
             return { ...state, ...newState };
             //将当前属性的值进行替换

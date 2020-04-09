@@ -10,7 +10,7 @@ import ShareItemModal from './ModelCom/ShareItemModal';
 import ContentBottom from './content/ContentBottom';
 import store from '../redux/store';
 import { chartOption,showChartsOption} from '../utils/chart';
-import {  Modal, Button } from 'antd';
+import { Menu, Dropdown,Modal,Button,message} from 'antd';
 import {
   updateShowLayerFieldVal,
   replaceAllShowLayerFieldVal,
@@ -45,6 +45,32 @@ class Layout extends Component {
       shareId:1,//当前页面需要的shareid
       kshId:1,//当前的kshId
       scale:1,//当前内容的缩放比例
+      rightMenuData:[//右键菜单UI数据
+        {
+          index:"1",
+          cname:"置顶",
+          flag:'top',
+        },
+        {
+          index:"2",
+          cname:"置底",
+          flag:'bottom',
+        },
+        {
+          index:"3",
+          cname:"上移",
+          flag:-1,
+        },
+        {
+          index:"4",
+          cname:"下移",
+          flag:1,
+        },
+        {
+          index:"5",
+          cname:"删除"
+        }
+      ]
     };
   }
   componentDidMount() {
@@ -319,7 +345,7 @@ class Layout extends Component {
                           },
                           cptChartIdList:tempCptChartIdList
                         }, () => {
-                            showChartsOption(tempCptChartIdList);
+                            showChartsOption(tempCptChartIdList,tempCptKeyList);
                         });
                       }
                     })
@@ -748,56 +774,67 @@ class Layout extends Component {
           }
         );
       } else {
+          let defaultFlag = false;
           if(layerType==="table"){
-            let layerData = cptChartIdList[cptIndex].layerData;
-            if(fieldEname === "tablePageSize"){
-              layerData.tableConfig.table.pageSize = fieldValue;
-            } else if(fieldEname === "tableHeaderFontFamily"){
-             layerData.tableConfig.table.header.textStyle.fontFamily = fieldValue
-            } else if(fieldEname === "tableHeaderfontSize"){
-              layerData.tableConfig.table.header.textStyle.fontSize = fieldValue
-            } else if(fieldEname === "tableHeaderfontColor"){
-              layerData.tableConfig.table.header.textStyle.color = fieldValue
-             } else if(fieldEname === "tableHeaderfontWeight"){
-               layerData.tableConfig.table.header.textStyle.fontWeight = fieldValue
-             } else if(fieldEname === "tableHeaderBorderWidth"){
-              layerData.tableConfig.table.header.borderStyle.width = fieldValue
-             } else if(fieldEname === "tableHeaderBorderColor"){
-               layerData.tableConfig.table.header.borderStyle.color = fieldValue
-             } else if(fieldEname === "tableHeaderbgColor"){
-              layerData.tableConfig.table.header.backgroundColor = fieldValue
-             } else if(fieldEname === "tableHeaderTextAlign"){
-               layerData.tableConfig.table.header.textAlign = fieldValue
-             } else if(fieldEname === "tableBodyFontFamily"){
-              layerData.tableConfig.table.textStyle.fontFamily = fieldValue
-              } else if(fieldEname === "tableBodyfontSize"){
-                layerData.tableConfig.table.textStyle.fontSize = fieldValue
-              } else if(fieldEname === "tableBodyfontColor"){
-                layerData.tableConfig.table.textStyle.color = fieldValue
-              } else if(fieldEname === "tableBodyfontWeight"){
-                layerData.tableConfig.table.textStyle.fontWeight = fieldValue
-              } else if(fieldEname === "tableBodyBorderWidth"){
-                layerData.tableConfig.table.borderStyle.width = fieldValue
-              } else if(fieldEname === "tableBodyBorderColor"){
-                layerData.tableConfig.table.borderStyle.color = fieldValue
-              } else if(fieldEname === "tableBodybgColor"){
-                layerData.tableConfig.table.backgroundColor = fieldValue
-              } else if(fieldEname === "tableBodyTextAlign"){
-                layerData.tableConfig.table.textAlign = fieldValue
-              }
-            cptOptionObj.layerOption  = layerData;
-            cptChartIdList[cptIndex].layerData = layerData;
-          }else if(layerType==="image"){
+            if (otherLayerId === "baseTable") {
+              let layerData = cptChartIdList[cptIndex].layerData;
+              let tableConfig = layerData.config.table; 
+                if(fieldEname === "tablePageSize"){
+                  tableConfig.pageSize = fieldValue;
+                } else if(fieldEname === "tableHeaderFontFamily"){
+                  tableConfig.header.textStyle.fontFamily = fieldValue
+                } else if(fieldEname === "tableHeaderfontSize"){
+                  tableConfig.header.textStyle.fontSize = fieldValue
+                } else if(fieldEname === "tableHeaderfontColor"){
+                  tableConfig.header.textStyle.color = fieldValue
+                } else if(fieldEname === "tableHeaderfontWeight"){
+                  tableConfig.header.textStyle.fontWeight = fieldValue
+                } else if(fieldEname === "tableHeaderBorderWidth"){
+                  tableConfig.header.borderStyle.width = fieldValue
+                } else if(fieldEname === "tableHeaderBorderColor"){
+                  tableConfig.header.borderStyle.color = fieldValue
+                } else if(fieldEname === "tableHeaderbgColor"){
+                  tableConfig.header.backgroundColor = fieldValue
+                } else if(fieldEname === "tableHeaderTextAlign"){
+                  tableConfig.header.textAlign = fieldValue
+                } else if(fieldEname === "tableBodyFontFamily"){
+                  tableConfig.textStyle.fontFamily = fieldValue
+                } else if(fieldEname === "tableBodyfontSize"){
+                  tableConfig.textStyle.fontSize = fieldValue
+                } else if(fieldEname === "tableBodyfontColor"){
+                  tableConfig.textStyle.color = fieldValue
+                } else if(fieldEname === "tableBodyfontWeight"){
+                  tableConfig.textStyle.fontWeight = fieldValue
+                } else if(fieldEname === "tableBodyBorderWidth"){
+                  tableConfig.borderStyle.width = fieldValue
+                } else if(fieldEname === "tableBodyBorderColor"){
+                  tableConfig.borderStyle.color = fieldValue
+                } else if(fieldEname === "tableBodybgColor"){
+                  tableConfig.backgroundColor = fieldValue
+                } else if(fieldEname === "tableBodyTextAlign"){
+                  tableConfig.textAlign = fieldValue
+                }
+                layerData.config.table = tableConfig;
+                cptOptionObj.layerOption  = layerData;
+                cptChartIdList[cptIndex].layerData = layerData;
+            }else{
+              defaultFlag = true;
+            }
+          }else if(layerType==="media"){
             if(otherLayerId==="singleImage"){
                 if(fieldEname === 'url'||fieldEname === 'ifBlank'){
                   cptOptionObj.layerOption.urlConfig[fieldEname] = fieldValue;
                   cptChartIdList[cptIndex].layerData.urlConfig[fieldEname] = fieldValue;
                 }else{
-                  cptOptionObj.layerOption[fieldEname] = fieldValue;
-                  cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
+                  defaultFlag = true;
                 }
+            }else{
+              defaultFlag = true;
             }
           }else{
+            defaultFlag = true;
+          }
+          if(defaultFlag){
             cptOptionObj.layerOption[fieldEname] = fieldValue;
             cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
           }
@@ -1114,7 +1151,9 @@ class Layout extends Component {
     * @return:
     */
     selectSingleLayer = (event,layerIndex,updateIndex,stateVal) =>{
-      event.stopPropagation();
+      if(event){
+        event.stopPropagation();
+      }
       let state = this.state;
       let chartLists =state.cptChartIdList;
       let thisLayer = chartLists[layerIndex];
@@ -1271,7 +1310,25 @@ class Layout extends Component {
     this.refs.shareModel.setDefaultValue(`http://121.8.161.110:8082/share/build/index.html?sid=${sidVal}`);
   }
 
-
+  onRightClick = (event) => {
+    let {cptIndex,rightMenuData} = this.state;
+    if(cptIndex === -1){
+      message.warning("请选择编辑的图表！")
+    }
+    let menuIndex = event.key;
+    let updateFlag = "";
+    rightMenuData.map(item => {
+      if(item.index === menuIndex){
+        updateFlag = item.flag;
+      }
+    })
+    if(["1","2","3","4"].includes(menuIndex)){
+      this.refs.leftComponentList.moveShowLayer(null,updateFlag);
+    }else if(menuIndex === "5"){//删除
+        this.ondelItemPrev(cptIndex);
+    }
+  }
+ 
   render() {
     let {cptIndex,nameData,cptKeyList,cptChartIdList,scale,cptPropertyObj,cptPropertyList,globalBg} = this.state;
     let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = globalBg;
@@ -1309,48 +1366,57 @@ class Layout extends Component {
           singleSwitchLayer={this.singleSwitchLayer}
           selectSingleLayer={this.selectSingleLayer}/>
           <div className='custom-content-p'>
-            <div  className={'custom-content-top'}>
-                <div
-                    className={'custom-content-canvs '+bgImageName}
-                    style={bgStyle}
-                    onClick={event => {
-                      this.singleSwitchLayer(event, -1);
-                    }}>
-                    <DeleteItemModal
-                      ref="delModal"
-                      delItem={this.deleteDataBaseOneLayer}
-                    />
-                    <ShareItemModal
-                    ref="shareModel"
-                    />
-                    {cptKeyList.map((item, i) => {
-                      let timeKey = item.key;
-                      return (
-                        <div
-                          index={i}
-                          key={timeKey}
-                          onClick={event => {
-                            this.singleSwitchLayer(event, i);
-                          }}>
-                          <Content
-                            scale={scale}
-                            timeKey={timeKey}
-                            cptIndex={cptIndex}
-                            delIndex={i}
-                            obj={cptPropertyList[i]}
-                            keyData={item}
-                            chartData={cptChartIdList[i]}
-                            handleResizeMove={this.handleResizeMove}
-                            handleDown={this.handleDown}
-                            del={this.ondelItemPrev.bind(this, i)}
-                            editItem={this.editItemPrev.bind(this,i)}
-                            updateLayerPosition={this.updateLayerPosition}
-                            editDataSource={this.debounce.bind(this,this.editDataBaseLayerPosition,i)}></Content>
-                        </div>
-                      );
-                    })}
-                </div>
-            </div>
+          <Dropdown overlay={ 
+              <Menu onClick={this.onRightClick}>
+                <Menu.Item key="1">置顶</Menu.Item>
+                <Menu.Item key="2">置底</Menu.Item>
+                <Menu.Item key="3">上移</Menu.Item>
+                <Menu.Item key="4">下移</Menu.Item>
+                <Menu.Item key="5">删除</Menu.Item>
+              </Menu>} trigger={['contextMenu']}   >
+              <div  className={'custom-content-top'}>
+                    <div
+                        className={'custom-content-canvs '+bgImageName}
+                        style={bgStyle}
+                        onClick={event => {
+                          this.singleSwitchLayer(event, -1);
+                        }}>
+                        <DeleteItemModal
+                          ref="delModal"
+                          delItem={this.deleteDataBaseOneLayer}
+                        />
+                        <ShareItemModal
+                        ref="shareModel"
+                        />
+                        {cptKeyList.map((item, i) => {
+                          let timeKey = item.key;
+                          return (
+                            <div
+                              index={i}
+                              key={timeKey}
+                              onClick={event => {
+                                this.singleSwitchLayer(event, i);
+                              }}>
+                              <Content
+                                scale={scale}
+                                timeKey={timeKey}
+                                cptIndex={cptIndex}
+                                delIndex={i}
+                                obj={cptPropertyList[i]}
+                                keyData={item}
+                                chartData={cptChartIdList[i]}
+                                handleResizeMove={this.handleResizeMove}
+                                handleDown={this.handleDown}
+                                del={this.ondelItemPrev.bind(this, i)}
+                                editItem={this.editItemPrev.bind(this,i)}
+                                updateLayerPosition={this.updateLayerPosition}
+                                editDataSource={this.debounce.bind(this,this.editDataBaseLayerPosition,i)}></Content>
+                            </div>
+                          );
+                        })}
+                    </div>
+              </div>
+            </Dropdown>
             <div 
               className={'custom-content-bottom'} >
                   <ContentBottom

@@ -8,77 +8,68 @@
  */
 import React, { Component, Fragment } from 'react'
 import './Content.scss';
-import IframeLayer from './otherLayer/IframeLayer';
 import TextLayer from "./otherLayer/TextLayer";
-import DecorateLayer from "./otherLayer/DecorateLayer";
-import SingleImage from "./otherLayer/imageLayer/SingleImage";
+import TableLayer from "./otherLayer/TableLayer";
+import MediaLayer from "./otherLayer/MediaLayer";
+import MaterialLayer from "./otherLayer/MaterialLayer";
+import InteractionLayer from "./otherLayer/InteractionLayer";
 class Child1 extends Component {
     constructor(props) {
         super(props);
     }
     render() {
         var cptObj = this.props.cptObj;
-        let tempLayerType = cptObj.type;
+        let LayerType = cptObj.type;
         let cptBorderObj = cptObj.cptBorderObj;
-        let chartData = this.props.chartData.layerData;
+        let layerData = this.props.chartData.layerData;
         let keyData = this.props.keyData;
         let layerSinId = keyData.id;    
         let timeKey = this.props.id;
-        let existTypes = ["text", "0", "1"]; //border，iframe,table
             return (
                 <div
                     style={{
                         width: '100%',
                         height: '100%',
-                        borderWidth:tempLayerType == 'border'?chartData.borderWidth+"px":'0px',
-                        borderStyle:tempLayerType == 'border'?'solid':'none',
-                        borderImage:tempLayerType == 'border'?`url(${require("../img/"+chartData.borderImage)}) 30`:'none'
+                        borderWidth:LayerType == 'border'?layerData.borderWidth+"px":'0px',
+                        borderStyle:LayerType == 'border'?'solid':'none',
+                        borderImage:LayerType == 'border'?`url(${require("../img/"+layerData.borderImage)}) 30`:'none'
                     }} 
                     >
-                        {tempLayerType == "text" ? (
-                            <TextLayer
-                            timeKey={timeKey}
-                            layerData={chartData}
-                            layerSinId={layerSinId}
-                            />
-                        ) : null}
-                   {//存放图表和地图的dom
-                        tempLayerType == "0" || tempLayerType == "1" ? (
-                            <div
-                            id={timeKey}
-                            className="singleChart"
-                            style={{
-                                position: "absolute",
-                                width: cptBorderObj.width + "px",
-                                height: cptBorderObj.height + "px",
-                                textAlign:
-                                tempLayerType == "text" && chartData
-                                    ? chartData.textAlign
-                                    ? chartData.textAlign
-                                    : ""
-                                    : ""
-                            }}
-                            ></div>
-                        ) : null}
-                        {//当前类型没有在上面添加判断的话都进到这个里面
-                        !existTypes.includes(tempLayerType) ? (
-                            <div
-                            id={timeKey}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                textAlign: chartData
-                                ? chartData.textAlign
-                                    ? chartData.textAlign
-                                    : ""
-                                : ""
-                            }}
-                            >
-                            {tempLayerType == "iframe" ? ( <IframeLayer layerData={chartData} /> ) : null}
-                            {tempLayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={chartData} /> ) : null}
-                            {tempLayerType === "decorate"  ? ( <DecorateLayer layerData={chartData} /> ) : null}
-                            </div>
-                        ) : null}
+                       {["text"].includes(LayerType)? (
+      <TextLayer
+        timeKey={timeKey}
+        layerData={layerData}
+        layerSinId={layerSinId}
+      />
+    ) : null}
+    {//存放图表和地图的dom["0","1"]
+    ["0","1"].includes(LayerType) ? (
+      <div
+        id={timeKey}
+        className="singleChart"
+        style={{
+          position: "absolute",
+          width: cptBorderObj.width - 20 + "px",
+          height: cptBorderObj.height - 25 + "px",
+          left: "10px",
+          top: "20px",
+        }}
+      ></div>
+    ) : null}
+    {//当前类型没有在上面添加判断的话都进到这个里面
+    !["text", "0", "1"].includes(LayerType) ? (
+      <div
+        id={timeKey}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}>
+          {LayerType === "table" ? ( <TableLayer   layerData={layerData}   layerSinId={layerSinId}/> ) : null}
+          {LayerType === "media" ? ( <MediaLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
+          {LayerType === "material" ? ( <MaterialLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
+          {LayerType === "interaction" ? ( <InteractionLayer   layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
+      </div>
+    ) : null}
                 </div>
             )
     }

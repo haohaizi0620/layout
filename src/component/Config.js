@@ -82,8 +82,8 @@ class Config extends Component {
           <div className="control-panel-header" style={{ height: "30px" }}>
             <div class="control-panel-header-title">
               <div class="title-name">
-                <span class="ellipsis" title={layerTitle}>
-                    {layerTitle}
+                <span class="ellipsis title-name-text" title={layerTitle}>
+                    {layerTitle}    
                 </span>
               </div>
               <div class="version-tag">

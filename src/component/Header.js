@@ -3,6 +3,7 @@ import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as html2canvas from "html2canvas";
 import { addPageImage, addOneOtherLayer, getShareDesc } from "../api/api";
+import {getDefaultLayerData} from '../utils/globalAPI';
 import ShareItemModal from "./ModelCom/ShareItemModal";
 import store from "../redux/store";
 import "../index.css";
@@ -44,9 +45,11 @@ class Header extends Component {
     super(props);
     const tempCharsStr = "chart";
     const tempTextStr = "text";
-    const tempBorderStr = "border";
-    const tempIframeStr = "iframe";
+    const tempTableStr = "table";
+    const tempMediaStr = "media";
     const otherStr = "otherLayer";
+    const tempInteractionStr = "interaction";
+    const tempMaterialStr = "material";
     this.state = {
       shareUrl: "",
       nameData: {},
@@ -120,25 +123,43 @@ class Header extends Component {
           { id: "mapBar", text: "地图柱状图", layerType: "chartMap" }
         ]
       },
-      otherLayer: {
-        text: [
+      text: {
+        all: [
           { id: "singleRowText", text: "单行文本", layerType: "text" },
           { id: "multiLineText", text: "多行文本", layerType: "text" },
           { id: "moreRowText", text: "当前时间", layerType: "text" }
-        ],
-        border: [{ id: "singleBorder", text: "背景边框", layerType: "border" }],
-        iframe: [{ id: "iframeCenter", text: "嵌入页面", layerType: "iframe" }],
-        other: [
-          { id: 'singleImage', text: '单独图片', layerType: 'image' },
+        ]
+      },
+      media:{
+        all: [
+          { id: 'singleImage', text: '单独图片', layerType: 'media' },
+          { id: "iframeCenter", text: "嵌入页面", layerType: "media" },
+        ]
+      },
+      table:{
+        all: [
           { id: "baseTable", text: "表格数据", layerType: "table" },
-          { id: "iframeCenter", text: "嵌入页面", layerType: "iframe" },
-          { id: "singleBorder", text: "背景边框", layerType: "border" },
-          { id: "singleDecorate", text: "装饰", layerType: "decorate" }
+        ]
+      },
+      interaction:{
+        all: [
+          { id: "fullScreen", text: "全屏展示", layerType: "interaction" },
+        ]
+      },
+      material:{
+        all: [
+          { id: "singleBorder", text: "背景边框", layerType: "material" },
+          { id: "singleDecorate", text: "装饰", layerType: "material" }
+        ]
+      },
+      otherLayer: {
+        other: [
+          
         ]
       },
       //生成对应的UIstate
       layerDatas: [
-        {
+       /*  {
           typeName: "chart",
           refName: "basicChart",
           titleName: "基础图表",
@@ -193,33 +214,85 @@ class Header extends Component {
               IconObj: faMapPin
             }
           ]
+        }, */
+        {
+          typeName: "text",
+          refName: "text",
+          titleName: "文本图层",
+          IconObj: faFont,
+          leftIconLists: [
+            {
+              prevName: "all",
+              thisType: tempTextStr,
+              titleName: "文本",
+              IconObj: faFont
+            },
+          ]
+        },
+        {
+          typeName: "table",
+          refName: "table",
+          titleName: "表格图层",
+          IconObj: faOutdent,
+          leftIconLists: [
+            {
+              prevName: "all",
+              thisType: tempTableStr,
+              titleName: "表格",
+              IconObj: faOutdent
+            },
+          ]
+        },
+        {
+          typeName: "media",
+          refName: "media",
+          titleName: "媒体图层",
+          IconObj: faOutdent,
+          leftIconLists: [
+            {
+              prevName: "all",
+              thisType: tempMediaStr,
+              titleName: "媒体",
+              IconObj: faOutdent
+            },
+          ]
+        },
+        {
+          typeName: "interaction",
+          refName: "interaction",
+          titleName: "交互图层",
+          IconObj: faOutdent,
+          leftIconLists: [
+            {
+              prevName: "all",
+              thisType: tempInteractionStr,
+              titleName: "交互",
+              IconObj: faOutdent
+            },
+          ]
+        },
+        {
+          typeName: "material",
+          refName: "material",
+          titleName: "素材图层",
+          IconObj: faOutdent,
+          leftIconLists: [
+            {
+              prevName: "all",
+              thisType: tempMaterialStr,
+              titleName: "素材",
+              IconObj: faOutdent
+            },
+          ]
         },
         {
           typeName: "otherLayer",
           refName: "otherLayer",
           titleName: "其他图层",
-          IconObj: faFont,
+          IconObj: faOutdent,
           leftIconLists: [
             {
-              prevName: "text",
-              thisType: otherStr,
-              titleName: "文本",
-              IconObj: faFont
-            },
-            /*  {
-              prevName: 'border',
-              thisType: otherStr,
-              titleName: '背景边框',
-              IconObj: faBus,
-            },
-            {
-              prevName: 'iframe',
-              thisType: otherStr,
-              titleName: '嵌套页面',
-              IconObj: faBus,
-            }, */
-            {
-              prevName: "other",
+              prevName: "all",
               thisType: otherStr,
               titleName: "其他图层",
               IconObj: faOutdent
@@ -238,7 +311,7 @@ class Header extends Component {
       });
     }
   }
-
+ 
   /**
    * @description: 添加一个图层到对应的生成content组件的数据里
    * @param {type}
@@ -248,30 +321,7 @@ class Header extends Component {
     let layerType = layerObj.layerType;
     let layerId = layerObj.id;
     var comLength = this.props.comLength + 1;
-    let defaultShowVal = {};
-    if (layerType === "text") {
-      let textCenterVal = "标题";
-      if (layerId === "multiLineText") {
-        textCenterVal = "这是一个可以换行的文本.......";
-      } else if (layerId === "moreRowText") {
-        textCenterVal = "";
-      }
-      let tempTextObj = otherDefaultData.text;
-      tempTextObj.textCenter.value = textCenterVal;
-      defaultShowVal = tempTextObj;
-    } else if (layerType === "border") {
-      defaultShowVal = otherDefaultData.border;
-    } else if (layerType === "iframe") {
-      defaultShowVal = otherDefaultData.iframe;
-    } else if (layerType === "image") {
-      if (layerId === "singleImage") {
-        defaultShowVal = otherDefaultData.singleImage;
-      }
-    } else if (layerType === "table") {
-      defaultShowVal = otherDefaultData.table;
-    } else if (layerType === "decorate"){
-      defaultShowVal = otherDefaultData.decorate;
-    }
+    let defaultShowVal = getDefaultLayerData(layerType,layerId);
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
     /* this.props.onClickAdd(layerObj, {
@@ -285,7 +335,7 @@ class Header extends Component {
     if (layerType !== "chart") {
       //layerType == 'text' || layerType == 'border' || layerType == 'iframe'
       let shareid = window.parent.document.getElementById("shareID").value;
-      let layerName = layerType + comLength;
+      let layerName = layerObj.text;
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
       let defaultLayerJson = "";
       defaultLayerJson = JSON.stringify(defaultShowVal);

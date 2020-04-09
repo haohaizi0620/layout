@@ -10,6 +10,7 @@ import store from '../redux/store';
 import {getSpecify, getMapDataWFS, getRecursionMap} from '../api/api';
 import {addCptOptionsList, editCptOptionsList} from '../redux/actions/showLayerDatas';
 import $ from 'jquery';
+import {getDefaultLayerData} from './globalAPI';
 let chartTestData = require('../datasource/chartTestData.json');
 let otherDefaultData = require('../datasource/otherDefaultData.json');
 const chartData = require('../datasource/chartDatas.json');
@@ -82,6 +83,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
             }
         }
     } else if (otherObj && otherObj.state === "headerAdd"){
+        let defaultCharts = ["chart","map","chartMap","0","1"]
         let layerType = "chart";
         let chartId = 101;
         chartData.map(item => {
@@ -91,37 +93,14 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
             }
         })
         if (!flag) {
-            if (layerType === "text" || layerType === "border" || layerType === "iframe"|| layerType === "decorate"||layerType === "table" || layerType === "image" ) {
+            if (!defaultCharts.includes(layerType)) {
                 arr.push(timeKey);
                 mapObjArr.push({layerId: timeKey, layerMap: {}});
                 window.arr = arr;
                 window.mapObjArr = mapObjArr;
-                let tempSaveObj = {};
-                if (layerType === "border") {
-                    tempSaveObj = otherDefaultData.border;
-                } else if (layerType === "text") {
-                    let textCenterVal = "标题";
-                    if (chartName === "multiLineText") {
-                        textCenterVal = "这是一个可以换行的文本.......";
-                    } else if (chartName === "moreRowText") {
-                        textCenterVal = "";
-                    }
-                    let tempTextObj = otherDefaultData.text;
-                    tempTextObj.textCenter.value = textCenterVal;
-                    tempSaveObj = tempTextObj;
-                } else if (layerType === "iframe") {
-                    tempSaveObj = otherDefaultData.iframe;
-                }else if (layerType === "table") {
-                    tempSaveObj = otherDefaultData.table;
-                }else if (layerType === "image") {
-                    if(chartName === "singleImage"){
-                        tempSaveObj = otherDefaultData.singleImage;
-                    }
-                } else if (layerType === "decorate"){
-                    tempSaveObj = otherDefaultData.decorate;
-                }
+                let tempSaveObj = getDefaultLayerData(layerType,chartName)
                 store.dispatch(addCptOptionsList(chartId, tempSaveObj));
-            } else if (layerType === "chart" || layerType === "map" || layerType === "chartMap") {
+            }else{
                 let tempIndex = Math.ceil(Math.random() * 3) - 1;
                 var data = chartTestData[tempIndex];
                 var a,map;
@@ -164,7 +143,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
                 window.mapObjArr = mapObjArr;
             } 
         } else {
-           if (layerType === "chart" || layerType === "map" || layerType === "chartMap") {
+           if (defaultCharts.includes(layerType)) {
                 let newOptions = store
                     .getState()
                     .showLayerDatas
@@ -199,12 +178,14 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
         }
     }
 }
+
+
 /**
  * @description: 打开当前页面的时候向后台请求到当前页面的数据后,对数据进行渲染.
  * @param {type} 
  * @return: 
  */
-export function showChartsOption(chartsList) {
+export function showChartsOption(chartsList,keyList) {
     if (chartsList && chartsList[0]) {
         var arr = window.arr
             ? window.arr
@@ -213,8 +194,10 @@ export function showChartsOption(chartsList) {
             ? window.mapObjArr
             : [];
         chartsList.map((item, index) => {
+            let cptKey = keyList[index];
+            let layerId = cptKey.id;
             let data = item.layerObj;
-            let thType = item.thType;
+            let layerType = item.thType;
             let chartId = item.chartId;
             let layerData = item.layerData;
             let timeKey = item
@@ -222,7 +205,7 @@ export function showChartsOption(chartsList) {
                 .toString();
             let map = {};
             store.dispatch(addCptOptionsList(chartId, []));
-            if (thType === "0") {
+            if (layerType === "0") {
                 getSpecify(chartId).then(function (result) {
                     if (result.data) {
                         console.log("接口没有数据")
@@ -238,7 +221,7 @@ export function showChartsOption(chartsList) {
                     store.dispatch(editCptOptionsList(tempOptionObj));
 
                 }).catch(e => console.log("error", e));
-            } else if (thType === "1") {
+            } else if (layerType === "1") {
                 map = new window.dmapgl.Map({
                         container: timeKey,
                         zoom: 8,
@@ -275,49 +258,74 @@ export function showChartsOption(chartsList) {
                         console.info(error);
                     });
                 });
-            } else if (thType === "text" || thType === "border" || thType === "iframe"|| thType === "table") {
-                let tempSaveObj = {};
-                if (thType === "border") {
-                    tempSaveObj = {
-                        borderImage:layerData.borderImage,
-                        borderWidth:layerData.borderWidth,
-                    }
-                } else if (thType === "text") {
+            } else{
+                  let tempSaveObj = {};
+                  if (layerType === "text") {
+                    let {textCenter,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,hyperlinkCenter,isNewWindow} = layerData;
                     tempSaveObj = {
                         textCenter: {
-                            value:layerData.textCenter.value
+                            value:textCenter.value
                         },
-                        fontFamily: layerData.fontFamily,
-                        fontSize: layerData.fontSize,
-                        fontColor: layerData.fontColor,
-                        fontWeight: layerData.fontWeight,
-                        textAlign: layerData.textAlign,
-                        writingMode: layerData.writingMode,
-                        hyperlinkCenter: layerData.hyperlinkCenter,
-                        isNewWindow: layerData.isNewWindow
+                        fontFamily: fontFamily,
+                        fontSize: fontSize,
+                        fontColor: fontColor,
+                        fontWeight: fontWeight,
+                        textAlign: textAlign,
+                        writingMode: writingMode,
+                        hyperlinkCenter: hyperlinkCenter,
+                        isNewWindow: isNewWindow
                     };
-                } else if (thType === "iframe") {
-                    tempSaveObj = {
-                        iframeUrl: layerData.iframeUrl
-                    }
-                } else if (thType === "table") {
-                    tempSaveObj = {
-                        tableData: layerData.tableData,
-                        tableColumns: layerData.tableColumns,
-                    }
-                } else if (thType === "image") {
-                    let {backgroundImage,repeat,radius,urlConfig} = layerData;
-                    let {url,ifBlank} = urlConfig;
-                    tempSaveObj = {
-                        backgroundImage: backgroundImage,
-                        repeat: repeat,
-                        radius: radius,
-                        urlConfig: {
-                            url: url,
-                            ifBlank: ifBlank
+                  } else if (layerType === "media") {
+                    if(layerId === "iframeCenter"){
+                        let {iframeUrl} = layerData;
+                        tempSaveObj = {
+                            iframeUrl: iframeUrl
                         }
-                    };
-                }
+                    }else if (layerId === "singleImage") {
+                        let {backgroundImage,repeat,radius,urlConfig} = layerData;
+                        let {url,ifBlank} = urlConfig;
+                        tempSaveObj = {
+                            backgroundImage: backgroundImage,
+                            repeat: repeat,
+                            radius: radius,
+                            urlConfig: {
+                                url: url,
+                                ifBlank: ifBlank
+                            }
+                        };
+                    }else{
+                     
+                    }
+                  } else if (layerType === "table"){
+                    if (layerId === "baseTable") {
+                        let {data,columns,config} = layerData;
+                        tempSaveObj = {
+                            data: data,
+                            columns: columns,
+                            config: config,
+                        }
+                    }else{
+                    }
+                  } else if (layerType === "interaction") {
+                    if (layerId === "fullScreen") {
+                    }else{
+                    }
+                  } else if (layerType === "material"){
+                    if(layerId === "singleBorder"){
+                        let {borderImage,borderWidth} = layerData;
+                        tempSaveObj = {
+                            borderImage:borderImage,
+                            borderWidth:borderWidth,
+                        }
+                    }else if (layerId === "singleDecorate") {
+                        let {decorateImage} = layerData;
+                        tempSaveObj = {
+                            decorateImage:decorateImage,
+                        }
+                    }else{
+                     
+                    }
+                  }
                 let tempOptionObj = {
                     cptIndex: index,
                     layerOption: tempSaveObj

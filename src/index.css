@@ -429,11 +429,14 @@ body {
   background-image: url(img/other/image/singleImage.png);
 }
 .baseTablebg {
-  background-image: url(img/other/text/singleRowText.png);
+  background-image: url(img/table/baseTable.png);
 }
-.breakLinebg {
-  background-image: url(img/other/text/singleRowText.png);
+
+.fullScreenbg {
+  background-image: url(img/interaction/fullScreen.png);
 }
+
+
 
 .custom-header-menu-li-txt {
   font-size: 12px;

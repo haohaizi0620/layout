@@ -24,9 +24,7 @@ class TextLayer extends Component {
          }
     }
     render() { 
-       let layerData = this.props.layerData;
-       let layerSinId = this.props.layerSinId;
-       let timeKey = this.props.timeKey
+        let {layerData,layerSinId,timeKey} = this.props;
        if(layerSinId==="multiLineText"){
          return (
              <MultiLineText

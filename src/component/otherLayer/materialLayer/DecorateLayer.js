@@ -20,7 +20,7 @@ class DecorateLayer extends Component {
             style={{
               height:'100%',
               width:'100%',
-              backgroundImage: `url(${require("../../img/" + decorateImage)})`,
+              backgroundImage: `url(${require("../../../img/" + decorateImage)})`,
               imageRendering: '-webkit-optimize-contrast',
               backgroundSize: '100% 100%'
             }}>

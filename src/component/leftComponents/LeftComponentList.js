@@ -295,7 +295,7 @@ class LeftComponentList extends Component {
                                       <div
                                         key={layerIndex}
                                         style={{
-                                          backgroundColor: layerIndex == cptIndex ? "#2483ff" : ""
+                                          backgroundColor: layerIndex === cptIndex ? "#2483ff" : ""
                                         }}
                                         onClick={event => {
                                           this.props.singleSwitchLayer(event, layerIndex);

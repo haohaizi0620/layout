@@ -3,11 +3,13 @@ import reactable from "reactablejs";
 import "./Content.scss";
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import IframeLayer from "./otherLayer/IframeLayer";
-import BaseTable from "./otherLayer/BaseTable.jsx";
-import DecorateLayer from "./otherLayer/DecorateLayer";
 import TextLayer from "./otherLayer/TextLayer";
-import SingleImage from "./otherLayer/imageLayer/SingleImage";
+import TableLayer from "./otherLayer/TableLayer";
+import MediaLayer from "./otherLayer/MediaLayer";
+import MaterialLayer from "./otherLayer/MaterialLayer";
+import InteractionLayer from "./otherLayer/InteractionLayer";
+
+
 import {
   faEdit,
   faTimes,
@@ -23,7 +25,6 @@ function Child1(props) {
   const {id:layerSinId} = keyData;
   const {type:LayerType,cptBorderObj} = cptObj;
   const layerData = chartData.layerData;
-  const existTypes = ["text", "0", "1"]; //border，iframe,table
   return (
     <div
     className={
@@ -34,24 +35,24 @@ function Child1(props) {
     style={{
       width: "100%",
       height: "100%",
-      borderWidth:LayerType === "border" ? layerData.borderWidth + "px" : "0px",
-      borderStyle: LayerType === "border" ? "solid" : "none",
+      borderWidth:layerSinId === "singleBorder" ? layerData.borderWidth + "px" : "0px",
+      borderStyle: layerSinId === "singleBorder" ? "solid" : "none",
       borderImage:
-        LayerType === "border"
+        layerSinId === "singleBorder"
           ? `url(${require("../img/" + layerData.borderImage)}) 30`
           : "none"
     }}
     ref={getRef}
   >
-    {LayerType === "text" ? (
+    {["text"].includes(LayerType)? (
       <TextLayer
         timeKey={timeKey}
         layerData={layerData}
         layerSinId={layerSinId}
       />
     ) : null}
-    {//存放图表和地图的dom
-    LayerType === "0" || LayerType === "1" ? (
+    {//存放图表和地图的dom["0","1"]
+    ["0","1"].includes(LayerType) ? (
       <div
         id={timeKey}
         className="singleChart"
@@ -61,34 +62,34 @@ function Child1(props) {
           height: cptBorderObj.height - 25 + "px",
           left: "10px",
           top: "20px",
-          textAlign:
-            LayerType === "text" && layerData
-              ? layerData.textAlign
-                ? layerData.textAlign
-                : ""
-              : ""
         }}
       ></div>
     ) : null}
     {//当前类型没有在上面添加判断的话都进到这个里面
-    !existTypes.includes(LayerType) ? (
+    !["text", "0", "1"].includes(LayerType) ? (
       <div
         id={timeKey}
         style={{
           width: "100%",
           height: "100%",
-          textAlign: layerData
-            ? layerData.textAlign
-              ? layerData.textAlign
-              : ""
-            : ""
         }}>
-        {LayerType === "iframe" ? ( <IframeLayer layerData={layerData} /> ) : null}
-        {LayerType === "table" ? ( <BaseTable data={layerData.tableData} config={layerData.tableConfig} columns={layerData.tableColumns}     /> ) : null}
-        {LayerType === "image" && layerSinId === "singleImage"  ? ( <SingleImage layerData={layerData} /> ) : null}
-        {LayerType === "decorate"  ? ( <DecorateLayer layerData={layerData} /> ) : null}
+          {LayerType === "table" ? ( <TableLayer   layerData={layerData}   layerSinId={layerSinId}/> ) : null}
+          {LayerType === "media" ? ( <MediaLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
+          {LayerType === "material" ? ( <MaterialLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
+          {LayerType === "interaction" ? ( <InteractionLayer   layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
       </div>
     ) : null}
+    {
+       (
+          <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+          top: "-100%",
+        }}></div>
+      )
+    }
   </div>
   );
 }

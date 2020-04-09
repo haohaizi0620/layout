@@ -18,11 +18,18 @@ class Properties extends Component {
     super(props);
     let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
     cptBorderObj = cptBorderObj.cptBorderObj;
-    let {text:textFieldObj,border:borderFieldObj,iframe:iframeFieldObj,singleImage:singleImageFieldObj,decorate} = otherDefaultData;
+    let {text:testLayer,media:mediaLayer,table:tableLayer,interaction:interactionLayer,material:materialLayer} = otherDefaultData;
+
+    let {default:textFieldObj} = testLayer;
+    let {singleBorder:borderFieldObj,singleDecorate:decorate} = materialLayer;
+    let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj} = mediaLayer;
+    let {baseTable} = tableLayer;
+    
     let {urlConfig:singleImageUrlConfig} = singleImageFieldObj;
-    let tableFieldObj = otherDefaultData.table.tableConfig.table;
+    let tableFieldObj = baseTable.config.table;
     let {header:tableFieldHeaderObj,textStyle:tableBodyTextObj,ZebraLine:tableBodyBaseObj,borderStyle:tableBodyBorderObj} = tableFieldObj;
     let {textStyle:tableHeaderTextObj} = tableFieldHeaderObj;
+    let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = bgFieldObj;
     this.state = {
       bg: [
         {
@@ -35,13 +42,13 @@ class Properties extends Component {
               ename: 'bjWidth',
               cname: '宽度',
               type: 'InputNumber',
-              value: bgFieldObj.bjWidth
+              value: bjWidth
             },
             {
               ename: 'bjHeight',
               cname: '高度',
               type: 'InputNumber',
-              value: bgFieldObj.bjHeight
+              value: bjHeight
             }
           ],
         },
@@ -55,7 +62,7 @@ class Properties extends Component {
               ename: 'bgColor',
               cname: '背景颜色',
               type: 'Color',
-              value: bgFieldObj.bgColor
+              value: bgColor
             }
           ],
         },
@@ -69,7 +76,7 @@ class Properties extends Component {
               ename: 'bgImageName',
               cname: '',
               type: 'Select',
-              value: bgFieldObj.bgImageName,
+              value: bgImageName,
               defaultOption: '无',
               optionValues: [
                 { cname: '无', value: 'none'},
@@ -94,7 +101,7 @@ class Properties extends Component {
               ename: 'bgImageIntegerUrl',
               cname: '在线图片',
               type: 'Input',
-              value: bgFieldObj.bgImageIntegerUrl,
+              value: bgImageIntegerUrl,
               placeholder: '图片路径'
             },
           ],
@@ -109,7 +116,7 @@ class Properties extends Component {
               ename: 'bgImageIntegerUrl',
               cname: '预览图片',
               type: 'ImageUploading',
-              value: bgFieldObj.bgImageIntegerUrl,
+              value: bgImageIntegerUrl,
               optionFlag: false
             }
           ],
@@ -803,25 +810,37 @@ class Properties extends Component {
     if(cptChartData){
       dataObj = cptChartData.layerData;
     }
-    // let dataObj = store.getState().showLayerDatas.cptOptionsList[this.props.cptIndex];
     if (tempKeyVal === 2) {
       let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
-      if(LayerType=="chart"||LayerType == 'border'||LayerType == 'iframe'||otherLayerId=="moreRowText"){
-          dataSource = JSON.parse(JSON.stringify(this.state.noContent));
-      }else if(LayerType=="text"&&otherLayerId!="moreRowText"){
-        if (dataObj) {
-          let tempTextLayerObj = dataObj;
-          let showData = tempTextLayerObj.textCenter;
-          dataSource[0].childer[0].value = showData;
-          dataSource[0].childer[0].ename = "textCenter";
+      let deafultDataFlag = false;
+      let setDataEname = ""; 
+      let setDataValue = ""; 
+      if(LayerType==="table"){
+        if (otherLayerId === "baseTable"){
+          if (dataObj) {
+            let showData = dataObj.tableData;
+            setDataValue = showData;
+            setDataEname = "textCenter";
+          }
+        }else{
+          deafultDataFlag = true;
         }
-      }else if(LayerType==="table"){
-        if (dataObj) {
-          let tempTextLayerObj = dataObj;
-          let showData = tempTextLayerObj.tableData;
-          dataSource[0].childer[0].value = showData;
-          dataSource[0].childer[0].ename = "tableData";
+      }else if(LayerType === "text"){
+        if(otherLayerId !== "moreRowText"){
+          let showData = dataObj.textCenter;
+          setDataValue = showData;
+          setDataEname = "textCenter";
+        }else{
+          deafultDataFlag = true;
         }
+      }else{
+        deafultDataFlag = true;
+      }
+      if(deafultDataFlag){
+        dataSource = JSON.parse(JSON.stringify(this.state.noContent));
+      }else{
+        dataSource[0].childer[0].value = setDataValue;
+        dataSource[0].childer[0].ename = setDataEname;
       }
       this.setState({
           dataSource: dataSource,
@@ -844,9 +863,7 @@ class Properties extends Component {
       tempChart[4].childer[0].value = cptBorderObj.layerBorderWidth;
       tempChart[4].childer[1].value = cptBorderObj.layerBorderStyle;
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
-      if (LayerType === 'chart') {
-        
-      } else if (LayerType === 'text') {
+      if (LayerType === "text") {
         tempLayer = this.state.text;
         if (dataObj) {
           let {fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,hyperlinkCenter,isNewWindow} = dataObj;
@@ -859,49 +876,14 @@ class Properties extends Component {
           tempLayer[3].childer[0].value = hyperlinkCenter;
           tempLayer[3].childer[1].value = isNewWindow;
         }
-      } else if (LayerType === 'border') {
-        tempLayer = this.state.border;
-        if (dataObj) {
-          let {borderWidth,borderImage} = dataObj;
-          tempLayer[0].childer[0].value = borderWidth;
-          tempLayer[1].childer[0].value = borderImage;
-        }
-      } else if (LayerType === 'iframe') {
-        tempLayer = this.state.iframe;
-        if (dataObj) {
-          let {iframeUrl} = dataObj;
-          tempLayer[0].childer[0].value = iframeUrl;
-        }
-      } else if (LayerType === 'table') {
-        tempLayer = this.state.table;
-        if (dataObj) {
-          let tempTextLayerObj = dataObj.tableConfig;
-          let tableFieldObj = tempTextLayerObj.table;
-          let tableFieldHeaderObj = tableFieldObj.header;
-          let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
-          let tableBodyTextObj = tableFieldObj.textStyle;
-          let tableBodyBaseObj = tableFieldObj.ZebraLine;
-          let tableBodyBorderObj = tableFieldObj.borderStyle;
-          tempLayer[0].childer[0].value = tableFieldHeaderObj.textAlign;
-          tempLayer[0].childer[1].value = tableHeaderTextObj.fontFamily;
-          tempLayer[0].childer[2].value = tableHeaderTextObj.fontSize;
-          tempLayer[0].childer[3].value = tableHeaderTextObj.fontColor;
-          tempLayer[0].childer[4].value = tableHeaderTextObj.fontWeight;
-          tempLayer[0].childer[5].value = tableFieldObj.borderStyle.width;
-          tempLayer[0].childer[6].value = tableFieldObj.borderStyle.color;
-          tempLayer[0].childer[7].value = tableFieldObj.backgroundColor;
-          tempLayer[1].childer[0].value = tableFieldHeaderObj.pageSize;
-          tempLayer[2].childer[0].value = tableBodyBaseObj.textAlign;
-          tempLayer[2].childer[1].value = tableBodyTextObj.fontFamily;
-          tempLayer[2].childer[2].value = tableBodyTextObj.fontSize;
-          tempLayer[2].childer[3].value = tableBodyTextObj.fontColor;
-          tempLayer[2].childer[4].value = tableBodyTextObj.fontWeight;
-          tempLayer[2].childer[5].value = tableBodyBorderObj.width;
-          tempLayer[2].childer[6].value = tableBodyBorderObj.color;
-          tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
-        }
-      }else if(LayerType === 'image'){
-        if(otherLayerId==="singleImage"){
+      } else if (LayerType === "media") {
+        if(otherLayerId === "iframeCenter"){
+          tempLayer = this.state.iframe;
+          if (dataObj) {
+            let {iframeUrl} = dataObj;
+            tempLayer[0].childer[0].value = iframeUrl;
+          }
+        }else if (otherLayerId === "singleImage") {
           tempLayer = this.state.singleImage;
           if (dataObj) {
             let tempImageLayerObj = dataObj;
@@ -913,13 +895,55 @@ class Properties extends Component {
             tempLayer[4].childer[1].value = tempImageLayerObj.urlConfig['ifBlank'];
           }
         }
-      }else if (LayerType === 'decorate') {
-        tempLayer = this.state.decorate;
-        if (dataObj) {
-          let {decorateImage} = dataObj;
-          tempLayer[0].childer[0].value = decorateImage;
+      } else if (LayerType === "table"){
+        if (otherLayerId === "baseTable") {
+          tempLayer = this.state.table;
+          if (dataObj) {
+            let tempTextLayerObj = dataObj.config;
+            let tableFieldObj = tempTextLayerObj.table;
+            let tableFieldHeaderObj = tableFieldObj.header;
+            let tableHeaderTextObj = tableFieldHeaderObj.textStyle;
+            let tableBodyTextObj = tableFieldObj.textStyle;
+            let tableBodyBaseObj = tableFieldObj.ZebraLine;
+            let tableBodyBorderObj = tableFieldObj.borderStyle;
+            tempLayer[0].childer[0].value = tableFieldHeaderObj.textAlign;
+            tempLayer[0].childer[1].value = tableHeaderTextObj.fontFamily;
+            tempLayer[0].childer[2].value = tableHeaderTextObj.fontSize;
+            tempLayer[0].childer[3].value = tableHeaderTextObj.fontColor;
+            tempLayer[0].childer[4].value = tableHeaderTextObj.fontWeight;
+            tempLayer[0].childer[5].value = tableFieldObj.borderStyle.width;
+            tempLayer[0].childer[6].value = tableFieldObj.borderStyle.color;
+            tempLayer[0].childer[7].value = tableFieldObj.backgroundColor;
+            tempLayer[1].childer[0].value = tableFieldHeaderObj.pageSize;
+            tempLayer[2].childer[0].value = tableBodyBaseObj.textAlign;
+            tempLayer[2].childer[1].value = tableBodyTextObj.fontFamily;
+            tempLayer[2].childer[2].value = tableBodyTextObj.fontSize;
+            tempLayer[2].childer[3].value = tableBodyTextObj.fontColor;
+            tempLayer[2].childer[4].value = tableBodyTextObj.fontWeight;
+            tempLayer[2].childer[5].value = tableBodyBorderObj.width;
+            tempLayer[2].childer[6].value = tableBodyBorderObj.color;
+            tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
+          }
         }
-      }
+      } else if (LayerType === "interaction") {
+        if (otherLayerId === "fullScreen") {
+        }
+      } else if (LayerType === "material"){
+        if(otherLayerId === "singleBorder"){
+          tempLayer = this.state.border;
+          if (dataObj) {
+            let {borderWidth,borderImage} = dataObj;
+            tempLayer[0].childer[0].value = borderWidth;
+            tempLayer[1].childer[0].value = borderImage;
+          }
+        }else if (otherLayerId === "singleDecorate") {
+          tempLayer = this.state.decorate;
+          if (dataObj) {
+            let {decorateImage} = dataObj;
+            tempLayer[0].childer[0].value = decorateImage;
+          }
+        }
+      } 
       this.setState(
         {
           chart: tempChart.concat(JSON.parse(JSON.stringify(tempLayer))),

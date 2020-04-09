@@ -153,34 +153,34 @@
 	"text": "当前时间",
 	"chartId": -1,
 	"layerType": "text"
-}, {
-	"id": "singleBorder",
-	"text": "直线边框",
-	"chartId": -1,
-	"layerType": "border"
-}, {
-	"id": "breakLine",
-	"text": "波浪线",
-	"chartId": -1,
-	"layerType": "border"
-}, {
+},{
 	"id": "iframeCenter",
 	"text": "嵌入页面",
 	"chartId": -1,
-	"layerType": "iframe"
+	"layerType": "media"
 }, {
 	"id": "singleImage",
 	"text": "单独图片",
 	"chartId": -1,
-	"layerType": "image"
-}, {
-	"id": "singleDecorate",
-	"text": "装饰",
-	"chartId": -1,
-	"layerType": "decorate"
+	"layerType": "media"
 }, {
 	"id": "baseTable",
 	"text": "表格数据",
 	"chartId": -1,
 	"layerType": "table"
+}, {
+	"id": "fullScreen",
+	"text": "全屏展示",
+	"chartId": -1,
+	"layerType": "interaction"
+}, {
+	"id": "singleBorder",
+	"text": "直线边框",
+	"chartId": -1,
+	"layerType": "material"
+}, {
+	"id": "singleDecorate",
+	"text": "装饰",
+	"chartId": -1,
+	"layerType": "material"
 }]
