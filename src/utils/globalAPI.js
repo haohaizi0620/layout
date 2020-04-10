@@ -29,7 +29,7 @@ export function getDefaultLayerData(layerType,layerId) {
       }
     } else if (layerType === "interaction") {
       if (layerId === "fullScreen") {
-          isDefault = true;
+        returnObj = defaulaData.fullScreen;
       }else{
           isDefault = true;
       }

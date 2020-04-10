@@ -21,8 +21,8 @@
         flex-wrap: nowrap;
         .grid-item-scale-show-icon{
             background: url("../img/icon/rotateIcon.png"); 
-            height: 50%;
-            width: 100%;
+            height: 40px;
+            width: 50px;
             background-size: 100% 100%;
         }
         .grid-item-scale-show-line{
@@ -41,7 +41,202 @@
         color: white;
         font-size: 17px;
     }
-    
+    .grid-item-shade{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: -100%;
+        .resizable-handler {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            z-index: 1;
+        }
+        .square {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: white;
+            border: 1px solid #eb5648;
+            border-radius: 1px;
+        }
+
+    }
+}
+
+.fFutOK .resizable-handler.t, .fFutOK .resizable-handler.b {
+    margin-left: -7px;
+}
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
+    top: -7px;
+}
+.fFutOK .t, .fFutOK .b {
+    left: 50%;
+    margin-left: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+
+.fFutOK .resizable-handler.l, .fFutOK .resizable-handler.r {
+    margin-top: -7px;
+}
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
+    left: -7px;
+}
+.fFutOK .l, .fFutOK .r {
+    top: 50%;
+    margin-top: -3px;
+}
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+
+.fFutOK .resizable-handler.t, .fFutOK .resizable-handler.b {
+    margin-left: -7px;
+}
+.fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
+    bottom: -7px;
+}
+.fFutOK .t, .fFutOK .b {
+    left: 50%;
+    margin-left: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
+}
+
+
+.fFutOK .resizable-handler.l, .fFutOK .resizable-handler.r {
+    margin-top: -7px;
+}
+.fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
+    right: -7px;
+}
+.fFutOK .l, .fFutOK .r {
+    top: 50%;
+    margin-top: -3px;
+}
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
+    left: -7px;
+}
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
+    top: -7px;
+}
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+
+.fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
+    right: -7px;
+}
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
+    top: -7px;
+}
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+.fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
+    right: -7px;
+}
+.fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
+    bottom: -7px;
+}
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
+}
+
+
+.fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
+    bottom: -7px;
+}
+.fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
+    left: -7px;
+}
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
+}
+
+
+.fFutOK .t, .fFutOK .b {
+    left: 50%;
+    margin-left: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+.fFutOK .l, .fFutOK .r {
+    top: 50%;
+    margin-top: -3px;
+}
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+
+.fFutOK .t, .fFutOK .b {
+    left: 50%;
+    margin-left: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
+}
+
+.fFutOK .l, .fFutOK .r {
+    top: 50%;
+    margin-top: -3px;
+}
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+.fFutOK .t, .fFutOK .tl, .fFutOK .tr {
+    top: -3px;
+}
+
+.fFutOK .r, .fFutOK .tr, .fFutOK .br {
+    right: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
+}
+
+.fFutOK .tl, .fFutOK .l, .fFutOK .bl {
+    left: -3px;
+}
+.fFutOK .b, .fFutOK .bl, .fFutOK .br {
+    bottom: -3px;
 }
 
 .grid-item:hover .grid-item-update-icon {

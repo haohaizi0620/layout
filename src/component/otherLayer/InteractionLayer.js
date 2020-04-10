@@ -7,6 +7,7 @@
  * @FilePath: \layout\src\component\otherLayer\TextLayer.js
  */
 import React, { Component } from 'react';
+import FullScreen from './interactionLayer/FullScreen';
 class InteractionLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -22,7 +23,7 @@ class InteractionLayer extends Component {
     render() { 
        let {layerData,layerSinId} = this.props;
        if(layerSinId==="fullScreen"){
-        return null
+        return <FullScreen  layerData={layerData}  />
        }else{
          return null
        }

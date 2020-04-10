@@ -12,7 +12,6 @@ import {addCptOptionsList, editCptOptionsList} from '../redux/actions/showLayerD
 import $ from 'jquery';
 import {getDefaultLayerData} from './globalAPI';
 let chartTestData = require('../datasource/chartTestData.json');
-let otherDefaultData = require('../datasource/otherDefaultData.json');
 const chartData = require('../datasource/chartDatas.json');
 const projectType = "/data/";// "/data/"
 /**
@@ -266,20 +265,20 @@ export function showChartsOption(chartsList,keyList) {
                         textCenter: {
                             value:textCenter.value
                         },
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
-                        fontColor: fontColor,
-                        fontWeight: fontWeight,
-                        textAlign: textAlign,
-                        writingMode: writingMode,
-                        hyperlinkCenter: hyperlinkCenter,
-                        isNewWindow: isNewWindow
+                        fontFamily,
+                        fontSize,
+                        fontColor,
+                        fontWeight,
+                        textAlign,
+                        writingMode,
+                        hyperlinkCenter,
+                        isNewWindow
                     };
                   } else if (layerType === "media") {
                     if(layerId === "iframeCenter"){
                         let {iframeUrl} = layerData;
                         tempSaveObj = {
-                            iframeUrl: iframeUrl
+                            iframeUrl
                         }
                     }else if (layerId === "singleImage") {
                         let {backgroundImage,repeat,radius,urlConfig} = layerData;
@@ -300,27 +299,31 @@ export function showChartsOption(chartsList,keyList) {
                     if (layerId === "baseTable") {
                         let {data,columns,config} = layerData;
                         tempSaveObj = {
-                            data: data,
-                            columns: columns,
-                            config: config,
+                            data,
+                            columns,
+                            config,
                         }
                     }else{
                     }
                   } else if (layerType === "interaction") {
                     if (layerId === "fullScreen") {
+                        let {color,size} = layerData;
+                        tempSaveObj = {
+                            color,size
+                        }
                     }else{
                     }
                   } else if (layerType === "material"){
                     if(layerId === "singleBorder"){
                         let {borderImage,borderWidth} = layerData;
                         tempSaveObj = {
-                            borderImage:borderImage,
-                            borderWidth:borderWidth,
+                            borderImage,
+                            borderWidth,
                         }
                     }else if (layerId === "singleDecorate") {
                         let {decorateImage} = layerData;
                         tempSaveObj = {
-                            decorateImage:decorateImage,
+                            decorateImage,
                         }
                     }else{
                      

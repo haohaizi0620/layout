@@ -41,6 +41,13 @@ fontawesome.library.add(
 );
 let otherDefaultData = require('../datasource/otherDefaultData.json');
 class Header extends Component {
+  static defaultProps = {
+    cptChartIdList:[],
+    nameData:{
+      KSHNAME:'为获取当前可视化名称',
+      ID:''
+    }
+  };
   constructor(props) {
     super(props);
     const tempCharsStr = "chart";
@@ -52,7 +59,6 @@ class Header extends Component {
     const tempMaterialStr = "material";
     this.state = {
       shareUrl: "",
-      nameData: {},
       otype: "chart",
       ttype: "all",
       chart: {
@@ -149,7 +155,7 @@ class Header extends Component {
       material:{
         all: [
           { id: "singleBorder", text: "背景边框", layerType: "material" },
-          { id: "singleDecorate", text: "装饰", layerType: "material" }
+          { id: "singleDecorate", text: "装饰", layerType: "material" },
         ]
       },
       otherLayer: {
@@ -159,7 +165,7 @@ class Header extends Component {
       },
       //生成对应的UIstate
       layerDatas: [
-       /*  {
+        {
           typeName: "chart",
           refName: "basicChart",
           titleName: "基础图表",
@@ -214,7 +220,7 @@ class Header extends Component {
               IconObj: faMapPin
             }
           ]
-        }, */
+        },
         {
           typeName: "text",
           refName: "text",
@@ -303,15 +309,6 @@ class Header extends Component {
     };
   }
 
-  componentWillReceiveProps(newProps) {
-    let nameData = newProps.nameData;
-    if (nameData) {
-      this.setState({
-        nameData: nameData
-      });
-    }
-  }
- 
   /**
    * @description: 添加一个图层到对应的生成content组件的数据里
    * @param {type}
@@ -324,16 +321,15 @@ class Header extends Component {
     let defaultShowVal = getDefaultLayerData(layerType,layerId);
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-    /* this.props.onClickAdd(layerObj, {
+    this.props.onClickAdd(layerObj, {
       data: {},
       state: "headerAdd",
       mainKey: -1,
       sortNum: comLength,
       otherJson: defaultShowVal
     });
-    return; */
+    return;
     if (layerType !== "chart") {
-      //layerType == 'text' || layerType == 'border' || layerType == 'iframe'
       let shareid = window.parent.document.getElementById("shareID").value;
       let layerName = layerObj.text;
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
@@ -372,6 +368,8 @@ class Header extends Component {
       });
     }
   }
+  
+  
 
   handleChartMouseOver(obj) {
     const t = obj.currentTarget.getAttribute("t");
@@ -409,7 +407,7 @@ class Header extends Component {
     var image = new Image();
     image.src = canvas.toDataURL("image/png");
     // var kshid = $('.title2-t').attr('id');
-    var kshid = this.state.nameData.ID;
+    var kshid = this.props.nameData.ID;
     var name = "img" + kshid;
     this.addImg(image.src, name);
   }
@@ -453,6 +451,7 @@ class Header extends Component {
   }
   render() {
     let {ttype,otype,layerDatas} = this.state;
+    let {KSHNAME} = this.props.nameData;
     let showData = [];
     let show = this.state[otype][ttype];
     if (show) {
@@ -468,6 +467,9 @@ class Header extends Component {
           >
             我的可视化
           </Button>
+          <div className={'custom-header-title-name'}>
+            <span>{KSHNAME}</span>
+          </div>
         </div>
         <div className="custom-header-component">
           <ul className="custom-header-ul">
@@ -518,7 +520,6 @@ class Header extends Component {
                               <ul className="custom-header-menu-ul">
                                 {showData.map((item, i) => {
                                   const c = `custom-header-menu-li-bg ${item.id}bg`;
-                                  item["simpleType"] = ttype;
                                   return (
                                     /* 每个具体的组件 */
                                     <li

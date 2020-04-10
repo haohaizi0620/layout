@@ -16,81 +16,106 @@ import {
   faUserEdit,
   faUserTimes,
   faRedo,
-  faTrash
+  faTrash,
+  faCompress,
+  faExpand,
 } from "@fortawesome/fontawesome-free-solid";
-fontawesome.library.add(faEdit, faTimes, faUserEdit, faUserTimes, faRedo,faTrash);
+fontawesome.library.add(faEdit, faTimes, faUserEdit, faUserTimes, faRedo, faTrash,faCompress,faExpand);
 
 function Child1(props) {
-  const {obj:cptObj,keyData,timeKey,chartData,delIndex,cptIndex,getRef} = props;
-  const {id:layerSinId} = keyData;
-  const {type:LayerType,cptBorderObj} = cptObj;
+  const { obj: cptObj, keyData, timeKey, chartData, delIndex, cptIndex, getRef } = props;
+  const { id: layerSinId } = keyData;
+  const { type: LayerType, cptBorderObj } = cptObj;
   const layerData = chartData.layerData;
+  const singleLayerName = ["text", "0", "1","chart","map","chartMap"];
+  const mapAndChart = ["0", "1","chart","map","chartMap"];
   return (
     <div
-    className={
-      cptIndex === delIndex
-        ? "itemClick item"
-        : "item"
-    }
-    style={{
-      width: "100%",
-      height: "100%",
-      borderWidth:layerSinId === "singleBorder" ? layerData.borderWidth + "px" : "0px",
-      borderStyle: layerSinId === "singleBorder" ? "solid" : "none",
-      borderImage:
-        layerSinId === "singleBorder"
-          ? `url(${require("../img/" + layerData.borderImage)}) 30`
-          : "none"
-    }}
-    ref={getRef}
-  >
-    {["text"].includes(LayerType)? (
-      <TextLayer
-        timeKey={timeKey}
-        layerData={layerData}
-        layerSinId={layerSinId}
-      />
-    ) : null}
-    {//存放图表和地图的dom["0","1"]
-    ["0","1"].includes(LayerType) ? (
-      <div
-        id={timeKey}
-        className="singleChart"
-        style={{
-          position: "absolute",
-          width: cptBorderObj.width - 20 + "px",
-          height: cptBorderObj.height - 25 + "px",
-          left: "10px",
-          top: "20px",
-        }}
-      ></div>
-    ) : null}
-    {//当前类型没有在上面添加判断的话都进到这个里面
-    !["text", "0", "1"].includes(LayerType) ? (
-      <div
-        id={timeKey}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}>
-          {LayerType === "table" ? ( <TableLayer   layerData={layerData}   layerSinId={layerSinId}/> ) : null}
-          {LayerType === "media" ? ( <MediaLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
-          {LayerType === "material" ? ( <MaterialLayer  layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
-          {LayerType === "interaction" ? ( <InteractionLayer   layerData={layerData}   layerSinId={layerSinId}  /> ) : null}
-      </div>
-    ) : null}
-    {
-       (
+      className={
+        cptIndex === delIndex
+          ? "itemClick item"
+          : "item"
+      }
+      style={{
+        width: "100%",
+        height: "100%",
+        borderWidth: layerSinId === "singleBorder" ? layerData.borderWidth + "px" : "0px",
+        borderStyle: layerSinId === "singleBorder" ? "solid" : "none",
+        borderImage:
+          layerSinId === "singleBorder"
+            ? `url(${require("../img/" + layerData.borderImage)}) 30`
+            : "none"
+      }}
+      ref={getRef}
+    >
+      {["text"].includes(LayerType) ? (
+        <TextLayer
+          timeKey={timeKey}
+          layerData={layerData}
+          layerSinId={layerSinId}
+        />
+      ) : null}
+      {//存放图表和地图的dom["0","1"]
+        mapAndChart.includes(LayerType) ? (
           <div
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "relative",
-          top: "-100%",
-        }}></div>
-      )
-    }
-  </div>
+            id={timeKey}
+            className="singleChart"
+            style={{
+              position: "absolute",
+              width: cptBorderObj.width - 20 + "px",
+              height: cptBorderObj.height - 25 + "px",
+              left: "10px",
+              top: "20px",
+            }}
+          ></div>
+        ) : null}
+      {//当前类型没有在上面添加判断的话都进到这个里面
+        !singleLayerName.includes(LayerType) ? (
+          <div
+            id={timeKey}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}>
+            {LayerType === "table" ? (<TableLayer layerData={layerData} layerSinId={layerSinId} />) : null}
+            {LayerType === "media" ? (<MediaLayer layerData={layerData} layerSinId={layerSinId} />) : null}
+            {LayerType === "material" ? (<MaterialLayer layerData={layerData} layerSinId={layerSinId} />) : null}
+            {LayerType === "interaction" ? (<InteractionLayer layerData={layerData} layerSinId={layerSinId} />) : null}
+          </div>
+        ) : null}
+      {
+        (
+          true?
+          <div
+            className={'fFutOK grid-item-shade'}
+            style={{
+              top:mapAndChart.includes(LayerType)?'0%':'-100%'
+            }}
+          >
+            {
+              delIndex === cptIndex
+              ?<>
+                <div className={'t resizable-handler'} style={{cursor: 'n-resize;'}}>
+                </div><div className={'l resizable-handler'} style={{cursor: 'w-resize;'}}>
+                </div><div className={'b resizable-handler'} style={{cursor: 's-resize;'}}>
+                </div><div className={'r resizable-handler'} style={{cursor: 'e-resize;'}}>
+                </div><div className={'tl resizable-handler'} style={{cursor: 'nw-resize;'}}>
+                </div><div className={'tr resizable-handler'} style={{cursor: 'ne-resize;'}}>
+                </div><div className={'br resizable-handler'} style={{cursor: 'se-resize;'}}>
+                </div><div className={'bl resizable-handler'} style={{cursor: 'sw-resize;'}}>
+                </div><div className={'t square'}></div><div className={'l square'}>
+                </div><div className={'b square'}></div><div className={'r square'}>
+                </div><div className={'tl square'}></div><div className={'tr square'}>
+                </div><div className={'br square'}></div><div className={'bl square'}>
+                </div>
+              </>
+              :null
+            }  
+          </div>
+          :null
+        )
+      }
+    </div>
   );
 }
 const ReactableChild = reactable(Child1);
@@ -102,16 +127,16 @@ class Content extends Component {
       cptBorderObj: this.props.obj.cptBorderObj,
       left: cptBorderObj.left,
       top: cptBorderObj.top,
-      gridEditIcon:[
+      gridEditIcon: [
         {
-          icon:faEdit,
-          title:"编辑",
-          reduceVal:50,
+          icon: faEdit,
+          title: "编辑",
+          reduceVal: 50,
         },
         {
-          icon:faTrash,
-          title:"移除",
-          reduceVal:30,
+          icon: faTrash,
+          title: "移除",
+          reduceVal: 30,
         }
       ]
     };
@@ -122,7 +147,7 @@ class Content extends Component {
    * @return:
    */
   handleDragMove = e => {
-    let {left:tempStateLeft,top:tempStateTop} = this.props.obj.cptBorderObj;
+    let { left: tempStateLeft, top: tempStateTop } = this.props.obj.cptBorderObj;
     const { dx, dy } = e;
     let xl, xt;
     if (tempStateLeft > 0 || (tempStateLeft == 0 && dx > 0)) {
@@ -153,19 +178,19 @@ class Content extends Component {
   handleDown = e => {
     this.props.handleDown(e);
   };
-    /**
-   * @description:  通过指定图层的index进行删除指定的图层
-   * @param {type}
-   * @return:
-   */
+  /**
+ * @description:  通过指定图层的index进行删除指定的图层
+ * @param {type}
+ * @return:
+ */
   onRemoveItem = () => {
     this.props.del();
   }
 
-  onEditItem = () =>  {
+  onEditItem = () => {
     this.props.editItem();
   }
- 
+
   onRotateMouseDown = e => {
     document.addEventListener("mousemove", this.onRotateMouseMove);
     document.addEventListener("mouseup", this.onRotateMouseUp);
@@ -178,29 +203,29 @@ class Content extends Component {
     e.preventDefault();
     e.cancelBubble = true;
     e.returnValue = false;
-    let {chartData} = this.props;
-    let {timeKey} = chartData;
+    let { chartData } = this.props;
+    let { timeKey } = chartData;
     let showDiv = document.getElementById("grid" + timeKey);
-    let {offsetLeft,offsetTop,clientWidth,clientHeight}  = showDiv;
-    let {pageX,pageY} = e;
-    let {scrollLeft,scrollTop} = document.documentElement;
-    let {scrollLeft:BodyscrollLeft,scrollTop:BodyscrollTop} = document.body;
+    let { offsetLeft, offsetTop, clientWidth, clientHeight } = showDiv;
+    let { pageX, pageY } = e;
+    let { scrollLeft, scrollTop } = document.documentElement;
+    let { scrollLeft: BodyscrollLeft, scrollTop: BodyscrollTop } = document.body;
     const centerX = parseInt(offsetLeft) + clientWidth / 2;
     const centerY = parseInt(offsetTop) + clientHeight / 2;
     const mouseX = pageX - (scrollLeft || BodyscrollLeft);
-    const mouseY =  pageY - (scrollTop || BodyscrollTop);
+    const mouseY = pageY - (scrollTop || BodyscrollTop);
     const angleRad = Math.atan2(mouseX - centerX, -(mouseY - centerY));
     const angleDeg = parseInt(angleRad * (180 / Math.PI));
-    console.log("angleRad:"+angleRad+"angleDeg:"+angleDeg)
+    console.log("angleRad:" + angleRad + "angleDeg:" + angleDeg)
     this.props.updateLayerPosition([
       { fieldEname: "rotate", fieldValue: angleDeg }
     ]);
   };
   render() {
-    let {gridEditIcon} = this.state;
-    let {timeKey,chartData,obj,cptIndex,delIndex} = this.props;
-    let {opacity,left,top,width,height,rotate,layerBorderStyle,layerBorderWidth,layerBorderColor} = obj.cptBorderObj;
-    let {thType} = chartData;
+    let { gridEditIcon } = this.state;
+    let { timeKey, chartData, obj, cptIndex, delIndex } = this.props;
+    let { opacity, left, top, width, height, rotate, layerBorderStyle, layerBorderWidth, layerBorderColor } = obj.cptBorderObj;
+    let { thType } = chartData;
     let grid = `grid${timeKey}`;
     let gridStyle = {
       opacity: opacity,
@@ -221,18 +246,15 @@ class Content extends Component {
           style={gridStyle}
         >
           {
-            cptIndex === delIndex?
-            <div
-              className={'grid-item-scale-show'}
-              onMouseDown={this.onRotateMouseDown}
-              /* style={{
-                cursor: `url(${require("../img/icon/rotateIcon.png")}) 14 14,pointer`
-              }} */
-            >
-              <div className={'grid-item-scale-show-icon'} ></div>
-              <div className={'grid-item-scale-show-line'}></div>
-            </div>
-            :null
+            cptIndex === delIndex ?
+              <div
+                className={'grid-item-scale-show'}
+                onMouseDown={this.onRotateMouseDown}
+              >
+                <div className={'grid-item-scale-show-icon'} ></div>
+                <div className={'grid-item-scale-show-line'}></div>
+              </div>
+              : null
           }
           {
             gridEditIcon.map(item => {
@@ -240,34 +262,34 @@ class Content extends Component {
               let reduceVal = item.reduceVal;
               let icon = item.icon;
               let isFlag = false;
-              let eventObj =null;
-              if(iconTitle === "移除"||(iconTitle === "编辑"&&(thType  === "0" || thType === "1"))){
+              let eventObj = null;
+              if (iconTitle === "移除" || (iconTitle === "编辑" && (thType === "0" || thType === "1"))) {
                 isFlag = true;
               }
-              if(iconTitle === "移除"){
+              if (iconTitle === "移除") {
                 eventObj = this.onRemoveItem
-              }else  if(iconTitle === "编辑"){
+              } else if (iconTitle === "编辑") {
                 eventObj = this.onEditItem
               }
-              return(
-                    isFlag?
-                    <FontAwesomeIcon
-                            icon={icon}
-                            className={'grid-item-update-icon'}
-                            title={iconTitle}
-                            style={{
-                              left: width - reduceVal + "px",
-                            }}
-                            onClick={eventObj}/>:null
-                 )
+              return (
+                isFlag ?
+                  <FontAwesomeIcon
+                    icon={icon}
+                    className={'grid-item-update-icon'}
+                    title={iconTitle}
+                    style={{
+                      left: width - reduceVal + "px",
+                    }}
+                    onClick={eventObj} /> : null
+              )
             })
           }
-         { <ReactableChild
+          {<ReactableChild
             draggable
             gesturable
             resizable={{
               edges: {
-                left: true,top: true , 
+                left: true, top: true,
                 bottom: true, right: true,
               }
             }}
@@ -279,6 +301,7 @@ class Content extends Component {
             {...this.props}
           >
           </ReactableChild>}
+
         </div>
       </Fragment>
     );

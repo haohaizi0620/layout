@@ -29,7 +29,9 @@ export function test() {
 const deployPrev = "http://121.8.161.110:8082/data/";
 const localPrev = "http://localhost:8080/data/";
 const defaultPrev = localPrev;
-const sharePrev = "http://121.8.161.110:8082/share/";
+const deploySharePrev = "http://121.8.161.110:8082/share/";
+const localSharePrev = "http://localhost:8082/share/";
+const defaultSharePrev = localSharePrev;
 
 
 export function getKSHChart(getKshObj) {
@@ -198,7 +200,7 @@ export function getRecursionMap(url){
 
 export function getShareObj(shareObj) {
   return request({
-    url: sharePrev+'getSharesById',
+    url: defaultSharePrev+'getSharesById',
     method: 'post',
     data:Qs.stringify(shareObj)
   });
@@ -206,7 +208,7 @@ export function getShareObj(shareObj) {
 
 export function getShareCells(shareObj) {
   return request({
-    url: sharePrev+'getCells',
+    url: defaultSharePrev+'getCells',
     method: 'post',
     data:Qs.stringify(shareObj)
   });

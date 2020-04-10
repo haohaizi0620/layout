@@ -93,12 +93,21 @@ body {
 .custom-header-title {
   width: 250px;
   position: relative;
+  display: flex;
 }
 
 .custom-header-title .ant-btn-sm {
   border-radius: 0;
 }
 
+
+.custom-header-title .custom-header-title-name{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  color: white;
+} 
 .custom-header-ul {
   margin: 0;
   display: inline-flex;
@@ -421,7 +430,6 @@ body {
 .singleDecoratebg{
   background-image: url(img/other/singleDecorate.png);
 }
-
 .iframeCenterbg {
   background-image: url(img/other/iframeCenter.png);
 }

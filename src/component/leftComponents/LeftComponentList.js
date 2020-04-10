@@ -196,7 +196,6 @@ class LeftComponentList extends Component {
             id: layerObj.type,
             layerType: "chart",
             text: layerObj.name,
-            simpleType: ""
           },
           {
             data: layerObj,

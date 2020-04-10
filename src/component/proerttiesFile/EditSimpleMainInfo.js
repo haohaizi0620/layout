@@ -39,7 +39,7 @@ class EditSimpleMainInfo extends Component {
     }
   }
 
-
+ 
  simulationInputNumberClick = event => {
     let target = event.target;
     let tagName = target.tagName.toLowerCase();
@@ -65,11 +65,11 @@ class EditSimpleMainInfo extends Component {
     var defaultOneColVal = 6;
     var defaultTwoColVal = 18;
     let oneClassName = "";
-    if (this.props.includeSelectFlag) {
+    /* if (this.props.includeSelectFlag) {
       //当前的childer的
       defaultOneColVal = 0;
       defaultTwoColVal = 24;
-    }
+    } */
     if (this.props.updateArrFlag) {
       showData = [showData];
     }

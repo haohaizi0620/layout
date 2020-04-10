@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import './Layout.scss';
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
@@ -147,7 +148,7 @@ class Layout extends Component {
       let timeKey = new Date().getTime().toString();  
       tempTestData.data.map((item,index) => {
         timeKey++;
-        tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:''});
+        tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType});
         tempCptPropertyList.push(JSON.parse(item.layerPosition));
         tempCptChartIdList.push({
             chartId:item.id,
@@ -168,9 +169,7 @@ class Layout extends Component {
           },
           cptChartIdList:tempCptChartIdList
       }, () => {
-          {   
             showChartsOption(tempCptChartIdList);
-          }
       });
 
     }
@@ -193,11 +192,13 @@ class Layout extends Component {
           shareId:shareId,
           kshId:kshId
         },() => {
-          getBgIndex({
-            "shareid" : shareId
-          })
-          .then(result => {
-              if(result.n <= 0){
+          let bgObj = {"shareid" : shareId};
+          let getBg = getBgIndex(bgObj);
+          let getShare = getShareById(shareId);
+          Promise.all([getBg, getShare]).then((results) => {
+              let [bg,share] = results;
+              //如果没有背景图层添加背景图层
+              if(bg.n <= 0){
                   let bgObj = {
                     name: 'bg',
                     type: 'bg',
@@ -214,20 +215,17 @@ class Layout extends Component {
                   }
                   addOneOtherLayer(bgObj)
                   .then(res => {
-                    if(result.n==1){
+                    if(res.n==1){
                         console.log("背景添加成功")
                     }
                   }).catch(error => console.log(error));
               }
-                getShareById(shareId)
-                .then(result => {
-                    _this.initLayer(result[0],shareId,kshId)
-                }).catch(error => {
-                    console.info(error);      
-                });
-          }).catch(error => console.log(error));
+              _this.initLayer(share[0],shareId,kshId)
+          })
         })
     }
+
+
     initLayer(nameDataObj,shareId,kshId){
         let _this = this;
         let getKshObj = {
@@ -237,120 +235,120 @@ class Layout extends Component {
         let OtherLayerObj = {
           "shareid" :shareId
         }
-        getKSHChart(getKshObj).then(res => {
-          let tempData = JSON.parse(res.data);
-          let tempCptKeyList = [];
-          let tempCptPropertyList = [];
-          let tempCptChartIdList = [];
-          let timeKey = new Date().getTime().toString();  
-              tempData.map((item,index) => {
+        let kshLayer = getKSHChart(getKshObj);
+        let otherLayer = getOtherLayer(OtherLayerObj);
+        Promise.all([kshLayer, otherLayer]).then((results) => {
+            let kshData = results[0];
+            let otherData = results[1];
+            let tempData = JSON.parse(kshData);
+            let tempCptKeyList = [];
+            let tempCptPropertyList = [];
+            let tempCptChartIdList = [];
+            let timeKey = new Date().getTime().toString();  
+            tempData.map((item,index) => {
+                  timeKey++;
+                  let tempLayerPosition = item.layerPosition;
+                  let sortNumChart = item.sortNum;
+                  let thType = item.thType;
+                  let vVal = "";
+                  if(thType==="0"){
+                    vVal = item.id;
+                  }else if(thType==="1"){
+                    vVal = item.service+"；"+item.layername+"；"+item.name;
+                  }
+                  item.vVal = vVal;
+                  let tempCptChartObj = {
+                      chartId:item.id,
+                      thType:item.thType,
+                      timeKey:timeKey,
+                      mainKey:item.mainKey,
+                      addState:'leftAdd',
+                      layerObj:item,
+                      layerData:{},
+                      sortNum:sortNumChart,
+                  };
+                  if(tempLayerPosition!==""){
+                    tempLayerPosition = JSON.parse(tempLayerPosition)
+                  }else{
+                    tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
+                  }
+                  tempLayerPosition.type = "chart";
+                  tempLayerPosition.sortNum = sortNumChart;
+                  tempCptKeyList.push({ key: timeKey, id: item.layername, title: item.name,layerType:item.thType, sortNum:sortNumChart});
+                  tempCptPropertyList.push(tempLayerPosition);
+                  tempCptChartIdList.push(tempCptChartObj);   
+            })    
+            let resultData = otherData.list
+            if(resultData&&resultData.length>0){
+              let bgObj = {};
+              resultData.map((layerItem,layerIndex) => {
                 timeKey++;
-                let tempLayerPosition = item.layerPosition;
-                let sortNumChart = item.sortNum;
-                let thType = item.thType;
-                let vVal = "";
-                if(thType==="0"){
-                  vVal = item.id;
-                }else if(thType==="1"){
-                  vVal = item.service+"；"+item.layername+"；"+item.name;
-                }
-                item.vVal = vVal;
-                let tempCptChartObj = {
-                    chartId:item.id,
-                    thType:item.thType,
-                    timeKey:timeKey,
-                    mainKey:item.mainKey,
-                    addState:'leftAdd',
-                    layerObj:item,
-                    layerData:{},
-                    sortNum:sortNumChart,
-                };
-                if(tempLayerPosition!==""){
-                  tempLayerPosition = JSON.parse(tempLayerPosition)
+                let sinSoreNum = layerItem.SORTNUM;
+                let layerId = layerItem.CELLTYPEID;
+                let layerType = layerItem.CELLTYPE;
+                let layerName = layerItem.CELLNAME;
+                let layerJsonObj = JSON.parse(layerItem.CELLJSON);
+                let mainKey = layerItem.ID;
+                if(layerType==="bg"){
+                  layerJsonObj.mainKey = mainKey;
+                  bgObj = layerJsonObj;
                 }else{
-                  tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
-                }
-                tempLayerPosition.type = "chart";
-                tempLayerPosition.sortNum = sortNumChart;
-                tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername,layerType:item.thType,simpleType:'', sortNum:sortNumChart});
-                tempCptPropertyList.push(tempLayerPosition);
-                tempCptChartIdList.push(tempCptChartObj);   
-              })
-              getOtherLayer(OtherLayerObj)
-                    .then(result => {
-                      let resultData = result.list
-                      if(resultData&&resultData.length>0){
-                        let bgObj = {};
-                        resultData.map((layerItem,layerIndex) => {
-                          timeKey++;
-                          let sinSoreNum = layerItem.SORTNUM;
-                          let layerId = layerItem.CELLTYPEID;
-                          let layerType = layerItem.CELLTYPE;
-                          let layerName = layerItem.CELLNAME;
-                          let layerJsonObj = JSON.parse(layerItem.CELLJSON);
-                          let mainKey = layerItem.ID;
-                          if(layerType==="bg"){
-                            layerJsonObj.mainKey = mainKey;
-                            bgObj = layerJsonObj;
-                          }else{
-                              let positionObj = layerJsonObj.positionObj;
-                              let tempCptChartObj = {
-                                    chartId:-1,
-                                    thType:layerType,
-                                    timeKey:timeKey,
-                                    mainKey:layerItem.ID,
-                                    addState:'headerAdd',
-                                    layerObj:layerItem,
-                                    layerData:layerJsonObj,
-                                    sortNum:sinSoreNum,
-                                };
-                                if(!positionObj&&positionObj===""){
-                                  positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
-                                }
-                                positionObj.sortNum = sinSoreNum;
-                                tempCptKeyList.push({ key: timeKey, id: layerId, title: layerName,layerType:layerType,simpleType:'',sortNum:sinSoreNum});
-                                tempCptPropertyList.push(positionObj);
-                                tempCptChartIdList.push(tempCptChartObj); 
-                          }
-                        })
-                        if(!bgObj.hasOwnProperty("bgColor")){
-                              bgObj = {
-                                bgColor: 'rgba(15, 42, 67,1)',
-                                bjWidth: 1470,
-                                bjHeight: 937,
-                                bjImage:'none',
-                                bgImageName:"无",
-                                bgImageIntegerUrl:"",
-                                uploadImage:"",
-                                mainKey:-1
-                            }
-                        }
-                        store.dispatch(replaceGlobalBg(bgObj));
-                        if(tempCptKeyList.length>1){
-                          tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
-                          tempCptPropertyList = tempCptPropertyList.sort(this.compare("sortNum"));
-                          tempCptChartIdList = tempCptChartIdList.sort(this.compare("sortNum"));
-                        }
-                        _this.setState({
-                          globalBg: bgObj,
-                          cptIndex: -1,
-                          cptType: '',
-                          cptKey: '',
-                          cptKeyList: tempCptKeyList,
-                          cptPropertyList:tempCptPropertyList,
-                          nameData:nameDataObj,
-                          cptPropertyObj: { 
-                              type: 'bg',//具体的类型：    text chart border
-                              cptType: ''
-                          },
-                          cptChartIdList:tempCptChartIdList
-                        }, () => {
-                            showChartsOption(tempCptChartIdList,tempCptKeyList);
-                        });
+                    let positionObj = layerJsonObj.positionObj;
+                    let tempCptChartObj = {
+                          chartId:-1,
+                          thType:layerType,
+                          timeKey:timeKey,
+                          mainKey:layerItem.ID,
+                          addState:'headerAdd',
+                          layerObj:layerItem,
+                          layerData:layerJsonObj,
+                          sortNum:sinSoreNum,
+                      };
+                      if(!positionObj&&positionObj===""){
+                        positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
                       }
-                    })
-                    .catch(error => console.info(error));
-        }).catch(error => console.info(error));
+                      positionObj.sortNum = sinSoreNum;
+                      tempCptKeyList.push({ key: timeKey, id: layerId, title: layerName,layerType:layerType,sortNum:sinSoreNum});
+                      tempCptPropertyList.push(positionObj);
+                      tempCptChartIdList.push(tempCptChartObj); 
+                }
+              })
+              if(!bgObj.hasOwnProperty("bgColor")){
+                    bgObj = {
+                      bgColor: 'rgba(15, 42, 67,1)',
+                      bjWidth: 1470,
+                      bjHeight: 937,
+                      bjImage:'none',
+                      bgImageName:"无",
+                      bgImageIntegerUrl:"",
+                      uploadImage:"",
+                      mainKey:-1
+                  }
+              }
+              store.dispatch(replaceGlobalBg(bgObj));
+              if(tempCptKeyList.length>1){
+                tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
+                tempCptPropertyList = tempCptPropertyList.sort(this.compare("sortNum"));
+                tempCptChartIdList = tempCptChartIdList.sort(this.compare("sortNum"));
+              }
+              _this.setState({
+                globalBg: bgObj,
+                cptIndex: -1,
+                cptType: '',
+                cptKey: '',
+                cptKeyList: tempCptKeyList,
+                cptPropertyList:tempCptPropertyList,
+                nameData:nameDataObj,
+                cptPropertyObj: { 
+                    type: 'bg',//具体的类型：    text chart border
+                    cptType: ''
+                },
+                cptChartIdList:tempCptChartIdList
+              }, () => {
+                  showChartsOption(tempCptChartIdList,tempCptKeyList);
+              });
+            }
+        });
     }
 
   compare(property){
@@ -360,7 +358,6 @@ class Layout extends Component {
              return value1 - value2;     // 升序
          }
   }
-
 
 
   handleScriptCreate(obj) {
@@ -381,28 +378,32 @@ class Layout extends Component {
    * @return:
    */
   onClickAdd = ( layerObj , otherObj) => {
-    const id = layerObj.id;
+    const layerId = layerObj.id;
     const type = layerObj.layerType;
     const showTitle = layerObj.text;
     //const t = document.getElementById("chart_type").value;//暂时先从下拉列表获取图表类型，后续在更改
     const key = new Date().getTime().toString();
     const cptkObj = {
       key: key,
-      id: id,
+      id: layerId,
       title: showTitle,
       layerType: type,
-      simpleType: layerObj.simpleType
     };
 
     const len = this.state.cptKeyList.length;
-    let tempHeightValue = 350;
-    if (type === 'text') {
-      tempHeightValue = 80;
+    let tempHeight = 350;
+    let tempWidth = 350;
+    if(type === 'text') {
+      tempHeight = 80;
+    }
+    if(layerId === "fullScreen"){
+      tempWidth = 40;
+      tempHeight = 40;
     }
     const cptpObj = {
       cptBorderObj: {
-        width: 350,
-        height: tempHeightValue,
+        width: tempWidth,
+        height: tempHeight,
         left: 450,
         top: 160,
         opacity: 1,
@@ -412,13 +413,13 @@ class Layout extends Component {
         layerBorderColor: 'rgb(0,0,0,1)'
       },
       type: type,
-      cptType: id
+      cptType: layerId
     };
     //对当前基本内容的全部替换
     store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
     let chartId = -1;
     chartData.map(item => {
-      if (item.id == id) {
+      if (item.id == layerId) {
         chartId = item.chartId;
       }
     });
@@ -427,16 +428,16 @@ class Layout extends Component {
     let layerData = {};
     let mainKey = -1;
     let addState = "leftAdd";
-    let sortNum = otherObj.sortNum;
+    let {sortNum} = otherObj;
     addState = otherObj.state;
     if(otherObj&&otherObj.mainKey){
       mainKey = otherObj.mainKey;
     }
-    if(otherObj&&otherObj.state==="leftAdd"){
+    if(addState==="leftAdd"){
         thType = otherObj.data.thType;
         layerTempObj = otherObj.data;
         chartId = otherObj.data.id;
-    }else if(otherObj&&otherObj.state==="headerAdd"){
+    }else if(addState==="headerAdd"){
         otherObj.showVal = layerTempObj;
         layerData = otherObj.otherJson;
         thType = type;
@@ -454,7 +455,7 @@ class Layout extends Component {
     this.setState(
       {
         cptIndex: len,
-        cptType: id,
+        cptType: layerId,
         cptKey: key,
         cptKeyList: [...this.state.cptKeyList, cptkObj],
         cptPropertyList: [...this.state.cptPropertyList, cptpObj],
@@ -462,7 +463,7 @@ class Layout extends Component {
         cptChartIdList: [...this.state.cptChartIdList,addChartObj ]
       },
       () => {
-          chartOption(id, key, this, 'noUpdate', otherObj);
+          chartOption(layerId, key, this, 'noUpdate', otherObj);
       }
     );
   }
@@ -683,9 +684,10 @@ class Layout extends Component {
     const layerBorderWidth = parseInt(prevBorderWidth);
     const layerBorderStyle = prevBorderStyle;
     const layerBorderColor = prevBorderColor;
-    const opacity = cptPropertyObj.cptBorderObj.opacity;
-    const t = cptpList[cptIndex].cptType ? cptpList[cptIndex].cptType : 'bg';
-    const type = cptpList[cptIndex].type ? cptpList[cptIndex].type : 'bg';
+    const {opacity} = cptPropertyObj.cptBorderObj;
+    const {type:thisType,cptType} = cptpList[cptIndex];
+    const t = cptType ? cptType : 'bg';
+    const type = thisType ? thisType : 'bg';
     let cptpObj = {
       cptBorderObj: {
         width,
@@ -737,24 +739,15 @@ class Layout extends Component {
           {
             globalBg: globalBg
           },() => {
-            this.refs.rightConfig.refs.editMainCenter.updateStateVal();
+            this.updaetRightData();
             this.debounce(this.editBgConfig);
           }
         );
     }else{
       let cptKeyObj = state.cptKeyList[cptIndex];
       let otherLayerId = cptKeyObj.id;
-      if (
-        fieldEname === 'width' ||
-        fieldEname === 'height' ||
-        fieldEname === 'left' ||
-        fieldEname === 'top' ||
-        fieldEname === 'opacity' ||
-        fieldEname === 'rotate' ||
-        fieldEname === 'layerBorderWidth' ||
-        fieldEname === 'layerBorderStyle' ||
-        fieldEname === 'layerBorderColor'
-      ) {
+      let defaultLayerEnames = ['width','height','left','top','opacity','rotate','layerBorderWidth','layerBorderStyle','layerBorderColor']
+      if (defaultLayerEnames.includes(fieldEname)) {
         store.dispatch(updateShowLayerFieldVal(updateFieldObj));
         var cptpObj = state.cptPropertyList[cptIndex];
         if (cptIndex !== -1) {
@@ -855,6 +848,11 @@ class Layout extends Component {
           })
       }
     }
+  }
+
+
+  updaetRightData(){
+    this.refs.rightConfig.refs.editMainCenter.updateStateVal();
   }
 
   /**
@@ -1231,34 +1229,30 @@ class Layout extends Component {
      * @return: 
      */
     mainSwitchLayer = (layerIndex,updateIndex,updateState) => {
+      //window
       let arr = window.arr ? window.arr : [];
       let mapObjArr = window.mapObjArr ? window.mapObjArr : [];
       if (arr.length > 0) {
         window.arr =  this.replaceData(arr,layerIndex,updateIndex,updateState);
         window.mapObjArr =  this.replaceData(mapObjArr,layerIndex,updateIndex,updateState);
       }
+
+      //store
       let cptOptionsList = store.getState().showLayerDatas.cptOptionsList;
       let tempOptionLists = [].concat(JSON.parse(JSON.stringify(cptOptionsList)));
       tempOptionLists = this.replaceData(tempOptionLists,layerIndex,updateIndex,updateState)
       store.dispatch(replaceOptionsList(tempOptionLists));
-      let state = this.state;
-      let cptPropertyList = state.cptPropertyList;
-      let cptIndex = state.cptIndex;
-      let cptType = state.cptType;
-      let cptKey = state.cptKey;
-      let cptKeyList = state.cptKeyList;
-      let cptChartIdList = state.cptChartIdList;
-      let cptPropertyObj = state.cptPropertyObj;
+
+      //state
+      let {cptPropertyList,cptKeyList,cptChartIdList} = this.state;
       let thisChartObj = cptChartIdList[layerIndex];
-      cptIndex = updateIndex;
-      cptType = thisChartObj.chartId;
-      cptKey = thisChartObj.timeKey;
-      cptPropertyObj = cptPropertyList[layerIndex];
+      let cptPropertyObj = cptPropertyList[layerIndex];
+      let {chartId:cptType,timeKey:cptKey} = thisChartObj;
       cptKeyList = this.replaceData(cptKeyList,layerIndex,updateIndex,updateState);
       cptPropertyList = this.replaceData(cptPropertyList,layerIndex,updateIndex,updateState);
       cptChartIdList = this.replaceData(cptChartIdList,layerIndex,updateIndex,updateState);
       this.setState({
-        cptIndex: cptIndex,
+        cptIndex: updateIndex,
         cptKey: cptKey,
         cptType:cptType,
         cptKeyList: cptKeyList,
@@ -1266,6 +1260,7 @@ class Layout extends Component {
         cptChartIdList: cptChartIdList,
         cptPropertyObj: cptPropertyObj,
       })
+      
     }
 
     /**

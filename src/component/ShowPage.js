@@ -126,7 +126,6 @@ class ShowPage extends Component {
                   id: item.name,
                   title: item.layername,
                   layerType: item.thType,
-                  simpleType: ""
                 });
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);
@@ -170,7 +169,6 @@ class ShowPage extends Component {
                       id: layerId,
                       title: layerName,
                       layerType: layerType,
-                      simpleType: ""
                     });
                     tempCptPropertyList.push(positionObj);
                     tempCptChartIdList.push(tempCptChartObj);
@@ -230,118 +228,120 @@ class ShowPage extends Component {
     let OtherLayerObj = {
       shareid: shareid
     };
-    getKSHChart(getKshObj)
-      .then(res => {
-        let tempData = JSON.parse(res.data);
-        let tempCptKeyList = [];
-        let tempCptPropertyList = [];
-        let tempCptChartIdList = [];
-        let timeKey = new Date().getTime().toString();
-        tempData.map((item, index) => {
-          timeKey++;
-          let tempLayerPosition = item.layerPosition;
-          let sortNumChart = item.sortNum;
-          let tempCptChartObj = {
-            chartId: item.id,
-            thType: item.thType,
-            timeKey: timeKey,
-            mainKey: item.mainKey,
-            addState: "defaultState",
-            layerObj: item,
-            layerData:{},
-            sortNum:sortNumChart,
-          };
-          if (tempLayerPosition != "") {
-            tempLayerPosition = JSON.parse(tempLayerPosition);
-          } else {
-            tempLayerPosition = JSON.parse(
-              '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}'
-            );
-          }
-          tempLayerPosition.type = "chart";
-          tempCptKeyList.push({
-            key: timeKey,
-            id: item.name,
-            title: item.layername,
-            layerType: item.thType,
-            simpleType: ""
-          });
-          tempCptPropertyList.push(tempLayerPosition);
-          tempCptChartIdList.push(tempCptChartObj);
-        });
-        getOtherLayer(OtherLayerObj)
-          .then(result => {
-            let resultData = result.list;
-            if (resultData && resultData.length > 0) {
+    let kshLayer = getKSHChart(getKshObj);
+        let otherLayer = getOtherLayer(OtherLayerObj);
+        Promise.all([kshLayer, otherLayer]).then((results) => {
+            let kshData = results[0];
+            let otherData = results[1];
+            let tempData = JSON.parse(kshData);
+            let tempCptKeyList = [];
+            let tempCptPropertyList = [];
+            let tempCptChartIdList = [];
+            let timeKey = new Date().getTime().toString();  
+            tempData.map((item,index) => {
+                  timeKey++;
+                  let tempLayerPosition = item.layerPosition;
+                  let sortNumChart = item.sortNum;
+                  let thType = item.thType;
+                  let vVal = "";
+                  if(thType==="0"){
+                    vVal = item.id;
+                  }else if(thType==="1"){
+                    vVal = item.service+"；"+item.layername+"；"+item.name;
+                  }
+                  item.vVal = vVal;
+                  let tempCptChartObj = {
+                      chartId:item.id,
+                      thType:item.thType,
+                      timeKey:timeKey,
+                      mainKey:item.mainKey,
+                      addState:'leftAdd',
+                      layerObj:item,
+                      layerData:{},
+                      sortNum:sortNumChart,
+                  };
+                  if(tempLayerPosition!==""){
+                    tempLayerPosition = JSON.parse(tempLayerPosition)
+                  }else{
+                    tempLayerPosition=JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
+                  }
+                  tempLayerPosition.type = "chart";
+                  tempLayerPosition.sortNum = sortNumChart;
+                  tempCptKeyList.push({ key: timeKey, id: item.layername, title: item.name,layerType:item.thType, sortNum:sortNumChart});
+                  tempCptPropertyList.push(tempLayerPosition);
+                  tempCptChartIdList.push(tempCptChartObj);   
+            })    
+            let resultData = otherData.list
+            if(resultData&&resultData.length>0){
               let bgObj = {};
-              resultData.map((layerItem, layerIndex) => {
+              resultData.map((layerItem,layerIndex) => {
                 timeKey++;
                 let sinSoreNum = layerItem.SORTNUM;
+                let layerId = layerItem.CELLTYPEID;
                 let layerType = layerItem.CELLTYPE;
                 let layerName = layerItem.CELLNAME;
-                let layerId = layerItem.CELLTYPEID;
                 let layerJsonObj = JSON.parse(layerItem.CELLJSON);
                 let mainKey = layerItem.ID;
-                if (layerType == "bg") {
+                if(layerType==="bg"){
                   layerJsonObj.mainKey = mainKey;
                   bgObj = layerJsonObj;
-                } else {
-                  let positionObj = layerJsonObj.positionObj;
-                  let tempCptChartObj = {
-                    chartId: -1,
-                    thType: layerType,
-                    timeKey: timeKey,
-                    mainKey: layerItem.ID,
-                    addState: "defaultState",
-                    layerObj: layerItem,
-                    layerData: layerJsonObj,
-                    sortNum:sinSoreNum,
-                  };
-                  if (!positionObj && positionObj == "") {
-                    positionObj = JSON.parse(
-                      `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
-                    );
-                  }
-                  tempCptKeyList.push({
-                    key: timeKey,
-                    id: layerId,
-                    title: layerName,
-                    layerType: layerType,
-                    simpleType: ""
-                  });
-                  tempCptPropertyList.push(positionObj);
-                  tempCptChartIdList.push(tempCptChartObj);
+                }else{
+                    let positionObj = layerJsonObj.positionObj;
+                    let tempCptChartObj = {
+                          chartId:-1,
+                          thType:layerType,
+                          timeKey:timeKey,
+                          mainKey:layerItem.ID,
+                          addState:'headerAdd',
+                          layerObj:layerItem,
+                          layerData:layerJsonObj,
+                          sortNum:sinSoreNum,
+                      };
+                      if(!positionObj&&positionObj===""){
+                        positionObj=JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
+                      }
+                      positionObj.sortNum = sinSoreNum;
+                      tempCptKeyList.push({ key: timeKey, id: layerId, title: layerName,layerType:layerType,sortNum:sinSoreNum});
+                      tempCptPropertyList.push(positionObj);
+                      tempCptChartIdList.push(tempCptChartObj); 
                 }
-              });
+              })
+              if(!bgObj.hasOwnProperty("bgColor")){
+                    bgObj = {
+                      bgColor: 'rgba(15, 42, 67,1)',
+                      bjWidth: 1470,
+                      bjHeight: 937,
+                      bjImage:'none',
+                      bgImageName:"无",
+                      bgImageIntegerUrl:"",
+                      uploadImage:"",
+                      mainKey:-1
+                  }
+              }
               store.dispatch(replaceGlobalBg(bgObj));
-              _this.setState(
-                {
-                  globalBg: bgObj,
-                  cptIndex: -1,
-                  cptType: "",
-                  cptKey: "",
-                  cptKeyList: tempCptKeyList,
-                  cptPropertyList: tempCptPropertyList,
-                  nameData: nameDataObj,
-                  cptPropertyObj: {
-                    type: "bg", //具体的类型：    text chart border
-                    cptType: ""
-                  },
-                  cptChartIdList: tempCptChartIdList
+              if(tempCptKeyList.length>1){
+                tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
+                tempCptPropertyList = tempCptPropertyList.sort(this.compare("sortNum"));
+                tempCptChartIdList = tempCptChartIdList.sort(this.compare("sortNum"));
+              }
+              _this.setState({
+                globalBg: bgObj,
+                cptIndex: -1,
+                cptType: '',
+                cptKey: '',
+                cptKeyList: tempCptKeyList,
+                cptPropertyList:tempCptPropertyList,
+                nameData:nameDataObj,
+                cptPropertyObj: { 
+                    type: 'bg',//具体的类型：    text chart border
+                    cptType: ''
                 },
-                () => {
-                  {
-                    showChartsOption(tempCptChartIdList);
-                  }
-                }
-              );
+                cptChartIdList:tempCptChartIdList
+              }, () => {
+                  showChartsOption(tempCptChartIdList,tempCptKeyList);
+              });
             }
-          })
-          .catch(error => console.info(error));
-      })
-      .catch(error => {
-        console.info(error);
-      });
+        });
   }
   render() {
     let cptChartIdList = this.state.cptChartIdList;
