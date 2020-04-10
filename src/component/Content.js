@@ -62,10 +62,8 @@ function Child1(props) {
             className="singleChart"
             style={{
               position: "absolute",
-              width: cptBorderObj.width - 20 + "px",
-              height: cptBorderObj.height - 25 + "px",
-              left: "10px",
-              top: "20px",
+              width: cptBorderObj.width + "px",
+              height: cptBorderObj.height + "px",
             }}
           ></div>
         ) : null}

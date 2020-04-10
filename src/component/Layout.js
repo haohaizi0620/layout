@@ -240,7 +240,7 @@ class Layout extends Component {
         Promise.all([kshLayer, otherLayer]).then((results) => {
             let kshData = results[0];
             let otherData = results[1];
-            let tempData = JSON.parse(kshData);
+            let tempData = JSON.parse(kshData.data);
             let tempCptKeyList = [];
             let tempCptPropertyList = [];
             let tempCptChartIdList = [];
@@ -901,13 +901,13 @@ class Layout extends Component {
         let [cptIndex] = args;
         let thType = "0";
         let mainKey = -1;
-        let state = this.state;
-        let leftChartObj = state.cptChartIdList[cptIndex];
+        let {cptChartIdList,cptPropertyList} = this.state;
+        let leftChartObj = cptChartIdList[cptIndex];
         if(leftChartObj){
           thType = leftChartObj.thType;
           mainKey = leftChartObj.mainKey;
         }
-        let showDatas = store.getState().showLayerDatas.showDatas;
+        let showDatas = cptPropertyList[cptIndex];
         if(thType==="0"||thType==="1"){
           let editObj = {
             "id" : mainKey,
@@ -974,7 +974,6 @@ class Layout extends Component {
       let [layerIndex,tempOptionObj] = args;
       let chartObj = this.state.cptChartIdList[layerIndex];   
       let editJson = this.getEditJson(chartObj,tempOptionObj);
-      this.editItemDataBaseOneLayer(layerIndex,editJson);
       let thType = "0";
       let leftChartObj = this.state.cptChartIdList[layerIndex];
       if(leftChartObj){
@@ -1302,7 +1301,7 @@ class Layout extends Component {
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-    this.refs.shareModel.setDefaultValue(`http://121.8.161.110:8082/share/build/index.html?sid=${sidVal}`);
+    this.refs.shareModel.setDefaultValue(`http://localhost:8080/share/build/index.html?sid=${sidVal}`);
   }
 
   onRightClick = (event) => {

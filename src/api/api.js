@@ -30,7 +30,7 @@ const deployPrev = "http://121.8.161.110:8082/data/";
 const localPrev = "http://localhost:8080/data/";
 const defaultPrev = localPrev;
 const deploySharePrev = "http://121.8.161.110:8082/share/";
-const localSharePrev = "http://localhost:8082/share/";
+const localSharePrev = "http://localhost:8080/share/";
 const defaultSharePrev = localSharePrev;
 
 

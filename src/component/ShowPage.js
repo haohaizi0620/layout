@@ -190,9 +190,7 @@ class ShowPage extends Component {
                     cptChartIdList: tempCptChartIdList
                   },
                   () => {
-                    {
-                      showChartsOption(tempCptChartIdList);
-                    }
+                      showChartsOption(tempCptChartIdList,tempCptKeyList);
                   }
                 );
               }
@@ -233,7 +231,7 @@ class ShowPage extends Component {
         Promise.all([kshLayer, otherLayer]).then((results) => {
             let kshData = results[0];
             let otherData = results[1];
-            let tempData = JSON.parse(kshData);
+            let tempData = JSON.parse(kshData.data);
             let tempCptKeyList = [];
             let tempCptPropertyList = [];
             let tempCptChartIdList = [];

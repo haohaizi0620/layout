@@ -321,14 +321,14 @@ class Header extends Component {
     let defaultShowVal = getDefaultLayerData(layerType,layerId);
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-    this.props.onClickAdd(layerObj, {
+   /*  this.props.onClickAdd(layerObj, {
       data: {},
       state: "headerAdd",
       mainKey: -1,
       sortNum: comLength,
       otherJson: defaultShowVal
     });
-    return;
+    return; */
     if (layerType !== "chart") {
       let shareid = window.parent.document.getElementById("shareID").value;
       let layerName = layerObj.text;

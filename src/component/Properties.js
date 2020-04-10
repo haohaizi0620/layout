@@ -867,6 +867,8 @@ class Properties extends Component {
       let singleSetIds = ["iframeCenter","singleImage","baseTable","fullScreen","singleBorder","singleDecorate"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
+      }else{
+        tempLayer = tempLayer.default;
       }
       if(["0", "1","chart","map","chartMap"].includes(LayerType)){
         tempLayer =  [];

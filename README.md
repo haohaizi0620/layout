@@ -69,7 +69,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 预览页面和编辑页面
     在router.js里面 App 里面是编辑页面  ShowPage 是预览页面
-    访问路径 在api文件夹里面deploy的字符串表示部署的路径开头,local表示的是本地的路径,自行修改
+    访问路径 在api文件夹里面deploy的字符串表示部署的路径开头,local表示的是本地的路径,自行修改，
+    部署和本地要访问预览的话还需要更改layout.js里面的savePagePrev进行更改预览路径
 数据库添加的字段
     EZTD_THEME_TABLE add Field   SORTNUM(排序字段)  CELLTYPEID(每个其他图层的id标识数据)
     EZTD_THEME_CELL add Field   SORTNUM(排序字段)   LAYERPOSITION(图表和地图定位数据)
