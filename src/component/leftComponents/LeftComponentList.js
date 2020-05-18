@@ -34,18 +34,22 @@ class LeftComponentList extends Component {
       ],
       moveBottom:[
         {
+          cid:1,
           cname:'上移',
           flag:-1,
         },
         {
+          cid:2,
           cname:'下移',
           flag:1,
         },
         {
+          cid:3,
           cname:'置顶',
           flag:'top',
         },
         {
+          cid:4,
           cname:'置底',
           flag:'bottom',
         }
@@ -280,7 +284,7 @@ class LeftComponentList extends Component {
                                         onClick={event => {
                                           this.moveShowLayer(event, item.flag);
                                         }}
-                                      >
+                                      key={item.cid}>
                                       {item.cname}
                                       </Button>
                                     )

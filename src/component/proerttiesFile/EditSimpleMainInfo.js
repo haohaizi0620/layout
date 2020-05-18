@@ -87,7 +87,7 @@ class EditSimpleMainInfo extends Component {
             if (itemType == 'InputNumber') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}  >
-                   <span class="pro-item-simple-close" >{item.ename}</span>
+                   <span className="pro-item-simple-close" >{item.ename}</span>
                   <InputNumber
                     size='small'
                     min={item.minNumber}
@@ -127,7 +127,7 @@ class EditSimpleMainInfo extends Component {
                     />
                   </div>
                   <div className='pro-item-simple pro-item-number'>
-                    <span  class="pro-item-simple-close" >{ename}</span>
+                    <span  className="pro-item-simple-close" >{ename}</span>
                     <InputNumber
                       size='small'
                       min={minNumber}
