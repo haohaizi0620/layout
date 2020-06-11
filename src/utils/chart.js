@@ -116,6 +116,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
                             ],
                             preserveDrawingBuffer: true,
                             style: 'zyzx://formal_blue/styles/style.json',
+                            //style: 'http://172.24.254.94:8080/formal_blue/styles/root.json',
                             // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
                             // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
                             // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
@@ -232,6 +233,7 @@ export function showChartsOption(chartsList,keyList) {
                         ],
                         preserveDrawingBuffer: true,
                         style: 'zyzx://formal_blue/styles/style.json',
+                        //style: 'http://172.24.254.94:8080/formal_blue/styles/root.json',
                         // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
                         // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
                         // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
@@ -394,6 +396,7 @@ function addChart(data, timeId, addIndex, _this) {
                 ],
                 preserveDrawingBuffer: true,
                 style: 'zyzx://formal_blue/styles/style.json',
+                //style: 'http://172.24.254.94:8080/formal_blue/styles/root.json',
                 // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
                 // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
                 // localIdeographFontFamily : ' "Microsoft YaHei Bold","Microsoft YaHei
@@ -597,7 +600,7 @@ function addLayerWFS(obj, map) {
             var icon = symbol.attr('icon');
             if (!map.hasImage(icon)) {
                 map
-                    .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                    .loadImage(projectType+'SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
                         map.addImage(icon, image);
                     });
             }
@@ -803,7 +806,7 @@ function addLayerWMS(obj, map) {
             'tileSize': 256
         },
         'paint': {}
-    }, 'drawLevel');
+    });
 }
 
 /**
@@ -846,7 +849,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
                     var icon = simplemarkersymbol.attr('icon');
                     if (!map.hasImage(icon)) {
                         map
-                            .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                            .loadImage(projectType+'SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
                                 map.addImage(icon, image);
                             });
                     }
@@ -929,7 +932,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
                     var icon = simplemarkersymbol.attr('icon');
                     if (!map.hasImage(icon)) {
                         map
-                            .loadImage('../SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+                            .loadImage(projectType+'SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
                                 map.addImage(icon, image);
                             });
                     }

@@ -80,13 +80,13 @@ class Config extends Component {
             <span className="control-panel-header-bg-title">组件设置</span>
           </div>
           <div className="control-panel-header" style={{ height: "30px" }}>
-            <div class="control-panel-header-title">
-              <div class="title-name">
-                <span class="ellipsis title-name-text" title={layerTitle}>
+            <div className="control-panel-header-title">
+              <div className="title-name">
+                <span className="ellipsis title-name-text" title={layerTitle}>
                     {layerTitle}    
                 </span>
               </div>
-              <div class="version-tag">
+              <div className="version-tag">
                 <span>
                   索引:{cptIndex} | {layerTitle}
                 </span>

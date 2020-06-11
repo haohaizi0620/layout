@@ -26,11 +26,11 @@ export function test() {
     method: 'get'
   });
 }
-const deployPrev = "http://121.8.161.110:8082/data/";
-const localPrev = "http://localhost:8080/data/";
+const deployPrev = "http://172.24.254.94:8082/data/";
+const localPrev = "http://172.24.254.94:8082/data/";
 const defaultPrev = localPrev;
-const deploySharePrev = "http://121.8.161.110:8082/share/";
-const localSharePrev = "http://localhost:8080/share/";
+const deploySharePrev = "http://172.24.254.94:8082/share/";
+const localSharePrev = "http://172.24.254.94:8082/share/";
 const defaultSharePrev = localSharePrev;
 
 
@@ -177,14 +177,15 @@ export function getShareById(shareID) {
 }
 export function getSpecify(catalogId) {
   return request({
-    url: `http://121.8.161.110:8082/service/Thematic?request=GetSpecify&id=${catalogId}&user=public&password=public123`,
+    //url: `http://172.24.254.94:8082/service/Thematic?request=GetSpecify&id=${catalogId}&user=public&password=public123`,
+    url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}`,
     method: 'get'
   });
 }
 
 export function getMapDataWFS(layerName){
   return request({
-    url: `/data/GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename= ${layerName}`,
+    url: defaultPrev+`GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257025.703,582446.812,414679.125&searchType=recsearch&typename= ${layerName}`,
     method: 'get'
   });
 }

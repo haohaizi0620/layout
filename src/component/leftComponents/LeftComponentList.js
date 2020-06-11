@@ -249,7 +249,7 @@ class LeftComponentList extends Component {
                                       <Panel header={bigDataItem.service.name} key={bigIndex}>
                                         {bigDataItem.data.map((item, index) => {
                                           return (
-                                            <div class="showLayerName">
+                                            <div className="showLayerName">
                                               <div onClick={this.onClickAdd.bind(this, item)}>
                                                 {item.name}
                                               </div>

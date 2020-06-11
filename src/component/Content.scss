@@ -8,10 +8,10 @@
         left: -150px;
         top: -150px;
         opacity: 0; */
-        height:30%;
-        width:20%;
-        left:40%;
-        top: -30%;
+        height: 34px;
+        width: 20%;
+        left: 40%;
+        top: -34px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -20,10 +20,11 @@
         flex-direction: column;
         flex-wrap: nowrap;
         .grid-item-scale-show-icon{
-            background: url("../img/icon/rotateIcon.png"); 
-            height: 40px;
-            width: 50px;
-            background-size: 100% 100%;
+            background: url("../img/icon/rotateIcon.png");
+            height: 24px;
+            width: 24px;
+            /* background-size: 100% 100%; */
+            background-repeat: no-repeat;
         }
         .grid-item-scale-show-line{
             background-color: #896b6b;

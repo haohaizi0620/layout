@@ -45,7 +45,7 @@ class Layout extends Component {
       nameData:{},//保存当前页面的基本信息
       shareId:1,//当前页面需要的shareid
       kshId:1,//当前的kshId
-      scale:1,//当前内容的缩放比例
+      scale:0.65,//当前内容的缩放比例
       rightMenuData:[//右键菜单UI数据
         {
           index:"1",
@@ -75,11 +75,24 @@ class Layout extends Component {
     };
   }
   componentDidMount() {
-    this.initLeftDatas2();
+      window.addEventListener('resize', this.handleResize.bind(this))
+      this.initLeftDatas2();
     window['initEditPage'] = () => {
       this.initLeftDatas2();
     }
   }
+
+    handleResize = e => {
+        var w = document.getElementById('custom-content-top').offsetWidth-60;
+        var bfb = w/1920;
+        bfb = bfb.toFixed(2);
+        bfb = parseFloat(bfb);
+        this.setState({
+            scale: bfb
+        }, () => {
+
+        });
+    }
 
     initLeftDatas(){
       let tempTestData = {
@@ -185,9 +198,11 @@ class Layout extends Component {
         if(shareIdVal){
           shareId = shareIdVal.value;
         }
+        //shareId = "64df2a17f7ba4fd0b2069e65cb9cfaee";
         let kshId = 1;
         let kshIdObj = window.parent.document.getElementById('kshID');
         kshIdObj?kshId=kshIdObj.value:kshId=1;
+        //kshId = "160";
         this.setState({
           shareId:shareId,
           kshId:kshId
@@ -1301,7 +1316,7 @@ class Layout extends Component {
     let preState = this.state;
     let nameData = preState.nameData;
     let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-    this.refs.shareModel.setDefaultValue(`http://localhost:8080/share/build/index.html?sid=${sidVal}`);
+    this.refs.shareModel.setDefaultValue(`http://172.24.254.94:8082/share/build/index.html?sid=${sidVal}`);
   }
 
   onRightClick = (event) => {
@@ -1330,8 +1345,10 @@ class Layout extends Component {
     let bgStyle = {
       height: bjHeight,
       width: bjWidth,
-      left:'60px',
-      top:'60px',
+      left:'30px',
+      right:'30px',
+      top:'30px',
+      bottom:'30px',
       backgroundColor: bgColor,
       transform: `scale(${scale}) translate(0px, 0px)`,
     }
@@ -1368,7 +1385,7 @@ class Layout extends Component {
                 <Menu.Item key="4">下移</Menu.Item>
                 <Menu.Item key="5">删除</Menu.Item>
               </Menu>} trigger={['contextMenu']}   >
-              <div  className={'custom-content-top'}>
+              <div id={"custom-content-top"} className={'custom-content-top'}>
                     <div
                         className={'custom-content-canvs '+bgImageName}
                         style={bgStyle}

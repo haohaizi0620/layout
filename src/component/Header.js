@@ -20,7 +20,11 @@ import {
   faTextWidth,
   faTextHeight,
   faBus,
-  faOutdent
+  faOutdent,
+  faTable,
+  faExpandArrowsAlt,
+  faImage,
+  faWindowRestore
 } from "@fortawesome/fontawesome-free-solid";
 import { Button, Tooltip } from "antd";
 import "antd/dist/antd.css";
@@ -37,7 +41,11 @@ fontawesome.library.add(
   faTextWidth,
   faTextHeight,
   faBus,
-  faOutdent
+  faOutdent,
+  faTable,
+  faExpandArrowsAlt,
+  faImage,
+  faWindowRestore
 );
 let otherDefaultData = require('../datasource/otherDefaultData.json');
 class Header extends Component {
@@ -166,62 +174,6 @@ class Header extends Component {
       //生成对应的UIstate
       layerDatas: [
         {
-          typeName: "chart",
-          refName: "basicChart",
-          titleName: "基础图表",
-          IconObj: faChartBar,
-          leftIconLists: [
-            {
-              prevName: "all",
-              thisType: tempCharsStr,
-              titleName: "所有",
-              IconObj: faBars
-            },
-            {
-              prevName: "bar",
-              thisType: tempCharsStr,
-              titleName: "柱状图",
-              IconObj: faChartBar
-            },
-            {
-              prevName: "line",
-              thisType: tempCharsStr,
-              titleName: "折线图",
-              IconObj: faChartLine
-            },
-            {
-              prevName: "area",
-              thisType: tempCharsStr,
-              titleName: "面积图",
-              IconObj: faChartArea
-            },
-            {
-              prevName: "pie",
-              thisType: tempCharsStr,
-              titleName: "饼状图",
-              IconObj: faChartPie
-            },
-            {
-              prevName: "other",
-              thisType: tempCharsStr,
-              titleName: "其他",
-              IconObj: faEllipsisH
-            },
-            {
-              prevName: "map",
-              thisType: tempCharsStr,
-              titleName: "地图",
-              IconObj: faMapPin
-            },
-            {
-              prevName: "countMap",
-              thisType: tempCharsStr,
-              titleName: "统计地图",
-              IconObj: faMapPin
-            }
-          ]
-        },
-        {
           typeName: "text",
           refName: "text",
           titleName: "文本图层",
@@ -239,13 +191,13 @@ class Header extends Component {
           typeName: "table",
           refName: "table",
           titleName: "表格图层",
-          IconObj: faOutdent,
+          IconObj: faTable,
           leftIconLists: [
             {
               prevName: "all",
               thisType: tempTableStr,
               titleName: "表格",
-              IconObj: faOutdent
+              IconObj: faTable
             },
           ]
         },
@@ -253,13 +205,13 @@ class Header extends Component {
           typeName: "media",
           refName: "media",
           titleName: "媒体图层",
-          IconObj: faOutdent,
+          IconObj: faImage,
           leftIconLists: [
             {
               prevName: "all",
               thisType: tempMediaStr,
               titleName: "媒体",
-              IconObj: faOutdent
+              IconObj: faImage
             },
           ]
         },
@@ -267,13 +219,13 @@ class Header extends Component {
           typeName: "interaction",
           refName: "interaction",
           titleName: "交互图层",
-          IconObj: faOutdent,
+          IconObj: faExpandArrowsAlt,
           leftIconLists: [
             {
               prevName: "all",
               thisType: tempInteractionStr,
               titleName: "交互",
-              IconObj: faOutdent
+              IconObj: faExpandArrowsAlt
             },
           ]
         },
@@ -281,16 +233,16 @@ class Header extends Component {
           typeName: "material",
           refName: "material",
           titleName: "素材图层",
-          IconObj: faOutdent,
+          IconObj: faWindowRestore,
           leftIconLists: [
             {
               prevName: "all",
               thisType: tempMaterialStr,
               titleName: "素材",
-              IconObj: faOutdent
+              IconObj: faWindowRestore
             },
           ]
-        },
+        }/*,
         {
           typeName: "otherLayer",
           refName: "otherLayer",
@@ -304,7 +256,7 @@ class Header extends Component {
               IconObj: faOutdent
             }
           ]
-        }
+        }*/
       ]
     };
   }
@@ -330,7 +282,8 @@ class Header extends Component {
     });
     return; */
     if (layerType !== "chart") {
-      let shareid = window.parent.document.getElementById("shareID").value;
+      //let shareid = window.parent.document.getElementById("shareID").value;
+      let shareid = '9294ac11b03148f098e0512feb2459c0';
       let layerName = layerObj.text;
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
       let defaultLayerJson = "";
