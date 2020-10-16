@@ -4,6 +4,7 @@ const L7 = window.L7;
 function initL7Scene(containor, map, layerSource) {
   const scene = new L7.Scene({
     id: containor,
+    logoVisible:false,
     map: new L7.Mapbox({
       mapInstance: map
     })

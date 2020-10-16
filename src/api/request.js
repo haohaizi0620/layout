@@ -41,7 +41,7 @@ import { message } from 'antd';
 const service = axios.create({
   baseURL: process.env.REACT_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 20000 // request timeout
 });
 
 // request interceptor

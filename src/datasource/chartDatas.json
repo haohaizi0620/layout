@@ -163,12 +163,14 @@
 	"text": "单独图片",
 	"chartId": -1,
 	"layerType": "media"
-}, {
+},
+	{
 	"id": "baseTable",
 	"text": "表格数据",
 	"chartId": -1,
 	"layerType": "table"
-}, {
+},
+  {
 	"id": "fullScreen",
 	"text": "全屏展示",
 	"chartId": -1,
@@ -181,6 +183,11 @@
 }, {
 	"id": "singleDecorate",
 	"text": "装饰",
+	"chartId": -1,
+	"layerType": "material"
+}, {
+	"id": "singleIcon",
+	"text": "图标",
 	"chartId": -1,
 	"layerType": "material"
 }]

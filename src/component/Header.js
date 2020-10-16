@@ -47,7 +47,7 @@ fontawesome.library.add(
   faImage,
   faWindowRestore
 );
-let otherDefaultData = require('../datasource/otherDefaultData.json');
+//let otherDefaultData = require('../datasource/otherDefaultData.json');
 class Header extends Component {
   static defaultProps = {
     cptChartIdList:[],
@@ -150,11 +150,11 @@ class Header extends Component {
           { id: "iframeCenter", text: "嵌入页面", layerType: "media" },
         ]
       },
-      table:{
+      /*table:{
         all: [
           { id: "baseTable", text: "表格数据", layerType: "table" },
         ]
-      },
+      },*/
       interaction:{
         all: [
           { id: "fullScreen", text: "全屏展示", layerType: "interaction" },
@@ -164,11 +164,12 @@ class Header extends Component {
         all: [
           { id: "singleBorder", text: "背景边框", layerType: "material" },
           { id: "singleDecorate", text: "装饰", layerType: "material" },
+          { id: "singleIcon", text: "图标", layerType: "material" },
         ]
       },
       otherLayer: {
         other: [
-          
+
         ]
       },
       //生成对应的UIstate
@@ -187,7 +188,7 @@ class Header extends Component {
             },
           ]
         },
-        {
+        /*{
           typeName: "table",
           refName: "table",
           titleName: "表格图层",
@@ -200,7 +201,7 @@ class Header extends Component {
               IconObj: faTable
             },
           ]
-        },
+        },*/
         {
           typeName: "media",
           refName: "media",
@@ -282,8 +283,8 @@ class Header extends Component {
     });
     return; */
     if (layerType !== "chart") {
-      //let shareid = window.parent.document.getElementById("shareID").value;
-      let shareid = '9294ac11b03148f098e0512feb2459c0';
+      let shareid = window.parent.document.getElementById("shareID").value;
+      //let shareid = '9294ac11b03148f098e0512feb2459c0';
       let layerName = layerObj.text;
       // let showOption = store.getState().showLayerDatas.cptOptionsList[layerIndex].layerOption;
       let defaultLayerJson = "";
@@ -307,7 +308,6 @@ class Header extends Component {
               sortNum: comLength,
               otherJson: defaultShowVal
             });
-            console.log("图层添加成功");
           }
         })
         .catch(error => console.log(error));
@@ -321,8 +321,8 @@ class Header extends Component {
       });
     }
   }
-  
-  
+
+
 
   handleChartMouseOver(obj) {
     const t = obj.currentTarget.getAttribute("t");

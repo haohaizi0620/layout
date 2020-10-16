@@ -8,6 +8,7 @@
  */
 import React, { Component } from 'react';
 import DecorateLayer from './materialLayer/DecorateLayer';
+import IconLayer from './materialLayer/IconLayer';
 class MaterialLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -17,20 +18,24 @@ class MaterialLayer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
          }
     }
-    render() { 
+    render() {
        let {layerData,layerSinId} = this.props;
        if(layerSinId==="singleDecorate"){
         return (
             <DecorateLayer  layerData={layerData} />
         )
+       }else if(layerSinId === "singleIcon"){//图标
+           return (
+               <IconLayer  layerData={layerData} />
+           )
        }else{
          return null
        }
     }
-   
+
 }
- 
+
 export default MaterialLayer;

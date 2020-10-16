@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import EditSimpleMainInfo from './proerttiesFile/EditSimpleMainInfo';
+
 import {
   Collapse,
 } from 'antd';
@@ -8,20 +9,22 @@ import '../css/Spinner.css';
 import '../css/Properties.css';
 import '../css/base.css';
 import store from '../redux/store';
+
 let otherDefaultData = require('../datasource/otherDefaultData.json');
 const { Panel } = Collapse;
+
 /*
  * 样式面板组件
  */
 class Properties extends Component {
   constructor(props) {
     super(props);
+    console.info("Properties...");
     let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
-
     let {default:textFieldObj} = testLayer;
-    let {singleBorder:borderFieldObj,singleDecorate:decorate} = materialLayer;
+    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj} = materialLayer;
     let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj} = mediaLayer;
     let {baseTable} = tableLayer;
     let {fullScreen} = interaction;
@@ -114,7 +117,7 @@ class Properties extends Component {
                 { cname: '背景六', value: 'bg6',src :'bg/bg6.png'}
               ]
             },
-            
+
           ],
         },
         {
@@ -797,10 +800,45 @@ class Properties extends Component {
                   ]
                 }],
            },
+        ],
+        singleIcon:[
+          {
+            ename: 'iconColor',
+            name: '图标颜色',
+            type: '',
+            childer: [
+              {
+                ename: 'iconColor',
+                cname: '图标颜色',
+                type: 'Color',
+                value: iconObj.iconColor
+              }
+            ],
+          },
+          {
+            ename: 'iconImage',
+            name: '图标类型',
+            type: '',
+            childer: [
+              {
+                ename: 'iconImage',
+                cname: '',
+                type: 'Select',
+                value:  iconObj.iconImage,
+                defaultOption: '柱图',
+                optionValues: [
+                  { cname: '柱图', value: 'chart-bar',title :'柱图' },
+                  { cname: '通讯录', value: 'address-book',title :'通讯录' },
+                  { cname: 'WIFI', value: 'wifi',title :'WIFI' },
+                  { cname: '书籍', value: 'book',title :'书籍' },
+                  { cname: '艾特符号', value: 'at',title :'艾特符号' },
+                ]
+              }],
+          },
         ]
       }
     };
-   
+
   }
 
   componentDidMount(){
@@ -812,7 +850,7 @@ class Properties extends Component {
   componentWillReceiveProps(){
     // this.updateStateVal();
   }
-  
+
   updateStateVal() {
     var tempKeyVal = this.props.tabsKey;
     let cptPropertyObj = this.props.cptPropertyObj;
@@ -830,8 +868,8 @@ class Properties extends Component {
     if (tempKeyVal === 2) {
       let dataSource = JSON.parse(JSON.stringify(this.state.layerDataSource));
       let deafultDataFlag = false;
-      let setDataEname = ""; 
-      let setDataValue = ""; 
+      let setDataEname = "";
+      let setDataValue = "";
       if(LayerType==="table"){
         if (otherLayerId === "baseTable"){
           if (dataObj) {
@@ -864,7 +902,7 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer =  this.state[LayerType];
-      let singleSetIds = ["iframeCenter","singleImage","baseTable","fullScreen","singleBorder","singleDecorate"];
+      let singleSetIds = ["iframeCenter","singleImage","baseTable","fullScreen","singleBorder","singleDecorate","singleIcon"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
       }else{
@@ -949,7 +987,8 @@ class Properties extends Component {
         }
       } else if (LayerType === "interaction") {
         if (otherLayerId === "fullScreen") {
-
+          tempLayer[0].childer[0].value = dataObj.size;
+          tempLayer[1].childer[0].value = dataObj.backgroundColor;
         }
       } else if (LayerType === "material"){
         if(otherLayerId === "singleBorder"){
@@ -963,8 +1002,15 @@ class Properties extends Component {
             let {decorateImage} = dataObj;
             tempLayer[0].childer[0].value = decorateImage;
           }
+        }else if (otherLayerId === "singleIcon") {
+          debugger;
+          if (dataObj) {
+            let {iconImage,iconColor} = dataObj;
+            tempLayer[0].childer[0].value = iconColor;
+            tempLayer[1].childer[0].value = iconImage;
+          }
         }
-      } 
+      }
       this.setState(
         {
           chart: tempChart.concat(JSON.parse(JSON.stringify(tempLayer))),
@@ -984,7 +1030,7 @@ class Properties extends Component {
     }
   }
 
-  
+
   propsParam(paramObj){
     let {fieldValue,fieldEname} = paramObj;
     this.props.param({
@@ -992,7 +1038,7 @@ class Properties extends Component {
       fieldEname
     });
   }
- 
+
 
 
   /**
@@ -1010,7 +1056,7 @@ class Properties extends Component {
     )
   }
 
- 
+
 
   /**
    * @description: 将背景设置还原
@@ -1027,7 +1073,7 @@ class Properties extends Component {
         fieldValue: '',
         fieldEname: 'bgImageIntegerUrl'
       },
-    ];  
+    ];
     deletePageBgs.map(item => {
       this.propsParam(item);
     })

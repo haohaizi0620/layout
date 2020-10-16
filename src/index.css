@@ -107,7 +107,7 @@ body {
   justify-content: center;
   width: 100px;
   color: white;
-} 
+}
 .custom-header-ul {
   margin: 0;
   display: inline-flex;
@@ -232,7 +232,7 @@ body {
   background-size: 100% 100%;
 }
 
-/* 
+/*
 .custom-header-menu-li .jbzt{
   background-image: url(img/chart/jbzt.png);
 }
@@ -429,6 +429,9 @@ body {
 }
 .singleDecoratebg{
   background-image: url(img/other/singleDecorate.png);
+}
+.singleIconbg{
+  background-image: url(img/icon/icon.png);
 }
 .iframeCenterbg {
   background-image: url(img/other/iframeCenter.png);

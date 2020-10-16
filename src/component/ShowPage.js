@@ -145,8 +145,18 @@ class ShowPage extends Component {
                   let layerJsonObj = JSON.parse(layerItem.celljson);
                   let mainKey = layerItem.ID;
                   if (layerType == "bg") {
-                    layerJsonObj.mainKey = mainKey;
-                    bgObj = layerJsonObj;
+                    //layerJsonObj.mainKey = mainKey;
+                    //bgObj = layerJsonObj;
+                      bgObj = {
+                          bgColor: layerJsonObj.bgColor,
+                          bjWidth: layerJsonObj.bjWidth,
+                          bjHeight: layerJsonObj.bjHeight,
+                          bjImage:"",
+                          bgImageName:layerJsonObj.bgImageName,
+                          bgImageIntegerUrl:"",
+                          uploadImage:"",
+                          mainKey:mainKey
+                      }
                   } else {
                     let positionObj = layerJsonObj.positionObj;
                     let tempCptChartObj = {
@@ -268,7 +278,7 @@ class ShowPage extends Component {
                   tempCptKeyList.push({ key: timeKey, id: item.layername, title: item.name,layerType:item.thType, sortNum:sortNumChart});
                   tempCptPropertyList.push(tempLayerPosition);
                   tempCptChartIdList.push(tempCptChartObj);   
-            })    
+            })
             let resultData = otherData.list
             if(resultData&&resultData.length>0){
               let bgObj = {};
@@ -281,8 +291,20 @@ class ShowPage extends Component {
                 let layerJsonObj = JSON.parse(layerItem.CELLJSON);
                 let mainKey = layerItem.ID;
                 if(layerType==="bg"){
-                  layerJsonObj.mainKey = mainKey;
-                  bgObj = layerJsonObj;
+                    bgObj = {
+                        bgColor: layerJsonObj.bgColor,
+                        bjWidth: layerJsonObj.bjWidth,
+                        bjHeight: layerJsonObj.bjHeight,
+                        bjImage:"",
+                        bgImageName:layerJsonObj.bgImageName,
+                        bgImageIntegerUrl:"",
+                        uploadImage:"",
+                        mainKey:mainKey
+                    }
+                   //layerJsonObj.mainKey = mainKey;
+                  //bgObj.bgColor = layerJsonObj.backgroundcolor;
+                  //bgObj.bgImage = layerJsonObj.backgroundimage;
+                  //bgObj = layerJsonObj;
                 }else{
                     let positionObj = layerJsonObj.positionObj;
                     let tempCptChartObj = {
@@ -304,18 +326,18 @@ class ShowPage extends Component {
                       tempCptChartIdList.push(tempCptChartObj); 
                 }
               })
-              if(!bgObj.hasOwnProperty("bgColor")){
+              /*if(!bgObj.hasOwnProperty("bgColor")){
                     bgObj = {
                       bgColor: 'rgba(15, 42, 67,1)',
-                      bjWidth: 1470,
-                      bjHeight: 937,
+                      bjWidth: 1920,
+                      bjHeight: 1080,
                       bjImage:'none',
                       bgImageName:"无",
                       bgImageIntegerUrl:"",
                       uploadImage:"",
                       mainKey:-1
                   }
-              }
+              }*/
               store.dispatch(replaceGlobalBg(bgObj));
               if(tempCptKeyList.length>1){
                 tempCptKeyList = tempCptKeyList.sort(this.compare("sortNum"));
@@ -345,7 +367,7 @@ class ShowPage extends Component {
     let cptChartIdList = this.state.cptChartIdList;
     return (
       <div
-        className={"custom-content-canvs " + this.state.globalBg.bgImageName}
+          className={"custom-content-canvs " + this.state.globalBg.bgImageName}
         style={{
           height: this.state.globalBg.bjHeight,
           width: this.state.globalBg.bjWidth,

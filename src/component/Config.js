@@ -56,6 +56,7 @@ class Config extends Component {
   render() {
     let {cptIndex,cptLayerAttr} = this.props;
     let {tabsKey,tabKeys} = this.state;
+    window.cptIndex = cptIndex;
     if (cptIndex === -1) {
       return (
         <div className="control-panel">

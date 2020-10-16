@@ -117,6 +117,10 @@
         "singleBorder":{
             "borderImage": "border/border1.png",
 		    "borderWidth": 10
+        },
+        "singleIcon":{
+            "iconImage": "柱图",
+            "iconColor": "rgba(10,115,255,1)"
         }
     }
 
