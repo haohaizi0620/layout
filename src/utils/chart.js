@@ -12,6 +12,7 @@ import {addCptOptionsList, editCptOptionsList} from '../redux/actions/showLayerD
 import $ from 'jquery';
 import {getDefaultLayerData} from './globalAPI';
 import index from "styled-components/dist/styled-components-macro.esm";
+import React from "react";
 let chartTestData = require('../datasource/chartTestData.json');
 const chartData = require('../datasource/chartDatas.json');
 const projectType = "/data/";// "/data/"
@@ -1167,6 +1168,15 @@ export function showChartsOption(chartsList,keyList) {
                                 ifBlank: ifBlank
                             }
                         };
+                    }else if (layerId === "singleVideo") {
+                        let {url,autoplay,loop,controls,muted} = layerData;
+                        tempSaveObj = {
+                            url: url,
+                            autoplay: autoplay,
+                            loop: loop,
+                            controls: controls,
+                            muted: muted
+                        };
                     }else{
 
                     }
@@ -1185,6 +1195,29 @@ export function showChartsOption(chartsList,keyList) {
                         let {color,size} = layerData;
                         tempSaveObj = {
                             color,size
+                        }
+                    }else if (layerId === "button") {
+                        let {text,bgcolor,font,hyperlink} = layerData;
+                        const {family,color, size,weight, textAlign,writingMode} = font;
+                        const {url, ifBlank} = hyperlink;
+                        let {} = text
+                        tempSaveObj = {
+                            text,
+                            bgcolor,
+                            // font,
+                            // hyperlink
+                            font: {
+                                family,
+                                size,
+                                color,
+                                weight,
+                                textAlign,
+                                writingMode
+                            },
+                            hyperlink: {
+                                url,
+                                ifBlank
+                            }
                         }
                     }else{
                     }

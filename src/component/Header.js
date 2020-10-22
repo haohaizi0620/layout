@@ -146,7 +146,8 @@ class Header extends Component {
       },
       media:{
         all: [
-          { id: 'singleImage', text: '单独图片', layerType: 'media' },
+          { id: 'singleImage', text: '图片', layerType: 'media' },
+          { id: 'singleVideo', text: '视频', layerType: 'media' },
           { id: "iframeCenter", text: "嵌入页面", layerType: "media" },
         ]
       },
@@ -158,6 +159,7 @@ class Header extends Component {
       interaction:{
         all: [
           { id: "fullScreen", text: "全屏展示", layerType: "interaction" },
+          { id: "button", text: "按钮", layerType: "interaction" },
         ]
       },
       material:{

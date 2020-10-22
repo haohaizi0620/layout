@@ -8,6 +8,7 @@
  */
 import React, { Component } from 'react';
 import FullScreen from './interactionLayer/FullScreen';
+import Button from './interactionLayer/Button';
 class InteractionLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -17,18 +18,20 @@ class InteractionLayer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
          }
     }
-    render() { 
+    render() {
        let {layerData,layerSinId} = this.props;
        if(layerSinId==="fullScreen"){
-        return <FullScreen  layerData={layerData}  />
+            return <FullScreen  layerData={layerData}  />
+        }else if(layerSinId==="button"){
+           return <Button  layerData={layerData}  />
        }else{
          return null
        }
     }
-   
+
 }
- 
+
 export default InteractionLayer;

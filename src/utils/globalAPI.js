@@ -40,6 +40,14 @@ export function getDefaultLayerData(layerType,layerId) {
                 "ifBlank": true
             }
         };
+      }else if (layerId === "singleVideo") {
+          returnObj = {
+              "url": "",
+              "autoplay": true,
+              "loop": true,
+              "controls": true,
+              "muted": false
+          };
       }else{
           isDefault = true;
       }
@@ -124,6 +132,23 @@ export function getDefaultLayerData(layerType,layerId) {
             "color":"rgba(255,255,255,1)",
             "size":50
         };
+      }else if (layerId === "button") {
+          returnObj = {
+              "text": "按钮",
+              "bgcolor":"rgba(1,170,237,1)",
+              "font": {
+                  "family": "Microsoft Yahei",
+                  "size": 30,
+                  "color": "#983e3e",
+                  "weight": "bold",
+                  "textAlign": "center",
+                  "writingMode": "horizontal-tb"
+              },
+              "hyperlink": {
+                  "url": "",
+                  "isNewWindow": true
+              }
+          };
       }else{
           isDefault = true;
       }
@@ -139,7 +164,7 @@ export function getDefaultLayerData(layerType,layerId) {
         };
       }else if(layerId === 'singleIcon'){
           returnObj = {
-              "iconImage": "柱图",
+              "iconImage": "chart-bar",
               "iconColor": "rgba(10,115,255,1)"
           };
       }else{

@@ -428,6 +428,9 @@ class Layout extends Component {
     if(layerId === "fullScreen"){
       tempWidth = 40;
       tempHeight = 40;
+    }else if(layerId === "button"){
+        tempWidth = 160;
+        tempHeight = 90;
     }
     const cptpObj = {
       cptBorderObj: {
@@ -855,9 +858,43 @@ class Layout extends Component {
                 }else{
                   defaultFlag = true;
                 }
-            }else{
+            }if(otherLayerId==="singleVideo"){
+                  if(fieldEname === 'url'){
+                      cptOptionObj.layerOption.url = fieldValue;
+                      cptChartIdList[cptIndex].layerData.url = fieldValue;
+                  }if(fieldEname === 'autoplay'){
+                      cptOptionObj.layerOption.autoplay = fieldValue;
+                      cptChartIdList[cptIndex].layerData.autoplay = fieldValue;
+                  }if(fieldEname === 'loop'){
+                      cptOptionObj.layerOption.loop = fieldValue;
+                      cptChartIdList[cptIndex].layerData.loop = fieldValue;
+                  }if(fieldEname === 'controls'){
+                      cptOptionObj.layerOption.controls = fieldValue;
+                      cptChartIdList[cptIndex].layerData.controls = fieldValue;
+                  }if(fieldEname === 'muted'){
+                      cptOptionObj.layerOption.muted = fieldValue;
+                      cptChartIdList[cptIndex].layerData.muted = fieldValue;
+                  }else{
+                      defaultFlag = true;
+                  }
+              }else{
               defaultFlag = true;
             }
+          } else if(layerType==="interaction"){
+              if(otherLayerId==="button"){
+                  if(fieldEname === 'text'||fieldEname === 'bgcolor'){
+                      cptOptionObj.layerOption[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
+                  }else if(fieldEname === 'family'||fieldEname === 'size'||fieldEname === 'color'||fieldEname === 'weight'||fieldEname === 'textAlign'||fieldEname === 'writingMode'){
+                      cptOptionObj.layerOption.font[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.font[fieldEname] = fieldValue;
+                  }else if(fieldEname === 'url'||fieldEname === 'isNewWindow'){
+                      cptOptionObj.layerOption.hyperlink[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.hyperlink[fieldEname] = fieldValue;
+                  }else{
+                      defaultFlag = true;
+                  }
+              }
           }else{
             defaultFlag = true;
           }

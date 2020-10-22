@@ -9,6 +9,7 @@
 import React, { Component } from 'react';
 import IframeLayer from './mediaLayer/IframeLayer';
 import SingleImage from './mediaLayer/SingleImage';
+import SingleVideo from './mediaLayer/SingleVideo';
 class MediaLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -16,10 +17,10 @@ class MediaLayer extends Component {
     }
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
         }
     }
-    render() { 
+    render() {
        let {layerData,layerSinId} = this.props;
        if(layerSinId==="iframeCenter"){
         return (
@@ -28,12 +29,16 @@ class MediaLayer extends Component {
        }else if(layerSinId==="singleImage"){
         return (
             <SingleImage layerData={layerData}  />
-        )  
+        )
+       }else if(layerSinId==="singleVideo"){
+           return (
+               <SingleVideo layerData={layerData}  />
+           )
        }else{
         return null;
        }
     }
-   
+
 }
- 
+
 export default MediaLayer;

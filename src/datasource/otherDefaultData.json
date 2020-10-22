@@ -27,6 +27,13 @@
                 "url": "",
                 "ifBlank": true
             }
+        },
+        "singleVideo":{
+            "url": "",
+            "autoplay": true,
+            "loop": true,
+            "controls": true,
+            "muted": false
         }
     },
     "table":{
@@ -107,7 +114,23 @@
        "fullScreen":{
            "color":"rgba(255,255,255,1)",
            "size":50
-       }
+       },
+        "button":{
+            "text": "按钮",
+            "bgcolor":"rgba(1,170,237,1)",
+            "font": {
+                "family": "Microsoft Yahei",
+                "size": 30,
+                "color": "#983e3e",
+                "weight": "bold",
+                "textAlign": "center",
+                "writingMode": "horizontal-tb"
+            },
+            "hyperlink": {
+                "url": "",
+                "isNewWindow": true
+            }
+        }
     },
     "material":{
         "default":{},
@@ -119,7 +142,7 @@
 		    "borderWidth": 10
         },
         "singleIcon":{
-            "iconImage": "柱图",
+            "iconImage": "chart-bar",
             "iconColor": "rgba(10,115,255,1)"
         }
     }

@@ -3,6 +3,7 @@ import ReactColor from '../globalCom/SketchColor.js';
 import ImageUploading from '../globalCom/ImageUploading';
 import JSONInput from 'react-json-editor-ajrm';
 import locale    from 'react-json-editor-ajrm/locale/en';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   Input,
   InputNumber,
@@ -29,7 +30,7 @@ class EditSimpleMainInfo extends Component {
       showImageOptionFlag: false
     };
   }
-  
+
   componentDidMount(){
     let inputNumber = document.getElementsByClassName("ant-input-number-handler");
     if(inputNumber){
@@ -39,7 +40,7 @@ class EditSimpleMainInfo extends Component {
     }
   }
 
- 
+
  simulationInputNumberClick = event => {
     let target = event.target;
     let tagName = target.tagName.toLowerCase();
@@ -170,7 +171,7 @@ class EditSimpleMainInfo extends Component {
                       // item.value?<img src={item.value}  id="previewImageObj"  style={{ width: '100%',height:'auto',padding: '20px 20px'}} />:true
                     }
                     {
-                      this.state.showImageOptionFlag 
+                      this.state.showImageOptionFlag
                       ? <div className='previewOption'>
                           <span className='previewOptionText'>
                             <span onClick={this.setUploadPageBg}>更改</span>|
@@ -218,17 +219,20 @@ class EditSimpleMainInfo extends Component {
                       this.updateChartField(event, item.ename);
                     }}
                     filterOption={(input, option) =>
-                      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      option.props.children[2].indexOf(input.toLowerCase()) >= 0
                     }>
                     {item.optionValues.map((optionItem,optionIndex) => {
-                      let bgImg =  optionItem.src;
+                      let bgImg =  optionItem.src,icon = optionItem.icon;
                       return <Option value={optionItem.value}  key={optionIndex}  >
                             {/*  <div style={{height:'50px',width:'50%',display:'inline-block'}} ></div> */}
                                 {
-                                  bgImg?<img   width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
+                                  bgImg?<img  width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
+                                }
+                                {
+                                  icon?<FontAwesomeIcon icon={icon} style={{width:"16px",height:"16px",margin:"0 4px"}} color="rgba(10,115,255,1)"/>:null
                                 }
                                 {optionItem.cname}
-                             
+
                         </Option>;
                     })}
                   </Select>
@@ -241,7 +245,7 @@ class EditSimpleMainInfo extends Component {
                     onChange={event => {
                       this.updateChartField(event, item.ename);
                     }}
-                  />
+                    checked={item.value}/>
                 </div>
               );
             } else if (itemType == 'TextArea') {
@@ -292,7 +296,7 @@ class EditSimpleMainInfo extends Component {
                   <span>该组件不需要配置数据</span>
                 </div>
               );
-            } 
+            }
           })}
         </Col>
       </Row>
@@ -310,15 +314,15 @@ class EditSimpleMainInfo extends Component {
 
   /**
    * @description: 对json静态数据进行编辑
-   * @param {type} 
-   * @return: 
+   * @param {type}
+   * @return:
    */
   editJsonChange = (event,fieldEname) =>{
     if(event.error) return;
     this.updateChartField(event.jsObject, fieldEname);
   }
 
-   
+
   deletePageBg = (ename) => {
     this.updateChartField('', ename);
     this.refs.ImageUploading.deleteImageUrl();
@@ -347,8 +351,8 @@ class EditSimpleMainInfo extends Component {
 
   /**
    * @description: 是否显示更改和删除图片按钮
-   * @param {type} 
-   * @return: 
+   * @param {type}
+   * @return:
    */
   updateImagePreView(Imageflag) {
     this.setState({

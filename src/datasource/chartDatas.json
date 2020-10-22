@@ -1,193 +1,242 @@
-[{
-	"id": "jbzt",
-	"text": "基本柱图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "ddzzt",
-	"text": "堆叠柱状图",
-	"chartId": 5,
-	"layerType": "chart"
-}, {
-	"id": "ddtxt",
-	"text": "堆叠条形图",
-	"chartId": 37,
-	"layerType": "chart"
-}, {
-	"id": "zxzt",
-	"text": "折线柱图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "zftxt",
-	"text": "正负条形图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "jtpbt",
-	"text": "阶梯瀑布图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "jbzxt",
-	"text": "基本折线图",
-	"chartId": 9,
-	"layerType": "chart"
-}, {
-	"id": "ddzxt",
-	"text": "基本折线图",
-	"chartId": 38,
-	"layerType": "chart"
-}, {
-	"id": "pbt",
-	"text": "瀑布图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "ysfdzxt",
-	"text": "颜色分段折线图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "jbmjt",
-	"text": "基本面积图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "ddmjt",
-	"text": "堆叠面积图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "jbbt",
-	"text": "基本饼图",
-	"chartId": 17,
-	"layerType": "chart"
-}, {
-	"id": "yhbt",
-	"text": "圆环饼图",
-	"chartId": 220,
-	"layerType": "chart"
-}, {
-	"id": "zbzbbt",
-	"text": "指标占比饼图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "mgt",
-	"text": "玫瑰图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "qpt",
-	"text": "气泡图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "sdt",
-	"text": "散点图",
-	"chartId": 329,
-	"layerType": "chart"
-}, {
-	"id": "ldt",
-	"text": "雷达图",
-	"chartId": 1,
-	"layerType": "chart"
-}, {
-	"id": "ldot",
-	"text": "漏斗图",
-	"chartId": 224,
-	"layerType": "chart"
-}, {
-	"id": "ybp",
-	"text": "仪表盘",
-	"chartId": 327,
-	"layerType": "chart"
-}, {
-	"id": "xxzt",
-	"text": "象形柱图",
-	"chartId": 101,
-	"layerType": "chart"
-}, {
-	"id": "generalPointStyle",
-	"text": "点样式",
-	"chartId": 180,
-	"layerType": "map"
-}, {
-	"id": "generalLineStyle",
-	"text": "线样式",
-	"chartId": 263,
-	"layerType": "map"
-}, {
-	"id": "generalSurfaceStyle",
-	"text": "面样式",
-	"chartId": 180,
-	"layerType": "map"
-}, {
-	"id": "mapPie",
-	"text": "地图饼状图",
-	"chartId": 65,
-	"layerType": "chartMap"
-}, {
-	"id": "mapFan",
-	"text": "地图扇形图",
-	"chartId": 180,
-	"layerType": "chartMap"
-}, {
-	"id": "mapBar",
-	"text": "地图柱状图",
-	"chartId": 180,
-	"layerType": "chartMap"
-}, {
-	"id": "singleRowText",
-	"text": "单行文本",
-	"chartId": -1,
-	"layerType": "text"
-}, {
-	"id": "multiLineText",
-	"text": "多行文本",
-	"chartId": -1,
-	"layerType": "text"
-},{
-	"id": "moreRowText",
-	"text": "当前时间",
-	"chartId": -1,
-	"layerType": "text"
-},{
-	"id": "iframeCenter",
-	"text": "嵌入页面",
-	"chartId": -1,
-	"layerType": "media"
-}, {
-	"id": "singleImage",
-	"text": "单独图片",
-	"chartId": -1,
-	"layerType": "media"
-},
-	{
-	"id": "baseTable",
-	"text": "表格数据",
-	"chartId": -1,
-	"layerType": "table"
-},
+[
   {
-	"id": "fullScreen",
-	"text": "全屏展示",
-	"chartId": -1,
-	"layerType": "interaction"
-}, {
-	"id": "singleBorder",
-	"text": "直线边框",
-	"chartId": -1,
-	"layerType": "material"
-}, {
-	"id": "singleDecorate",
-	"text": "装饰",
-	"chartId": -1,
-	"layerType": "material"
-}, {
-	"id": "singleIcon",
-	"text": "图标",
-	"chartId": -1,
-	"layerType": "material"
-}]
+    "id": "jbzt",
+    "text": "基本柱图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "ddzzt",
+    "text": "堆叠柱状图",
+    "chartId": 5,
+    "layerType": "chart"
+  },
+  {
+    "id": "ddtxt",
+    "text": "堆叠条形图",
+    "chartId": 37,
+    "layerType": "chart"
+  },
+  {
+    "id": "zxzt",
+    "text": "折线柱图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "zftxt",
+    "text": "正负条形图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "jtpbt",
+    "text": "阶梯瀑布图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "jbzxt",
+    "text": "基本折线图",
+    "chartId": 9,
+    "layerType": "chart"
+  },
+  {
+    "id": "ddzxt",
+    "text": "基本折线图",
+    "chartId": 38,
+    "layerType": "chart"
+  },
+  {
+    "id": "pbt",
+    "text": "瀑布图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "ysfdzxt",
+    "text": "颜色分段折线图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "jbmjt",
+    "text": "基本面积图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "ddmjt",
+    "text": "堆叠面积图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "jbbt",
+    "text": "基本饼图",
+    "chartId": 17,
+    "layerType": "chart"
+  },
+  {
+    "id": "yhbt",
+    "text": "圆环饼图",
+    "chartId": 220,
+    "layerType": "chart"
+  },
+  {
+    "id": "zbzbbt",
+    "text": "指标占比饼图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "mgt",
+    "text": "玫瑰图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "qpt",
+    "text": "气泡图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "sdt",
+    "text": "散点图",
+    "chartId": 329,
+    "layerType": "chart"
+  },
+  {
+    "id": "ldt",
+    "text": "雷达图",
+    "chartId": 1,
+    "layerType": "chart"
+  },
+  {
+    "id": "ldot",
+    "text": "漏斗图",
+    "chartId": 224,
+    "layerType": "chart"
+  },
+  {
+    "id": "ybp",
+    "text": "仪表盘",
+    "chartId": 327,
+    "layerType": "chart"
+  },
+  {
+    "id": "xxzt",
+    "text": "象形柱图",
+    "chartId": 101,
+    "layerType": "chart"
+  },
+  {
+    "id": "generalPointStyle",
+    "text": "点样式",
+    "chartId": 180,
+    "layerType": "map"
+  },
+  {
+    "id": "generalLineStyle",
+    "text": "线样式",
+    "chartId": 263,
+    "layerType": "map"
+  },
+  {
+    "id": "generalSurfaceStyle",
+    "text": "面样式",
+    "chartId": 180,
+    "layerType": "map"
+  },
+  {
+    "id": "mapPie",
+    "text": "地图饼状图",
+    "chartId": 65,
+    "layerType": "chartMap"
+  },
+  {
+    "id": "mapFan",
+    "text": "地图扇形图",
+    "chartId": 180,
+    "layerType": "chartMap"
+  },
+  {
+    "id": "mapBar",
+    "text": "地图柱状图",
+    "chartId": 180,
+    "layerType": "chartMap"
+  },
+  {
+    "id": "singleRowText",
+    "text": "单行文本",
+    "chartId": -1,
+    "layerType": "text"
+  },
+  {
+    "id": "multiLineText",
+    "text": "多行文本",
+    "chartId": -1,
+    "layerType": "text"
+  },
+  {
+    "id": "moreRowText",
+    "text": "当前时间",
+    "chartId": -1,
+    "layerType": "text"
+  },
+  {
+    "id": "iframeCenter",
+    "text": "嵌入页面",
+    "chartId": -1,
+    "layerType": "media"
+  },
+  {
+    "id": "singleImage",
+    "text": "图片",
+    "chartId": -1,
+    "layerType": "media"
+  },
+  {
+    "id": "singleVideo",
+    "text": "视频",
+    "chartId": -1,
+    "layerType": "media"
+  },
+  {
+    "id": "baseTable",
+    "text": "表格数据",
+    "chartId": -1,
+    "layerType": "table"
+  },
+  {
+    "id": "fullScreen",
+    "text": "全屏展示",
+    "chartId": -1,
+    "layerType": "interaction"
+  },
+  {
+    "id": "button",
+    "text": "按钮",
+    "chartId": -1,
+    "layerType": "interaction"
+  },
+  {
+    "id": "singleBorder",
+    "text": "直线边框",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleDecorate",
+    "text": "装饰",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleIcon",
+    "text": "图标",
+    "chartId": -1,
+    "layerType": "material"
+  }
+]

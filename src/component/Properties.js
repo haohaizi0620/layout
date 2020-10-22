@@ -11,6 +11,7 @@ import '../css/base.css';
 import store from '../redux/store';
 
 let otherDefaultData = require('../datasource/otherDefaultData.json');
+let iconImageData = require('../datasource/iconImage.json');
 const { Panel } = Collapse;
 
 /*
@@ -25,9 +26,9 @@ class Properties extends Component {
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
     let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj} = materialLayer;
-    let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj} = mediaLayer;
+    let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj,singleVideo:singleVideoFieldObj} = mediaLayer;
     let {baseTable} = tableLayer;
-    let {fullScreen} = interaction;
+    let {fullScreen,button} = interaction;
     let {urlConfig:singleImageUrlConfig} = singleImageFieldObj;
     let tableFieldObj = baseTable.config.table;
     let {header:tableFieldHeaderObj,textStyle:tableBodyTextObj,ZebraLine:tableBodyBaseObj,borderStyle:tableBodyBorderObj} = tableFieldObj;
@@ -486,6 +487,74 @@ class Properties extends Component {
             ],
           }
         ],
+        singleVideo:[
+          {
+            ename: 'url',
+            name: '视频路径',
+            type: '',
+            childer: [
+              {
+                ename: 'url',
+                cname: '在线视频',
+                type: 'Input',
+                value: singleVideoFieldObj.url,
+                placeholder: '视频路径'
+              }
+            ],
+          },
+          {
+            ename: 'autoplay',
+            name: '自动播放',
+            type: '',
+            childer: [
+              {
+                ename: 'autoplay',
+                cname: '自动播放',
+                type: 'Switch',
+                value: singleVideoFieldObj.autoplay
+              }
+            ],
+          },
+          {
+            ename: 'loop',
+            name: '循环播放',
+            type: '',
+            childer: [
+              {
+                ename: 'loop',
+                cname: '循环播放',
+                type: 'Switch',
+                value: singleVideoFieldObj.loop
+              }
+            ],
+          },
+          {
+            ename: 'controls',
+            name: '控制条',
+            type: '',
+            childer: [
+              {
+                ename: 'controls',
+                cname: '控制条',
+                type: 'Switch',
+                value: singleVideoFieldObj.controls
+              }
+            ],
+          },
+          {
+            ename: 'muted',
+            name: '静音',
+            type: '',
+            childer: [
+              {
+                ename: 'muted',
+                cname: '静音',
+                type: 'Switch',
+                value: singleVideoFieldObj.muted
+              }
+            ],
+          }
+         ]
       },
       table:{
         default:[],
@@ -716,6 +785,133 @@ class Properties extends Component {
               }
             ],
           },
+        ],
+        button:[
+          {
+            ename: 'text',
+            name: '文字内容',
+            type: '',
+            childer: [
+              {
+                ename: 'text',
+                cname: '文字内容',
+                type: 'Input',
+                value: button.text
+              }
+            ],
+          },
+          {
+            ename: 'bgcolor',
+            name: '背景颜色',
+            type: '',
+            childer: [
+              {
+                ename: 'bgcolor',
+                cname: '颜色',
+                type: 'Color',
+                value: button.bgcolor
+              }
+            ],
+          },
+          {
+            ename: 'font',
+            name: '字体样式',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'family',
+                cname: '字体',
+                type: 'Select',
+                value: button.font.family,
+                defaultOption: 'auto',
+                optionValues: [
+                  { cname: 'auto', value: 'auto' },
+                  { cname: 'cursive', value: 'cursive' },
+                  { cname: 'monospace', value: 'monospace' },
+                  { cname: 'serif', value: 'serif' }
+                ]
+              },
+              {
+                ename: 'size',
+                cname: '字号大小',
+                type: 'InputNumber',
+                value: button.font.size,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'color',
+                cname: '字体颜色',
+                type: 'Color',
+                value: button.font.color
+              },
+              {
+                ename: 'weight',
+                cname: '字体粗细',
+                type: 'Select',
+                value: button.font.weight,
+                defaultOption: 'normal',
+                optionValues: [
+                  { cname: 'normal', value: 'normal' },
+                  { cname: 'bold', value: 'bold' },
+                  { cname: 'bolder', value: 'bolder' },
+                  { cname: 'lighter', value: 'lighter' },
+                  { cname: '100', value: '100' },
+                  { cname: '200', value: '200' },
+                  { cname: '300', value: '300' },
+                  { cname: '400', value: '400' },
+                  { cname: '500', value: '500' },
+                  { cname: '600', value: '600' },
+                  { cname: '700', value: '700' },
+                  { cname: '800', value: '800' },
+                  { cname: '900', value: '900' },
+                  { cname: 'inherit', value: 'inherit' }
+                ]
+              },
+              {
+                ename: 'textAlign',
+                cname: '对齐方式',
+                type: 'Select',
+                value: button.font.textAlign,
+                defaultOption: 'center',
+                optionValues: [
+                  { cname: '左对齐', value: 'left' },
+                  { cname: '右对齐', value: 'right' },
+                  { cname: '居中对齐', value: 'center' }
+                ]
+              },
+              {
+                ename: 'writingMode',
+                cname: '排列方式',
+                type: 'Select',
+                value: button.font.writingMode,
+                defaultOption: 'horizontal-tb',
+                optionValues: [
+                  { cname: '水平', value: 'horizontal-tb' },
+                  { cname: '垂直', value: 'vertical-rl' }
+                ],
+              }
+            ],
+          },
+          {
+            ename: 'hyperlink',
+            name: '超链接配置',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'url',
+                cname: '超链接',
+                type: 'Input',
+                value: button.hyperlink.url
+              },
+              {
+                ename: 'isNewWindow',
+                cname: '是否打开新窗口',
+                type: 'Switch',
+                value: button.hyperlink.isNewWindow
+              }
+            ],
+          }
         ]
       },
       material:{
@@ -826,13 +1022,7 @@ class Properties extends Component {
                 type: 'Select',
                 value:  iconObj.iconImage,
                 defaultOption: '柱图',
-                optionValues: [
-                  { cname: '柱图', value: 'chart-bar',title :'柱图' },
-                  { cname: '通讯录', value: 'address-book',title :'通讯录' },
-                  { cname: 'WIFI', value: 'wifi',title :'WIFI' },
-                  { cname: '书籍', value: 'book',title :'书籍' },
-                  { cname: '艾特符号', value: 'at',title :'艾特符号' },
-                ]
+                optionValues: iconImageData
               }],
           },
         ]
@@ -902,7 +1092,7 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer =  this.state[LayerType];
-      let singleSetIds = ["iframeCenter","singleImage","baseTable","fullScreen","singleBorder","singleDecorate","singleIcon"];
+      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
       }else{
@@ -955,6 +1145,16 @@ class Properties extends Component {
             tempLayer[4].childer[0].value = tempImageLayerObj.urlConfig['url'];
             tempLayer[4].childer[1].value = tempImageLayerObj.urlConfig['ifBlank'];
           }
+        }else if (otherLayerId === "singleVideo") {
+          if (dataObj) {
+            let tempVideoLayerObj = dataObj;
+            tempLayer[0].childer[0].value = tempVideoLayerObj['url'];
+            tempLayer[1].childer[0].value = tempVideoLayerObj['autoplay'];
+            tempLayer[2].childer[0].value = tempVideoLayerObj['loop'];
+            tempLayer[3].childer[0].value = tempVideoLayerObj['controls'];
+            tempLayer[4].childer[0].value = tempVideoLayerObj['muted'];
+            //tempLayer[1].childer[0].value = tempImageLayerObj['backgroundImage'];
+          }
         }
       } else if (LayerType === "table"){
         if (otherLayerId === "baseTable") {
@@ -989,6 +1189,20 @@ class Properties extends Component {
         if (otherLayerId === "fullScreen") {
           tempLayer[0].childer[0].value = dataObj.size;
           tempLayer[1].childer[0].value = dataObj.backgroundColor;
+        }else if (otherLayerId === "button"){
+          let {text,bgcolor,font,hyperlink} = dataObj;
+          tempLayer[0].childer[0].value = text;
+          tempLayer[1].childer[0].value = bgcolor;
+          tempLayer[2].childer[0].value = font.family;
+          tempLayer[2].childer[1].value = font.size;
+          tempLayer[2].childer[2].value = font.color;
+          tempLayer[2].childer[3].value = font.weight;
+          tempLayer[2].childer[4].value = font.textAlign;
+          tempLayer[2].childer[5].value = font.writingMode;
+
+          tempLayer[3].childer[0].value = hyperlink.url;
+          tempLayer[3].childer[1].value = hyperlink.isNewWindow;
+
         }
       } else if (LayerType === "material"){
         if(otherLayerId === "singleBorder"){

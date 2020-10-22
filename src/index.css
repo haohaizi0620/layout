@@ -439,12 +439,18 @@ body {
 .singleImagebg {
   background-image: url(img/other/image/singleImage.png);
 }
+.singleVideobg {
+  background-image: url(img/other/image/singleVideo.png);
+}
 .baseTablebg {
   background-image: url(img/table/baseTable.png);
 }
 
 .fullScreenbg {
   background-image: url(img/interaction/fullScreen.png);
+}
+.buttonbg {
+  background-image: url(img/interaction/button.png);
 }
 
 
