@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 class CurrentTime extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             timeVal:''
          }
     }
@@ -44,11 +44,12 @@ class CurrentTime extends Component {
           })
         }, 1000);
     };
-    render() { 
+    render() {
        let layerData = this.props.layerData;
-        return ( 
+        return (
             <span className={'textLayer'}
             style={{
+              backgroundColor:layerData.backgroundColor,
               fontSize: layerData&&layerData.fontSize ? layerData.fontSize : '30px',
               fontFamily: layerData&&layerData.fontFamily ? layerData.fontFamily : 'auto',
               color: layerData&&layerData.fontColor ? layerData.fontColor : 'rgba(255,255,255,1)',
@@ -61,5 +62,5 @@ class CurrentTime extends Component {
         clearInterval(this.timeClose);
     }
 }
- 
+
 export default CurrentTime;

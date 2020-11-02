@@ -10,12 +10,12 @@ import React, { Component } from 'react';
 class SingleRowText extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
          }
     }
-    render() { 
+    render() {
        let layerData = this.props.layerData;
-        return ( 
+        return (
             <div
             style={{
               height:'100%',
@@ -23,6 +23,7 @@ class SingleRowText extends Component {
               textOverflow: 'clip',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
+              backgroundColor:layerData.backgroundColor,
               fontSize: layerData&&layerData.fontSize ? layerData.fontSize : '30px',
               fontFamily: layerData&&layerData.fontFamily ? layerData.fontFamily : 'auto',
               color: layerData&&layerData.fontColor ? layerData.fontColor : 'rgba(255,255,255,1)',
@@ -30,13 +31,7 @@ class SingleRowText extends Component {
               writingMode:layerData&& layerData.writingMode ? layerData.writingMode : 'horizontal-tb'
             }}>
                 {
-                    layerData&&layerData.hyperlinkCenter
-                    ?<a src={layerData&&layerData.hyperlinkCenter ? layerData.hyperlinkCenter : ''}
-                        className={'textLayer'}
-                        target={layerData&&layerData.isNewWindow ? '_blank' : '_self'}>
-                        {layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'}
-                        </a>
-                    :layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'
+                    layerData&&layerData.textCenter&&layerData.textCenter.value ? layerData.textCenter.value : '标题'
                 }
             </div>
          );

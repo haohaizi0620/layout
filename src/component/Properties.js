@@ -22,6 +22,7 @@ class Properties extends Component {
     super(props);
     console.info("Properties...");
     let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
+    let cptType = cptBorderObj.cptType;
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
@@ -34,6 +35,8 @@ class Properties extends Component {
     let {header:tableFieldHeaderObj,textStyle:tableBodyTextObj,ZebraLine:tableBodyBaseObj,borderStyle:tableBodyBorderObj} = tableFieldObj;
     let {textStyle:tableHeaderTextObj} = tableFieldHeaderObj;
     let {bjWidth,bjHeight,bgColor,bgImageName,bgImageIntegerUrl} = bgFieldObj;
+
+
     this.state = {
       noContent: [
         {
@@ -272,7 +275,20 @@ class Properties extends Component {
 
       text:{
         default:[
-          {
+            {
+              ename: 'backgroundColor',
+              name: '背景颜色',
+              type: '',
+              childer: [
+                {
+                  ename: 'backgroundColor',
+                  cname: '颜色',
+                  type: 'Color',
+                  value: cptBorderObj.backgroundColor
+                }
+              ],
+            },
+            {
             ename: 'fontStyle',
             name: '字体样式',
             type: 'Collapse',
@@ -365,23 +381,38 @@ class Properties extends Component {
             ],
           },
           {
-            ename: 'hyperlink',
-            name: '超链接配置',
-            type: 'Collapse',
+            ename: 'playSpeed',
+            name: '滚动速度',
             childer: [
               {
-                ename: 'hyperlinkCenter',
-                cname: '超链接',
-                type: 'Input',
-                value: textFieldObj.hyperlinkCenter
+                ename: 'playSpeed',
+                cname: '滚动速度',
+                type: 'Select',
+                value: textFieldObj.playSpeed,
+                defaultOption: 'center',
+                optionValues: [
+                  { cname: '1', value: '1' },
+                  { cname: '2', value: '2' },
+                  { cname: '3', value: '3' },
+                  { cname: '4', value: '4' },
+                  { cname: '5', value: '5' },
+                  { cname: '6', value: '6' },
+                  { cname: '7', value: '7' },
+                  { cname: '8', value: '8' },
+                  { cname: '9', value: '9' },
+                  { cname: '10', value: '10' },
+                  { cname: '15', value: '15' },
+                  { cname: '20', value: '20' }
+                ],
+                suffix:'字符每秒'
               },
               {
-                ename: 'isNewWindow',
-                cname: '是否打开新窗口',
-                type: 'Switch',
-                value: textFieldObj.isNewWindow
+                ename:"playFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.playFlag
               }
-            ],
+            ]
           }
         ]
       },
@@ -1119,15 +1150,31 @@ class Properties extends Component {
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
       if (LayerType === "text") {
         if (dataObj) {
-          let {fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,hyperlinkCenter,isNewWindow} = dataObj;
-          tempLayer[0].childer[0].value = fontFamily;
-          tempLayer[0].childer[1].value = fontSize;
-          tempLayer[0].childer[2].value = fontColor;
-          tempLayer[0].childer[3].value = fontWeight;
-          tempLayer[1].childer[0].value = textAlign;
-          tempLayer[2].childer[0].value = writingMode;
-          tempLayer[3].childer[0].value = hyperlinkCenter;
-          tempLayer[3].childer[1].value = isNewWindow;
+          let {text:testLayer} = otherDefaultData;
+          let {default:textFieldObj} = testLayer;
+          let state = this.state;
+          let {backgroundColor,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,playSpeed} = dataObj;
+          if (otherLayerId === 'rollText'){
+            tempLayer[0].childer[0].value = backgroundColor;
+            tempLayer[1].childer[0].value = fontFamily;
+            tempLayer[1].childer[1].value = fontSize;
+            tempLayer[1].childer[2].value = fontColor;
+            tempLayer[1].childer[3].value = fontWeight;
+            tempLayer[2].childer[0].value = textAlign;
+            tempLayer[3].childer[0].value = writingMode;
+            tempLayer[4].childer[0].value = playSpeed;
+            tempLayer[4].childer[1].value = true;
+          }else{
+            tempLayer[0].childer[0].value = backgroundColor;
+            tempLayer[1].childer[0].value = fontFamily;
+            tempLayer[1].childer[1].value = fontSize;
+            tempLayer[1].childer[2].value = fontColor;
+            tempLayer[1].childer[3].value = fontWeight;
+            tempLayer[2].childer[0].value = textAlign;
+            tempLayer[3].childer[0].value = writingMode;
+            tempLayer[4].childer[0].value = playSpeed;
+            tempLayer[4].childer[1].value = false;
+          }
         }
       } else if (LayerType === "media") {
         if(otherLayerId === "iframeCenter"){

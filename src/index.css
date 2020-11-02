@@ -415,6 +415,9 @@ body {
 .moreRowTextbg {
   background-image: url(img/other/text/moreRowText.png);
 }
+.rollTextbg {
+  background-image: url(img/other/text/moreRowText.png);
+}
 
 .singleRowTextbg {
   background-image: url(img/other/text/singleRowText.png);

@@ -4,14 +4,15 @@
             "textCenter": {
                 "value": "标题"
             },
+            "backgroundColor": "rgba(255,255,255,0)",
             "fontFamily": "auto",
             "fontSize": 30,
             "fontColor": "rgba(255,255,255,1)",
             "fontWeight": "normal",
             "textAlign": "center",
             "writingMode": "horizontal-tb",
-            "hyperlinkCenter": "",
-            "isNewWindow": false
+            "playSpeed": 4,
+            "playFlag":false
         }
     },
     "media":{

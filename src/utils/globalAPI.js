@@ -4,25 +4,31 @@ export function getDefaultLayerData(layerType,layerId) {
     let isDefault = false;
     //let defaulaData = otherDefaultData[layerType];
     if (layerType === "text") {
+        let tempTextObj = {
+            "textCenter": {
+                "value": "标题"
+            },
+            "backgroundColor": "rgba(255,255,255,0)",
+            "fontFamily": "auto",
+            "fontSize": 30,
+            "fontColor": "rgba(255,255,255,1)",
+            "fontWeight": "normal",
+            "textAlign": "center",
+            "writingMode": "horizontal-tb",
+            "playSpeed": 4,
+            "playFlag": false
+        };
       let textCenterVal = "标题";
       if (layerId === "multiLineText") {
         textCenterVal = "这是一个可以换行的文本.......";
       } else if (layerId === "moreRowText") {
         textCenterVal = "";
+      }else if(layerId === "rollText"){
+          textCenterVal = "滚动文字.......";
+          //tempTextObj['playSpeed'] = 4;
+          tempTextObj['playFlag'] = true;
       }
-      let tempTextObj = {
-          "textCenter": {
-              "value": "标题"
-          },
-          "fontFamily": "auto",
-          "fontSize": 30,
-          "fontColor": "rgba(255,255,255,1)",
-          "fontWeight": "normal",
-          "textAlign": "center",
-          "writingMode": "horizontal-tb",
-          "hyperlinkCenter": "",
-          "isNewWindow": false
-      };
+
       tempTextObj.textCenter.value = textCenterVal;
       returnObj = tempTextObj;
     } else if (layerType === "media") {

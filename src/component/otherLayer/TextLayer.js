@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import CurrentTime from './textLayer/CurrentTime';
 import SingleRowText from './textLayer/SingleRowText';
 import MultiLineText from './textLayer/MultiLineText';
-
+import RollText from './textLayer/RollText';
 class TextLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -20,10 +20,10 @@ class TextLayer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
          }
     }
-    render() { 
+    render() {
         let {layerData,layerSinId,timeKey} = this.props;
        if(layerSinId==="multiLineText"){
          return (
@@ -31,7 +31,7 @@ class TextLayer extends Component {
                 layerData={layerData}
                 timeKey={timeKey}
              />
-         ); 
+         );
        }else{
          return (
             <div
@@ -47,11 +47,15 @@ class TextLayer extends Component {
                     {
                         layerSinId==="moreRowText"?<CurrentTime  layerData = {layerData} />:null
                     }
-            </div>  
+                    {
+                        layerSinId==="rollText"?<RollText  layerData = {layerData} />:null
+
+                    }
+            </div>
          )
        }
     }
-   
+
 }
- 
+
 export default TextLayer;

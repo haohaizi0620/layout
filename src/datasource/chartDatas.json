@@ -186,6 +186,12 @@
     "layerType": "text"
   },
   {
+    "id": "rollText",
+    "text": "滚动文字",
+    "chartId": -1,
+    "layerType": "text"
+  },
+  {
     "id": "iframeCenter",
     "text": "嵌入页面",
     "chartId": -1,

@@ -71,12 +71,24 @@ class EditSimpleMainInfo extends Component {
       defaultOneColVal = 0;
       defaultTwoColVal = 24;
     } */
+    if (!showData){
+        return false;
+    }
+
     if (this.props.updateArrFlag) {
       showData = [showData];
     }
     if(showData.length===1){
        oneClassName = "pro-item-single";
     }
+      //排除不播放属性
+      if (showData.length == 2&&showData[1].ename == 'playFlag'){
+          if (showData[1].value == false){
+              return false;
+          }else{
+              oneClassName = "pro-item-single";
+          }
+      }
     return (
       <Row>
         <Col span={defaultOneColVal}>
@@ -212,6 +224,7 @@ class EditSimpleMainInfo extends Component {
                     size='small'
                     key={item.ename}
                     value={item.value}
+                    suffixIcon={item.suffix}
                     showSearch
                     placeholder='Select a person'
                     optionFilterProp='children'
@@ -224,7 +237,6 @@ class EditSimpleMainInfo extends Component {
                     {item.optionValues.map((optionItem,optionIndex) => {
                       let bgImg =  optionItem.src,icon = optionItem.icon;
                       return <Option value={optionItem.value}  key={optionIndex}  >
-                            {/*  <div style={{height:'50px',width:'50%',display:'inline-block'}} ></div> */}
                                 {
                                   bgImg?<img  width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
                                 }

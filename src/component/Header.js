@@ -141,7 +141,8 @@ class Header extends Component {
         all: [
           { id: "singleRowText", text: "单行文本", layerType: "text" },
           { id: "multiLineText", text: "多行文本", layerType: "text" },
-          { id: "moreRowText", text: "当前时间", layerType: "text" }
+          { id: "moreRowText", text: "当前时间", layerType: "text" },
+          { id: "rollText", text: "滚动文字", layerType: "text"}
         ]
       },
       media:{
