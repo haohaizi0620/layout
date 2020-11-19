@@ -1445,10 +1445,10 @@ class Layout extends Component {
     let bgStyle = {
       height: bjHeight,
       width: bjWidth,
-      left:'30px',
-      right:'30px',
-      top:'30px',
-      bottom:'30px',
+      left:'10px',
+      top:'10px',
+      /*right:'30px',
+      bottom:'30px',*/
       backgroundColor: bgColor,
       transform: `scale(${scale}) translate(0px, 0px)`,
     }

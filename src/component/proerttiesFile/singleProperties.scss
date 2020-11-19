@@ -8,6 +8,10 @@
   .pro-item-simple-close{
     display: none;
   }
+
+  .pro-item-simple .ant-input{
+    margin-left: -15px;
+  }
   .ant-input-number {
     position: relative;
     width: 100%;
@@ -42,7 +46,7 @@
   .ant-select-arrow {
     color: gray;
   }
-  
+
   /*添加编辑json的滚动条*/
   #edit-json-react-ajrm-noEdit{
 
@@ -91,13 +95,13 @@
     background: #61b6eb;
   }
 
-    
+
 
 
 }
 
 .pro-item-single {
-  width: 180px;
+  width: 170px;
 }
 .pro-item-single-all {
   width: 100%;
