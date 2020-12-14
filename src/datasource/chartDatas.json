@@ -244,5 +244,23 @@
     "text": "图标",
     "chartId": -1,
     "layerType": "material"
+  },
+  {
+    "id": "singleLiquid",
+    "text": "水波球",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleGauge",
+    "text": "仪表盘",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleRingProgress",
+    "text": "进度环",
+    "chartId": -1,
+    "layerType": "material"
   }
 ]

@@ -9,6 +9,10 @@
 import React, { Component } from 'react';
 import DecorateLayer from './materialLayer/DecorateLayer';
 import IconLayer from './materialLayer/IconLayer';
+import LiquidLayer from './materialLayer/LiquidLayer';
+import GaugeLayer from './materialLayer/GaugeLayer';
+import RingProgressLayer  from './materialLayer/RingProgressLayer';
+
 class MaterialLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -30,6 +34,18 @@ class MaterialLayer extends Component {
        }else if(layerSinId === "singleIcon"){//图标
            return (
                <IconLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleLiquid"){//水波球
+           return (
+               <LiquidLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleGauge"){//仪表盘
+           return (
+               <GaugeLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleRingProgress"){//进度环
+           return (
+               <RingProgressLayer  layerData={layerData} />
            )
        }else{
          return null

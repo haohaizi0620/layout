@@ -168,6 +168,9 @@ class Header extends Component {
           { id: "singleBorder", text: "背景边框", layerType: "material" },
           { id: "singleDecorate", text: "装饰", layerType: "material" },
           { id: "singleIcon", text: "图标", layerType: "material" },
+          { id: "singleLiquid", text: "水波球", layerType: "material" },
+          { id: "singleGauge", text: "仪表盘", layerType: "material" },
+          { id: "singleRingProgress", text: "进度环", layerType: "material" },
         ]
       },
       otherLayer: {

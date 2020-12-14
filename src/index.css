@@ -436,6 +436,15 @@ body {
 .singleIconbg{
   background-image: url(img/icon/icon.png);
 }
+.singleLiquidbg{
+  background-image: url(img/icon/icon.png);
+}
+.singleGaugebg{
+  background-image: url(img/icon/icon.png);
+}
+.singleRingProgressbg{
+  background-image: url(img/icon/icon.png);
+}
 .iframeCenterbg {
   background-image: url(img/other/iframeCenter.png);
 }

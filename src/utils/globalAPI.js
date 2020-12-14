@@ -173,6 +173,49 @@ export function getDefaultLayerData(layerType,layerId) {
               "iconImage": "chart-bar",
               "iconColor": "rgba(10,115,255,1)"
           };
+      }else if(layerId === 'singleLiquid'){
+          returnObj = {
+              "format": "百分比",
+              "percent": 25.00,
+              "font": {
+                  "size": 60,
+                  "color": "rgba(255,255,255,1)"
+              },
+              "liquid": {
+                  "fill": "rgba(111,149,247,1)",
+                  "stroke": "rgba(88,131,247,1)",
+                  "lineWidth": 1
+              }
+          };
+      }else if(layerId === 'singleGauge'){
+          returnObj = {
+              "format": "进度",
+              "percent": 75.00,
+              "font": {
+                  "size": 60,
+                  "color": "rgba(255,255,255,1)"
+              },
+              "gauge": {
+                  "beginColor": "rgba(180,226,255,1)",
+                  "endColor": "rgba(149,152,255,1)"
+              }
+          };
+      }else if(layerId === 'singleRingProgress'){
+          returnObj = {
+              "format": "进度",
+              "percent": 75.00,
+              "font": {
+                  "size": 60,
+                  "color": "rgba(255,255,255,1)"
+              },
+              "ringProgress": {
+                  "radius":0.98,
+                  "innerRadius":0.85,
+                  "fill": "rgba(81,126,247,1)",
+                  "stroke": "rgba(81,126,247,1)",
+                  "lineWidth": 1
+              }
+          };
       }else{
           isDefault = true;
       }

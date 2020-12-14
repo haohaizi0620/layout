@@ -1239,6 +1239,58 @@ export function showChartsOption(chartsList,keyList) {
                             iconImage,
                             iconColor
                         }
+                    }else if(layerId == "singleLiquid"){
+                        let {format,percent,font,liquid} = layerData;
+                        let {size,color} = font;
+                        let {fill,stroke,lineWidth} = liquid;
+                        tempSaveObj = {
+                            format,
+                            percent,
+                            font:{
+                                size,
+                                color
+                            },
+                            liquid:{
+                                fill,
+                                stroke,
+                                lineWidth
+                            }
+                        }
+                    }else if(layerId == "singleGauge"){
+                        let {format,percent,font,gauge} = layerData;
+                        let {size,color} = font;
+                        let {beginColor,endColor} = gauge;
+                        tempSaveObj = {
+                            format,
+                            percent,
+                            font:{
+                                size,
+                                color
+                            },
+                            gauge:{
+                                beginColor,
+                                endColor
+                            }
+                        }
+                    }else if(layerId == "singleRingProgress"){
+                        let {format,percent,font,ringProgress} = layerData;
+                        let {size,color} = font;
+                        let {radius,innerRadius,fill,stroke,lineWidth} = ringProgress;
+                        tempSaveObj = {
+                            format,
+                            percent,
+                            font:{
+                                size,
+                                color
+                            },
+                            ringProgress:{
+                                radius,
+                                innerRadius,
+                                fill,
+                                stroke,
+                                lineWidth
+                            }
+                        }
                     }
                   }
                 let tempOptionObj = {

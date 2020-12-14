@@ -26,7 +26,7 @@ class Properties extends Component {
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
-    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj} = materialLayer;
+    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj,singleLiquid:liquidObj,singleGauge:gaugeObj,singleRingProgress:ringProgressObj} = materialLayer;
     let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj,singleVideo:singleVideoFieldObj} = mediaLayer;
     let {baseTable} = tableLayer;
     let {fullScreen,button} = interaction;
@@ -1056,6 +1056,253 @@ class Properties extends Component {
                 optionValues: iconImageData
               }],
           },
+        ],
+        singleLiquid:[
+          {
+            ename: 'format',
+            name: '文本内容',
+            type: '',
+            childer: [
+              {
+                ename: 'format',
+                cname: '文本内容',
+                type: 'Input',
+                value: liquidObj.format
+              }
+            ],
+          },
+          {
+            ename: 'percent',
+            name: '百分比',
+            type: '',
+            childer: [
+              {
+                ename: 'percent',
+                cname: '百分比',
+                type: 'Slider',
+                value: liquidObj.percent,
+                maxNumber: 100,
+                minNumber: 0,
+                step:0.01,
+              }
+            ],
+          },
+          {
+            ename: 'font',
+            name: '文本样式',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'size',
+                cname: '字体大小',
+                type: 'InputNumber',
+                value: liquidObj.font.size,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'color',
+                cname: '字体颜色',
+                type: 'Color',
+                value: liquidObj.font.color
+              }
+            ],
+          },
+          {
+            ename: 'liquid',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'fill',
+                cname: '填充色',
+                type: 'Color',
+                value: liquidObj.liquid.fill
+              },
+              {
+                ename: 'stroke',
+                cname: '描边色',
+                type: 'Color',
+                value: liquidObj.liquid.stroke
+              },
+              {
+                ename: 'lineWidth',
+                cname: '描边宽',
+                type: 'InputNumber',
+                value: liquidObj.liquid.lineWidth,
+                maxNumber: 20,
+                minNumber: 1
+              },
+            ],
+          }
+        ],
+        singleGauge:[
+          {
+            ename: 'format',
+            name: '文本内容',
+            type: '',
+            childer: [
+              {
+                ename: 'format',
+                cname: '文本内容',
+                type: 'Input',
+                value: gaugeObj.format
+              }
+            ],
+          },
+          {
+            ename: 'percent',
+            name: '百分比',
+            type: '',
+            childer: [
+              {
+                ename: 'percent',
+                cname: '百分比',
+                type: 'Slider',
+                value: gaugeObj.percent,
+                maxNumber: 100,
+                minNumber: 0,
+                step:0.01,
+              }
+            ],
+          },
+          {
+            ename: 'font',
+            name: '文本样式',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'size',
+                cname: '字体大小',
+                type: 'InputNumber',
+                value: gaugeObj.font.size,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'color',
+                cname: '字体颜色',
+                type: 'Color',
+                value: gaugeObj.font.color
+              }
+            ],
+          },
+          {
+            ename: 'gauge',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'beginColor',
+                cname: '起始色',
+                type: 'Color',
+                value: gaugeObj.gauge.beginColor
+              },
+              {
+                ename: 'endColor',
+                cname: '结束色',
+                type: 'Color',
+                value: gaugeObj.gauge.endColor
+              }
+            ],
+          }
+        ],
+        singleRingProgress:[
+          {
+            ename: 'format',
+            name: '文本内容',
+            type: '',
+            childer: [
+              {
+                ename: 'format',
+                cname: '文本内容',
+                type: 'Input',
+                value: ringProgressObj.format
+              }
+            ],
+          },
+          {
+            ename: 'percent',
+            name: '百分比',
+            type: '',
+            childer: [
+              {
+                ename: 'percent',
+                cname: '百分比',
+                type: 'Slider',
+                value: ringProgressObj.percent,
+                maxNumber: 100,
+                minNumber: 0,
+                step:0.01,
+              }
+            ],
+          },
+          {
+            ename: 'font',
+            name: '文本样式',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'size',
+                cname: '字体大小',
+                type: 'InputNumber',
+                value: ringProgressObj.font.size,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'color',
+                cname: '字体颜色',
+                type: 'Color',
+                value: ringProgressObj.font.color
+              }
+            ],
+          },
+          {
+            ename: 'ringProgress',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'radius',
+                cname: '内环半径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: ringProgressObj.ringProgress.radius
+              },
+              {
+                ename: 'innerRadius',
+                cname: '外环半径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: ringProgressObj.ringProgress.innerRadius
+              },
+              {
+                ename: 'fill',
+                cname: '填充色',
+                type: 'Color',
+                value: ringProgressObj.ringProgress.fill
+              },
+              {
+                ename: 'stroke',
+                cname: '描边色',
+                type: 'Color',
+                value: ringProgressObj.ringProgress.stroke
+              },
+              {
+                ename: 'lineWidth',
+                cname: '描边宽',
+                type: 'InputNumber',
+                maxNumber: 20,
+                minNumber: 1,
+                value: ringProgressObj.ringProgress.lineWidth
+              }
+            ],
+          }
         ]
       }
     };
@@ -1123,7 +1370,7 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer =  this.state[LayerType];
-      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon"];
+      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon","singleLiquid","singleGauge","singleRingProgress"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
       }else{
@@ -1264,11 +1511,44 @@ class Properties extends Component {
             tempLayer[0].childer[0].value = decorateImage;
           }
         }else if (otherLayerId === "singleIcon") {
-          debugger;
           if (dataObj) {
             let {iconImage,iconColor} = dataObj;
             tempLayer[0].childer[0].value = iconColor;
             tempLayer[1].childer[0].value = iconImage;
+          }
+        }else if (otherLayerId === "singleLiquid") {
+          if (dataObj) {
+            let {format,percent,font,liquid} = dataObj;
+            tempLayer[0].childer[0].value = format;
+            tempLayer[1].childer[0].value = percent;
+            tempLayer[2].childer[0].value = font.size;
+            tempLayer[2].childer[1].value = font.color;
+            tempLayer[3].childer[0].value = liquid.fill;
+            tempLayer[3].childer[1].value = liquid.stroke;
+            tempLayer[3].childer[2].value = liquid.lineWidth;
+          }
+        }else if (otherLayerId === "singleGauge") {
+          if (dataObj) {
+            let {format,percent,font,gauge} = dataObj;
+            tempLayer[0].childer[0].value = format;
+            tempLayer[1].childer[0].value = percent;
+            tempLayer[2].childer[0].value = font.size;
+            tempLayer[2].childer[1].value = font.color;
+            tempLayer[3].childer[0].value = gauge.beginColor;
+            tempLayer[3].childer[1].value = gauge.endColor;
+          }
+        }else if (otherLayerId === "singleRingProgress") {
+          if (dataObj) {
+            let {format,percent,font,ringProgress} = dataObj;
+            tempLayer[0].childer[0].value = format;
+            tempLayer[1].childer[0].value = percent;
+            tempLayer[2].childer[0].value = font.size;
+            tempLayer[2].childer[1].value = font.color;
+            tempLayer[3].childer[0].value = ringProgress.radius;
+            tempLayer[3].childer[1].value = ringProgress.innerRadius;
+            tempLayer[3].childer[2].value = ringProgress.fill;
+            tempLayer[3].childer[3].value = ringProgress.stroke;
+            tempLayer[3].childer[4].value = ringProgress.lineWidth;
           }
         }
       }
@@ -1288,6 +1568,11 @@ class Properties extends Component {
       this.setState({
         bg: tempBg
       });
+    }
+
+    var ph = document.getElementsByClassName('control-panel')[0].offsetHeight;
+    if (document.getElementsByClassName('ant-tabs-tabpane ant-tabs-tabpane-active')&&document.getElementsByClassName('ant-tabs-tabpane ant-tabs-tabpane-active')[1]){
+      document.getElementsByClassName('ant-tabs-tabpane ant-tabs-tabpane-active')[1].style.maxHeight = ph - 160;
     }
   }
 

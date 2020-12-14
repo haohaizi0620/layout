@@ -895,6 +895,38 @@ class Layout extends Component {
                       defaultFlag = true;
                   }
               }
+          } else if(layerType==="material"){
+              if(otherLayerId==="singleLiquid"){
+                  if(fieldEname === 'size'||fieldEname === 'color'){
+                      cptOptionObj.layerOption.font[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.font[fieldEname] = fieldValue;
+                  }else if(fieldEname === 'fill'||fieldEname === 'stroke'||fieldEname === 'lineWidth'){
+                      cptOptionObj.layerOption.liquid[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.liquid[fieldEname] = fieldValue;
+                  }else{
+                      defaultFlag = true;
+                  }
+              }else if(otherLayerId==="singleGauge"){
+                  if(fieldEname === 'size'||fieldEname === 'color'){
+                      cptOptionObj.layerOption.font[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.font[fieldEname] = fieldValue;
+                  }else if(fieldEname === 'beginColor'||fieldEname === 'endColor'){
+                      cptOptionObj.layerOption.gauge[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.gauge[fieldEname] = fieldValue;
+                  }else{
+                      defaultFlag = true;
+                  }
+              }else if(otherLayerId==="singleRingProgress"){
+                  if(fieldEname === 'size'||fieldEname === 'color'){
+                      cptOptionObj.layerOption.font[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.font[fieldEname] = fieldValue;
+                  }else if(fieldEname === 'radius'||fieldEname === 'innerRadius'||fieldEname === 'fill'||fieldEname === 'stroke'||fieldEname === 'lineWidth'){
+                      cptOptionObj.layerOption.ringProgress[fieldEname] = fieldValue;
+                      cptChartIdList[cptIndex].layerData.ringProgress[fieldEname] = fieldValue;
+                  }else{
+                      defaultFlag = true;
+                  }
+              }
           }else{
             defaultFlag = true;
           }
