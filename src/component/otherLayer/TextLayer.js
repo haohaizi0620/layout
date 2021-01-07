@@ -11,6 +11,8 @@ import CurrentTime from './textLayer/CurrentTime';
 import SingleRowText from './textLayer/SingleRowText';
 import MultiLineText from './textLayer/MultiLineText';
 import RollText from './textLayer/RollText';
+import Statistic1 from './textLayer/Statistic1';
+
 class TextLayer extends Component {
     static defaultProps = {
         layerData : {},
@@ -49,6 +51,10 @@ class TextLayer extends Component {
                     }
                     {
                         layerSinId==="rollText"?<RollText  layerData = {layerData} />:null
+
+                    }
+                    {
+                        layerSinId==="Statistic"?<Statistic1  layerData = {layerData} />:null
 
                     }
             </div>

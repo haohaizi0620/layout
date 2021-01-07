@@ -142,7 +142,8 @@ class Header extends Component {
           { id: "singleRowText", text: "单行文本", layerType: "text" },
           { id: "multiLineText", text: "多行文本", layerType: "text" },
           { id: "moreRowText", text: "当前时间", layerType: "text" },
-          { id: "rollText", text: "滚动文字", layerType: "text"}
+          { id: "rollText", text: "滚动文字", layerType: "text"},
+          { id: "Statistic", text: "统计数值", layerType: "text"}
         ]
       },
       media:{
@@ -171,6 +172,7 @@ class Header extends Component {
           { id: "singleLiquid", text: "水波球", layerType: "material" },
           { id: "singleGauge", text: "仪表盘", layerType: "material" },
           { id: "singleRingProgress", text: "进度环", layerType: "material" },
+          { id: "singleBarProgress", text: "进度条", layerType: "material" },
         ]
       },
       otherLayer: {

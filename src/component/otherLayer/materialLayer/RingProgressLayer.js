@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {RingProgress} from '@ant-design/charts';
+import request from "../../../api/request";
 
 class RingProgressLayer extends Component {
     constructor(props) {
@@ -8,9 +9,19 @@ class RingProgressLayer extends Component {
     }
 
     render() {
-        let {positionObj,format, percent, font, ringProgress} = this.props.layerData;
+        let {positionObj,textCenter,url,format, font, ringProgress} = this.props.layerData;
+        let percent;
+        if (url) {
+            let result = this.getDataSource(url);
+            Promise.all([result]).then((results) => {
+                if (results) {
+                    let res = results[0];
+                    textCenter.value = res.value;
+                }
+            });
+        }
+        percent = textCenter.value;
         percent = percent/100.00;
-        console.info(this.props);
 
         var config = {
             width:parseInt(positionObj.cptBorderObj.width),
@@ -48,6 +59,13 @@ class RingProgressLayer extends Component {
         return (
             <RingProgress {...config}/>
         );
+    }
+
+    getDataSource(url) {
+        return request({
+            url: url,
+            method: 'get'
+        });
     }
 }
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Gauge} from '@ant-design/charts';
+import request from "../../../api/request";
 
 class GaugeLayer extends Component {
     constructor(props) {
@@ -8,9 +9,19 @@ class GaugeLayer extends Component {
     }
 
     render() {
-        let {format, percent, font, gauge} = this.props.layerData;
+        let {url,textCenter,format, font, gauge} = this.props.layerData;
+        let percent;
+        if (url) {
+            let result = this.getDataSource(url);
+            Promise.all([result]).then((results) => {
+                if (results) {
+                    let res = results[0];
+                    textCenter.value = res.value;
+                }
+            });
+        }
+        percent = textCenter.value;
         percent = percent/100.00;
-        //percent = percent.toFixed(4);
         let begin = gauge.beginColor ? gauge.beginColor : 'rgba(180,226,255,1)';
         let end = gauge.endColor ? gauge.endColor : 'rgba(149,152,255,1)';
 
@@ -49,6 +60,13 @@ class GaugeLayer extends Component {
         return (
             <Gauge {...config}/>
         );
+    }
+
+    getDataSource(url) {
+        return request({
+            url: url,
+            method: 'get'
+        });
     }
 }
 

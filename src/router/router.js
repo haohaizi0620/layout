@@ -17,7 +17,7 @@ import {
     HashRouter,
   } from "react-router-dom";
   import '../index.css';
-  import ShowPage from '../component/ShowPage' 
+  import ShowPage from '../component/ShowPage'
   import App from '../App';
 //<Route path="/" component={App} />
 //<Route   path="/" component={ShowPage} />
@@ -30,4 +30,4 @@ const BasicRoute = () => (
 );
 
   export default BasicRoute;
-  
+

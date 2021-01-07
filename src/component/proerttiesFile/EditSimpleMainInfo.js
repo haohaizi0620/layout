@@ -82,7 +82,7 @@ class EditSimpleMainInfo extends Component {
        oneClassName = "pro-item-single";
     }
       //排除不播放属性
-      if (showData.length == 2&&showData[1].ename == 'playFlag'){
+      if (showData.length == 2&&(showData[1].ename == 'dataSourceUrlFlag'||showData[1].ename == 'titleFlag'||showData[1].ename == 'playFlag'||showData[1].ename == 'precisionFlag'||showData[1].ename == 'prefixFlag'||showData[1].ename == 'suffixFlag')){
           if (showData[1].value == false){
               return false;
           }else{

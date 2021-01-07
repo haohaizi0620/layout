@@ -11,8 +11,16 @@
             "fontWeight": "normal",
             "textAlign": "center",
             "writingMode": "horizontal-tb",
+            "title": "",
+            "titleFlag": false,
             "playSpeed": 4,
-            "playFlag":false
+            "playFlag": false,
+            "precision":0,
+            "precisionFlag":false,
+            "prefix":"",
+            "prefixFlag":false,
+            "suffix":"",
+            "suffixFlag":false
         }
     },
     "media":{
@@ -147,8 +155,11 @@
             "iconColor": "rgba(10,115,255,1)"
         },
         "singleLiquid":{
+            "textCenter": {
+                "value": 25.00
+            },
+            "url": "",
             "format": "百分比",
-            "percent": 25.00,
             "font": {
                 "size": 60,
                 "color": "rgba(255,255,255,1)"
@@ -160,8 +171,11 @@
             }
         },
         "singleGauge":{
+            "textCenter": {
+                "value": 75.00
+            },
+            "url": "",
             "format": "进度",
-            "percent": 75.00,
             "font": {
                 "size": 30,
                 "color": "rgba(255,255,255,1)"
@@ -172,8 +186,11 @@
             }
         },
         "singleRingProgress":{
+            "textCenter": {
+                "value": 75.00
+            },
+            "url": "",
             "format": "进度",
-            "percent": 75.00,
             "font": {
                 "size": 30,
                 "color": "rgba(255,255,255,1)"
@@ -184,6 +201,17 @@
                 "fill": "rgba(81,126,247,1)",
                 "stroke": "rgba(81,126,247,1)",
                 "lineWidth": 1
+            }
+        },
+        "singleBarProgress":{
+            "textCenter": {
+                "value": 75.00
+            },
+            "url": "",
+            "barProgress": {
+                "status":"normal",
+                "strokeColor": "rgba(81,126,247,1)",
+                "strokeWidth": 10
             }
         }
     }

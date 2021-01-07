@@ -8,6 +8,8 @@ export function getDefaultLayerData(layerType,layerId) {
             "textCenter": {
                 "value": "标题"
             },
+            "dataSourceUrl":"",
+            "dataSourceUrlFlag":false,
             "backgroundColor": "rgba(255,255,255,0)",
             "fontFamily": "auto",
             "fontSize": 30,
@@ -15,8 +17,17 @@ export function getDefaultLayerData(layerType,layerId) {
             "fontWeight": "normal",
             "textAlign": "center",
             "writingMode": "horizontal-tb",
+            "title":"",
+            "titleFlag":false,
             "playSpeed": 4,
-            "playFlag": false
+            "playFlag": false,
+            "precision":0,
+            "precisionFlag":false,
+            "prefix":"",
+            "prefixFlag":false,
+            "suffix":"",
+            "suffixFlag":false,
+
         };
       let textCenterVal = "标题";
       if (layerId === "multiLineText") {
@@ -27,6 +38,12 @@ export function getDefaultLayerData(layerType,layerId) {
           textCenterVal = "滚动文字.......";
           //tempTextObj['playSpeed'] = 4;
           tempTextObj['playFlag'] = true;
+      }else if(layerId === "Statistic"){
+          textCenterVal = "123456";
+          tempTextObj['titleFlag'] = true;
+          tempTextObj['precisionFlag'] = true;
+          tempTextObj['prefixFlag'] = true;
+          tempTextObj['suffixFlag'] = true;
       }
 
       tempTextObj.textCenter.value = textCenterVal;
@@ -175,8 +192,11 @@ export function getDefaultLayerData(layerType,layerId) {
           };
       }else if(layerId === 'singleLiquid'){
           returnObj = {
+              "textCenter": {
+                  "value": 25.00
+              },
+              "url":"",
               "format": "百分比",
-              "percent": 25.00,
               "font": {
                   "size": 60,
                   "color": "rgba(255,255,255,1)"
@@ -189,8 +209,11 @@ export function getDefaultLayerData(layerType,layerId) {
           };
       }else if(layerId === 'singleGauge'){
           returnObj = {
+              "textCenter": {
+                  "value": 75.00
+              },
+              "url":"",
               "format": "进度",
-              "percent": 75.00,
               "font": {
                   "size": 60,
                   "color": "rgba(255,255,255,1)"
@@ -202,8 +225,11 @@ export function getDefaultLayerData(layerType,layerId) {
           };
       }else if(layerId === 'singleRingProgress'){
           returnObj = {
+              "textCenter": {
+                  "value": 75.00
+              },
+              "url":"",
               "format": "进度",
-              "percent": 75.00,
               "font": {
                   "size": 60,
                   "color": "rgba(255,255,255,1)"
@@ -214,6 +240,18 @@ export function getDefaultLayerData(layerType,layerId) {
                   "fill": "rgba(81,126,247,1)",
                   "stroke": "rgba(81,126,247,1)",
                   "lineWidth": 1
+              }
+          };
+      }else if(layerId === 'singleBarProgress'){
+          returnObj = {
+              "textCenter": {
+                  "value": 75.00
+              },
+              "url":"",
+              "barProgress": {
+                  "status":"normal",
+                  "strokeColor": "rgba(81,126,247,1)",
+                  "strokeWidth": 10
               }
           };
       }else{

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Liquid} from '@ant-design/charts';
+import request from "../../../api/request";
 
 class LiquidLayer extends Component {
     constructor(props) {
@@ -8,9 +9,19 @@ class LiquidLayer extends Component {
     }
 
     render() {
-        let {format, percent, font, liquid} = this.props.layerData;
+        let {url,textCenter, format, font, liquid} = this.props.layerData;
+        let percent;
+        if (url) {
+            let result = this.getDataSource(url);
+            Promise.all([result]).then((results) => {
+                if (results) {
+                    let res = results[0];
+                    textCenter.value = res.value;
+                }
+            });
+        }
+        percent = textCenter.value;
         percent = percent/100.00;
-        //percent = percent.toFixed(4);
 
         var config = {
             percent: percent,
@@ -43,6 +54,21 @@ class LiquidLayer extends Component {
             <Liquid {...config}/>
         );
     }
+
+    getDataSource(url) {
+        return request({
+            url: url,
+            method: 'get'
+        });
+    }
+}
+
+
+async function fetchGet(url) {
+    return  await fetch(url).then((res) =>{
+        return res.data;
+    });
+
 }
 
 export default LiquidLayer;

@@ -192,6 +192,12 @@
     "layerType": "text"
   },
   {
+    "id": "Statistic",
+    "text": "统计数值",
+    "chartId": -1,
+    "layerType": "text"
+  },
+  {
     "id": "iframeCenter",
     "text": "嵌入页面",
     "chartId": -1,
@@ -260,6 +266,12 @@
   {
     "id": "singleRingProgress",
     "text": "进度环",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleBarProgress",
+    "text": "进度条",
     "chartId": -1,
     "layerType": "material"
   }

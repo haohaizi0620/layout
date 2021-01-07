@@ -17,11 +17,11 @@ function getBase64(img, callback) {
 function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    message.error('您只能上传JPG/PNG图片!');
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    message.error('图片必须小于 2MB!');
   }
   return isJpgOrPng && isLt2M;
 }
@@ -33,8 +33,8 @@ class ImageUploading extends React.Component {
 
   /**
    * @description: 模仿点击上传按钮
-   * @param {type} 
-   * @return: 
+   * @param {type}
+   * @return:
    */
   imitationClick() {
     this.refs.upload.click();
@@ -42,8 +42,8 @@ class ImageUploading extends React.Component {
 
   /**
    * @description: 将图片源置空,和展示页面没关系
-   * @param {type} 
-   * @return: 
+   * @param {type}
+   * @return:
    */
   deleteImageUrl() {
     this.setState({
@@ -54,8 +54,8 @@ class ImageUploading extends React.Component {
 
   /**
    * @description: 上传文件成功,并通知上层组件图表改变
-   * @param {type} 
-   * @return: 
+   * @param {type}
+   * @return:
    */
   handleChange = info => {
     if (info.file.status === 'uploading') {

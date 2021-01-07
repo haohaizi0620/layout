@@ -12,6 +12,7 @@ import IconLayer from './materialLayer/IconLayer';
 import LiquidLayer from './materialLayer/LiquidLayer';
 import GaugeLayer from './materialLayer/GaugeLayer';
 import RingProgressLayer  from './materialLayer/RingProgressLayer';
+import BarProgressLayer  from './materialLayer/BarProgressLayer';
 
 class MaterialLayer extends Component {
     static defaultProps = {
@@ -46,6 +47,10 @@ class MaterialLayer extends Component {
        }else if(layerSinId === "singleRingProgress"){//进度环
            return (
                <RingProgressLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleBarProgress"){//进度条
+           return (
+               <BarProgressLayer  layerData={layerData} />
            )
        }else{
          return null

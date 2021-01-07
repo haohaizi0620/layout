@@ -26,7 +26,7 @@ class Properties extends Component {
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
-    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj,singleLiquid:liquidObj,singleGauge:gaugeObj,singleRingProgress:ringProgressObj} = materialLayer;
+    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj,singleLiquid:liquidObj,singleGauge:gaugeObj,singleRingProgress:ringProgressObj,singleBarProgress:barProgressObj} = materialLayer;
     let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj,singleVideo:singleVideoFieldObj} = mediaLayer;
     let {baseTable} = tableLayer;
     let {fullScreen,button} = interaction;
@@ -275,6 +275,24 @@ class Properties extends Component {
 
       text:{
         default:[
+          {
+            ename: 'dataSourceUrl',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'dataSourceUrl',
+                cname: '外部数据源',
+                type: 'Input',
+                value: textFieldObj.dataSourceUrl
+              },
+              {
+                ename:"dataSourceUrlFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.dataSourceUrlFlag
+              }
+            ]
+          },
             {
               ename: 'backgroundColor',
               name: '背景颜色',
@@ -353,7 +371,7 @@ class Properties extends Component {
                 ename: 'textAlign',
                 cname: '对齐方式',
                 type: 'Select',
-                value: textFieldObj.fontFamily,
+                value: textFieldObj.textAlign,
                 defaultOption: 'center',
                 optionValues: [
                   { cname: '左对齐', value: 'left' },
@@ -379,6 +397,24 @@ class Properties extends Component {
                 ],
               }
             ],
+          },
+          {
+            ename: 'title',
+            name: '标题',
+            childer: [
+              {
+                ename: 'title',
+                cname: '标题',
+                type: 'Input',
+                value: textFieldObj.title
+              },
+              {
+                ename:"titleFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.titleFlag
+              }
+            ]
           },
           {
             ename: 'playSpeed',
@@ -411,6 +447,67 @@ class Properties extends Component {
                 cname:"是否显示",
                 type:"Hidden",
                 value:textFieldObj.playFlag
+              }
+            ]
+          },
+          {
+            ename: 'precision',
+            name: '数值精度',
+            childer: [
+              {
+                ename: 'precision',
+                cname: '数值精度',
+                type: 'Select',
+                value: textFieldObj.precision,
+                defaultOption: 'center',
+                optionValues: [
+                  { cname: '0', value: 0 },
+                  { cname: '1', value: 1 },
+                  { cname: '2', value: 2 },
+                  { cname: '3', value: 3 },
+                ],
+              },
+              {
+                ename:"precisionFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.precisionFlag
+              }
+            ]
+          },
+          {
+            ename: 'prefix',
+            name: '前缀',
+            childer: [
+              {
+                ename: 'prefix',
+                cname: '前缀',
+                type: 'Input',
+                value: textFieldObj.prefix
+              },
+              {
+                ename:"prefixFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.prefixFlag
+              }
+            ]
+          },
+          {
+            ename: 'suffix',
+            name: '后缀',
+            childer: [
+              {
+                ename: 'suffix',
+                cname: '后缀',
+                type: 'Input',
+                value: textFieldObj.suffix
+              },
+              {
+                ename:"suffixFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:textFieldObj.suffixFlag
               }
             ]
           }
@@ -1059,6 +1156,18 @@ class Properties extends Component {
         ],
         singleLiquid:[
           {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: liquidObj.url
+              }
+            ]
+          },
+          {
             ename: 'format',
             name: '文本内容',
             type: '',
@@ -1068,22 +1177,6 @@ class Properties extends Component {
                 cname: '文本内容',
                 type: 'Input',
                 value: liquidObj.format
-              }
-            ],
-          },
-          {
-            ename: 'percent',
-            name: '百分比',
-            type: '',
-            childer: [
-              {
-                ename: 'percent',
-                cname: '百分比',
-                type: 'Slider',
-                value: liquidObj.percent,
-                maxNumber: 100,
-                minNumber: 0,
-                step:0.01,
               }
             ],
           },
@@ -1138,6 +1231,18 @@ class Properties extends Component {
         ],
         singleGauge:[
           {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: gaugeObj.url
+              }
+            ]
+          },
+          {
             ename: 'format',
             name: '文本内容',
             type: '',
@@ -1147,22 +1252,6 @@ class Properties extends Component {
                 cname: '文本内容',
                 type: 'Input',
                 value: gaugeObj.format
-              }
-            ],
-          },
-          {
-            ename: 'percent',
-            name: '百分比',
-            type: '',
-            childer: [
-              {
-                ename: 'percent',
-                cname: '百分比',
-                type: 'Slider',
-                value: gaugeObj.percent,
-                maxNumber: 100,
-                minNumber: 0,
-                step:0.01,
               }
             ],
           },
@@ -1209,6 +1298,18 @@ class Properties extends Component {
         ],
         singleRingProgress:[
           {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: ringProgressObj.url
+              }
+            ]
+          },
+          {
             ename: 'format',
             name: '文本内容',
             type: '',
@@ -1218,22 +1319,6 @@ class Properties extends Component {
                 cname: '文本内容',
                 type: 'Input',
                 value: ringProgressObj.format
-              }
-            ],
-          },
-          {
-            ename: 'percent',
-            name: '百分比',
-            type: '',
-            childer: [
-              {
-                ename: 'percent',
-                cname: '百分比',
-                type: 'Slider',
-                value: ringProgressObj.percent,
-                maxNumber: 100,
-                minNumber: 0,
-                step:0.01,
               }
             ],
           },
@@ -1303,6 +1388,54 @@ class Properties extends Component {
               }
             ],
           }
+        ],
+        singleBarProgress:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: barProgressObj.url
+              }
+            ]
+          },
+          {
+            ename: 'barProgress',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'status',
+                cname: '状态',
+                type: 'Select',
+                value: barProgressObj.barProgress.status,
+                defaultOption: 'normal',
+                optionValues: [
+                  { cname: 'normal', value: 'normal'},
+                  { cname: 'active', value: 'active'},
+                  { cname: 'success', value: 'success'},
+                  { cname: 'exception', value: 'exception'},
+                ]
+              },
+              {
+                ename: 'strokeColor',
+                cname: '填充色',
+                type: 'Color',
+                value: barProgressObj.barProgress.strokeColor
+              },
+              {
+                ename: 'strokeWidth',
+                cname: '宽度',
+                type: 'InputNumber',
+                maxNumber: 30,
+                minNumber: 1,
+                value: barProgressObj.barProgress.strokeWidth
+              }
+            ],
+          }
         ]
       }
     };
@@ -1356,6 +1489,14 @@ class Properties extends Component {
         }else{
           deafultDataFlag = true;
         }
+      }else if(LayerType === "material"){
+        if(otherLayerId === "singleLiquid"||otherLayerId === "singleGauge"||otherLayerId === "singleRingProgress"||otherLayerId === "singleBarProgress"){
+          let showData = dataObj.textCenter;
+          setDataValue = showData;
+          setDataEname = "textCenter";
+        }else{
+          deafultDataFlag = true;
+        }
       }else{
         deafultDataFlag = true;
       }
@@ -1370,7 +1511,7 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer =  this.state[LayerType];
-      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon","singleLiquid","singleGauge","singleRingProgress"];
+      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon","singleLiquid","singleGauge","singleRingProgress","singleBarProgress"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
       }else{
@@ -1400,27 +1541,67 @@ class Properties extends Component {
           let {text:testLayer} = otherDefaultData;
           let {default:textFieldObj} = testLayer;
           let state = this.state;
-          let {backgroundColor,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,playSpeed} = dataObj;
+          let {dataSourceUrl,backgroundColor,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,title,playSpeed,precision,prefix,suffix} = dataObj;
           if (otherLayerId === 'rollText'){
-            tempLayer[0].childer[0].value = backgroundColor;
-            tempLayer[1].childer[0].value = fontFamily;
-            tempLayer[1].childer[1].value = fontSize;
-            tempLayer[1].childer[2].value = fontColor;
-            tempLayer[1].childer[3].value = fontWeight;
-            tempLayer[2].childer[0].value = textAlign;
-            tempLayer[3].childer[0].value = writingMode;
-            tempLayer[4].childer[0].value = playSpeed;
-            tempLayer[4].childer[1].value = true;
+            tempLayer[0].childer[0].value = dataSourceUrl;
+            tempLayer[0].childer[1].value = false;
+            tempLayer[1].childer[0].value = backgroundColor;
+            tempLayer[2].childer[0].value = fontFamily;
+            tempLayer[2].childer[1].value = fontSize;
+            tempLayer[2].childer[2].value = fontColor;
+            tempLayer[2].childer[3].value = fontWeight;
+            tempLayer[3].childer[0].value = textAlign;
+            tempLayer[4].childer[0].value = writingMode;
+            tempLayer[5].childer[0].value = title;
+            tempLayer[5].childer[1].value = false;
+            tempLayer[6].childer[0].value = playSpeed;
+            tempLayer[6].childer[1].value = true;
+            tempLayer[7].childer[0].value = precision;
+            tempLayer[7].childer[1].value = false;
+            tempLayer[8].childer[0].value = prefix;
+            tempLayer[8].childer[1].value = false;
+            tempLayer[9].childer[0].value = suffix;
+            tempLayer[9].childer[1].value = false;
+          }else if(otherLayerId === 'Statistic'){
+            tempLayer[0].childer[0].value = dataSourceUrl;
+            tempLayer[0].childer[1].value = true;
+            tempLayer[1].childer[0].value = backgroundColor;
+            tempLayer[2].childer[0].value = fontFamily;
+            tempLayer[2].childer[1].value = fontSize;
+            tempLayer[2].childer[2].value = fontColor;
+            tempLayer[2].childer[3].value = fontWeight;
+            tempLayer[3].childer[0].value = textAlign;
+            tempLayer[4].childer[0].value = writingMode;
+            tempLayer[5].childer[0].value = title;
+            tempLayer[5].childer[1].value = true;
+            tempLayer[6].childer[0].value = playSpeed;
+            tempLayer[6].childer[1].value = false;
+            tempLayer[7].childer[0].value = precision;
+            tempLayer[7].childer[1].value = true;
+            tempLayer[8].childer[0].value = prefix;
+            tempLayer[8].childer[1].value = true;
+            tempLayer[9].childer[0].value = suffix;
+            tempLayer[9].childer[1].value = true;
           }else{
-            tempLayer[0].childer[0].value = backgroundColor;
-            tempLayer[1].childer[0].value = fontFamily;
-            tempLayer[1].childer[1].value = fontSize;
-            tempLayer[1].childer[2].value = fontColor;
-            tempLayer[1].childer[3].value = fontWeight;
-            tempLayer[2].childer[0].value = textAlign;
-            tempLayer[3].childer[0].value = writingMode;
-            tempLayer[4].childer[0].value = playSpeed;
-            tempLayer[4].childer[1].value = false;
+            tempLayer[0].childer[0].value = dataSourceUrl;
+            tempLayer[0].childer[1].value = false;
+            tempLayer[1].childer[0].value = backgroundColor;
+            tempLayer[2].childer[0].value = fontFamily;
+            tempLayer[2].childer[1].value = fontSize;
+            tempLayer[2].childer[2].value = fontColor;
+            tempLayer[2].childer[3].value = fontWeight;
+            tempLayer[3].childer[0].value = textAlign;
+            tempLayer[4].childer[0].value = writingMode;
+            tempLayer[5].childer[0].value = title;
+            tempLayer[5].childer[1].value = false;
+            tempLayer[6].childer[0].value = playSpeed;
+            tempLayer[6].childer[1].value = false;
+            tempLayer[7].childer[0].value = precision;
+            tempLayer[7].childer[1].value = false;
+            tempLayer[8].childer[0].value = prefix;
+            tempLayer[8].childer[1].value = false;
+            tempLayer[9].childer[0].value = suffix;
+            tempLayer[9].childer[1].value = false;
           }
         }
       } else if (LayerType === "media") {
@@ -1518,9 +1699,9 @@ class Properties extends Component {
           }
         }else if (otherLayerId === "singleLiquid") {
           if (dataObj) {
-            let {format,percent,font,liquid} = dataObj;
-            tempLayer[0].childer[0].value = format;
-            tempLayer[1].childer[0].value = percent;
+            let {url,format,font,liquid} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = format;
             tempLayer[2].childer[0].value = font.size;
             tempLayer[2].childer[1].value = font.color;
             tempLayer[3].childer[0].value = liquid.fill;
@@ -1529,9 +1710,9 @@ class Properties extends Component {
           }
         }else if (otherLayerId === "singleGauge") {
           if (dataObj) {
-            let {format,percent,font,gauge} = dataObj;
-            tempLayer[0].childer[0].value = format;
-            tempLayer[1].childer[0].value = percent;
+            let {url,format,font,gauge} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = format;
             tempLayer[2].childer[0].value = font.size;
             tempLayer[2].childer[1].value = font.color;
             tempLayer[3].childer[0].value = gauge.beginColor;
@@ -1539,9 +1720,9 @@ class Properties extends Component {
           }
         }else if (otherLayerId === "singleRingProgress") {
           if (dataObj) {
-            let {format,percent,font,ringProgress} = dataObj;
-            tempLayer[0].childer[0].value = format;
-            tempLayer[1].childer[0].value = percent;
+            let {url,format,font,ringProgress} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = format;
             tempLayer[2].childer[0].value = font.size;
             tempLayer[2].childer[1].value = font.color;
             tempLayer[3].childer[0].value = ringProgress.radius;
@@ -1549,6 +1730,14 @@ class Properties extends Component {
             tempLayer[3].childer[2].value = ringProgress.fill;
             tempLayer[3].childer[3].value = ringProgress.stroke;
             tempLayer[3].childer[4].value = ringProgress.lineWidth;
+          }
+        }else if (otherLayerId === "singleBarProgress") {
+          if (dataObj) {
+            let {url,barProgress} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = barProgress.status;
+            tempLayer[1].childer[1].value = barProgress.strokeColor;
+            tempLayer[1].childer[2].value = barProgress.strokeWidth;
           }
         }
       }

@@ -1137,10 +1137,13 @@ export function showChartsOption(chartsList,keyList) {
                   let tempSaveObj = {};
                   if (layerType === "text") {
                     let {textCenter,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,hyperlinkCenter,isNewWindow} = layerData;
+                    let {dataSourceUrl,dataSourceUrlFlag,title,titleFlag,playSpeed,playFlag,precision,precisionFlag,prefix,prefixFlag,suffix,suffixFlag} = layerData;
                     tempSaveObj = {
                         textCenter: {
                             value:textCenter.value
                         },
+                        dataSourceUrl,
+                        dataSourceUrlFlag,
                         fontFamily,
                         fontSize,
                         fontColor,
@@ -1148,7 +1151,17 @@ export function showChartsOption(chartsList,keyList) {
                         textAlign,
                         writingMode,
                         hyperlinkCenter,
-                        isNewWindow
+                        isNewWindow,
+                        title,
+                        titleFlag,
+                        playSpeed,
+                        playFlag,
+                        precision,
+                        precisionFlag,
+                        prefix,
+                        prefixFlag,
+                        suffix,
+                        suffixFlag
                     };
                   } else if (layerType === "media") {
                     if(layerId === "iframeCenter"){
@@ -1240,12 +1253,15 @@ export function showChartsOption(chartsList,keyList) {
                             iconColor
                         }
                     }else if(layerId == "singleLiquid"){
-                        let {format,percent,font,liquid} = layerData;
+                        let {textCenter,url,format,font,liquid} = layerData;
                         let {size,color} = font;
                         let {fill,stroke,lineWidth} = liquid;
                         tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
                             format,
-                            percent,
                             font:{
                                 size,
                                 color
@@ -1257,12 +1273,14 @@ export function showChartsOption(chartsList,keyList) {
                             }
                         }
                     }else if(layerId == "singleGauge"){
-                        let {format,percent,font,gauge} = layerData;
+                        let {textCenter,url,percent,font,gauge} = layerData;
                         let {size,color} = font;
                         let {beginColor,endColor} = gauge;
                         tempSaveObj = {
-                            format,
-                            percent,
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
                             font:{
                                 size,
                                 color
@@ -1273,12 +1291,15 @@ export function showChartsOption(chartsList,keyList) {
                             }
                         }
                     }else if(layerId == "singleRingProgress"){
-                        let {format,percent,font,ringProgress} = layerData;
+                        let {textCenter,url,format,font,ringProgress} = layerData;
                         let {size,color} = font;
                         let {radius,innerRadius,fill,stroke,lineWidth} = ringProgress;
                         tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
                             format,
-                            percent,
                             font:{
                                 size,
                                 color
@@ -1289,6 +1310,20 @@ export function showChartsOption(chartsList,keyList) {
                                 fill,
                                 stroke,
                                 lineWidth
+                            }
+                        }
+                    }else if(layerId == "singleBarProgress"){
+                        let {textCenter,url,percent,barProgress} = layerData;
+                        let {status,strokeColor,strokeWidth} = barProgress;
+                        tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
+                            barProgress:{
+                                status,
+                                strokeColor,
+                                strokeWidth
                             }
                         }
                     }

@@ -418,7 +418,9 @@ body {
 .rollTextbg {
   background-image: url(img/other/text/moreRowText.png);
 }
-
+.Statisticbg{
+  background-image: url(img/other/text/moreRowText.png);
+}
 .singleRowTextbg {
   background-image: url(img/other/text/singleRowText.png);
 }
@@ -443,6 +445,9 @@ body {
   background-image: url(img/icon/icon.png);
 }
 .singleRingProgressbg{
+  background-image: url(img/icon/icon.png);
+}
+.singleBarProgressbg{
   background-image: url(img/icon/icon.png);
 }
 .iframeCenterbg {
