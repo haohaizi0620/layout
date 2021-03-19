@@ -439,16 +439,25 @@ body {
   background-image: url(img/icon/icon.png);
 }
 .singleLiquidbg{
-  background-image: url(img/icon/icon.png);
+  background-image: url(img/other/singleLiquid.jpg);
 }
 .singleGaugebg{
-  background-image: url(img/icon/icon.png);
+  background-image: url(img/other/singleGauge.jpg);
 }
 .singleRingProgressbg{
-  background-image: url(img/icon/icon.png);
+  background-image: url(img/other/singleRingProgress.jpg);
 }
 .singleBarProgressbg{
-  background-image: url(img/icon/icon.png);
+  background-image: url(img/other/singleBarProgress.jpg);
+}
+.singleRadialBarbg{
+  background-image: url(img/other/singleRadialBar.jpg);
+}
+.singleRosebg{
+  background-image: url(img/other/singleRose.jpg);
+}
+.waterLevelPondbg{
+  background-image: url(img/other/waterLevelPond.jpg);
 }
 .iframeCenterbg {
   background-image: url(img/other/iframeCenter.png);
@@ -462,7 +471,12 @@ body {
 .baseTablebg {
   background-image: url(img/table/baseTable.png);
 }
-
+.carouselListbg {
+  background-image: url(img/table/carouselList.jpg);
+}
+.scrollRankingbg {
+  background-image: url(img/table/scrollRanking.jpg);
+}
 .fullScreenbg {
   background-image: url(img/interaction/fullScreen.png);
 }
@@ -478,7 +492,7 @@ body {
   padding-top: 6px;
   padding-bottom: 1px;
   margin: 0;
-  text-align: left;
+  text-align: center;
   line-height: 1.5;
   overflow: hidden;
   text-overflow: ellipsis;

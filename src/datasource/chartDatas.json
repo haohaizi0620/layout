@@ -222,6 +222,18 @@
     "layerType": "table"
   },
   {
+    "id": "carouselList",
+    "text": "循环列表",
+    "chartId": -1,
+    "layerType": "table"
+  },
+  {
+    "id": "scrollRanking",
+    "text": "排名轮播表",
+    "chartId": -1,
+    "layerType": "table"
+  },
+  {
     "id": "fullScreen",
     "text": "全屏展示",
     "chartId": -1,
@@ -274,5 +286,24 @@
     "text": "进度条",
     "chartId": -1,
     "layerType": "material"
+  },
+  {
+    "id": "singleRadialBar",
+    "text": "玉珏图",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "singleRose",
+    "text": "玫瑰图",
+    "chartId": -1,
+    "layerType": "material"
+  },
+  {
+    "id": "waterLevelPond",
+    "text": "水位图",
+    "chartId": -1,
+    "layerType": "material"
   }
+
 ]

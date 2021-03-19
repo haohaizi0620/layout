@@ -1,29 +1,55 @@
 import React, {Component} from 'react';
 import {Liquid} from '@ant-design/charts';
-import request from "../../../api/request";
 
 class LiquidLayer extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            percent: 0
+        }
+    }
+
+    componentDidMount() {
+        this.regular();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeClose);
+    }
+
+    regular() {
+        let _this = this;
+
+        let {url, textCenter} = _this.props.layerData;
+        if (url) {
+            fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
+                .then(data => this.setState({
+                    percent: data.value,
+                }))
+                .catch(e => console.log("error", e));
+        } else {
+            this.setState({
+                percent: textCenter.value,
+            })
+        }
+
+
+        _this.timeClose = setInterval(() => {
+            let {url, textCenter} = _this.props.layerData;
+            if (url) {
+                fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
+                    .then(data => this.setState({
+                        percent: data.value,
+                    }))
+                    .catch(e => console.log("error", e));
+            }
+        }, 1000);
     }
 
     render() {
-        let {url,textCenter, format, font, liquid} = this.props.layerData;
-        let percent;
-        if (url) {
-            let result = this.getDataSource(url);
-            Promise.all([result]).then((results) => {
-                if (results) {
-                    let res = results[0];
-                    textCenter.value = res.value;
-                }
-            });
-        }
-        percent = textCenter.value;
-        percent = percent/100.00;
-
-        var config = {
+        let {format, font, liquid} = this.props.layerData;
+        let percent = this.state.percent / 100.00;
+        let config = {
             percent: percent,
             statistic: {
                 title: {
@@ -55,20 +81,7 @@ class LiquidLayer extends Component {
         );
     }
 
-    getDataSource(url) {
-        return request({
-            url: url,
-            method: 'get'
-        });
-    }
 }
 
-
-async function fetchGet(url) {
-    return  await fetch(url).then((res) =>{
-        return res.data;
-    });
-
-}
 
 export default LiquidLayer;

@@ -26,9 +26,9 @@ class Properties extends Component {
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
-    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj,singleLiquid:liquidObj,singleGauge:gaugeObj,singleRingProgress:ringProgressObj,singleBarProgress:barProgressObj} = materialLayer;
+    let {singleBorder:borderFieldObj,singleDecorate:decorate,singleIcon:iconObj,singleLiquid:liquidObj,singleGauge:gaugeObj,singleRingProgress:ringProgressObj,singleBarProgress:barProgressObj,singleRadialBar:radialBarObj,singleRose:roseObj,waterLevelPond:waterLevelPondObj} = materialLayer;
     let {iframeCenter:iframeFieldObj,singleImage:singleImageFieldObj,singleVideo:singleVideoFieldObj} = mediaLayer;
-    let {baseTable} = tableLayer;
+    let {baseTable,carouselList:carouselListObj,scrollRanking:scrollRankingObj} = tableLayer;
     let {fullScreen,button} = interaction;
     let {urlConfig:singleImageUrlConfig} = singleImageFieldObj;
     let tableFieldObj = baseTable.config.table;
@@ -54,7 +54,7 @@ class Properties extends Component {
       layerDataSource: [
         {
           ename: 'staticData',
-          name: '数据源',
+          name: '',
           type: '',
           childer: [
             {
@@ -118,7 +118,16 @@ class Properties extends Component {
                 { cname: '背景三', value: 'bg3',src :'bg/bg3.png' },
                 { cname: '背景四', value: 'bg4',src :'bg/bg4.png' },
                 { cname: '背景五', value: 'bg5',src :'bg/bg5.png' },
-                { cname: '背景六', value: 'bg6',src :'bg/bg6.png'}
+                { cname: '背景六', value: 'bg6',src :'bg/bg6.png'},
+                { cname: '背景七', value: 'bg7',src :'bg/bg7.jpg' },
+                { cname: '背景八', value: 'bg8',src :'bg/bg8.jpg' },
+                { cname: '背景九', value: 'bg9',src :'bg/bg9.png' },
+                { cname: '背景十', value: 'bg10',src :'bg/bg10.png' },
+                { cname: '背景十一', value: 'bg11',src :'bg/bg11.png'},
+                { cname: '背景十二', value: 'bg12',src :'bg/bg12.jpg'},
+                { cname: '背景十三', value: 'bg13',src :'bg/bg13.jpg'},
+                { cname: '背景十四', value: 'bg14',src :'bg/bg14.png'},
+                { cname: '背景十五', value: 'bg15',src :'bg/bg15.jpg'}
               ]
             },
 
@@ -879,6 +888,340 @@ class Properties extends Component {
               }
             ],
           },
+        ],
+        carouselList:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: carouselListObj.url
+              }
+            ]
+          },
+          {
+            ename: 'playSpeed',
+            name: '滚动速度',
+            childer: [
+              {
+                ename: 'playSpeed',
+                cname: '滚动速度',
+                type: 'Select',
+                value: carouselListObj.playSpeed,
+                defaultOption: '2',
+                optionValues: [
+                  { cname: '1', value: '1' },
+                  { cname: '2', value: '2' },
+                  { cname: '3', value: '3' },
+                  { cname: '4', value: '4' },
+                  { cname: '5', value: '5' },
+                  { cname: '6', value: '6' },
+                  { cname: '7', value: '7' },
+                  { cname: '8', value: '8' },
+                  { cname: '9', value: '9' },
+                  { cname: '10', value: '10' },
+                  { cname: '15', value: '15' },
+                  { cname: '20', value: '20' }
+                ],
+                suffix:'行每秒'
+              },
+              {
+                ename:"playFlag",
+                cname:"是否显示",
+                type:"Hidden",
+                value:carouselListObj.playFlag
+              }
+            ]
+          },
+          {
+            ename: 'tableHeader',
+            name: '行头',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'tableHeaderTextAlign',
+                cname: '对齐方式',
+                type: 'Select',
+                value: carouselListObj.tableHeader.textAlign,
+                defaultOption: 'center',
+                optionValues: [
+                  { cname: '左对齐', value: 'left' },
+                  { cname: '右对齐', value: 'right' },
+                  { cname: '居中对齐', value: 'center' }
+                ]
+              },
+              {
+                ename: 'tableHeaderFontFamily',
+                cname: '字体',
+                type: 'Select',
+                value: carouselListObj.tableHeader.fontFamily,
+                defaultOption: 'auto',
+                optionValues: [
+                  { cname: 'auto', value: 'auto' },
+                  { cname: 'cursive', value: 'cursive' },
+                  { cname: 'monospace', value: 'monospace' },
+                  { cname: 'serif', value: 'serif' }
+                ]
+              },
+              {
+                ename: 'tableHeaderFontSize',
+                cname: '字号大小',
+                type: 'InputNumber',
+                value: carouselListObj.tableHeader.fontSize,
+                maxNumber: 200,
+                minNumber: 10
+              },
+              {
+                ename: 'tableHeaderFontColor',
+                cname: '字体颜色',
+                type: 'Color',
+                value: carouselListObj.tableHeader.fontColor
+              },
+              {
+                ename: 'tableHeaderFontWeight',
+                cname: '字体粗细',
+                type: 'Select',
+                value: carouselListObj.tableHeader.fontWeight,
+                defaultOption: 'normal',
+                optionValues: [
+                  { cname: 'normal', value: 'normal' },
+                  { cname: 'bold', value: 'bold' },
+                  { cname: 'bolder', value: 'bolder' },
+                  { cname: 'lighter', value: 'lighter' },
+                  { cname: '100', value: '100' },
+                  { cname: '200', value: '200' },
+                  { cname: '300', value: '300' },
+                  { cname: '400', value: '400' },
+                  { cname: '500', value: '500' },
+                  { cname: '600', value: '600' },
+                  { cname: '700', value: '700' },
+                  { cname: '800', value: '800' },
+                  { cname: '900', value: '900' },
+                  { cname: 'inherit', value: 'inherit' }
+                ]
+              },
+              {
+                ename: 'tableHeaderBackgroundColor',
+                cname: '背景颜色',
+                type: 'Color',
+                value: carouselListObj.tableHeader.backgroundColor
+              },
+            ],
+          },
+          {
+            ename: 'tableBody',
+            name: '内容',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'tableBodyTextAlign',
+                cname: '对齐方式',
+                type: 'Select',
+                value: carouselListObj.tableBody.textAlign,
+                defaultOption: 'center',
+                optionValues: [
+                  { cname: '左对齐', value: 'left' },
+                  { cname: '右对齐', value: 'right' },
+                  { cname: '居中对齐', value: 'center' }
+                ]
+              },
+              {
+                ename: 'tableBodyFontFamily',
+                cname: '字体',
+                type: 'Select',
+                value: carouselListObj.tableBody.fontFamily,
+                defaultOption: 'auto',
+                optionValues: [
+                  { cname: 'auto', value: 'auto' },
+                  { cname: 'cursive', value: 'cursive' },
+                  { cname: 'monospace', value: 'monospace' },
+                  { cname: 'serif', value: 'serif' }
+                ]
+              },
+              {
+                ename: 'tableBodyFontSize',
+                cname: '字号大小',
+                type: 'InputNumber',
+                value: carouselListObj.tableBody.fontSize,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'tableBodyFontColor',
+                cname: '字体颜色',
+                type: 'Color',
+                value: carouselListObj.tableBody.fontColor
+              },
+              {
+                ename: 'tableBodyFontWeight',
+                cname: '字体粗细',
+                type: 'Select',
+                value: carouselListObj.tableHeader.fontWeight,
+                defaultOption: 'normal',
+                optionValues: [
+                  { cname: 'normal', value: 'normal' },
+                  { cname: 'bold', value: 'bold' },
+                  { cname: 'bolder', value: 'bolder' },
+                  { cname: 'lighter', value: 'lighter' },
+                  { cname: '100', value: '100' },
+                  { cname: '200', value: '200' },
+                  { cname: '300', value: '300' },
+                  { cname: '400', value: '400' },
+                  { cname: '500', value: '500' },
+                  { cname: '600', value: '600' },
+                  { cname: '700', value: '700' },
+                  { cname: '800', value: '800' },
+                  { cname: '900', value: '900' },
+                  { cname: 'inherit', value: 'inherit' }
+                ]
+              },
+              {
+                ename: 'tableBodyBackgroundColor',
+                cname: '背景颜色',
+                type: 'Color',
+                value: carouselListObj.tableBody.backgroundColor
+              },
+            ],
+          },
+          {
+            ename: 'border',
+            name: '边框',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'borderWidth',
+                cname: '边框宽度',
+                type: 'InputNumber',
+                value: carouselListObj.border.borderWidth,
+                maxNumber: 30,
+                minNumber: 0
+              },
+              {
+                ename: 'borderStyle',
+                cname: '字体样式',
+                type: 'Select',
+                value: carouselListObj.border.borderStyle,
+                defaultOption: 'none',
+                optionValues: [
+                  { cname: 'none', value: 'none' },
+                  { cname: 'hidden', value: 'hidden' },
+                  { cname: 'dotted', value: 'dotted' },
+                  { cname: 'dashed', value: 'dashed' },
+                  { cname: 'solid', value: 'solid' },
+                  { cname: 'double', value: 'double' },
+                  { cname: 'groove', value: 'groove' },
+                  { cname: 'ridge', value: 'ridge' },
+                  { cname: 'inset', value: 'inset' },
+                  { cname: 'outset', value: 'outset' },
+                  { cname: 'inherit', value: 'inherit' }
+                ]
+              },
+              {
+                ename: 'borderColor',
+                cname: '边框颜色',
+                type: 'Color',
+                value: carouselListObj.border.borderColor
+              }
+            ],
+          }
+        ],
+        scrollRanking:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: scrollRankingObj.url
+              }
+            ]
+          },
+          {
+            ename: 'rowNum',
+            name: '表行数',
+            childer: [
+              {
+                ename: 'rowNum',
+                cname: '表行数',
+                type: 'Select',
+                value: scrollRankingObj.rowNum,
+                defaultOption: '5',
+                optionValues: [
+                  { cname: '4', value: '4' },
+                  { cname: '5', value: '5' },
+                  { cname: '8', value: '8' },
+                  { cname: '10', value: '10' },
+                  { cname: '15', value: '15' },
+                  { cname: '20', value: '20' },
+                  { cname: '25', value: '25' },
+                  { cname: '30', value: '30' }
+                ],
+                suffix:'行'
+              }
+            ]
+          },
+          {
+            ename: 'waitTime',
+            name: '轮播间隔',
+            childer: [
+              {
+                ename: 'waitTime',
+                cname: '轮播间隔',
+                type: 'Select',
+                value: scrollRankingObj.waitTime,
+                defaultOption: '1',
+                optionValues: [
+                  { cname: '1', value: '1' },
+                  { cname: '2', value: '2' },
+                  { cname: '3', value: '3' },
+                  { cname: '4', value: '4' },
+                  { cname: '5', value: '5' },
+                  { cname: '6', value: '6' },
+                  { cname: '7', value: '7' },
+                  { cname: '8', value: '8' },
+                  { cname: '9', value: '9' },
+                  { cname: '10', value: '10' },
+                  { cname: '15', value: '15' },
+                  { cname: '20', value: '20' }
+                ],
+                suffix:'秒'
+              }
+            ]
+          },
+          {
+            ename: 'carousel',
+            name: '轮播方式',
+            childer: [
+              {
+                ename: 'carousel',
+                cname: '轮播方式',
+                type: 'Select',
+                value: scrollRankingObj.carousel,
+                defaultOption: 'single',
+                optionValues: [
+                  { cname: '单条', value: 'single' },
+                  { cname: '整页', value: 'page' },
+                ]
+              }
+            ]
+          },
+          {
+            ename: 'unit',
+            name: '单位',
+            childer: [
+              {
+                ename: 'unit',
+                cname: '单位',
+                type: 'Input',
+                value: scrollRankingObj.unit
+              }
+            ]
+          }
         ]
       },
       interaction:{
@@ -1436,6 +1779,214 @@ class Properties extends Component {
               }
             ],
           }
+        ],
+        singleRadialBar:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: radialBarObj.url
+              }
+            ]
+          },
+          {
+            ename: 'radialBar',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'type',
+                cname: '类型',
+                type: 'Select',
+                value: radialBarObj.radialBar.type,
+                defaultOption: 'normal',
+                optionValues: [
+                    { cname: 'normal', value: 'normal'},
+                    { cname: 'line', value: 'line'},
+                ]
+              },
+              {
+                ename: 'radius',
+                cname: '半径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: radialBarObj.radialBar.radius
+              },
+              {
+                ename: 'innerRadius',
+                cname: '内径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: radialBarObj.radialBar.innerRadius
+              },
+              {
+                ename: 'maxAngle',
+                cname: '最大角度',
+                type: 'InputNumber',
+                maxNumber: 360,
+                minNumber: 0,
+                value: radialBarObj.radialBar.maxAngle
+              },
+              {
+                ename: 'fill',
+                cname: '填充色',
+                type: 'Color',
+                value: radialBarObj.radialBar.fill
+              },
+              {
+                ename: 'stroke',
+                cname: '描边色',
+                type: 'Color',
+                value: radialBarObj.radialBar.stroke
+              },
+              {
+                ename: 'lineWidth',
+                cname: '描边宽',
+                type: 'InputNumber',
+                maxNumber: 20,
+                minNumber: 1,
+                value: radialBarObj.radialBar.lineWidth
+              }
+            ],
+          }
+        ],
+        singleRose:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: roseObj.url
+              }
+            ]
+          },
+          {
+            ename: 'font',
+            name: '文本样式',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'size',
+                cname: '字体大小',
+                type: 'InputNumber',
+                value: roseObj.font.size,
+                maxNumber: 200,
+                minNumber: 12
+              },
+              {
+                ename: 'color',
+                cname: '字体颜色',
+                type: 'Color',
+                value: roseObj.font.color
+              }
+            ],
+          },
+          {
+            ename: 'rose',
+            name: '图形属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'radius',
+                cname: '半径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: roseObj.rose.radius
+              },
+              {
+                ename: 'innerRadius',
+                cname: '内径',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: roseObj.rose.innerRadius
+              }
+            ],
+          }
+        ],
+        waterLevelPond:[
+          {
+            ename: 'url',
+            name: '外部数据源',
+            childer: [
+              {
+                ename: 'url',
+                cname: '外部数据源',
+                type: 'Input',
+                value: waterLevelPondObj.url
+              }
+            ]
+          },
+          {
+            ename: 'waterLevel',
+            name: '水位图属性',
+            type: 'Collapse',
+            childer: [
+              {
+                ename: 'shape',
+                cname: '形状',
+                type: 'Select',
+                value: waterLevelPondObj.waterLevel.shape,
+                defaultOption: 'rect',
+                optionValues: [
+                  { cname: '矩形', value: 'rect'},
+                  { cname: '圆角', value: 'roundRect'},
+                  { cname: '圆形', value: 'round'}
+                ]
+              },
+              {
+                ename: 'beginColor',
+                cname: '起始色',
+                type: 'Color',
+                value: waterLevelPondObj.waterLevel.beginColor
+              },
+              {
+                ename: 'endColor',
+                cname: '结束色',
+                type: 'Color',
+                value: waterLevelPondObj.waterLevel.endColor
+              },
+              {
+                ename: 'waveNum',
+                cname: '波浪数',
+                type: 'InputNumber',
+                maxNumber: 20,
+                minNumber: 1,
+                value: waterLevelPondObj.waterLevel.waveNum
+              },
+              {
+                ename: 'waveHeight',
+                cname: '波浪高',
+                type: 'InputNumber',
+                maxNumber: 400,
+                minNumber: 1,
+                value: waterLevelPondObj.waterLevel.waveHeight
+              },
+              {
+                ename: 'waveOpacity',
+                cname: '透明度',
+                type: 'Slider',
+                maxNumber: 1,
+                minNumber: 0,
+                step:0.01,
+                value: waterLevelPondObj.waterLevel.waveOpacity
+              }
+            ],
+          }
         ]
       }
     };
@@ -1478,6 +2029,12 @@ class Properties extends Component {
             setDataValue = showData;
             setDataEname = "textCenter";
           }
+        }else if(otherLayerId === "carouselList" || otherLayerId === "scrollRanking"){
+          if (dataObj) {
+            let showData = dataObj.data;
+            setDataValue = showData;
+            setDataEname = "textCenter";
+          }
         }else{
           deafultDataFlag = true;
         }
@@ -1490,7 +2047,7 @@ class Properties extends Component {
           deafultDataFlag = true;
         }
       }else if(LayerType === "material"){
-        if(otherLayerId === "singleLiquid"||otherLayerId === "singleGauge"||otherLayerId === "singleRingProgress"||otherLayerId === "singleBarProgress"){
+        if(otherLayerId === "singleLiquid"||otherLayerId === "singleGauge"||otherLayerId === "singleRingProgress"||otherLayerId === "singleBarProgress"||otherLayerId === "singleRadialBar"||otherLayerId === "singleRose"||otherLayerId === "waterLevelPond"){
           let showData = dataObj.textCenter;
           setDataValue = showData;
           setDataEname = "textCenter";
@@ -1511,7 +2068,7 @@ class Properties extends Component {
       });
     } else if (tempKeyVal === 1) {
       let tempLayer =  this.state[LayerType];
-      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","fullScreen","button","singleBorder","singleDecorate","singleIcon","singleLiquid","singleGauge","singleRingProgress","singleBarProgress"];
+      let singleSetIds = ["iframeCenter","singleImage","singleVideo","baseTable","carouselList","scrollRanking","fullScreen","button","singleBorder","singleDecorate","singleIcon","singleLiquid","singleGauge","singleRingProgress","singleBarProgress","singleRadialBar","singleRose","waterLevelPond"];
       if(singleSetIds.includes(otherLayerId)){//证明当前有单独的设置，否则都是默认的里面的东西
         tempLayer = tempLayer[otherLayerId];
       }else{
@@ -1649,7 +2206,7 @@ class Properties extends Component {
             tempLayer[0].childer[5].value = tableFieldObj.borderStyle.width;
             tempLayer[0].childer[6].value = tableFieldObj.borderStyle.color;
             tempLayer[0].childer[7].value = tableFieldObj.backgroundColor;
-            tempLayer[1].childer[0].value = tableFieldHeaderObj.pageSize;
+            tempLayer[1].childer[0].value = tableFieldObj.pageSize;
             tempLayer[2].childer[0].value = tableBodyBaseObj.textAlign;
             tempLayer[2].childer[1].value = tableBodyTextObj.fontFamily;
             tempLayer[2].childer[2].value = tableBodyTextObj.fontSize;
@@ -1659,6 +2216,33 @@ class Properties extends Component {
             tempLayer[2].childer[6].value = tableBodyBorderObj.color;
             tempLayer[2].childer[7].value = tableBodyBaseObj.backgroundColor;
           }
+        }else if(otherLayerId === "carouselList"){
+          let {url,playSpeed,tableHeader,tableBody,border} = dataObj;
+          tempLayer[0].childer[0].value = url;
+          tempLayer[1].childer[0].value = playSpeed;
+          tempLayer[1].childer[1].value = true;
+          tempLayer[2].childer[0].value = tableHeader.textAlign;
+          tempLayer[2].childer[1].value = tableHeader.fontFamily;
+          tempLayer[2].childer[2].value = tableHeader.fontSize;
+          tempLayer[2].childer[3].value = tableHeader.fontColor;
+          tempLayer[2].childer[4].value = tableHeader.fontWeight;
+          tempLayer[2].childer[5].value = tableHeader.backgroundColor;
+          tempLayer[3].childer[0].value = tableBody.textAlign;
+          tempLayer[3].childer[1].value = tableBody.fontFamily;
+          tempLayer[3].childer[2].value = tableBody.fontSize;
+          tempLayer[3].childer[3].value = tableBody.fontColor;
+          tempLayer[3].childer[4].value = tableBody.fontWeight;
+          tempLayer[3].childer[5].value = tableBody.backgroundColor;
+          tempLayer[4].childer[0].value = border.borderWidth;
+          tempLayer[4].childer[1].value = border.borderStyle;
+          tempLayer[4].childer[2].value = border.borderColor;
+        }else if(otherLayerId === "scrollRanking"){
+          let {url,rowNum,waitTime,carousel,unit} = dataObj;
+          tempLayer[0].childer[0].value = url;
+          tempLayer[1].childer[0].value = rowNum;
+          tempLayer[2].childer[0].value = waitTime;
+          tempLayer[3].childer[0].value = carousel;
+          tempLayer[4].childer[0].value = unit;
         }
       } else if (LayerType === "interaction") {
         if (otherLayerId === "fullScreen") {
@@ -1739,6 +2323,36 @@ class Properties extends Component {
             tempLayer[1].childer[1].value = barProgress.strokeColor;
             tempLayer[1].childer[2].value = barProgress.strokeWidth;
           }
+        }else if (otherLayerId === "singleRadialBar") {
+          if (dataObj) {
+            let {url,radialBar} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = radialBar.type;
+            tempLayer[1].childer[1].value = radialBar.radius;
+            tempLayer[1].childer[2].value = radialBar.innerRadius;
+            tempLayer[1].childer[3].value = radialBar.maxAngle;
+            tempLayer[1].childer[4].value = radialBar.fill;
+            tempLayer[1].childer[5].value = radialBar.stroke;
+            tempLayer[1].childer[6].value = radialBar.lineWidth;
+          }
+        }else if (otherLayerId === "singleRose") {
+          if (dataObj) {
+            let {url,font,rose} = dataObj;
+            tempLayer[0].childer[0].value = url;
+            tempLayer[1].childer[0].value = font.size;
+            tempLayer[1].childer[1].value = font.color;
+            tempLayer[2].childer[0].value = rose.radius;
+            tempLayer[2].childer[1].value = rose.innerRadius;
+          }
+        }else if(otherLayerId === "waterLevelPond"){
+          let {url,waterLevel} = dataObj;
+          tempLayer[0].childer[0].value = url;
+          tempLayer[1].childer[0].value = waterLevel.shape;
+          tempLayer[1].childer[1].value = waterLevel.beginColor;
+          tempLayer[1].childer[2].value = waterLevel.endColor;
+          tempLayer[1].childer[3].value = waterLevel.waveNum;
+          tempLayer[1].childer[4].value = waterLevel.waveHeight;
+          tempLayer[1].childer[5].value = waterLevel.waveOpacity;
         }
       }
       this.setState(

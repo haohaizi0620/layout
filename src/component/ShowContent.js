@@ -20,20 +20,21 @@ class Child1 extends Component {
     render() {
         var cptObj = this.props.cptObj;
         let LayerType = cptObj.type;
+        let cptType = cptObj.cptType;
         let cptBorderObj = cptObj.cptBorderObj;
         let layerData = this.props.chartData.layerData;
         let keyData = this.props.keyData;
-        let layerSinId = keyData.id;    
+        let layerSinId = keyData.id;
         let timeKey = this.props.id;
             return (
                 <div
                     style={{
                         width: '100%',
                         height: '100%',
-                        borderWidth:LayerType == 'border'?layerData.borderWidth+"px":'0px',
-                        borderStyle:LayerType == 'border'?'solid':'none',
-                        borderImage:LayerType == 'border'?`url(${require("../img/"+layerData.borderImage)}) 30`:'none'
-                    }} 
+                        borderWidth:cptType == 'singleBorder'?layerData.borderWidth+"px":'0px',
+                        borderStyle:cptType == 'singleBorder'?'solid':'none',
+                        borderImage:cptType == 'singleBorder'?`url(${require("../img/"+layerData.borderImage)}) 30`:'none'
+                    }}
                     >
                        {["text"].includes(LayerType)? (
       <TextLayer

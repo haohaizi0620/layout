@@ -1,38 +1,59 @@
 import React, {Component} from 'react';
 import {Progress} from 'antd';
-import request from "../../../api/request";
 
 class BarProgressLayer extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            percent: 0
+        }
+    }
+
+    componentDidMount() {
+        this.regular();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeClose);
+    }
+
+    regular() {
+        let _this = this;
+
+        let {url, textCenter} = _this.props.layerData;
+        if (url) {
+            fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
+                .then(data => this.setState({
+                    percent: data.value,
+                }))
+                .catch(e => console.log("error", e));
+        } else {
+            this.setState({
+                percent: textCenter.value,
+            })
+        }
+
+
+        _this.timeClose = setInterval(() => {
+            let {url, textCenter} = _this.props.layerData;
+            if (url) {
+                fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
+                    .then(data => this.setState({
+                        percent: data.value,
+                    }))
+                    .catch(e => console.log("error", e));
+            }
+        }, 1000);
     }
 
     render() {
-        let {url,textCenter, barProgress} = this.props.layerData;
-        let percent;
-        if (url) {
-            let result = this.getDataSource(url);
-            Promise.all([result]).then((results) => {
-                if (results) {
-                    let res = results[0];
-                    textCenter.value = res.value;
-                }
-            });
-        }
-        percent = textCenter.value;
+        let {barProgress} = this.props.layerData;
         return (
-            <Progress percent={percent} status={barProgress.status} strokeColor={barProgress.strokeColor}
+            <Progress percent={this.state.percent} status={barProgress.status} strokeColor={barProgress.strokeColor}
                       strokeWidth={barProgress.strokeWidth}/>
         );
     }
 
-    getDataSource(url) {
-        return request({
-            url: url,
-            method: 'get'
-        });
-    }
 }
 
 export default BarProgressLayer;

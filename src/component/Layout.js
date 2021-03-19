@@ -462,6 +462,15 @@ class Layout extends Component {
             tempHeight = 90;
         } else if (layerId == 'singleBarProgress') {
             tempHeight = 80;
+        } else if(layerId === 'carouselList'){
+            tempWidth = 280;
+            tempHeight = 200;
+        } else if(layerId === 'scrollRanking'){
+            tempWidth = 280;
+            tempHeight = 260;
+        } else if(layerId === 'waterLevelPond'){
+            tempWidth = 280;
+            tempHeight = 260;
         }
         const cptpObj = {
             cptBorderObj: {
@@ -878,7 +887,63 @@ class Layout extends Component {
                         layerData.config.table = tableConfig;
                         cptOptionObj.layerOption = layerData;
                         cptChartIdList[cptIndex].layerData = layerData;
-                    } else {
+                    }else if(otherLayerId === "carouselList"){
+                        if (fieldEname === 'tableHeaderTextAlign'){
+                            cptOptionObj.layerOption.tableHeader.textAlign = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.textAlign = fieldValue;
+                        }else if(fieldEname === 'tableHeaderFontFamily'){
+                            cptOptionObj.layerOption.tableHeader.fontFamily = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.fontFamily = fieldValue;
+                        }else if(fieldEname === 'tableHeaderFontSize'){
+                            cptOptionObj.layerOption.tableHeader.fontSize = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.fontSize = fieldValue;
+                        }else if(fieldEname === 'tableHeaderFontColor'){
+                            cptOptionObj.layerOption.tableHeader.fontColor = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.fontColor = fieldValue;
+                        }else if(fieldEname === 'tableHeaderFontWeight'){
+                            cptOptionObj.layerOption.tableHeader.fontWeight = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.fontWeight = fieldValue;
+                        }else if(fieldEname === 'tableHeaderBackgroundColor'){
+                            cptOptionObj.layerOption.tableHeader.backgroundColor = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableHeader.backgroundColor = fieldValue;
+                        }else if(fieldEname === 'tableBodyTextAlign'){
+                            cptOptionObj.layerOption.tableBody.textAlign = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.textAlign = fieldValue;
+                        }else if(fieldEname === 'tableBodyFontFamily'){
+                            cptOptionObj.layerOption.tableBody.fontFamily = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.fontFamily = fieldValue;
+                        }else if(fieldEname === 'tableBodyFontSize'){
+                            cptOptionObj.layerOption.tableBody.fontSize = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.fontSize = fieldValue;
+                        }else if(fieldEname === 'tableBodyFontColor'){
+                            cptOptionObj.layerOption.tableBody.fontColor = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.fontColor = fieldValue;
+                        }else if(fieldEname === 'tableBodyFontWeight'){
+                            cptOptionObj.layerOption.tableBody.fontWeight = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.fontWeight = fieldValue;
+                        }else if(fieldEname === 'tableBodyBackgroundColor'){
+                            cptOptionObj.layerOption.tableBody.backgroundColor = fieldValue;
+                            cptChartIdList[cptIndex].layerData.tableBody.backgroundColor = fieldValue;
+                        }else if(fieldEname === 'borderWidth'){
+                            cptOptionObj.layerOption.border.borderWidth = fieldValue;
+                            cptChartIdList[cptIndex].layerData.border.borderWidth = fieldValue;
+                        }else if(fieldEname === 'borderStyle'){
+                            cptOptionObj.layerOption.border.borderStyle = fieldValue;
+                            cptChartIdList[cptIndex].layerData.border.borderStyle = fieldValue;
+                        }else if(fieldEname === 'borderColor'){
+                            cptOptionObj.layerOption.border.borderColor = fieldValue;
+                            cptChartIdList[cptIndex].layerData.border.borderColor = fieldValue;
+                        } else {
+                            defaultFlag = true;
+                        }
+                    } /*else if(otherLayerId === "scrollRanking"){
+                        if (fieldEname === 'url' || fieldEname === 'rowNum' || fieldEname === 'waitTime' || fieldEname === 'carousel' || fieldEname === 'unit') {
+                            cptOptionObj.layerOption.urlConfig[fieldEname] = fieldValue;
+                            cptChartIdList[cptIndex].layerData.urlConfig[fieldEname] = fieldValue;
+                        } else {
+                            defaultFlag = true;
+                        }
+                    }*/else {
                         defaultFlag = true;
                     }
                 } else if (layerType === "media") {
@@ -988,6 +1053,30 @@ class Layout extends Component {
                         if (fieldEname === 'status' || fieldEname === 'strokeColor' || fieldEname === 'strokeWidth') {
                             cptOptionObj.layerOption.barProgress[fieldEname] = fieldValue;
                             cptChartIdList[cptIndex].layerData.barProgress[fieldEname] = fieldValue;
+                        } else {
+                            defaultFlag = true;
+                        }
+                    } else if (otherLayerId === "singleRadialBar") {
+                        if (fieldEname === 'type' || fieldEname === 'radius' || fieldEname === 'innerRadius' || fieldEname === 'fill' || fieldEname === 'stroke' || fieldEname === 'lineWidth' || fieldEname === 'maxAngle') {
+                            cptOptionObj.layerOption.radialBar[fieldEname] = fieldValue;
+                            cptChartIdList[cptIndex].layerData.radialBar[fieldEname] = fieldValue;
+                        } else {
+                            defaultFlag = true;
+                        }
+                    } else if (otherLayerId === "singleRose") {
+                        if (fieldEname === 'size' || fieldEname === 'color') {
+                            cptOptionObj.layerOption.font[fieldEname] = fieldValue;
+                            cptChartIdList[cptIndex].layerData.font[fieldEname] = fieldValue;
+                        } else if (fieldEname === 'radius' || fieldEname === 'innerRadius' || fieldEname === 'fill' || fieldEname === 'stroke' || fieldEname === 'lineWidth') {
+                            cptOptionObj.layerOption.rose[fieldEname] = fieldValue;
+                            cptChartIdList[cptIndex].layerData.rose[fieldEname] = fieldValue;
+                        } else {
+                            defaultFlag = true;
+                        }
+                    } else if(otherLayerId === "waterLevelPond"){
+                        if (fieldEname === 'shape' || fieldEname === 'beginColor' || fieldEname === 'endColor' || fieldEname === 'waveNum' || fieldEname === 'waveHeight' || fieldEname === 'waveOpacity') {
+                            cptOptionObj.layerOption.waterLevel[fieldEname] = fieldValue;
+                            cptChartIdList[cptIndex].layerData.waterLevel[fieldEname] = fieldValue;
                         } else {
                             defaultFlag = true;
                         }

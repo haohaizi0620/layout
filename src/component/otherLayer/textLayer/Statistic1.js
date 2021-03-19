@@ -7,31 +7,60 @@
  */
 import React, {Component} from 'react';
 import {Statistic} from 'antd';
-import request from '../../../api/request';
 
 class Statistic1 extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            value: 0
+        }
+    }
+
+    componentDidMount() {
+        this.regular();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timeClose);
+    }
+
+    regular() {
+        let _this = this;
+
+        let {dataSourceUrl, textCenter} = _this.props.layerData;
+        if (dataSourceUrl) {
+            fetch(dataSourceUrl+ "?time=" + new Date().getTime()).then(response => response.json())
+                .then(data => this.setState({
+                    value: data.value,
+                }))
+                .catch(e => console.log("error", e));
+        } else {
+            this.setState({
+                value: textCenter.value,
+            })
+        }
+
+
+
+        _this.timeClose = setInterval(() => {
+            let {dataSourceUrl, textCenter} = _this.props.layerData;
+            if (dataSourceUrl) {
+                fetch(dataSourceUrl+ "?time=" + new Date().getTime()).then(response => response.json())
+                    .then(data => this.setState({
+                        value: data.value,
+                    }))
+                    .catch(e => console.log("error", e));
+            }
+        }, 1000);
     }
 
     render() {
-        let {dataSourceUrl, textCenter, backgroundColor, fontFamily, fontSize, fontColor, fontWeight, textAlign, writingMode, title,precision, prefix, suffix} = this.props.layerData;
-        let result = "";
-        if (dataSourceUrl) {
-            result = this.getDataSource(dataSourceUrl);
-            Promise.all([result]).then((results) => {
-                if (results) {
-                    let res = results[0];
-                    textCenter.value = res.value;
-                }
-            });
-        }
+        let {backgroundColor, fontFamily, fontSize, fontColor, fontWeight, textAlign, writingMode, title, precision, prefix, suffix} = this.props.layerData;
 
         return (
             <Statistic
                 title={title}
-                value={textCenter.value}
+                value={this.state.value}
                 precision={precision}
                 valueStyle={{
                     color: fontColor,
@@ -46,13 +75,6 @@ class Statistic1 extends Component {
                 suffix={suffix}
             />
         );
-    }
-
-    getDataSource(url) {
-        return request({
-            url: url,
-            method: 'get'
-        });
     }
 }
 

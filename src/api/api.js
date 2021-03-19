@@ -26,11 +26,13 @@ export function test() {
     method: 'get'
   });
 }
-const deployPrev = "http://127.0.0.1:8080/data/";
+const deployPrev = "http://172.24.254.94:8082/data/";
 const localPrev = "http://127.0.0.1:8080/data/";
+
+const deploySharePrev = "http://172.24.254.94:8082/share/";
+const localSharePrev = "http://172.24.254.94:8082/share/";
 const defaultPrev = localPrev;
-const deploySharePrev = "http://127.0.0.1:8080/share/";
-const localSharePrev = "http://127.0.0.1:8080/share/";
+
 const defaultSharePrev = localSharePrev;
 
 
@@ -176,10 +178,10 @@ export function getShareById(shareID) {
   });
 }
 export function getSpecify(catalogId) {
-  var schema = window.parent.document.getElementById("userName").innerHTML;
-  /*var url = window.location.href;
+  //var schema = window.parent.document.getElementById("userName").innerHTML;
+  var url = window.location.href;
   var par = url.substr(url.indexOf("sid=")+4,url.length);
-  var schema = par.substr(0,par.indexOf("_"));*/
+  var schema = par.substr(0,par.indexOf("_"));
   return request({
     url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}&schema=${schema}`,
     method: 'get'
@@ -187,10 +189,10 @@ export function getSpecify(catalogId) {
 }
 
 export function getSpecifyGeojson(catalogId) {
-  var schema = window.parent.document.getElementById("userName").innerHTML;
-  /*var url = window.location.href;
+  //var schema = window.parent.document.getElementById("userName").innerHTML;
+  var url = window.location.href;
   var par = url.substr(url.indexOf("sid=")+4,url.length);
-  var schema = par.substr(0,par.indexOf("_"));*/
+  var schema = par.substr(0,par.indexOf("_"));
   return request({
     url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}&resultType=geojson&schema=${schema}`,
     method: 'get'

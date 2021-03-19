@@ -1201,7 +1201,28 @@ export function showChartsOption(chartsList,keyList) {
                             columns,
                             config,
                         }
-                    }else{
+                    }else if(layerId === "carouselList"){
+                        let {data,url,playSpeed,playFlag,tableHeader,tableBody,border} = layerData;
+                        tempSaveObj = {
+                            data,
+                            url,
+                            playSpeed,
+                            playFlag,
+                            tableHeader,
+                            tableBody,
+                            border
+                        }
+                    }else if(layerId === "scrollRanking"){
+                        let {data,url,rowNum,waitTime,carousel,unit} = layerData;
+                        tempSaveObj = {
+                            data,
+                            url,
+                            rowNum,
+                            waitTime,
+                            carousel,
+                            unit
+                        }
+                    } else{
                     }
                   } else if (layerType === "interaction") {
                     if (layerId === "fullScreen") {
@@ -1313,7 +1334,7 @@ export function showChartsOption(chartsList,keyList) {
                             }
                         }
                     }else if(layerId == "singleBarProgress"){
-                        let {textCenter,url,percent,barProgress} = layerData;
+                        let {textCenter,url,barProgress} = layerData;
                         let {status,strokeColor,strokeWidth} = barProgress;
                         tempSaveObj = {
                             textCenter: {
@@ -1325,6 +1346,54 @@ export function showChartsOption(chartsList,keyList) {
                                 strokeColor,
                                 strokeWidth
                             }
+                        }
+                    }else if(layerId == "singleRadialBar"){
+                        let {textCenter,url,radialBar} = layerData;
+                        let {type,radius,innerRadius,maxAngle,fill,stroke,lineWidth} = radialBar;
+                        tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
+                            radialBar:{
+                                type,
+                                radius,
+                                innerRadius,
+                                maxAngle,
+                                fill,
+                                stroke,
+                                lineWidth
+                            }
+                        }
+                    }else if(layerId == "singleRose"){
+                        let {textCenter,url,font,rose} = layerData;
+                        let {size,color} = font;
+                        let {radius,innerRadius,fill,stroke,lineWidth} = rose;
+                        tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
+                            font:{
+                                size,
+                                color
+                            },
+                            rose:{
+                                radius,
+                                innerRadius,
+                                fill,
+                                stroke,
+                                lineWidth
+                            }
+                        }
+                    }else if(layerId == "waterLevelPond"){
+                        let {textCenter,url,waterLevel} = layerData;
+                        tempSaveObj = {
+                            textCenter: {
+                                value:textCenter.value
+                            },
+                            url,
+                            waterLevel
                         }
                     }
                   }

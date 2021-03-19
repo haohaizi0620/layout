@@ -13,6 +13,9 @@ import LiquidLayer from './materialLayer/LiquidLayer';
 import GaugeLayer from './materialLayer/GaugeLayer';
 import RingProgressLayer  from './materialLayer/RingProgressLayer';
 import BarProgressLayer  from './materialLayer/BarProgressLayer';
+import RadialBarLayer  from './materialLayer/RadialBarLayer';
+import RoseLayer  from './materialLayer/RoseLayer';
+import WaterLevelPond  from './materialLayer/WaterLevelPondLayer';
 
 class MaterialLayer extends Component {
     static defaultProps = {
@@ -51,6 +54,18 @@ class MaterialLayer extends Component {
        }else if(layerSinId === "singleBarProgress"){//进度条
            return (
                <BarProgressLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleRadialBar"){//玉珏图
+           return (
+               <RadialBarLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "singleRose"){//玫瑰图
+           return (
+               <RoseLayer  layerData={layerData} />
+           )
+       }else if(layerSinId === "waterLevelPond"){//水位图
+           return (
+               <WaterLevelPond  layerData={layerData} />
            )
        }else{
          return null

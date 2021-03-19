@@ -6,31 +6,42 @@
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\otherLayer\TextLayer.js
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import BaseTable from './tableLayer/BaseTable.jsx';
+import CarouselList from './tableLayer/CarouselListLayer.js';
+import ScrollRanking from './tableLayer/ScrollRankingLayer.js';
+
 class TableLayer extends Component {
     static defaultProps = {
-        layerData : {},
-        layerSinId : "",
-        timeKey : ""
+        layerData: {},
+        layerSinId: "",
+        timeKey: ""
     }
 
     constructor(props) {
         super(props);
-        this.state = { 
-         }
+        this.state = {}
     }
-    render() { 
-       let {layerData,layerSinId} = this.props;
-       if(layerSinId==="baseTable"){
-        return (
-            <BaseTable data={layerData.data} config={layerData.config} columns={layerData.columns}     />
-        )
-       }else{
-         return null
-       }
+
+    render() {
+        let {layerData, layerSinId} = this.props;
+        if (layerSinId === "baseTable") {
+            return (
+                <BaseTable data={layerData.data} config={layerData.config} columns={layerData.columns}/>
+            )
+        } else if(layerSinId === "carouselList"){
+            return (
+                <CarouselList  layerData={layerData} />
+            )
+        } else if(layerSinId === "scrollRanking"){
+            return (
+                <ScrollRanking layerData={layerData}/>
+            )
+        }else {
+            return null
+        }
     }
-   
+
 }
- 
+
 export default TableLayer;

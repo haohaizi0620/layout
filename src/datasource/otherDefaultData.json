@@ -116,6 +116,108 @@
                 "pagination": {},
                 "columns": {}
             }
+        },
+        "carouselList":{
+            "data": [
+                {
+                    "序号": "1",
+                    "名称": "标题1",
+                    "备注": "循环列表1"
+                },
+                {
+                    "序号": "2",
+                    "名称": "标题2",
+                    "备注": "循环列表2"
+                },
+                {
+                    "序号": "3",
+                    "名称": "标题3",
+                    "备注": "循环列表3"
+                },
+                {
+                    "序号": "4",
+                    "名称": "标题4",
+                    "备注": "循环列表4"
+                },
+                {
+                    "序号": "5",
+                    "名称": "标题5",
+                    "备注": "循环列表5"
+                }
+            ],
+            "url":"",
+            "playSpeed": 1,
+            "playFlag": true,
+            "tableHeader": {
+                "textAlign": "center",
+                "fontFamily": "Microsoft Yahei",
+                "fontWeight": "bold",
+                "fontSize": 16,
+                "fontColor": "rgba(255,255,255,1)",
+                "backgroundColor": "rgba(111,149,247,1)"
+            },
+            "tableBody": {
+                "textAlign": "center",
+                "fontFamily": "Microsoft Yahei",
+                "fontWeight": "normal",
+                "fontSize": 14,
+                "fontColor": "rgba(255,255,255,1)",
+                "backgroundColor": "transparent"
+            },
+            "border": {
+                "borderWidth": 0,
+                "borderStyle": "none",
+                "borderColor": "rgba(201,201,201,1)"
+            }
+        },
+        "scrollRanking": {
+            "data": [
+                {
+                    "name": "重庆市",
+                    "value": 3101.79
+                },
+                {
+                    "name": "上海市",
+                    "value": 2423.78
+                },
+                {
+                    "name": "北京市",
+                    "value": 2154.2
+                },
+                {
+                    "name": "成都市",
+                    "value": 1633
+                },
+                {
+                    "name": "天津市",
+                    "value": 166.6
+                },
+                {
+                    "name": "广州市",
+                    "value": 1490.44
+                },
+                {
+                    "name": "深圳市",
+                    "value": 1302.66
+                },
+                {
+                    "name": "武汉市",
+                    "value": 1418.65
+                },
+                {
+                    "name": "南阳市",
+                    "value": 1198.07
+                },
+                {
+                    "name": "临沂市",
+                    "value": 1124
+                }
+            ],
+            "url":"",
+            "rowNum": 5,
+            "waitTime": 1,
+            "carousel": "single",
+            "unit":""
         }
     },
     "interaction":{
@@ -212,6 +314,93 @@
                 "status":"normal",
                 "strokeColor": "rgba(81,126,247,1)",
                 "strokeWidth": 10
+            }
+        },
+        "singleRadialBar":{
+            "textCenter": {
+                "value": [
+                    {
+                        "name": "分类一",
+                        "value": 297
+                    },
+                    {
+                        "name": "分类二",
+                        "value": 604
+                    },
+                    {
+                        "name": "分类三",
+                        "value": 933
+                    }
+                ]
+            },
+            "url": "",
+            "radialBar": {
+                "type":"normal",
+                "radius": 0.8,
+                "innerRadius": 0.2,
+                "maxAngle": 240,
+                "fill": "rgba(81,126,247,1)",
+                "stroke": "rgba(81,126,247,1)",
+                "lineWidth": 1
+            }
+        },
+        "singleRose":{
+            "textCenter": {
+                "value": [
+                    {
+                        "name": "分类一",
+                        "value": 27,
+                        "type": "分类一"
+                    },
+                    {
+                        "name": "分类二",
+                        "value": 25,
+                        "type": "分类二"
+                    },
+                    {
+                        "name": "分类三",
+                        "value": 18,
+                        "type": "分类三"
+                    },
+                    {
+                        "name": "分类四",
+                        "value": 15,
+                        "type": "分类四"
+                    },
+                    {
+                        "name": "分类五",
+                        "value": 10,
+                        "type": "分类五"
+                    },
+                    {
+                        "name": "其他",
+                        "value": 5,
+                        "type": "其他"
+                    }
+                ]
+            },
+            "url": "",
+            "font": {
+                "size": 16,
+                "color": "rgba(255,255,255,1)"
+            },
+            "rose": {
+                "radius": 1,
+                "innerRadius": 0
+            }
+        },
+        "waterLevelPond":{
+            "textCenter": {
+                "value": 66
+            },
+            "url": "",
+            "waterLevel": {
+                "shape": "rect",
+                "beginColor": "#00BAFF",
+                "endColor": "#3DE7C9",
+                "waveNum":3,
+                "waveHeight":40,
+                "waveOpacity":0.4
             }
         }
     }

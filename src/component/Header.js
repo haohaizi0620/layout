@@ -153,11 +153,13 @@ class Header extends Component {
           { id: "iframeCenter", text: "嵌入页面", layerType: "media" },
         ]
       },
-      /*table:{
+      table:{
         all: [
           { id: "baseTable", text: "表格数据", layerType: "table" },
+          { id: "carouselList", text: "循环列表", layerType: "table" },
+          { id: "scrollRanking", text: "排名轮播表", layerType: "table" },
         ]
-      },*/
+      },
       interaction:{
         all: [
           { id: "fullScreen", text: "全屏展示", layerType: "interaction" },
@@ -173,6 +175,9 @@ class Header extends Component {
           { id: "singleGauge", text: "仪表盘", layerType: "material" },
           { id: "singleRingProgress", text: "进度环", layerType: "material" },
           { id: "singleBarProgress", text: "进度条", layerType: "material" },
+          { id: "singleRadialBar", text: "玉珏图", layerType: "material" },
+          { id: "singleRose", text: "玫瑰图", layerType: "material" },
+          { id: "waterLevelPond", text: "水位图", layerType: "material" },
         ]
       },
       otherLayer: {
@@ -196,7 +201,7 @@ class Header extends Component {
             },
           ]
         },
-        /*{
+        {
           typeName: "table",
           refName: "table",
           titleName: "表格图层",
@@ -209,7 +214,7 @@ class Header extends Component {
               IconObj: faTable
             },
           ]
-        },*/
+        },
         {
           typeName: "media",
           refName: "media",
@@ -418,6 +423,8 @@ class Header extends Component {
     if (show) {
       showData = show;
     }
+
+    console.info(this.state);
     return (
       <div className="custom-header">
         <div className="custom-header-title">
