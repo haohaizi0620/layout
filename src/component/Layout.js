@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import './Layout.scss';
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import Header from './Header';
 import Content from './Content';
 import {
@@ -24,8 +24,9 @@ import DeleteItemModal from './ModelCom/DeleteItemModal';
 import ShareItemModal from './ModelCom/ShareItemModal';
 import ContentBottom from './content/ContentBottom';
 import store from '../redux/store';
-import {chartOption, showChartsOption} from '../utils/chart';
-import {Menu, Dropdown, Modal, Button, message} from 'antd';
+import cptIndexarr from '../redux/store';
+import { chartOption, showChartsOption } from '../utils/chart';
+import { Menu, Dropdown, Modal, Button, message } from 'antd';
 import {
     updateShowLayerFieldVal,
     replaceAllShowLayerFieldVal,
@@ -177,8 +178,9 @@ class Layout extends Component {
         let timeKey = new Date().getTime().toString();
         tempTestData.data.map((item, index) => {
             timeKey++;
-            tempCptKeyList.push({key: timeKey, id: item.name, title: item.layername, layerType: item.thType});
+            tempCptKeyList.push({ key: timeKey, id: item.name, title: item.layername, layerType: item.thType });
             tempCptPropertyList.push(JSON.parse(item.layerPosition));
+            tempCptPropertyList.push({ index })
             tempCptChartIdList.push({
                 chartId: item.id,
                 thType: item.thType,
@@ -225,7 +227,7 @@ class Layout extends Component {
             shareId: shareId,
             kshId: kshId
         }, () => {
-            let bgObj = {"shareid": shareId};
+            let bgObj = { "shareid": shareId };
             let getBg = getBgIndex(bgObj);
             let getShare = getShareById(shareId);
             Promise.all([getBg, getShare]).then((results) => {
@@ -419,15 +421,15 @@ class Layout extends Component {
 
 
     handleScriptCreate(obj) {
-        this.setState({scriptLoaded: false});
+        this.setState({ scriptLoaded: false });
     }
 
     handleScriptError() {
-        this.setState({scriptError: true});
+        this.setState({ scriptError: true });
     }
 
     handleScriptLoad(obj) {
-        this.setState({scriptLoaded: true, scriptStatus: 'yes'});
+        this.setState({ scriptLoaded: true, scriptStatus: 'yes' });
     }
 
     /**
@@ -462,13 +464,13 @@ class Layout extends Component {
             tempHeight = 90;
         } else if (layerId == 'singleBarProgress') {
             tempHeight = 80;
-        } else if(layerId === 'carouselList'){
+        } else if (layerId === 'carouselList') {
             tempWidth = 280;
             tempHeight = 200;
-        } else if(layerId === 'scrollRanking'){
+        } else if (layerId === 'scrollRanking') {
             tempWidth = 280;
             tempHeight = 260;
-        } else if(layerId === 'waterLevelPond'){
+        } else if (layerId === 'waterLevelPond') {
             tempWidth = 280;
             tempHeight = 260;
         }
@@ -500,7 +502,7 @@ class Layout extends Component {
         let layerData = {};
         let mainKey = -1;
         let addState = "leftAdd";
-        let {sortNum} = otherObj;
+        let { sortNum } = otherObj;
         addState = otherObj.state;
         if (otherObj && otherObj.mainKey) {
             mainKey = otherObj.mainKey;
@@ -550,7 +552,7 @@ class Layout extends Component {
     updateChartsStyle(updateState) {
         let cptIndex = this.state.cptIndex;
         let chartObj = this.state.cptChartIdList[cptIndex];
-        let {addState, thType, layerObj, mainKey} = chartObj;
+        let { addState, thType, layerObj, mainKey } = chartObj;
         let otherObj = {
             state: addState,
             data: layerObj,
@@ -731,13 +733,13 @@ class Layout extends Component {
      * @return:
      */
     updateLayerPosition = fieldArr => {
-        let {cptPropertyList, cptIndex} = this.state;
+        let { cptPropertyList, cptIndex } = this.state;
         let tempCptObj = cptPropertyList[cptIndex];
         fieldArr.forEach(item => {
             let fieldEname = item.fieldEname;
             let fieldValue = item.fieldValue;
             store.dispatch(
-                updateShowLayerFieldVal({fieldEname: fieldEname, fieldValue: fieldValue, layerType: 'chart'})
+                updateShowLayerFieldVal({ fieldEname: fieldEname, fieldValue: fieldValue, layerType: 'chart' })
             );
             tempCptObj.cptBorderObj[fieldEname] = fieldValue;
         });
@@ -748,12 +750,12 @@ class Layout extends Component {
     }
 
     handleResizeMove = e => {
-        let {scale, cptPropertyList: cptpList, cptPropertyObj, cptIndex} = this.state;
-        let {target, rect} = e;
-        const {left: updLeft, top: updTop} = e.deltaRect;
+        let { scale, cptPropertyList: cptpList, cptPropertyObj, cptIndex } = this.state;
+        let { target, rect } = e;
+        const { left: updLeft, top: updTop } = e.deltaRect;
         const width = rect.width / scale;
         const height = rect.height / scale;
-        var {left: prevLeft, top: prevTop, borderWidth: prevBorderWidth, borderStyle: prevBorderStyle, borderColor: prevBorderColor} = target.parentNode.style;
+        var { left: prevLeft, top: prevTop, borderWidth: prevBorderWidth, borderStyle: prevBorderStyle, borderColor: prevBorderColor } = target.parentNode.style;
         const thisLeft = parseInt(prevLeft);
         const thisTop = parseInt(prevTop);
         const left = thisLeft + updLeft;
@@ -761,8 +763,8 @@ class Layout extends Component {
         const layerBorderWidth = parseInt(prevBorderWidth);
         const layerBorderStyle = prevBorderStyle;
         const layerBorderColor = prevBorderColor;
-        const {opacity} = cptPropertyObj.cptBorderObj;
-        const {type: thisType, cptType} = cptpList[cptIndex];
+        const { opacity } = cptPropertyObj.cptBorderObj;
+        const { type: thisType, cptType } = cptpList[cptIndex];
         const t = cptType ? cptType : 'bg';
         const type = thisType ? thisType : 'bg';
         let cptpObj = {
@@ -887,50 +889,50 @@ class Layout extends Component {
                         layerData.config.table = tableConfig;
                         cptOptionObj.layerOption = layerData;
                         cptChartIdList[cptIndex].layerData = layerData;
-                    }else if(otherLayerId === "carouselList"){
-                        if (fieldEname === 'tableHeaderTextAlign'){
+                    } else if (otherLayerId === "carouselList") {
+                        if (fieldEname === 'tableHeaderTextAlign') {
                             cptOptionObj.layerOption.tableHeader.textAlign = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.textAlign = fieldValue;
-                        }else if(fieldEname === 'tableHeaderFontFamily'){
+                        } else if (fieldEname === 'tableHeaderFontFamily') {
                             cptOptionObj.layerOption.tableHeader.fontFamily = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.fontFamily = fieldValue;
-                        }else if(fieldEname === 'tableHeaderFontSize'){
+                        } else if (fieldEname === 'tableHeaderFontSize') {
                             cptOptionObj.layerOption.tableHeader.fontSize = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.fontSize = fieldValue;
-                        }else if(fieldEname === 'tableHeaderFontColor'){
+                        } else if (fieldEname === 'tableHeaderFontColor') {
                             cptOptionObj.layerOption.tableHeader.fontColor = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.fontColor = fieldValue;
-                        }else if(fieldEname === 'tableHeaderFontWeight'){
+                        } else if (fieldEname === 'tableHeaderFontWeight') {
                             cptOptionObj.layerOption.tableHeader.fontWeight = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.fontWeight = fieldValue;
-                        }else if(fieldEname === 'tableHeaderBackgroundColor'){
+                        } else if (fieldEname === 'tableHeaderBackgroundColor') {
                             cptOptionObj.layerOption.tableHeader.backgroundColor = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableHeader.backgroundColor = fieldValue;
-                        }else if(fieldEname === 'tableBodyTextAlign'){
+                        } else if (fieldEname === 'tableBodyTextAlign') {
                             cptOptionObj.layerOption.tableBody.textAlign = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.textAlign = fieldValue;
-                        }else if(fieldEname === 'tableBodyFontFamily'){
+                        } else if (fieldEname === 'tableBodyFontFamily') {
                             cptOptionObj.layerOption.tableBody.fontFamily = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.fontFamily = fieldValue;
-                        }else if(fieldEname === 'tableBodyFontSize'){
+                        } else if (fieldEname === 'tableBodyFontSize') {
                             cptOptionObj.layerOption.tableBody.fontSize = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.fontSize = fieldValue;
-                        }else if(fieldEname === 'tableBodyFontColor'){
+                        } else if (fieldEname === 'tableBodyFontColor') {
                             cptOptionObj.layerOption.tableBody.fontColor = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.fontColor = fieldValue;
-                        }else if(fieldEname === 'tableBodyFontWeight'){
+                        } else if (fieldEname === 'tableBodyFontWeight') {
                             cptOptionObj.layerOption.tableBody.fontWeight = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.fontWeight = fieldValue;
-                        }else if(fieldEname === 'tableBodyBackgroundColor'){
+                        } else if (fieldEname === 'tableBodyBackgroundColor') {
                             cptOptionObj.layerOption.tableBody.backgroundColor = fieldValue;
                             cptChartIdList[cptIndex].layerData.tableBody.backgroundColor = fieldValue;
-                        }else if(fieldEname === 'borderWidth'){
+                        } else if (fieldEname === 'borderWidth') {
                             cptOptionObj.layerOption.border.borderWidth = fieldValue;
                             cptChartIdList[cptIndex].layerData.border.borderWidth = fieldValue;
-                        }else if(fieldEname === 'borderStyle'){
+                        } else if (fieldEname === 'borderStyle') {
                             cptOptionObj.layerOption.border.borderStyle = fieldValue;
                             cptChartIdList[cptIndex].layerData.border.borderStyle = fieldValue;
-                        }else if(fieldEname === 'borderColor'){
+                        } else if (fieldEname === 'borderColor') {
                             cptOptionObj.layerOption.border.borderColor = fieldValue;
                             cptChartIdList[cptIndex].layerData.border.borderColor = fieldValue;
                         } else {
@@ -954,7 +956,7 @@ class Layout extends Component {
                         } else {
                             defaultFlag = true;
                         }
-                    }else if (otherLayerId === "singleVideo") {
+                    } else if (otherLayerId === "singleVideo") {
                         if (fieldEname === 'url') {
                             cptOptionObj.layerOption.url = fieldValue;
                             cptChartIdList[cptIndex].layerData.url = fieldValue;
@@ -1073,7 +1075,7 @@ class Layout extends Component {
                         } else {
                             defaultFlag = true;
                         }
-                    } else if(otherLayerId === "waterLevelPond"){
+                    } else if (otherLayerId === "waterLevelPond") {
                         if (fieldEname === 'shape' || fieldEname === 'beginColor' || fieldEname === 'endColor' || fieldEname === 'waveNum' || fieldEname === 'waveHeight' || fieldEname === 'waveOpacity') {
                             cptOptionObj.layerOption.waterLevel[fieldEname] = fieldValue;
                             cptChartIdList[cptIndex].layerData.waterLevel[fieldEname] = fieldValue;
@@ -1161,7 +1163,7 @@ class Layout extends Component {
         let [cptIndex] = args;
         let thType = "0";
         let mainKey = -1;
-        let {cptChartIdList, cptPropertyList} = this.state;
+        let { cptChartIdList, cptPropertyList } = this.state;
         let leftChartObj = cptChartIdList[cptIndex];
         if (leftChartObj) {
             thType = leftChartObj.thType;
@@ -1200,27 +1202,27 @@ class Layout extends Component {
                         l7scene.firstChild.style.height = height + 'px';
                     }
                 }).catch(error => {
-                var id = window.arr[window.cptIndex];
-                for (var i = 0; i < window.mapObjArr.length; i++) {
-                    var key = window.mapObjArr[i];
-                    if (id == key.layerId) {
-                        if (key.layerMap._container) {
-                            key.layerMap.resize();
+                    var id = window.arr[window.cptIndex];
+                    for (var i = 0; i < window.mapObjArr.length; i++) {
+                        var key = window.mapObjArr[i];
+                        if (id == key.layerId) {
+                            if (key.layerMap._container) {
+                                key.layerMap.resize();
+                            }
                         }
                     }
-                }
 
-                var grid = window.document.getElementById("grid" + id);
-                var width = grid.offsetWidth;
-                var height = grid.offsetHeight;
-                var div = window.document.getElementById(id);
-                var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
-                if (l7scene) {
-                    //l7scene.firstChild.style({width:width,height:height});
-                    l7scene.firstChild.style.width = width + 'px';
-                    l7scene.firstChild.style.height = height + 'px';
-                }
-            });
+                    var grid = window.document.getElementById("grid" + id);
+                    var width = grid.offsetWidth;
+                    var height = grid.offsetHeight;
+                    var div = window.document.getElementById(id);
+                    var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
+                    if (l7scene) {
+                        //l7scene.firstChild.style({width:width,height:height});
+                        l7scene.firstChild.style.width = width + 'px';
+                        l7scene.firstChild.style.height = height + 'px';
+                    }
+                });
         } else {
             // if(thType==="text"||thType==="border"||thType==="iframe"){
             let layerData = leftChartObj.layerData;
@@ -1292,8 +1294,8 @@ class Layout extends Component {
                     console.info("编辑图层失败");
                 }
             }).catch(error => {
-            console.info("编辑图层失败");
-        })
+                console.info("编辑图层失败");
+            })
     }
 
     /**
@@ -1544,22 +1546,22 @@ class Layout extends Component {
         store.dispatch(replaceOptionsList(tempOptionLists));
 
         //state
-        let {cptPropertyList, cptKeyList, cptChartIdList} = this.state;
+        let { cptPropertyList, cptKeyList, cptChartIdList } = this.state;
         let thisChartObj = cptChartIdList[layerIndex];
         let cptPropertyObj = cptPropertyList[layerIndex];
-        let {chartId: cptType, timeKey: cptKey} = thisChartObj;
+        let { chartId: cptType, timeKey: cptKey } = thisChartObj;
         cptKeyList = this.replaceData(cptKeyList, layerIndex, updateIndex, updateState);
         cptPropertyList = this.replaceData(cptPropertyList, layerIndex, updateIndex, updateState);
         cptChartIdList = this.replaceData(cptChartIdList, layerIndex, updateIndex, updateState);
         this.setState({
-                cptIndex: updateIndex,
-                cptKey: cptKey,
-                cptType: cptType,
-                cptKeyList: cptKeyList,
-                cptPropertyList: cptPropertyList,
-                cptChartIdList: cptChartIdList,
-                cptPropertyObj: cptPropertyObj,
-            },
+            cptIndex: updateIndex,
+            cptKey: cptKey,
+            cptType: cptType,
+            cptKeyList: cptKeyList,
+            cptPropertyList: cptPropertyList,
+            cptChartIdList: cptChartIdList,
+            cptPropertyObj: cptPropertyObj,
+        },
             () => {
 
             })
@@ -1593,7 +1595,7 @@ class Layout extends Component {
      * @return:
      */
     setContentScale = scaleValue => {
-        this.setState({scale: scaleValue})
+        this.setState({ scale: scaleValue })
     }
 
     /**
@@ -1605,11 +1607,11 @@ class Layout extends Component {
         let preState = this.state;
         let nameData = preState.nameData;
         let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-        this.refs.shareModel.setDefaultValue(`http://172.24.254.94:8082/share/build/index.html?sid=${sidVal}`);
+        this.refs.shareModel.setDefaultValue(`http://172.26.50.89/share/build/index.html?sid=${sidVal}`);
     }
 
     onRightClick = (event) => {
-        let {cptIndex, rightMenuData} = this.state;
+        let { cptIndex, rightMenuData } = this.state;
         if (cptIndex === -1) {
             message.warning("请选择编辑的图表！")
         }
@@ -1626,10 +1628,9 @@ class Layout extends Component {
             this.ondelItemPrev(cptIndex);
         }
     }
-
     render() {
-        let {cptIndex, nameData, cptKeyList, cptChartIdList, scale, cptPropertyObj, cptPropertyList, globalBg} = this.state;
-        let {bjWidth, bjHeight, bgColor, bgImageName, bgImageIntegerUrl} = globalBg;
+        let { cptIndex, nameData, cptKeyList, cptChartIdList, scale, cptPropertyObj, cptPropertyList, globalBg } = this.state;
+        let { bjWidth, bjHeight, bgColor, bgImageName, bgImageIntegerUrl } = globalBg;
         let comLength = cptKeyList.length;
         let bgStyle = {
             height: bjHeight,
@@ -1664,7 +1665,7 @@ class Layout extends Component {
                         cptIndex={cptIndex}
                         onClickAdd={this.onClickAdd}
                         singleSwitchLayer={this.singleSwitchLayer}
-                        selectSingleLayer={this.selectSingleLayer}/>
+                        selectSingleLayer={this.selectSingleLayer} />
                     <div className='custom-content-p'>
                         <Dropdown overlay={
                             <Menu onClick={this.onRightClick}>
@@ -1688,6 +1689,12 @@ class Layout extends Component {
                                     <ShareItemModal
                                         ref="shareModel"
                                     />
+                                    {cptKeyList.map((item, i) => {
+                                          let timeKey = item.key;
+                                          cptIndex={cptIndex}
+                                        cptIndexarr[i] = [timeKey, cptIndex];
+                                    })}
+                                   export const cptIndexarr2=cptIndexarr;
                                     {cptKeyList.map((item, i) => {
                                         let timeKey = item.key;
                                         return (

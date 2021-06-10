@@ -26,12 +26,14 @@ export function test() {
     method: 'get'
   });
 }
-const deployPrev = "http://172.24.254.94:8082/data/";
+var cptIndexarr=[];
+const deployPrev = "http://172.26.50.89/data/";
 const localPrev = "http://127.0.0.1:8080/data/";
 
-const deploySharePrev = "http://172.24.254.94:8082/share/";
-const localSharePrev = "http://172.24.254.94:8082/share/";
-const defaultPrev = localPrev;
+const deploySharePrev = "http://172.26.50.89/share/";
+const localSharePrev = "http://127.0.0.1:8080/share/";
+
+const defaultPrev = deploySharePrev;
 
 const defaultSharePrev = localSharePrev;
 

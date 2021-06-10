@@ -24,7 +24,7 @@ import {
 const BasicRoute = () => (
     <Router >
         <Switch>
-          <Route path="/" component={App} />
+          <Route path="/" component={ShowPage} />
         </Switch>
     </Router>
 );

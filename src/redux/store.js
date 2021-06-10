@@ -10,5 +10,6 @@ import {createStore} from 'redux';
 import combineReducers from './reducers.js';
 
 let store = createStore(combineReducers);
+export const cptIndexarr=[];
 
 export default store;

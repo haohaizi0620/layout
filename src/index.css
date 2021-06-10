@@ -6,7 +6,6 @@ body {
   padding: 0;
   outline: 0;
   font-size: 12px;
-  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   min-width: 1024px;
   user-select: none;
@@ -21,8 +20,8 @@ body {
   vertical-align: baseline;
 }
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-thumb {
   background: #434b55;

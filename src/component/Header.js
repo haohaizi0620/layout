@@ -287,6 +287,7 @@ class Header extends Component {
     let defaultShowVal = getDefaultLayerData(layerType,layerId);
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
+    console.log( defaultShowVal.positionObj)
    /*  this.props.onClickAdd(layerObj, {
       data: {},
       state: "headerAdd",
