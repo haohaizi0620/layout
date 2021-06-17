@@ -155,7 +155,7 @@ class Header extends Component {
       },
       table:{
         all: [
-          { id: "baseTable", text: "表格数据", layerType: "table" },
+          /*{ id: "baseTable", text: "表格数据", layerType: "table" },*/
           { id: "carouselList", text: "循环列表", layerType: "table" },
           { id: "scrollRanking", text: "排名轮播表", layerType: "table" },
         ]

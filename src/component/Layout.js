@@ -24,7 +24,7 @@ import DeleteItemModal from './ModelCom/DeleteItemModal';
 import ShareItemModal from './ModelCom/ShareItemModal';
 import ContentBottom from './content/ContentBottom';
 import store from '../redux/store';
-import cptIndexarr from '../redux/store';
+//import cptIndexarr from '../redux/store';
 import { chartOption, showChartsOption } from '../utils/chart';
 import { Menu, Dropdown, Modal, Button, message } from 'antd';
 import {
@@ -1689,12 +1689,13 @@ class Layout extends Component {
                                     <ShareItemModal
                                         ref="shareModel"
                                     />
-                                    {cptKeyList.map((item, i) => {
+                                    {/*{cptKeyList.map((item, i) => {
+                                        console.info(item,cptIndex);
                                           let timeKey = item.key;
                                           cptIndex={cptIndex}
                                         cptIndexarr[i] = [timeKey, cptIndex];
                                     })}
-                                   export const cptIndexarr2=cptIndexarr;
+                                   export const cptIndexarr2=cptIndexarr;*/}
                                     {cptKeyList.map((item, i) => {
                                         let timeKey = item.key;
                                         return (

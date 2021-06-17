@@ -327,6 +327,7 @@ class Properties extends Component {
                 value: textFieldObj.fontFamily,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
@@ -720,6 +721,7 @@ class Properties extends Component {
                 value: tableHeaderTextObj.fontFamily,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
@@ -823,6 +825,7 @@ class Properties extends Component {
                 value: tableBodyTextObj.fontFamily,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
@@ -960,6 +963,7 @@ class Properties extends Component {
                 value: carouselListObj.tableHeader.fontFamily,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
@@ -1035,6 +1039,7 @@ class Properties extends Component {
                 value: carouselListObj.tableBody.fontFamily,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
@@ -1296,6 +1301,7 @@ class Properties extends Component {
                 value: button.font.family,
                 defaultOption: 'auto',
                 optionValues: [
+                  { cname: 'Microsoft Yahei', value: 'Microsoft Yahei' },
                   { cname: 'auto', value: 'auto' },
                   { cname: 'cursive', value: 'cursive' },
                   { cname: 'monospace', value: 'monospace' },
