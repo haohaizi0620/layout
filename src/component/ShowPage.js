@@ -107,7 +107,7 @@ class ShowPage extends Component {
               tempData.map((item, index, layerIndex) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
-                let sortNumChart = item.sortNum;
+                let sortNumChart = item.sortnum;
                 var cptIndexs = this.state.cptIndex;
                 let tempCptChartObj = {
                   chartId: item.id,
@@ -159,7 +159,7 @@ class ShowPage extends Component {
               tempData.map((item, index, layerIndex) => {
                 timeKey++;
                 let tempLayerPosition = item.layerPosition;
-                let sortNumChart = item.sortNum;
+                let sortNumChart = item.sortnum;
                 var cptIndexs = this.state.cptIndex;
                 let tempCptChartObj = {
                   chartId: item.id,
@@ -201,7 +201,7 @@ class ShowPage extends Component {
                   resultData.map((layerItem, layerIndex) => {
                     timeKey++;
                     let layerType = layerItem.celltype;
-                    let sinSoreNum = layerItem.sortNum;
+                    let sinSoreNum = layerItem.sortnum;
                     aaaarr[i]=sinSoreNum;i++;
                     let layerId = layerItem.cellTypeId;
                     let layerName = layerItem.cellname;
@@ -317,7 +317,7 @@ class ShowPage extends Component {
       tempData.map((item, index) => {
         timeKey++;
         let tempLayerPosition = item.layerPosition;
-        let sortNumChart = item.sortNum;
+        let sortNumChart = item.sortnum;
         let thType = item.thType;
         let vVal = "";
         if (thType === "0") {
@@ -342,7 +342,7 @@ class ShowPage extends Component {
           tempLayerPosition = JSON.parse('{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"chart","cptType":""}')
         }
         tempLayerPosition.type = "chart";
-        tempLayerPosition.sortNum = sortNumChart;
+        tempLayerPosition.sortnum = sortNumChart;
         tempCptKeyList.push({ key: timeKey, id: item.layername, title: item.name, layerType: item.thType, sortNum: sortNumChart });
         tempCptPropertyList.push(tempLayerPosition);
         tempCptChartIdList.push(tempCptChartObj);
@@ -392,7 +392,7 @@ class ShowPage extends Component {
             if (!positionObj && positionObj === "") {
               positionObj = JSON.parse(`{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"sortNum":0",layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`)
             }
-            positionObj.sortNum = sinSoreNum;
+            positionObj.sortnum = sinSoreNum;
             tempCptKeyList.push({ key: timeKey, id: layerId, title: layerName, layerType: layerType, sortNum: sinSoreNum });
             tempCptPropertyList.push(positionObj);
             tempCptChartIdList.push(tempCptChartObj);
@@ -452,7 +452,7 @@ class ShowPage extends Component {
         {cptChartIdList
           ? cptChartIdList.map((item, layerIndexs) => {
             // console.log(item,layerIndexs)
-            // var layernum=JSON.parse(item.layerObj.layerPosition).sortNum
+            // var layernum=JSON.parse(item.layerObj.layerPosition).sortnum
             return (
               <div index={aaaarr[layerIndexs]} key={item.key}>
                 <ShowContent

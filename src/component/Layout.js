@@ -1478,6 +1478,7 @@ class Layout extends Component {
                 updateSortNum: updateLayer.sortNum,
                 updateState: updateState,
             }
+
             editLayerSortNum(updateSortNumObj)
                 .then(result => {
                     if (result.flag === 2) {
@@ -1490,11 +1491,63 @@ class Layout extends Component {
             let endIndex = chartLists.length;
             let updateLayers = [];
             if (stateVal === "top") {
-                endIndex = layerIndex - 1;
+                for (let i = 0; i < layerIndex; i++) {
+                    let item = chartLists[i];
+                    updateLayers.push({
+                        addState: item.addState,
+                        mainKey: item.mainKey,
+                        updateIndex: startIndex
+                    })
+                    startIndex++;
+                }
+
+                for (let i = layerIndex+1; i < endIndex; i++) {
+                    let item = chartLists[i];
+                    updateLayers.push({
+                        addState: item.addState,
+                        mainKey: item.mainKey,
+                        updateIndex: startIndex
+                    })
+                    startIndex++;
+                }
+                updateLayers.push({
+                    addState: thisLayer.addState,
+                    mainKey: thisLayer.mainKey,
+                    updateIndex: endIndex-1
+                });
+
+
+                //endIndex = layerIndex - 1;
             } else if (stateVal === "bottom") {
-                startIndex = layerIndex + 1;
+                updateLayers.push({
+                    addState: thisLayer.addState,
+                    mainKey: thisLayer.mainKey,
+                    updateIndex: 0
+                });
+                startIndex++;
+                for (let i = 0; i < layerIndex; i++) {
+                    let item = chartLists[i];
+                    updateLayers.push({
+                        addState: item.addState,
+                        mainKey: item.mainKey,
+                        updateIndex: startIndex
+                    })
+                    startIndex++;
+                }
+
+                for (let i = layerIndex+1; i < endIndex; i++) {
+                    let item = chartLists[i];
+                    updateLayers.push({
+                        addState: item.addState,
+                        mainKey: item.mainKey,
+                        updateIndex: startIndex
+                    })
+                    startIndex++;
+                }
+
+                //startIndex = layerIndex + 1;
             }
-            updateLayers.push({
+           /* updateLayers.push({
                 addState: thisLayer.addState,
                 mainKey: thisLayer.mainKey,
                 updateIndex: updateIndex
@@ -1512,7 +1565,7 @@ class Layout extends Component {
                     mainKey: item.mainKey,
                     updateIndex: updateIndex
                 })
-            }
+            }*/
             editLayerSortTopOrBottom({
                 updateLayers: JSON.stringify(updateLayers)
             })
@@ -1524,6 +1577,7 @@ class Layout extends Component {
                 .catch(error => console.log(error));
         }
     }
+
 
     /**
      * @description: 数据库中字段更改成功后进行更换程序里面的图层顺序
@@ -1553,6 +1607,10 @@ class Layout extends Component {
         cptKeyList = this.replaceData(cptKeyList, layerIndex, updateIndex, updateState);
         cptPropertyList = this.replaceData(cptPropertyList, layerIndex, updateIndex, updateState);
         cptChartIdList = this.replaceData(cptChartIdList, layerIndex, updateIndex, updateState);
+
+        cptKeyList = this.replaceSortNum(cptKeyList, layerIndex, updateIndex, updateState);
+        cptPropertyList = this.replaceSortNum(cptPropertyList, layerIndex, updateIndex, updateState);
+        cptChartIdList = this.replaceSortNum(cptChartIdList, layerIndex, updateIndex, updateState);
         this.setState({
             cptIndex: updateIndex,
             cptKey: cptKey,
@@ -1578,12 +1636,29 @@ class Layout extends Component {
             let tempObj = dataArrays[layerIndex];
             dataArrays.splice(layerIndex, 1);
             if (updateState === "top") {
-                dataArrays.unshift(tempObj);
-            } else if (updateState === "bottom") {
                 dataArrays.push(tempObj);
+            } else if (updateState === "bottom") {
+                dataArrays.unshift(tempObj);
             }
         } else if (updateState === 1 || updateState === -1) {
             [dataArrays[updateIndex], dataArrays[layerIndex]] = [dataArrays[layerIndex], dataArrays[updateIndex]];
+        }
+        return dataArrays;
+    }
+
+
+    /**
+     * @description: 替换数组两个位置sortNum的值
+     * @param {type}
+     * @return:
+     */
+    replaceSortNum = (dataArrays, layerIndex, updateIndex, updateState) => {
+        if (updateState === "top" || updateState === "bottom") {
+            for (var i = 0;i < dataArrays.length; i++){
+                dataArrays[i]['sortNum'] = i;
+            }
+        } else if (updateState === 1 || updateState === -1) {
+            [dataArrays[updateIndex]['sortNum'], dataArrays[layerIndex]['sortNum']] = [dataArrays[layerIndex]['sortNum'], dataArrays[updateIndex]['sortNum']];
         }
         return dataArrays;
     }

@@ -79,7 +79,7 @@ class LeftComponentList extends Component {
     let updateIndex = -1;
     let maxIndex = this.state.ComponentList.length - 1;
     if (ComponentList.length > 0 && cptIndex !== -1) {
-      if (updateState === 1) {
+      /*if (updateState === 1) {
         if (cptIndex < maxIndex) {
           updateIndex = cptIndex + 1;
         } else {
@@ -108,6 +108,38 @@ class LeftComponentList extends Component {
           return;
         }
       }
+      this.props.selectSingleLayer(event, cptIndex, updateIndex, updateState);*/
+
+
+      if (updateState === 1) {
+        if (cptIndex == 0){
+          message.info('已经到底了');
+          return;
+        }else if (cptIndex > 0){
+          updateIndex = cptIndex - 1;
+        }
+      } else if (updateState === -1) {
+        if (cptIndex == maxIndex){
+          message.info('已经到顶了');
+          return;
+        }else if (cptIndex<maxIndex){
+          updateIndex = cptIndex + 1;
+        }
+      } else if (updateState === "top") {
+        if (cptIndex == maxIndex){
+          message.info('已经到顶了');
+          return;
+        }else if (cptIndex<maxIndex){
+          updateIndex = maxIndex;
+        }
+      } else if (updateState === "bottom") {
+        if (cptIndex == 0){
+          message.info('已经到底了');
+          return;
+        }else if (cptIndex > 0){
+          updateIndex = 0;
+        }
+      }
       this.props.selectSingleLayer(event, cptIndex, updateIndex, updateState);
     }
   }
@@ -124,8 +156,8 @@ class LeftComponentList extends Component {
        }
      ];
       tempArr = tempArr.filter(item =>  item.data = JSON.parse(item.data));
- 
- 
+
+
      this.setState({
        componentData: tempArr,
      }); */
@@ -473,7 +505,8 @@ class LeftComponentList extends Component {
                       }
                     </div>
                     <div >
-                      {listData
+                      {
+                        listData
                         ? listData.map((item, layerIndex) => {
                           return (
                             <div

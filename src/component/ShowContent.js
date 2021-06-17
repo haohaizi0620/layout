@@ -89,8 +89,8 @@ class Content extends Component {
   render() {
     let cptObj = this.props.cptObj;
     let cptBorderObj = cptObj.cptBorderObj;
-    var widths=document.body.clientWidth 
-    var heights=document.body.clientHeight 
+    var widths=document.body.clientWidth;
+    var heights=document.body.clientHeight;
     if (cptBorderObj.background != undefined) {
       return (
         <div className="grid-item"
@@ -104,7 +104,9 @@ class Content extends Component {
             borderStyle: cptBorderObj.layerBorderStyle,
             borderWidth: cptBorderObj.layerBorderWidth + 'px',
             borderColor: cptBorderObj.layerBorderColor,
-            background: cptBorderObj.background
+            background: cptBorderObj.background,
+            zIndex: this.props.chartData.sortNum,
+
           }}>
           <Child1
             cptObj={cptObj}
@@ -127,6 +129,7 @@ class Content extends Component {
             borderStyle: cptBorderObj.layerBorderStyle,
             borderWidth: cptBorderObj.layerBorderWidth + 'px',
             borderColor: cptBorderObj.layerBorderColor,
+            zIndex: this.props.chartData.sortNum,
           }}>
           <Child1
             cptObj={cptObj}
