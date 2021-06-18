@@ -201,7 +201,7 @@ class ShowPage extends Component {
                   resultData.map((layerItem, layerIndex) => {
                     timeKey++;
                     let layerType = layerItem.celltype;
-                    let sinSoreNum = layerItem.sortnum;
+                    let sinSoreNum = layerItem.sortNum;
                     aaaarr[i]=sinSoreNum;i++;
                     let layerId = layerItem.cellTypeId;
                     let layerName = layerItem.cellname;
