@@ -18,7 +18,7 @@ import {
     REPLACEOPTIONSLIST,
 } from '../actions/showLayerDatas';
 
- 
+
 const cptPropertyObj = {
     showDatas: { //当前组件属性及内容属性
         cptBorderObj: { //边框属性    transform: rotate(181deg);
@@ -40,16 +40,16 @@ const cptPropertyObj = {
     specialField: {},
     bgFieldObj: {
         bgColor: 'rgba(15, 42, 67,1)',
-        bjWidth: 1470,
-        bjHeight: 937,
+        bjWidth: 1920,
+        bjHeight: 1080,
         bjImage:'none',
-        bgImageName:"无",
+        bgImageName:"",
         bgImageIntegerUrl:"",
         uploadImage:"",
         mainKey:-1
     },
     showPageData:{
-    
+
     }
 };
 /*
@@ -78,7 +78,7 @@ export default function reducer(state = cptPropertyObj, action) {
                 }else if(fieldEname=="uploadImage"){
                     newState.bgFieldObj.uploadImage = fieldValue;
                 }else{
-                    newState.bgFieldObj[fieldEname] = fieldValue     
+                    newState.bgFieldObj[fieldEname] = fieldValue
                 }
             }else{
                 state.showDatas.cptBorderObj[fieldEname] = fieldValue;
@@ -88,7 +88,7 @@ export default function reducer(state = cptPropertyObj, action) {
         case REPLACEFIELDVAL:
              newState.showDatas.cptBorderObj = action.showLayerObj
             return { ...state, ...newState };
-        case REPLACEOPTIONSLIST: 
+        case REPLACEOPTIONSLIST:
             return Object.assign({}, state, {
                 cptOptionsList: action.OptionsList
             });
