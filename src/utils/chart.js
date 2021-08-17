@@ -551,7 +551,7 @@ export function showChartsOption(chartsList, keyList) {
         else if ('3DBAR' == type1 ||
           'GRID' == type1 ||
           'COLORSCALE' == type1) {//3D柱、网格、等级颜色
-            
+
           getSpecifyGeojson(chartId).then(function (result) {
             console.log(result)
             if (result.data) {
@@ -2530,7 +2530,7 @@ console.log(map)
                   }
                 );
               //图例
-              layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件"); 
+              layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
                 if (ev.feature == 'null') {
                   return false;
                 }
@@ -2868,7 +2868,7 @@ console.log(map)
               //点数据source
               var pointsourcedata = {};
               pointsourcedata.type = "FeatureCollection";
-              var pointfeatures = []; 
+              var pointfeatures = [];
               for (var i = 0; i < myMapTableFeatures.length; i++) {
                 var feature = {};
                 feature.type = myMapTableFeatures[i].type;
@@ -3803,7 +3803,67 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         json += ']';
         var fatures = JSON.parse(json);
 
-        if (fuhaokuName == '栅格图标') {
+        if (fuhaokuName == "基础符号库") {
+          var styleName = $(obj).attr("styleName");
+          var grouperenderer = $(obj).find("GROUPRENDERER");
+          var simplemarkersymbol = $(grouperenderer).find("SIMPLEMARKERSYMBOL");
+          var color = simplemarkersymbol.attr("color");
+          var width = parseInt(simplemarkersymbol.attr("width"));
+          var carr = color.split(",");
+
+          var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
+          var imgData = new Uint8Array(width * width * bytesPerPixel);
+
+          if (styleName == "square") {
+            //正方形
+            for (var x = 0; x < width; x++) {
+              for (var y = 0; y < width; y++) {
+                var offset = (y * width + x) * bytesPerPixel;
+                imgData[offset + 0] = parseInt(carr[0]); // red
+                imgData[offset + 1] = parseInt(carr[1]); // green
+                imgData[offset + 2] = parseInt(carr[2]); // blue
+                imgData[offset + 3] = 255; // alpha
+              }
+            }
+          } else if (styleName == "cross") {
+            //十字
+            var half = Math.floor(width / 2);
+            for (var x = 0; x < width; x++) {
+              for (var y = 0; y < width; y++) {
+                if (x == half || y == half) {
+                  var offset = (y * width + x) * bytesPerPixel;
+                  imgData[offset + 0] = parseInt(carr[0]); // red
+                  imgData[offset + 1] = parseInt(carr[1]); // green
+                  imgData[offset + 2] = parseInt(carr[2]); // blue
+                  imgData[offset + 3] = 255; // alpha
+                }
+              }
+            }
+          }
+
+          if (!map.hasImage(layername + index)) {
+            map.addImage(layername + index, {
+              width: width,
+              height: width,
+              data: imgData,
+            });
+          }
+
+          map.addLayer({
+            id: layername + index,
+            type: "symbol",
+            source: {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: fatures,
+              },
+            },
+            layout: {
+              "icon-image": layername + index,
+            },
+          });
+        } else if (fuhaokuName == '栅格图标') {
           var icon = simplemarkersymbol.attr('icon');
           if (!map.hasImage(icon)) {
             map

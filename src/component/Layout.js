@@ -264,7 +264,7 @@ class Layout extends Component {
     initLayer(nameDataObj, shareId, kshId) {
         let _this = this;
         let getKshObj = {
-            id: kshId,
+            //id: kshId,
             tablename: nameDataObj.KSHNAME
         }
         let OtherLayerObj = {
