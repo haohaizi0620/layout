@@ -1,5 +1,7 @@
 .mapboxgl-popup-anchor-bottom{
-    max-width:500px !important
+    width:350px !important;
+    max-width: 350px;
+    min-width: 350px;
 }
 .mapboxgl-popup-close-button {
     font-size: 30px;

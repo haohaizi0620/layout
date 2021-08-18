@@ -120,7 +120,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
               503428.7804260254, 345586.30670166016
             ],
             preserveDrawingBuffer: true,
-            style: 'zyzx://vector_new/styles/style.json',
+            style: 'zyzx://vector_standard/styles/style.json',
             //style: 'http://172.24.254.94:8080/vector_blue/styles/root.json',
             // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
             // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
@@ -128,6 +128,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
             // Regular","SimSun,Regular"',
           });
           map.on('load', function () {
+            addSKY(map);
             getSpecify(chartId).then(result => {
               let tempOptionObj = {
                 cptIndex: addIndex,
@@ -419,7 +420,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -436,6 +437,7 @@ export function showChartsOption(chartsList, keyList) {
               });
 
               map.on('load', function () {
+                addSKY(map);
                 if (result.data) {
                   console.log("接口没有数据")
                 } else {
@@ -459,7 +461,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -476,6 +478,7 @@ export function showChartsOption(chartsList, keyList) {
               });
 
               map.on('load', function () {
+                addSKY(map);
                 if (result && result[0]) {
                   new window.dmapgl.EchartsTool(result[0], map);
                 }
@@ -497,7 +500,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -558,7 +561,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -576,6 +579,7 @@ export function showChartsOption(chartsList, keyList) {
               });
               console.log(map)
               map.on('load', function () {
+                addSKY(map);
                 if (result && result[0]) {
                   if ('3DBAR' == type1) {
                     new window.dmapgl.Bar(result[0], map, timeKey);
@@ -603,7 +607,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -619,6 +623,7 @@ export function showChartsOption(chartsList, keyList) {
                 style: style,
               });
               map.on('load', function () {
+                addSKY(map);
                 if (result && result[0]) {
                   new window.dmapgl.EchartsTool(result[0], map);
                 }
@@ -639,7 +644,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -859,7 +864,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -961,7 +966,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1048,7 +1053,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1200,7 +1205,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1302,7 +1307,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1406,7 +1411,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1517,13 +1522,13 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
               style = "zyzx://" + mapType + "/styles/style.json"
               var mapType = ""
-              var style = "zyzx://vector_new/styles/style.json";
+              var style = "zyzx://vector_standard/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1540,6 +1545,7 @@ export function showChartsOption(chartsList, keyList) {
                 style: style
               });
               map.on('load', function () {
+                addSKY(map);
                 var data = result;
                 var sourcedata = data[0].myMapTable;
                 var field = data[0].myLegend.result[0].fieldName;
@@ -1634,10 +1640,11 @@ export function showChartsOption(chartsList, keyList) {
             503428.7804260254, 345586.30670166016
           ],
           preserveDrawingBuffer: true,
-          style: 'zyzx://vector_new/styles/style.json',
+          style: 'zyzx://vector_standard/styles/style.json',
         });
 
         map.on('load', function () {
+          addSKY(map);
           let dataShowVal = data.show;
           // let parentDom = window.parent.document;
           // let dataShow = parentDom.getElementById("dataShow").contentWindow;
@@ -2132,7 +2139,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2149,6 +2156,7 @@ function addChart(data, timeId, addIndex, _this) {
           });
 
           map.on('load', function () {
+            addSKY(map);
             if (result && result[0]) {
               new window.dmapgl.EchartsTool(result[0], map);
             }
@@ -2170,7 +2178,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2186,6 +2194,7 @@ function addChart(data, timeId, addIndex, _this) {
           });
 
           map.on('load', function () {
+            addSKY(map);
             if (result && result[0]) {
               new window.dmapgl.EchartsTool(result[0], map);
             }
@@ -2207,7 +2216,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2267,7 +2276,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2285,6 +2294,7 @@ function addChart(data, timeId, addIndex, _this) {
           });
 console.log(map)
           map.on('load', function () {
+            addSKY(map);
             if (result && result[0]) {
               if ('3DBAR' == type1) {
                 var s = new window.dmapgl.Bar(result[0], map, timeId);
@@ -2312,7 +2322,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2328,6 +2338,7 @@ console.log(map)
             style: style
           });
           map.on('load', function () {
+            addSKY(map);
             if (result && result[0]) {
               new window.dmapgl.EchartsTool(result[0], map);
             }
@@ -2348,7 +2359,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2567,7 +2578,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2670,7 +2681,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2757,7 +2768,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2910,7 +2921,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3011,7 +3022,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3121,7 +3132,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3234,13 +3245,13 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
           style = "zyzx://" + mapType + "/styles/style.json"
           var mapType = ""
-          var style = "zyzx://vector_new/styles/style.json";
+          var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3257,6 +3268,7 @@ console.log(map)
             style: style
           });
           map.on('load', function () {
+            addSKY(map);
             var data = result;
             var sourcedata = data[0].myMapTable;
             var field = data[0].myLegend.result[0].fieldName;
@@ -3358,9 +3370,10 @@ console.log(map)
         503428.7804260254, 345586.30670166016
       ],
       preserveDrawingBuffer: true,
-      style: 'zyzx://vector_new/styles/style.json',
+      style: 'zyzx://vector_standard/styles/style.json',
     });
     map.on('load', function () {
+      addSKY(map);
       if (data.show == "1") {
         addLayerWFS(data, map);
       } else if (data.show == "2") {
@@ -3616,16 +3629,16 @@ function addLayerWFS(obj, map) {
             var coordinates = e.features[0].geometry.coordinates.slice();
             var properties = e.features[0].properties;
             console.log(properties)
-            var sbtable='<div style="padding-top:10px"><table style="text-align: center;font-size:15px">'
+            var sbtable='<div style="padding-top:10px"><table style="text-align: center;font-size:12px; table-layout:fixed">'
             var flag=0
             for (var i = 0; i < sbsjzszd.length; i++) {
               var sbsjzszdd=sbsjzszd[i]
               if(flag==0){
                 flag=1;
-                sbtable+='<tr><td style="min-width: 50px;padding: 10px 30px;border: 1px solid #999;background-color: darkgray;">'+sbsjzszd[i]+':'+'</td>'+'<td style="border: 1px solid #999;background-color: darkgray;">'+properties[sbsjzszdd]+'</td>'+'</tr>'
+                sbtable+='<tr><td width="120px" style="padding: 10px 0px;border: 1px solid #999;background-color: #f2f2f2;">'+sbsjzszd[i]+':'+'</td>'+'<td width="230px" style="border: 1px solid #999;background-color: #f2f2f2;">'+properties[sbsjzszdd]+'</td>'+'</tr>'
               }else{
                 flag=0;
-                sbtable+='<tr><td style="min-width: 50px;padding: 10px 30px;border: 1px solid #999;background-color:"#fff">'+sbsjzszd[i]+':'+'</td>'+'<td style="border: 1px solid #999;background-color: "#fff";>'+properties[sbsjzszdd]+'</td>'+'</tr>'
+                sbtable+='<tr><td width="120px" style="padding: 10px 0px;border: 1px solid #999;background-color:#fff">'+sbsjzszd[i]+':'+'</td>'+'<td  width="230px" style="border: 1px solid #999;background-color: "#fff";>'+properties[sbsjzszdd]+'</td>'+'</tr>'
               }
 
             }
@@ -4332,4 +4345,38 @@ function zero_fill_hex(num, digits) {
   while (s.length < digits)
     s = "0" + s;
   return s;
+}
+
+
+function addSKY(map) {
+  map.addLayer({
+    'id' : 'sky',
+    'type' : 'sky',
+    'paint' : {
+      // 设置天空图层，使用颜色梯度
+      'sky-type' : 'gradient',
+      //中央的天空最亮，向外移动天空就会变暗
+      //这模拟了太阳在地平线以下的样子
+      'sky-gradient' : [
+        'interpolate',
+        [ 'linear' ],
+        [ 'sky-radial-progress' ],
+        0.8,
+        'rgba(135, 206, 235, 1.0)',
+        1,
+        'rgba(0,0,0,0.1)'
+      ],
+      'sky-gradient-center' : [ 0, 0 ],
+      'sky-gradient-radius' : 90,
+      'sky-opacity' : [
+        'interpolate',
+        [ 'exponential', 0.1 ],
+        [ 'zoom' ],
+        5,
+        0,
+        22,
+        1
+      ]
+    }
+  });
 }
