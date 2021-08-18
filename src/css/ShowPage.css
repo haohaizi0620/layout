@@ -1,0 +1,18 @@
+.mapboxgl-popup-anchor-bottom{
+    max-width:500px !important
+}
+.mapboxgl-popup-close-button {
+    font-size: 30px;
+    margin: -4px 5px;
+    color: black!important;
+}
+
+html,body{
+    overflow: hidden;
+}
+#root{
+    overflow: hidden;
+}
+.custom-content-canvs{
+    overflow: hidden;
+}

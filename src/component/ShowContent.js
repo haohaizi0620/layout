@@ -89,6 +89,7 @@ class Content extends Component {
   render() {
     let cptObj = this.props.cptObj;
     let cptBorderObj = cptObj.cptBorderObj;
+    let globalBg = this.props.globalBg;
     var widths=document.body.clientWidth;
     var heights=document.body.clientHeight;
     if (cptBorderObj.background != undefined) {
@@ -98,8 +99,10 @@ class Content extends Component {
             opacity: cptBorderObj.opacity,
             // left: cptBorderObj.left,
             // top: cptBorderObj.top,
-            width: parseInt(widths),
-            height: parseInt(heights),
+            /*width: parseInt(widths),
+            height: parseInt(heights),*/
+            width: '100%',
+            height: '100%',
             transform: `rotate(${cptBorderObj.rotate}deg)`,
             borderStyle: cptBorderObj.layerBorderStyle,
             borderWidth: cptBorderObj.layerBorderWidth + 'px',
@@ -117,14 +120,21 @@ class Content extends Component {
         </div>
       )
     } else {
+        /*var widths=document.body.clientWidth;
+        var heights=document.body.clientHeight;*/
+        var wbfb = widths/globalBg.bjWidth;
+        var hbfb = heights/globalBg.bjHeight;
+
       return (
         <div className="grid-item"
           style={{
             opacity: cptBorderObj.opacity,
-            left: cptBorderObj.left,
-            top: cptBorderObj.top,
-            width: parseInt(cptBorderObj.width),
-            height: parseInt(cptBorderObj.height),
+              /*left: cptBorderObj.left,
+              top: cptBorderObj.top,*/
+            width: parseInt(cptBorderObj.width)*wbfb,
+            height: parseInt(cptBorderObj.height)*hbfb,
+            left: cptBorderObj.left*wbfb,
+            top: cptBorderObj.top*hbfb,
             transform: `rotate(${cptBorderObj.rotate}deg)`,
             borderStyle: cptBorderObj.layerBorderStyle,
             borderWidth: cptBorderObj.layerBorderWidth + 'px',

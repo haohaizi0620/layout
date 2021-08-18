@@ -13,6 +13,7 @@ import { replaceGlobalBg } from "../redux/actions/showLayerDatas";
 import cptIndexarr2 from "./layout.js";
 import { Button } from "antd";
 import "antd/dist/antd.css";
+import "../css/ShowPage.css";
 import { useParams, useLocation } from "react-router-dom";
 import {
   getShareById,
@@ -48,7 +49,20 @@ class ShowPage extends Component {
 
   componentDidMount() {
     this.initProxyShare();
+    window.addEventListener('resize',this.handleHeight);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize',this.handleHeight);
+  }
+
+  handleHeight = () =>{
+    //console.info(1);
+    this.setState({
+      height:'100%'
+    })
+  }
+
   GetUrlParam(paraName) {
     var url = document.location.toString();
     var arrObj = url.split("?");
@@ -91,7 +105,7 @@ class ShowPage extends Component {
     if (sidVal) {
       document.cookie = "userName=" + sidVal.split("_")[0];
     }
-    console.log(document.cookie);
+    //console.log(document.cookie);
     getShareObj({ sid: sidVal })
       .then(result => {
         if (result.count == 1) {
@@ -442,8 +456,10 @@ class ShowPage extends Component {
       <div
         className={"custom-content-canvs " + this.state.globalBg.bgImageName}
         style={{
-          height: this.state.globalBg.bjHeight,
-          width: this.state.globalBg.bjWidth,
+          /*height: this.state.globalBg.bjHeight,
+          width: this.state.globalBg.bjWidth,*/
+          height: '100%',
+          width: '100%',
           backgroundColor: this.state.globalBg.bgColor,
           backgroundSize: "100% 100%"
         }}
@@ -459,6 +475,7 @@ class ShowPage extends Component {
                   id={item.timeKey}
                   chartData={item}
                   cptObj={this.state.cptPropertyList[layerIndexs]}
+                  globalBg={this.state.globalBg}
                   delIndex={layerIndexs}
                   keyData={this.state.cptKeyList[layerIndexs]}
                 ></ShowContent>

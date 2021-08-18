@@ -31,11 +31,11 @@ const deployPrev = "http://172.26.50.89/data/";
 const localPrev = "http://127.0.0.1:8080/data/";
 
 const deploySharePrev = "http://172.26.50.89/share/";
-const localSharePrev = "http://127.0.0.1:8080/share/";
+const localSharePrev = "http://127.0.0.1:8081/share/";
 
-const defaultPrev = deployPrev;
+const defaultPrev = deploySharePrev;
 
-const defaultSharePrev = localSharePrev;
+const defaultSharePrev = deploySharePrev;
 
 
 export function getKSHChart(getKshObj) {
@@ -180,10 +180,10 @@ export function getShareById(shareID) {
   });
 }
 export function getSpecify(catalogId) {
-  var schema = window.parent.document.getElementById("userName").innerHTML;
-  /*var url = window.location.href;
+  //var schema = window.parent.document.getElementById("userName").innerHTML;
+  var url = window.location.href;
   var par = url.substr(url.indexOf("sid=")+4,url.length);
-  var schema = par.substr(0,par.indexOf("_"));*/
+  var schema = par.substr(0,par.indexOf("_"));
   return request({
     url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}&schema=${schema}`,
     method: 'get'

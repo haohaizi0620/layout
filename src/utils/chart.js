@@ -17,7 +17,7 @@ import { isGetAccessor } from 'typescript';
 import { configConsumerProps } from 'antd/lib/config-provider';
 let chartTestData = require('../datasource/chartTestData.json');
 const chartData = require('../datasource/chartDatas.json');
-const projectType = "/data/";// "/data/"
+const projectType = "/share/";// "/data/"
 /**
  * @description: 创建一个对应的图表
  * @param  {String} chartName 图标的拼音首字母小写
@@ -120,7 +120,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
               503428.7804260254, 345586.30670166016
             ],
             preserveDrawingBuffer: true,
-            style: 'zyzx://vector_darkBlue/styles/style.json',
+            style: 'zyzx://vector_new/styles/style.json',
             //style: 'http://172.24.254.94:8080/vector_blue/styles/root.json',
             // style : 'zyzx://zhengwu20181130/p12/resources/styles/root-'+theme+'.json',
             // //verctor_20180717   zhengwu_light  zhengwu_streets  zhengwu_dark
@@ -419,7 +419,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -459,7 +459,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -497,7 +497,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -558,7 +558,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -603,7 +603,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -639,7 +639,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -859,7 +859,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -961,7 +961,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1048,7 +1048,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1200,7 +1200,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1302,7 +1302,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1406,7 +1406,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1517,13 +1517,13 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
               style = "zyzx://" + mapType + "/styles/style.json"
               var mapType = ""
-              var style = "zyzx://vector_darkBlue/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1634,7 +1634,7 @@ export function showChartsOption(chartsList, keyList) {
             503428.7804260254, 345586.30670166016
           ],
           preserveDrawingBuffer: true,
-          style: 'zyzx://vector_darkBlue/styles/style.json',
+          style: 'zyzx://vector_new/styles/style.json',
         });
 
         map.on('load', function () {
@@ -2132,7 +2132,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2170,7 +2170,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2207,7 +2207,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2267,7 +2267,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2312,7 +2312,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2348,7 +2348,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2567,7 +2567,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2670,7 +2670,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2757,7 +2757,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2910,7 +2910,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3011,7 +3011,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3121,7 +3121,7 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3234,13 +3234,13 @@ console.log(map)
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
           style = "zyzx://" + mapType + "/styles/style.json"
           var mapType = ""
-          var style = "zyzx://vector_darkBlue/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3358,7 +3358,7 @@ console.log(map)
         503428.7804260254, 345586.30670166016
       ],
       preserveDrawingBuffer: true,
-      style: 'zyzx://vector_darkBlue/styles/style.json',
+      style: 'zyzx://vector_new/styles/style.json',
     });
     map.on('load', function () {
       if (data.show == "1") {
@@ -3555,37 +3555,45 @@ function addLayerWFS(obj, map) {
       recursionJZFW(type, layername, map, ranges, lookupfield, 0);
     } else if ('栅格点样式' == type) {
       var symbol = $(simplerenderer).find('SIMPLEMARKERSYMBOL');
+      var sbsj=symbol.attr("sbsj");
+      var sbsjzszd=symbol.attr("sbsjzszd").split(",");
       var icon = symbol.attr('icon');
       if (!map.hasImage(icon)) {
         map
-          .loadImage(projectType + 'SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
-            map.addImage(icon, image);
-          });
+            .loadImage(projectType + 'SymbolLib?request=icon&icon=symbollib/' + icon + '.png', function (error, image) {
+              map.addImage(icon, image);
+            });
       }
       var url = projectType + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
-        '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
+          '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
       $.ajax({
         type: "GET",
         url: url,
         async: false,
         success: function (data) {
 
-          var listElements = $(data).find('gml\\:featureMember');
-          var json = '[';
+          var listElements = $(data).find("gml\\:featureMember");
+          var json = "[";
           if (listElements.length > 0) {
-            $(listElements)
-              .each(function () {
-                var id = $($(this).find('esri\\:OBJECTID')[0]).text();
-                var coord = $($(this).find('gml\\:coordinates')[0]).text();
-                var coord1 = coord
-                  .split(' ')
-                  .join(',');
-                json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
-              });
+            $(listElements).each(function () {
+              var id = $($(this).find("esri\\:OBJECTID")[0]).text();
+              var coord = $($(this).find("gml\\:coordinates")[0]).text();
+              var coord1 = coord.split(" ").join(",");
+              var sbsjzdarr=[]
+              json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' +
+                  coord1 +']},"properties":{';
+              for (var i = 0; i < sbsjzszd.length; i++) {
+                sbsjzdarr[i]=$($(this).find("esri\\:"+sbsjzszd[i])[0]).text()
+                json += '"'+sbsjzszd[i]+'":"'+sbsjzdarr[i]+'",'
+              }
+              json.substring(0, json.lastIndexOf(','))
+              json +=	'"icon":" point-h"}},';
+            });
+
             json = json.substring(0, json.length - 1);
           }
 
-          json += ']';
+          json += "]";
           var fatures = JSON.parse(json);
 
           map.addLayer({
@@ -3603,6 +3611,29 @@ function addLayerWFS(obj, map) {
               'icon-size': 1,
               'icon-allow-overlap': true
             }
+          });
+          map.on(sbsj,layername, function(e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var properties = e.features[0].properties;
+            console.log(properties)
+            var sbtable='<div style="padding-top:10px"><table style="text-align: center;font-size:15px">'
+            var flag=0
+            for (var i = 0; i < sbsjzszd.length; i++) {
+              var sbsjzszdd=sbsjzszd[i]
+              if(flag==0){
+                flag=1;
+                sbtable+='<tr><td style="min-width: 50px;padding: 10px 30px;border: 1px solid #999;background-color: darkgray;">'+sbsjzszd[i]+':'+'</td>'+'<td style="border: 1px solid #999;background-color: darkgray;">'+properties[sbsjzszdd]+'</td>'+'</tr>'
+              }else{
+                flag=0;
+                sbtable+='<tr><td style="min-width: 50px;padding: 10px 30px;border: 1px solid #999;background-color:"#fff">'+sbsjzszd[i]+':'+'</td>'+'<td style="border: 1px solid #999;background-color: "#fff";>'+properties[sbsjzszdd]+'</td>'+'</tr>'
+              }
+
+            }
+            sbtable+='</table></div>'
+            new window.dmapgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(sbtable)
+                .addTo(map)
           });
         }
       });
