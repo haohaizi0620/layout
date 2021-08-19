@@ -9,6 +9,7 @@
 import request from './request';
 import serviceUrl from './serviceAPI.config';
 import Qs from 'qs';
+import typeObj from '../router/type';
 export function selectGetOneMainLayer(index) {
   return request(serviceUrl.selectGetOneMainLayer + '/' + index, { method: 'GET', mode: 'cors' });
 }
@@ -27,15 +28,30 @@ export function test() {
   });
 }
 var cptIndexarr=[];
-const deployPrev = "http://172.26.50.89/data/";
+let url;
+let deployPrev;
+let localPrev;
+if ("/data/" == typeObj.project){
+  deployPrev = "http://172.26.50.89/data/";
+  localPrev = "http://127.0.0.1:8080/data/";
+}else {
+  deployPrev = "http://172.26.50.89/share/";
+  localPrev = "http://127.0.0.1:8081/share/";
+}
+
+if (typeObj.issue){
+  url = deployPrev;
+}else {
+  url = localPrev;
+}
+/*const deployPrev = "http://172.26.50.89/data/";
 const localPrev = "http://127.0.0.1:8080/data/";
 
 const deploySharePrev = "http://172.26.50.89/share/";
 const localSharePrev = "http://127.0.0.1:8081/share/";
+const defaultSharePrev = deployPrev;*/
 
-const defaultPrev = deploySharePrev;
-
-const defaultSharePrev = deploySharePrev;
+const defaultPrev = url;
 
 
 export function getKSHChart(getKshObj) {
@@ -180,10 +196,14 @@ export function getShareById(shareID) {
   });
 }
 export function getSpecify(catalogId) {
-  //var schema = window.parent.document.getElementById("userName").innerHTML;
-  var url = window.location.href;
-  var par = url.substr(url.indexOf("sid=")+4,url.length);
-  var schema = par.substr(0,par.indexOf("_"));
+  var schema;
+  if ("/share/" == typeObj.project){
+    var url = window.location.href;
+    var par = url.substr(url.indexOf("sid=")+4,url.length);
+    schema = par.substr(0,par.indexOf("_"));
+  }else {
+    schema = window.parent.document.getElementById("userName").innerHTML
+  }
   return request({
     url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}&schema=${schema}`,
     method: 'get'
@@ -191,10 +211,14 @@ export function getSpecify(catalogId) {
 }
 
 export function getSpecifyGeojson(catalogId) {
-  //var schema = window.parent.document.getElementById("userName").innerHTML;
-  var url = window.location.href;
-  var par = url.substr(url.indexOf("sid=")+4,url.length);
-  var schema = par.substr(0,par.indexOf("_"));
+  var schema;
+  if ("/share/" == typeObj.project){
+    var url = window.location.href;
+    var par = url.substr(url.indexOf("sid=")+4,url.length);
+    schema = par.substr(0,par.indexOf("_"));
+  }else {
+    schema = window.parent.document.getElementById("userName").innerHTML
+  }
   return request({
     url: defaultPrev+`JSThematic?request=GetSpecify&id=${catalogId}&resultType=geojson&schema=${schema}`,
     method: 'get'
