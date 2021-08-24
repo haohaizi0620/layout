@@ -49,8 +49,8 @@
         top: -100%;
         .resizable-handler {
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 10px;
+            height: 10px;
             cursor: pointer;
             z-index: 1;
         }
@@ -67,10 +67,10 @@
 }
 
 .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.b {
-    margin-left: -7px;
+    margin-left: -5px;
 }
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
-    top: -7px;
+    top: -5px;
 }
 .fFutOK .t, .fFutOK .b {
     left: 50%;
@@ -82,10 +82,10 @@
 
 
 .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.r {
-    margin-top: -7px;
+    margin-top: -5px;
 }
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
-    left: -7px;
+    left: -5px;
 }
 .fFutOK .l, .fFutOK .r {
     top: 50%;
@@ -96,10 +96,10 @@
 }
 
 .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.b {
-    margin-left: -7px;
+    margin-left: -5px;
 }
 .fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
-    bottom: -7px;
+    bottom: -5px;
 }
 .fFutOK .t, .fFutOK .b {
     left: 50%;
@@ -111,10 +111,10 @@
 
 
 .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.r {
-    margin-top: -7px;
+    margin-top: -5px;
 }
 .fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
-    right: -7px;
+    right: -5px;
 }
 .fFutOK .l, .fFutOK .r {
     top: 50%;
@@ -125,10 +125,10 @@
 }
 
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
-    left: -7px;
+    left: -5px;
 }
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
-    top: -7px;
+    top: -5px;
 }
 .fFutOK .tl, .fFutOK .l, .fFutOK .bl {
     left: -3px;
@@ -139,10 +139,10 @@
 
 
 .fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
-    right: -7px;
+    right: -5px;
 }
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.t, .fFutOK .resizable-handler.tr {
-    top: -7px;
+    top: -5px;
 }
 .fFutOK .r, .fFutOK .tr, .fFutOK .br {
     right: -3px;
@@ -152,10 +152,10 @@
 }
 
 .fFutOK .resizable-handler.br, .fFutOK .resizable-handler.r, .fFutOK .resizable-handler.tr {
-    right: -7px;
+    right: -5px;
 }
 .fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
-    bottom: -7px;
+    bottom: -5px;
 }
 .fFutOK .r, .fFutOK .tr, .fFutOK .br {
     right: -3px;
@@ -166,10 +166,10 @@
 
 
 .fFutOK .resizable-handler.bl, .fFutOK .resizable-handler.b, .fFutOK .resizable-handler.br {
-    bottom: -7px;
+    bottom: -5px;
 }
 .fFutOK .resizable-handler.tl, .fFutOK .resizable-handler.l, .fFutOK .resizable-handler.bl {
-    left: -7px;
+    left: -5px;
 }
 .fFutOK .tl, .fFutOK .l, .fFutOK .bl {
     left: -3px;
@@ -248,7 +248,7 @@
     font-size: 30px;
     position: relative;
     /* background: #0a3f5f; */
-   
+
 }
 .item:hover{
     outline: 1px solid #18a6f9;
