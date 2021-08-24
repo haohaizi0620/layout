@@ -75,7 +75,7 @@ class FullScreen extends Component {
     return (
       <>
         {
-           UiData.map(item => {
+           UiData.map((item,index) => {
              let {icon,flag:FlagVal,setFlag} = item;
              if(flag === FlagVal){
               return (
@@ -85,6 +85,7 @@ class FullScreen extends Component {
                 }}  onClick={this.updateFullScreenState.bind(this,setFlag)}  />
               );
              }
+             return index;
            })
         }
       </>

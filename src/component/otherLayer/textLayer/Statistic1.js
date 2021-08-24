@@ -43,7 +43,7 @@ class Statistic1 extends Component {
 
 
         _this.timeClose = setInterval(() => {
-            let {dataSourceUrl, textCenter} = _this.props.layerData;
+            let {dataSourceUrl} = _this.props.layerData;
             if (dataSourceUrl) {
                 fetch(dataSourceUrl+ "?time=" + new Date().getTime()).then(response => response.json())
                     .then(data => this.setState({

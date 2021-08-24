@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import EditSimpleMainInfo from './proerttiesFile/EditSimpleMainInfo';
 
 import {
@@ -22,7 +22,7 @@ class Properties extends Component {
     super(props);
     //console.info("Properties...");
     let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
-    let cptType = cptBorderObj.cptType;
+    //let cptType = cptBorderObj.cptType;
     cptBorderObj = cptBorderObj.cptBorderObj;
     let {text:testLayer,media:mediaLayer,table:tableLayer,interaction,material:materialLayer} = otherDefaultData;
     let {default:textFieldObj} = testLayer;
@@ -2101,9 +2101,9 @@ class Properties extends Component {
       tempChart[4].childer[2].value = cptBorderObj.layerBorderColor;
       if (LayerType === "text") {
         if (dataObj) {
-          let {text:testLayer} = otherDefaultData;
-          let {default:textFieldObj} = testLayer;
-          let state = this.state;
+          //let {text:testLayer} = otherDefaultData;
+          //let {default:textFieldObj} = testLayer;
+          //let state = this.state;
           let {dataSourceUrl,backgroundColor,fontFamily,fontSize,fontColor,fontWeight,textAlign,writingMode,title,playSpeed,precision,prefix,suffix} = dataObj;
           if (otherLayerId === 'rollText'){
             tempLayer[0].childer[0].value = dataSourceUrl;
@@ -2429,8 +2429,9 @@ class Properties extends Component {
         fieldEname: 'bgImageIntegerUrl'
       },
     ];
-    deletePageBgs.map(item => {
+    deletePageBgs.map((item,index) => {
       this.propsParam(item);
+      return index;
     })
   }
 

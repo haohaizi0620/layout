@@ -24,7 +24,7 @@ class CurrentTime extends Component {
           this.year = date.getFullYear();
           this.month = date.getMonth() + 1;
           this.date = date.getDate();
-          this.day = new Array(
+          this.day = [
             "星期日",
             "星期一",
             "星期二",
@@ -32,7 +32,7 @@ class CurrentTime extends Component {
             "星期四",
             "星期五",
             "星期六"
-          )[date.getDay()];
+          ][date.getDay()];
           this.hour =
             date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
           this.minute =

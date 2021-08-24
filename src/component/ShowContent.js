@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\ShowContent.js
  */
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import './Content.scss';
 import TextLayer from "./otherLayer/TextLayer";
 import TableLayer from "./otherLayer/TableLayer";
@@ -16,6 +16,7 @@ import InteractionLayer from "./otherLayer/InteractionLayer";
 class Child1 extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   render() {
     var cptObj = this.props.cptObj;
@@ -31,9 +32,9 @@ class Child1 extends Component {
         style={{
           width: '100%',
           height: '100%',
-          borderWidth: cptType == 'singleBorder' ? layerData.borderWidth + "px" : '0px',
-          borderStyle: cptType == 'singleBorder' ? 'solid' : 'none',
-          borderImage: cptType == 'singleBorder' ? `url(${require("../img/" + layerData.borderImage)}) 30` : 'none'
+          borderWidth: cptType === 'singleBorder' ? layerData.borderWidth + "px" : '0px',
+          borderStyle: cptType === 'singleBorder' ? 'solid' : 'none',
+          borderImage: cptType === 'singleBorder' ? `url(${require("../img/" + layerData.borderImage)}) 30` : 'none'
         }}
       >
         {["text"].includes(LayerType) ? (
@@ -92,7 +93,7 @@ class Content extends Component {
     let globalBg = this.props.globalBg;
     var widths=document.body.clientWidth;
     var heights=document.body.clientHeight;
-    if (cptBorderObj.background != undefined) {
+    if (cptBorderObj.background !== undefined) {
       return (
         <div className="grid-item"
           style={{

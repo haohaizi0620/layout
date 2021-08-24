@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Collapse, Button, message, Tabs, Icon } from "antd";
-import { getAllZTT, getShareById, addOneLayer } from "../../api/api";
+import { Collapse, Button, message, Tabs } from "antd";
+import { getAllZTT, addOneLayer } from "../../api/api";
 import $ from 'jquery';
 import "./LeftComponentList.scss";
 const { Panel } = Collapse;
@@ -112,28 +112,28 @@ class LeftComponentList extends Component {
 
 
       if (updateState === 1) {
-        if (cptIndex == 0){
+        if (cptIndex === 0){
           message.info('已经到底了');
           return;
         }else if (cptIndex > 0){
           updateIndex = cptIndex - 1;
         }
       } else if (updateState === -1) {
-        if (cptIndex == maxIndex){
+        if (cptIndex === maxIndex){
           message.info('已经到顶了');
           return;
         }else if (cptIndex<maxIndex){
           updateIndex = cptIndex + 1;
         }
       } else if (updateState === "top") {
-        if (cptIndex == maxIndex){
+        if (cptIndex === maxIndex){
           message.info('已经到顶了');
           return;
         }else if (cptIndex<maxIndex){
           updateIndex = maxIndex;
         }
       } else if (updateState === "bottom") {
-        if (cptIndex == 0){
+        if (cptIndex === 0){
           message.info('已经到底了');
           return;
         }else if (cptIndex > 0){
@@ -181,19 +181,19 @@ class LeftComponentList extends Component {
   isAddLayer(thisThType, vVal) {
     let cptChartIdList = this.props.cptChartIdList;
     let isExist = false; //图层是否已存在，默认不存在
-    cptChartIdList.map(item => {
+    cptChartIdList.map((item,index) => {
       let layerObj = item.layerObj;
       let thType = layerObj.thType;
       if (
-        (thisThType == thType && thType == "0" && vVal == layerObj.id) ||
-        (thisThType == thType &&
-          thType == "1" &&
-          vVal ==
-          layerObj.service + "；" + layerObj.layername + "；" + layerObj.name)
+        (thisThType === thType && thType === "0" && vVal === layerObj.id) ||
+        (thisThType === thType &&
+          thType === "1" &&
+          vVal === layerObj.service + "；" + layerObj.layername + "；" + layerObj.name)
       ) {
         //图表
         isExist = true;
       }
+      return index;
     });
     return isExist;
   }
@@ -203,9 +203,9 @@ class LeftComponentList extends Component {
     let pageLayerObj = this.state.nameData;
     let thType = layerObj.thType;
     let vVal = "-1";
-    if (thType == "0") {
+    if (thType === "0") {
       vVal = layerObj.id;
-    } else if (thType == "1") {
+    } else if (thType === "1") {
       vVal =
         layerObj.service + "；" + layerObj.layername + "；" + layerObj.name;
     }
@@ -271,7 +271,7 @@ class LeftComponentList extends Component {
     return typeShow;
   }
   render() {
-    let { tabKeys, cptIndex, ComponentList: listData, componentData, left, top, moveBottom } = this.state;
+    let { tabKeys, cptIndex, ComponentList: listData, componentData, moveBottom } = this.state;
     return (
       <div className="custom-left-list">
         <div className="custom-left-list-tools">
@@ -279,8 +279,8 @@ class LeftComponentList extends Component {
         </div>
         <div className="custom-left-list-p">
           <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs}>
-            {tabKeys.map(item => {
-              if (item.serialNumber == 1) {
+            {tabKeys.map((item,index) => {
+              if (item.serialNumber === 1) {
                 return (
                   <TabPane
                     tab={
@@ -295,7 +295,7 @@ class LeftComponentList extends Component {
                           <Panel header={bigDataItem.service.name} key={bigIndex}>
                             {bigDataItem.data.map((item, index) => {
                               let img = 'img/emp/none.png', name = '未识别类型图表';
-                              if (item.thType == '1') {
+                              if (item.thType === '1') {
                                 name = this.selectType(item.renderer);
                                 item.type = name;
                               }
@@ -458,11 +458,12 @@ class LeftComponentList extends Component {
                                 case "timeslider":
                                   img = "img/emp/timeslider.png";
                                   break;
-
+                                default:
+                                    img = "img/emp/wms_yibandianyangshi.png";
                               }
                               return (
                                 <div className="showLayerName">
-                                  <img className="showLayerName" src={'../' + img} title={name}></img>
+                                  <img className="showLayerName" alt={name} src={'../' + img} title={name}></img>
                                   <div onClick={this.onClickAdd.bind(this, item)} title={item.name}>
                                     {item.name}
                                   </div>
@@ -490,7 +491,7 @@ class LeftComponentList extends Component {
                     </div>
                     <div className="move-button">
                       {
-                        moveBottom.map(item => {
+                        moveBottom.map((item,layerIndex) => {
                           return (
                             <Button
                               size="small"
@@ -501,6 +502,7 @@ class LeftComponentList extends Component {
                               {item.cname}
                             </Button>
                           )
+                          //return layerIndex;
                         })
                       }
                     </div>

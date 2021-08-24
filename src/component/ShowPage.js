@@ -11,10 +11,10 @@ import ShowContent from "./ShowContent";
 import store from "../redux/store";
 import { replaceGlobalBg } from "../redux/actions/showLayerDatas";
 import cptIndexarr2 from "./layout.js";
-import { Button } from "antd";
+//import { Button } from "antd";
 import "antd/dist/antd.css";
 import "../css/ShowPage.css";
-import { useParams, useLocation } from "react-router-dom";
+//import { useParams, useLocation } from "react-router-dom";
 import {
   getShareById,
   getKSHChart,
@@ -23,8 +23,8 @@ import {
   getShareCells
 } from "../api/api";
 import { showChartsOption } from "../utils/chart";
-import axios from "axios";
-import Qs from "qs";
+//import axios from "axios";
+//import Qs from "qs";
 var aaaarr=[];
 // import  chartOption from "../utils/chart";
 class ShowPage extends Component {
@@ -74,7 +74,7 @@ class ShowPage extends Component {
       for (var i = 0; i < arrPara.length; i++) {
         arr = arrPara[i].split("=");
 
-        if (arr != null && arr[0] == paraName) {
+        if (arr !== null && arr[0] === paraName) {
           return arr[1];
         }
       }
@@ -108,14 +108,14 @@ class ShowPage extends Component {
     //console.log(document.cookie);
     getShareObj({ sid: sidVal })
       .then(result => {
-        if (result.count == 1) {
+        if (result.count === 1) {
           var tempData = JSON.parse(result.data);
           let tempCptKeyList = [];
           let tempCptPropertyList = [];
           let tempCptChartIdList = [];
           let timeKey = new Date().getTime().toString();
           // console.log(result.issingletable)
-          if (result.issingletable == 1) {
+          if (result.issingletable === 1) {
             if (tempData && tempData.length > 0) {
               // var newList = _this.formatList(list);
               tempData.map((item, index, layerIndex) => {
@@ -147,6 +147,7 @@ class ShowPage extends Component {
                 });
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);
+                return index;
               });
 
               _this.setState(
@@ -188,7 +189,7 @@ class ShowPage extends Component {
                   sortNum: sortNumChart,
                   cptIndex: cptIndexs,
                 };
-                if (tempLayerPosition != "") {
+                if (tempLayerPosition !== "") {
                   tempLayerPosition = JSON.parse(tempLayerPosition);
                 } else {
                   tempLayerPosition = JSON.parse(
@@ -204,6 +205,7 @@ class ShowPage extends Component {
                 });
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);
+                return index;
               });
             }
             getShareCells({ shareid: result.id })
@@ -222,7 +224,7 @@ class ShowPage extends Component {
                     let layerIndexs = layerIndex;
                     let layerJsonObj = JSON.parse(layerItem.celljson);
                     let mainKey = layerItem.ID;
-                    if (layerType == "bg") {
+                    if (layerType === "bg") {
                       //layerJsonObj.mainKey = mainKey;
                       //bgObj = layerJsonObj;
                       bgObj = {
@@ -248,7 +250,7 @@ class ShowPage extends Component {
                         sortNum: sinSoreNum,
                         layerIndexs: layerIndexs
                       };
-                      if (!positionObj && positionObj == "") {
+                      if (!positionObj && positionObj === "") {
                         positionObj = JSON.parse(
                           `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerItem.CELLNAME}"}`
                         );
@@ -263,6 +265,7 @@ class ShowPage extends Component {
                       tempCptPropertyList.push(positionObj);
                       tempCptChartIdList.push(tempCptChartObj);
                     }
+                    return layerIndex;
                   });
                   store.dispatch(replaceGlobalBg(bgObj));
                   _this.setState(
@@ -360,6 +363,7 @@ class ShowPage extends Component {
         tempCptKeyList.push({ key: timeKey, id: item.layername, title: item.name, layerType: item.thType, sortNum: sortNumChart });
         tempCptPropertyList.push(tempLayerPosition);
         tempCptChartIdList.push(tempCptChartObj);
+        return index;
       })
       let resultData = otherData.list
       if (resultData && resultData.length > 0) {
@@ -411,6 +415,7 @@ class ShowPage extends Component {
             tempCptPropertyList.push(positionObj);
             tempCptChartIdList.push(tempCptChartObj);
           }
+          return layerIndex;
         })
         /*if(!bgObj.hasOwnProperty("bgColor")){
               bgObj = {

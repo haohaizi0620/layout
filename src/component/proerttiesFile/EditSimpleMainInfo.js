@@ -10,13 +10,13 @@ import {
   Slider,
   Col,
   Row,
-  Tooltip,
-  Icon,
-  Cascader,
+  //Tooltip,
+  //Icon,
+  //Cascader,
   Select,
-  Checkbox,
-  Button,
-  AutoComplete,
+  //Checkbox,
+  //Button,
+  //AutoComplete,
   Switch
 } from 'antd';
 import 'antd/dist/antd.css';
@@ -88,8 +88,8 @@ class EditSimpleMainInfo extends Component {
     }
 
       //排除不播放属性
-      if (showData.length == 2&&(showData[1].ename == 'dataSourceUrlFlag'||showData[1].ename == 'titleFlag'||showData[1].ename == 'playFlag'||showData[1].ename == 'precisionFlag'||showData[1].ename == 'prefixFlag'||showData[1].ename == 'suffixFlag')){
-          if (showData[1].value == false){
+      if (showData.length === 2&&(showData[1].ename === 'dataSourceUrlFlag'||showData[1].ename === 'titleFlag'||showData[1].ename === 'playFlag'||showData[1].ename === 'precisionFlag'||showData[1].ename === 'prefixFlag'||showData[1].ename === 'suffixFlag')){
+          if (showData[1].value === false){
               return false;
           }else{
               oneClassName = "pro-item-single";
@@ -103,7 +103,7 @@ class EditSimpleMainInfo extends Component {
         <Col span={defaultTwoColVal}>
           {showData.map((item, i) => {
             let itemType = item.type;
-            if (itemType == 'InputNumber') {
+            if (itemType === 'InputNumber') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}  >
                    <span className="pro-item-simple-close" >{item.ename}</span>
@@ -164,7 +164,7 @@ class EditSimpleMainInfo extends Component {
                   </div>
                 </div>
               );
-            } else if (itemType == 'Color') {
+            } else if (itemType === 'Color') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <ReactColor
@@ -174,7 +174,7 @@ class EditSimpleMainInfo extends Component {
                   />
                 </div>
               );
-            } else if (itemType == 'ImageUploading') {
+            } else if (itemType === 'ImageUploading') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <div
@@ -209,7 +209,7 @@ class EditSimpleMainInfo extends Component {
                   </div>
                 </div>
               );
-            } else if (itemType == 'Input') {
+            } else if (itemType === 'Input') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <Input
@@ -223,7 +223,7 @@ class EditSimpleMainInfo extends Component {
                   />
                 </div>
               );
-            } else if (itemType == 'Select') {
+            } else if (itemType === 'Select') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <Select
@@ -244,7 +244,7 @@ class EditSimpleMainInfo extends Component {
                       let bgImg =  optionItem.src,icon = optionItem.icon;
                       return <Option value={optionItem.value}  key={optionIndex}  >
                                 {
-                                  bgImg?<img  width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
+                                  bgImg?<img alt="" width="30" height="20"  src={require('../../img/'+bgImg)}   />:null
                                 }
                                 {
                                   icon?<FontAwesomeIcon icon={icon} style={{width:"16px",height:"16px",margin:"0 4px"}} color="rgba(10,115,255,1)"/>:null
@@ -256,7 +256,7 @@ class EditSimpleMainInfo extends Component {
                   </Select>
                 </div>
               );
-            } else if (itemType == 'Switch') {
+            } else if (itemType === 'Switch') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <Switch
@@ -266,7 +266,7 @@ class EditSimpleMainInfo extends Component {
                     checked={item.value}/>
                 </div>
               );
-            } else if (itemType == 'TextArea') {
+            } else if (itemType === 'TextArea') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <TextArea
@@ -278,7 +278,7 @@ class EditSimpleMainInfo extends Component {
                   />
                 </div>
               );
-            } else if (itemType == 'JsonShow') {
+            } else if (itemType === 'JsonShow') {
               return (
                 <div key={i} className={oneClassName+' pro-item-simple'}>
                   <pre style={{ maxHeight: '200px', outline: '1px solid white' }}>
@@ -286,7 +286,7 @@ class EditSimpleMainInfo extends Component {
                   </pre>
                 </div>
               );
-            } else if(itemType == "EditJsonReactAjrm"){
+            } else if(itemType === "EditJsonReactAjrm"){
               let isEdit = item.isEdit;
               let editJsonId = 'edit-json-react-ajrm-edit'
               if(!isEdit){
@@ -315,6 +315,7 @@ class EditSimpleMainInfo extends Component {
                 </div>
               );
             }
+            return i;
           })}
         </Col>
       </Row>

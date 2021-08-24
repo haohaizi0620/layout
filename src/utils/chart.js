@@ -7,14 +7,14 @@
  * @FilePath: \layout\src\utils\chart.js
  */
 import store from '../redux/store';
-import { getSpecify, getMapDataWFS, getRecursionMap, getSpecifyGeojson } from '../api/api';
+import { getSpecify, getSpecifyGeojson } from '../api/api';
 import { addCptOptionsList, editCptOptionsList } from '../redux/actions/showLayerDatas';
 import $ from 'jquery';
 import { getDefaultLayerData } from './globalAPI';
 import index from "styled-components/dist/styled-components-macro.esm";
-import React from "react";
-import { isGetAccessor } from 'typescript';
-import { configConsumerProps } from 'antd/lib/config-provider';
+//import React from "react";
+//import { isGetAccessor } from 'typescript';
+//import { configConsumerProps } from 'antd/lib/config-provider';
 import typeObj from '../router/type';
 let chartTestData = require('../datasource/chartTestData.json');
 const chartData = require('../datasource/chartDatas.json');
@@ -40,7 +40,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
   if (arr) {
     arr
       .forEach(function (e, item) {
-        if (e == timeKey) {
+        if (e === timeKey) {
           flag = true;
           return false;
         }
@@ -76,7 +76,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
         }
       } else if ("1" === thType) { //wms或wfs
         let mapObj = mapObjArr[_this.state.cptIndex]
-        if (mapObj && mapObj.layerId == timeKey) {
+        if (mapObj && mapObj.layerId === timeKey) {
           if (chartState === "update") { } else {
             if (mapObj.layerMap) {
               mapObj
@@ -91,11 +91,12 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
     let defaultCharts = ["chart", "map", "chartMap", "0", "1"]
     let layerType = "chart";
     let chartId = 101;
-    chartData.map(item => {
+    chartData.map((item,index) => {
       if (item.id === chartName) {
         layerType = item.layerType;
         chartId = item.chartId;
       }
+      return index;
     })
     if (!flag) {
       if (!defaultCharts.includes(layerType)) {
@@ -108,7 +109,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
       } else {
         let tempIndex = Math.ceil(Math.random() * 3) - 1;
         var data = chartTestData[tempIndex];
-        var a, map;
+        var map;
         if (layerType === "map" || layerType === "chartMap") {
           store.dispatch(addCptOptionsList(chartId, []))
           map = new window.dmapgl.Map({
@@ -141,7 +142,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
             });
           });
         } else if (layerType === "chart") {
-          a = new window.dmapgl.commonlyCharts(timeKey, { data: data });
+          new window.dmapgl.commonlyCharts(timeKey, { data: data });
           store.dispatch(addCptOptionsList(chartId, data))
         }
         arr.push(timeKey);
@@ -159,7 +160,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
 
         if (layerType === "chart") {
           let tempThisObj = document.getElementById(timeKey);
-          var e_instance = tempThisObj.getAttribute("_echarts_instance_");
+          e_instance = tempThisObj.getAttribute("_echarts_instance_");
           if (chartState === "update") {
             new window.dmapgl.commonlyCharts(timeKey, { data: newOptions });
           } else {
@@ -207,7 +208,7 @@ export function showChartsOption(chartsList, keyList) {
       let layerType = item.thType;
       let chartId = item.chartId;
       let layerData = item.layerData;
-      let type2 = item.layerObj.type2;
+      //let type2 = item.layerObj.type2;
       let timeKey = item.timeKey.toString();
       //console.log(timeKey)
       let map = {};
@@ -228,7 +229,7 @@ export function showChartsOption(chartsList, keyList) {
          * THEMEDASHBOARD (仪表盘）
          * THEMEHSANDIAN_CHART（散点图）
         */
-        if ('THEMEPIE_CHART' == type1) {
+        if ('THEMEPIE_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -245,7 +246,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMERADAR_CHART' == type1) {
+        else if ('THEMERADAR_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -263,7 +264,7 @@ export function showChartsOption(chartsList, keyList) {
           }).catch(e => console.log("error", e));
 
         }
-        else if ('THEMERING_CHART' == type1) {
+        else if ('THEMERING_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -281,7 +282,7 @@ export function showChartsOption(chartsList, keyList) {
           }).catch(e => console.log("error", e));
 
         }
-        else if ('THEMELINE_CHART' == type1) {
+        else if ('THEMELINE_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -298,9 +299,9 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEHISTOGRAM' == type1||
-                 'xiangxingzhutu' ==type1||
-                 'dongtaizhutu'==type1) {
+        else if ('THEMEHISTOGRAM' === type1||
+                 'xiangxingzhutu' === type1||
+                 'dongtaizhutu'=== type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -317,7 +318,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEFUNNEL_CHART' == type1) {
+        else if ('THEMEFUNNEL_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -334,7 +335,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEPYRAMID_CHART' == type1) {
+        else if ('THEMEPYRAMID_CHART' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -351,7 +352,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEDASHBOARD' == type1) {
+        else if ('THEMEDASHBOARD' === type1) {
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -368,7 +369,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEHSANDIAN_CHART' == type1) {
+        else if ('THEMEHSANDIAN_CHART' === type1) {
 
           getSpecify(chartId).then(function (result) {
             if (result.data) {
@@ -386,19 +387,19 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('THEMEPIE' == type1 ||
-          'THEMEBAR' == type1 ||
-          'THEMECIRCULAR' == type1 ||
-          'THEMECIRCLE' == type1 ||
-          'THEMEHALFCIRCLE' == type1 ||
-          'THEMEFAN' == type1 ||
-          'THEMEGRID' == type1 ||
-          'THEMEFANGW' == type1 ||
-          'THEMEHALFCIRCLEGW' == type1 ||
-          'THEMECIRCLEGW' == type1 ||
-          'THEMESCATTER' == type1 ||
-          'THEMEOD' == type1 ||
-          'RLTLayer' == type1) {
+        else if ('THEMEPIE' === type1 ||
+          'THEMEBAR' === type1 ||
+          'THEMECIRCULAR' === type1 ||
+          'THEMECIRCLE' === type1 ||
+          'THEMEHALFCIRCLE' === type1 ||
+          'THEMEFAN' === type1 ||
+          'THEMEGRID' === type1 ||
+          'THEMEFANGW' === type1 ||
+          'THEMEHALFCIRCLEGW' === type1 ||
+          'THEMECIRCLEGW' === type1 ||
+          'THEMESCATTER' === type1 ||
+          'THEMEOD' === type1 ||
+          'RLTLayer' === type1) {
           /*
            * 专题地图图表
            * THEMEPIE（饼状图）
@@ -457,7 +458,7 @@ export function showChartsOption(chartsList, keyList) {
           }).catch(e => console.log("error", e));
 
 
-        } else if ('RESULTMAP' == type1) {//复合图
+        } else if ('RESULTMAP' === type1) {//复合图
           getSpecify(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -496,7 +497,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
 
-        } if ('3DLINES' == type1) {//炫光线
+        } if ('3DLINES' === type1) {//炫光线
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -553,9 +554,9 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
         }
-        else if ('3DBAR' == type1 ||
-          'GRID' == type1 ||
-          'COLORSCALE' == type1) {//3D柱、网格、等级颜色
+        else if ('3DBAR' === type1 ||
+          'GRID' === type1 ||
+          'COLORSCALE' === type1) {//3D柱、网格、等级颜色
 
           getSpecifyGeojson(chartId).then(function (result) {
             //console.log(result)
@@ -583,11 +584,11 @@ export function showChartsOption(chartsList, keyList) {
               map.on('load', function () {
                 addSKY(map);
                 if (result && result[0]) {
-                  if ('3DBAR' == type1) {
+                  if ('3DBAR' === type1) {
                     new window.dmapgl.Bar(result[0], map, timeKey);
-                  } else if ('GRID' == type1) {
+                  } else if ('GRID' === type1) {
                     new window.dmapgl.Grid(result[0], map, timeKey);
-                  } else if ('COLORSCALE' == type1) {
+                  } else if ('COLORSCALE' === type1) {
                     new window.dmapgl.Grade(result[0], map, timeKey);
                     console.log(new window.dmapgl.Grade(result[0], map, timeKey))
                   }
@@ -603,7 +604,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
 
-        } else if ('PointRLLayer' == type1) {
+        } else if ('PointRLLayer' === type1) {
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -640,7 +641,7 @@ export function showChartsOption(chartsList, keyList) {
 
           }).catch(e => console.log("error", e));
 
-        } else if (type1 == "3Dheatmap") {
+        } else if (type1 === "3Dheatmap") {
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -684,8 +685,8 @@ export function showChartsOption(chartsList, keyList) {
                 var showfield = data[0].myLegend.result[0].itemStyle.showfield;
                 var showfieldarr = showfield.split(",");
                 var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
-                var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
-                var fontcolor = data[0].myLegend.result[0].itemStyle.legendColor;
+                //var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
+                //var fontcolor = data[0].myLegend.result[0].itemStyle.legendColor;
 
                 const layer = new window.L7.HeatmapLayer({});
                 // var times = [];
@@ -695,7 +696,7 @@ export function showChartsOption(chartsList, keyList) {
                 //   times.push(d.properties.时间);
                 //   return d;
                 // });
-                if ("classicHeatType" == type) {//经典热力图
+                if ("classicHeatType" === type) {//经典热力图
                   var intensity = data[0].myLegend.result[0].itemStyle.intensity;
                   var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
                   layer.source(sourcedata)
@@ -720,7 +721,7 @@ export function showChartsOption(chartsList, keyList) {
                   scene.addLayer(layer);
                   var str = '<div style="height: 30px;background-image: linear-gradient(to right,' + data[0].myLegend.result[0].itemStyle.tubysfa + ');"></div>'
                   $("#tulidiv").append(str);
-                } else if ("honeycombHeatType" == type) {//蜂窝热力图
+                } else if ("honeycombHeatType" === type) {//蜂窝热力图
                   var coverage = data[0].myLegend.result[0].itemStyle.coverage;
                   var angle = data[0].myLegend.result[0].itemStyle.angle;
                   var valandcolors = data[0].myLegend.result[0].itemStyle.color;
@@ -753,19 +754,19 @@ export function showChartsOption(chartsList, keyList) {
                           var color = valandcolor[i].split("-")[2];
                           if (v > minval && v <= maxval) {
                             return color;
-                          } else if (v == maxval) {
+                          } else if (v === maxval) {
                             return color;
                           }
                         }
                       }
                     );
-                  var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
-                  var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
-                  var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
-                  var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
+                  //var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
+                  //var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
+                  //var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
+                  //var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
                   //图例
                   layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-                    if (ev.feature == 'null') {
+                    if (ev.feature === 'null') {
                       return false;
                     }
                     var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -784,10 +785,10 @@ export function showChartsOption(chartsList, keyList) {
                     scene.addPopup(popup);
                   });
                   scene.addLayer(layer);
-                } else if ("gridHeatType" == type) {//网格热力图
-                  var coverage = data[0].myLegend.result[0].itemStyle.coverage;
-                  var angle = data[0].myLegend.result[0].itemStyle.angle;
-                  var valandcolors = data[0].myLegend.result[0].itemStyle.color;
+                } else if ("gridHeatType" === type) {//网格热力图
+                  coverage = data[0].myLegend.result[0].itemStyle.coverage;
+                  angle = data[0].myLegend.result[0].itemStyle.angle;
+                  valandcolors = data[0].myLegend.result[0].itemStyle.color;
                   layer.source(sourcedata, {
                     transforms: [
                       {
@@ -820,19 +821,19 @@ export function showChartsOption(chartsList, keyList) {
                           var color = valandcolor[i].split("-")[2];
                           if (v >= minval && v < maxval) {
                             return color;
-                          } else if (v == maxval) {
+                          } else if (v === maxval) {
                             return color;
                           }
                         }
                       }
                     );
-                  var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
-                  var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
-                  var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
-                  var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
+                  //var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
+                  //var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
+                  //var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
+                  //var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
                   //图例
                   layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-                    if (ev.feature == 'null') {
+                    if (ev.feature === 'null') {
                       return false;
                     }
                     var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -860,7 +861,7 @@ export function showChartsOption(chartsList, keyList) {
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
           }).catch(e => console.log("error", e));
-        } else if (type1 == "qipao") {//气泡图
+        } else if (type1 === "qipao") {//气泡图
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -901,16 +902,16 @@ export function showChartsOption(chartsList, keyList) {
                 var showfield = data[0].myLegend.result[0].itemStyle.showfield;
                 var showfieldarr = showfield.split(",");
                 var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
-                var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
-                var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
+                //var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
+                //var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
                 var animate = data[0].myLegend.result[0].itemStyle.animate;
                 var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-                if (animate == "true") {
+                if (animate === "true") {
                   animate = true;
                 } else {
                   animate = false;
                 }
-                var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+                //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
                 const pointLayer = new window.L7.PointLayer({})
                   .source(sourcedata)
                   .shape('circle')
@@ -923,7 +924,7 @@ export function showChartsOption(chartsList, keyList) {
                       var color = valandcolor[i].split("-")[2];
                       if (v >= minval && v < maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
@@ -962,7 +963,7 @@ export function showChartsOption(chartsList, keyList) {
           }).catch(e => console.log("error", e));
 
         }
-        else if (type1 == "juhe") {//聚合图
+        else if (type1 === "juhe") {//聚合图
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1021,7 +1022,7 @@ export function showChartsOption(chartsList, keyList) {
                       var color = valandcolor[i].split("-")[2];
                       if (v >= minval && v < maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
@@ -1031,12 +1032,12 @@ export function showChartsOption(chartsList, keyList) {
                     strokeWidth: parseFloat(strokewidth),
                   });
                 //图例
-                var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
-                var fontcolor = data[0].myLegend.result[0].itemStyle.legendFontColor;
-                var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
-                var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
-                var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
-                var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
+                //var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
+                //var fontcolor = data[0].myLegend.result[0].itemStyle.legendFontColor;
+                //var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
+                //var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
+                //var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
+                //var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
                 scene.addLayer(pointLayer);
               })
             }
@@ -1049,7 +1050,7 @@ export function showChartsOption(chartsList, keyList) {
             window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
 
-        } else if ('3DARC' == type1) {//3D弧形图
+        } else if ('3DARC' === type1) {//3D弧形图
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1120,7 +1121,7 @@ export function showChartsOption(chartsList, keyList) {
                 var shape = data[0].myLegend.result[0].itemStyle.shape;
                 var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
                 var showfield = data[0].myLegend.result[0].itemStyle.showfield;
-                var field = data[0].myLegend.result[0].legendPosition.split(";")[0];
+                //var field = data[0].myLegend.result[0].legendPosition.split(";")[0];
                 var showfieldarr = showfield.split(",");
                 var animate = data[0].myLegend.result[0].itemStyle.animate;
 								var flowgrap = data[0].myLegend.result[0].itemStyle.flowgrap;
@@ -1132,7 +1133,7 @@ export function showChartsOption(chartsList, keyList) {
                   .style({
                     opacity: parseInt(opacity)
                   });
-                  if (animate == "true") {
+                  if (animate === "true") {
                     var duration = data[0].myLegend.result[0].itemStyle.duration;
                     var interval = data[0].myLegend.result[0].itemStyle.interval;
                     var trailLength = data[0].myLegend.result[0].itemStyle.trailLength;
@@ -1162,7 +1163,7 @@ export function showChartsOption(chartsList, keyList) {
 
                 });
                 scene.addLayer(layer);
-                if(flowgrap=="true"){//流向图
+                if(flowgrap === "true"){//流向图
 									//点数据source
 									var pointsourcedata = {};
 									pointsourcedata.type = "FeatureCollection";
@@ -1201,7 +1202,7 @@ export function showChartsOption(chartsList, keyList) {
             store.dispatch(editCptOptionsList(tempOptionObj));
 
           }).catch(e => console.log("error", e));
-        } else if ('路径动画' == type1) {//路径动画
+        } else if ('路径动画' === type1) {//路径动画
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1232,13 +1233,13 @@ export function showChartsOption(chartsList, keyList) {
                 }),
               });
 
-              var data = result;
+              //var data = result;
               scene.on('loaded', function () {
                 var data = result;
                 var sourcedata = data[0].myMapTable;
                 var field = data[0].myLegend.result[0].fieldName;
 
-                var opacity = data[0].myLegend.result[0].itemStyle.opacity;
+                //var opacity = data[0].myLegend.result[0].itemStyle.opacity;
                 var linewidth = data[0].myLegend.result[0].itemStyle.linewidth;
                 var lineheight = data[0].myLegend.result[0].itemStyle.lineheight;
                 var showfield = data[0].myLegend.result[0].itemStyle.showfield;
@@ -1260,7 +1261,7 @@ export function showChartsOption(chartsList, keyList) {
                   .style({
                     lineType: lineType,
                   })
-                if (animate == "true") {
+                if (animate === "true") {
                   animate = true;
                   layer.animate({
                     interval: parseInt(interval), // 间隔
@@ -1271,7 +1272,7 @@ export function showChartsOption(chartsList, keyList) {
                   animate = false;
                 }
                 layer.on(mouseevent, ev => {
-                  if (ev.feature == 'null') {
+                  if (ev.feature === 'null') {
                     return false;
                   }
                   var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -1303,7 +1304,7 @@ export function showChartsOption(chartsList, keyList) {
             store.dispatch(editCptOptionsList(tempOptionObj));
 
           }).catch(e => console.log("error", e));
-        } else if ('等值线图' == type1) {//等值线图
+        } else if ('等值线图' === type1) {//等值线图
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1334,7 +1335,7 @@ export function showChartsOption(chartsList, keyList) {
                 }),
               });
 
-              var data = result;
+              //var data = result;
               scene.on('loaded', function () {
                 var data = result;
                 var sourcedata = data[0].myMapTable;
@@ -1345,7 +1346,7 @@ export function showChartsOption(chartsList, keyList) {
                 var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
                 var linewidth = data[0].myLegend.result[0].itemStyle.linewidth;
                 var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-                var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+                //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
                 const layer = new window.L7.LineLayer()
                   .source(sourcedata)
                   .scale(field, {
@@ -1365,13 +1366,13 @@ export function showChartsOption(chartsList, keyList) {
                       var color = valandcolor[i].split("-")[2];
                       if (v > minval && v <= maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
                   });
                 layer.on(mouseevent, ev => {
-                  if (ev.feature == 'null') {
+                  if (ev.feature === 'null') {
                     return false;
                   }
                   var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -1407,7 +1408,7 @@ export function showChartsOption(chartsList, keyList) {
             store.dispatch(editCptOptionsList(tempOptionObj));
 
           }).catch(e => console.log("error", e));
-        } else if (type1 == "liangdutu") {
+        } else if (type1 === "liangdutu") {
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1432,7 +1433,7 @@ export function showChartsOption(chartsList, keyList) {
 
               var times = [];
               var groupfield = result[0].myLegend.result[0].itemStyle.groupfield;
-              var timelidertime = result[0].myLegend.result[0].itemStyle.timelidertime;
+              //var timelidertime = result[0].myLegend.result[0].itemStyle.timelidertime;
               result.features = result[0].myMapTable.features.map(function (d) {
                 /*times.push(d.properties.时间);*/
                 times.push(d.properties[groupfield]);
@@ -1461,12 +1462,12 @@ export function showChartsOption(chartsList, keyList) {
 
                 //  var animate = data[0].myLegend.result[0].itemStyle.animate;
                 var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-                /* if (animate == "true") {
+                /* if (animate === "true") {
                      animate = true;
                  } else {
                      animate = false;
                  }*/
-                var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+                //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
                 const layer = new window.L7.PointLayer({})
                   .source(sourcedata)
                   .shape('dot')
@@ -1480,7 +1481,7 @@ export function showChartsOption(chartsList, keyList) {
                       var color = valandcolor[i].split("-")[2];
                       if (v >= minval && v < maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
@@ -1490,7 +1491,7 @@ export function showChartsOption(chartsList, keyList) {
                   });
 
                 layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-                  if (ev.feature == 'null') {
+                  if (ev.feature === 'null') {
                     return false;
                   }
                   var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -1518,7 +1519,7 @@ export function showChartsOption(chartsList, keyList) {
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
           }).catch(e => console.log("error", e));
-        } else if (type1 == "timeslider") {
+        } else if (type1 === "timeslider") {
           getSpecifyGeojson(chartId).then(function (result) {
             if (result.data) {
               console.log("接口没有数据")
@@ -1549,16 +1550,16 @@ export function showChartsOption(chartsList, keyList) {
               map.on('load', function () {
                 addSKY(map);
                 var data = result;
-                var sourcedata = data[0].myMapTable;
+                //var sourcedata = data[0].myMapTable;
                 var field = data[0].myLegend.result[0].fieldName;
 
-                var radius = data[0].myLegend.result[0].itemStyle.radius;
+                //var radius = data[0].myLegend.result[0].itemStyle.radius;
                 var opacity = data[0].myLegend.result[0].itemStyle.opacity;
-                var showfield = data[0].myLegend.result[0].itemStyle.showfield;
-                var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
+                //var showfield = data[0].myLegend.result[0].itemStyle.showfield;
+                //var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
 
-                var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-                var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+                //var valandcolors = data[0].myLegend.result[0].itemStyle.color;
+                //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
                 var times = [];
 
                 data.features = data[0].myMapTable.features.map(function (d) {
@@ -1650,9 +1651,9 @@ export function showChartsOption(chartsList, keyList) {
           let dataShowVal = data.show;
           // let parentDom = window.parent.document;
           // let dataShow = parentDom.getElementById("dataShow").contentWindow;
-          if (dataShowVal == "1") {
+          if (dataShowVal === "1") {
             addLayerWFS(data, map);
-          } else if (dataShowVal == "2") {
+          } else if (dataShowVal === "2") {
             addLayerWMS(data, map);
           }
           /*getSpecify(chartId).then(result => {
@@ -1799,13 +1800,13 @@ export function showChartsOption(chartsList, keyList) {
             tempSaveObj = {
               decorateImage,
             }
-          } else if (layerId == "singleIcon") {
+          } else if (layerId === "singleIcon") {
             let { iconImage, iconColor } = layerData;
             tempSaveObj = {
               iconImage,
               iconColor
             }
-          } else if (layerId == "singleLiquid") {
+          } else if (layerId === "singleLiquid") {
             let { textCenter, url, format, font, liquid } = layerData;
             let { size, color } = font;
             let { fill, stroke, lineWidth } = liquid;
@@ -1825,8 +1826,8 @@ export function showChartsOption(chartsList, keyList) {
                 lineWidth
               }
             }
-          } else if (layerId == "singleGauge") {
-            let { textCenter, url, percent, font, gauge } = layerData;
+          } else if (layerId === "singleGauge") {
+            let { textCenter, url, font, gauge } = layerData;
             let { size, color } = font;
             let { beginColor, endColor } = gauge;
             tempSaveObj = {
@@ -1843,7 +1844,7 @@ export function showChartsOption(chartsList, keyList) {
                 endColor
               }
             }
-          } else if (layerId == "singleRingProgress") {
+          } else if (layerId === "singleRingProgress") {
             let { textCenter, url, format, font, ringProgress } = layerData;
             let { size, color } = font;
             let { radius, innerRadius, fill, stroke, lineWidth } = ringProgress;
@@ -1865,7 +1866,7 @@ export function showChartsOption(chartsList, keyList) {
                 lineWidth
               }
             }
-          } else if (layerId == "singleBarProgress") {
+          } else if (layerId === "singleBarProgress") {
             let { textCenter, url, barProgress } = layerData;
             let { status, strokeColor, strokeWidth } = barProgress;
             tempSaveObj = {
@@ -1879,7 +1880,7 @@ export function showChartsOption(chartsList, keyList) {
                 strokeWidth
               }
             }
-          } else if (layerId == "singleRadialBar") {
+          } else if (layerId === "singleRadialBar") {
             let { textCenter, url, radialBar } = layerData;
             let { type, radius, innerRadius, maxAngle, fill, stroke, lineWidth } = radialBar;
             tempSaveObj = {
@@ -1897,7 +1898,7 @@ export function showChartsOption(chartsList, keyList) {
                 lineWidth
               }
             }
-          } else if (layerId == "singleRose") {
+          } else if (layerId === "singleRose") {
             let { textCenter, url, font, rose } = layerData;
             let { size, color } = font;
             let { radius, innerRadius, fill, stroke, lineWidth } = rose;
@@ -1918,7 +1919,7 @@ export function showChartsOption(chartsList, keyList) {
                 lineWidth
               }
             }
-          } else if (layerId == "waterLevelPond") {
+          } else if (layerId === "waterLevelPond") {
             let { textCenter, url, waterLevel } = layerData;
             tempSaveObj = {
               textCenter: {
@@ -1937,6 +1938,7 @@ export function showChartsOption(chartsList, keyList) {
       }
       arr.push(timeKey);
       mapObjArr.push({ layerId: timeKey, layerMap: map });
+      return index;
     })
     window.mapObjArr = mapObjArr;
     window.arr = arr;
@@ -1953,13 +1955,13 @@ function addChart(data, timeId, addIndex, _this) {
   // let dataShow = parentDom.getElementById("dataShow").contentWindow;
   timeId = timeId.toString();
   var thType = data.thType;
-  var type2 = data.type2;
+  //var type2 = data.type2;
   var catalogId = data.id;
   var map = {};
   var scene = {};
   var mapObjArr = window.mapObjArr ? window.mapObjArr : [];
   store.dispatch(addCptOptionsList(catalogId, []));
-  if ("0" == thType) { //图表
+  if ("0" === thType) { //图表
     var type1 = data.type ? data.type : ''; //图表类型（饼、柱。。等）
     /*
      * 一般图表
@@ -1974,7 +1976,7 @@ function addChart(data, timeId, addIndex, _this) {
      * THEMEDASHBOARD (仪表盘）
      * THEMEHSANDIAN_CHART（散点图）
     */
-    if ('THEMEPIE_CHART' == type1) {
+    if ('THEMEPIE_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -1990,7 +1992,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMERADAR_CHART' == type1) {
+    } else if ('THEMERADAR_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2006,7 +2008,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMERING_CHART' == type1) {
+    } else if ('THEMERING_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2022,7 +2024,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMELINE_CHART' == type1) {
+    } else if ('THEMELINE_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2038,7 +2040,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMEHISTOGRAM' == type1 ||
+    } else if ('THEMEHISTOGRAM' === type1 ||
               'xiangxingzhutu' ==type1||
               'dongtaizhutu'==type1) {
       getSpecify(catalogId).then(function (result) {
@@ -2056,8 +2058,8 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMEFUNNEL_CHART' == type1 ||
-      'THEMEPYRAMID_CHART' == type1) {
+    } else if ('THEMEFUNNEL_CHART' === type1 ||
+      'THEMEPYRAMID_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2073,7 +2075,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMEDASHBOARD' == type1) {
+    } else if ('THEMEDASHBOARD' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2089,7 +2091,7 @@ function addChart(data, timeId, addIndex, _this) {
         store.dispatch(editCptOptionsList(tempOptionObj));
 
       }).catch(e => console.log("error", e));
-    } else if ('THEMEHSANDIAN_CHART' == type1) {
+    } else if ('THEMEHSANDIAN_CHART' === type1) {
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2106,19 +2108,19 @@ function addChart(data, timeId, addIndex, _this) {
 
       }).catch(e => console.log("error", e));
     }
-    else if ('THEMEPIE' == type1 ||
-      'THEMEBAR' == type1 ||
-      'THEMECIRCULAR' == type1 ||
-      'THEMECIRCLE' == type1 ||
-      'THEMEHALFCIRCLE' == type1 ||
-      'THEMEFAN' == type1 ||
-      'THEMEGRID' == type1 ||
-      'THEMEFANGW' == type1 ||
-      'THEMEHALFCIRCLEGW' == type1 ||
-      'THEMECIRCLEGW' == type1 ||
-      'THEMESCATTER' == type1 ||
-      'THEMEOD' == type1 ||
-      'RLTLayer' == type1) {
+    else if ('THEMEPIE' === type1 ||
+      'THEMEBAR' === type1 ||
+      'THEMECIRCULAR' === type1 ||
+      'THEMECIRCLE' === type1 ||
+      'THEMEHALFCIRCLE' === type1 ||
+      'THEMEFAN' === type1 ||
+      'THEMEGRID' === type1 ||
+      'THEMEFANGW' === type1 ||
+      'THEMEHALFCIRCLEGW' === type1 ||
+      'THEMECIRCLEGW' === type1 ||
+      'THEMESCATTER' === type1 ||
+      'THEMEOD' === type1 ||
+      'RLTLayer' === type1) {
       /*
        * 专题地图图表
        * THEMEPIE（饼状图）
@@ -2174,7 +2176,7 @@ function addChart(data, timeId, addIndex, _this) {
         window.mapObjArr = mapObjArr;
 
       }).catch(e => console.log("error", e));
-    } else if ('RESULTMAP' == type1) {//复合图
+    } else if ('RESULTMAP' === type1) {//复合图
       getSpecify(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2212,7 +2214,7 @@ function addChart(data, timeId, addIndex, _this) {
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
 
-    } if ('3DLINES' == type1) {//炫光线
+    } if ('3DLINES' === type1) {//炫光线
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2269,9 +2271,9 @@ function addChart(data, timeId, addIndex, _this) {
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
     }
-    else if ('3DBAR' == type1 ||
-      'GRID' == type1 ||
-      'COLORSCALE' == type1) {//3D柱、网格、等级颜色
+    else if ('3DBAR' === type1 ||
+      'GRID' === type1 ||
+      'COLORSCALE' === type1) {//3D柱、网格、等级颜色
       getSpecifyGeojson(catalogId).then(function (result) {
         console.log(result)
         if (result.data) {
@@ -2294,17 +2296,17 @@ function addChart(data, timeId, addIndex, _this) {
             preserveDrawingBuffer: true,
             style: style
           });
-console.log(map)
+          //console.log(map)
           map.on('load', function () {
             addSKY(map);
             if (result && result[0]) {
-              if ('3DBAR' == type1) {
-                var s = new window.dmapgl.Bar(result[0], map, timeId);
-              } else if ('GRID' == type1) {
-                var s = new window.dmapgl.Grid(result[0], map, timeId);
-              } else if ('COLORSCALE' == type1) {
-                var s = new window.dmapgl.Grade(result[0], map, timeId);
-                console.log(new window.dmapgl.Grade(result[0], map, timeId))
+              if ('3DBAR' === type1) {
+                new window.dmapgl.Bar(result[0], map, timeId);
+              } else if ('GRID' === type1) {
+                new window.dmapgl.Grid(result[0], map, timeId);
+              } else if ('COLORSCALE' === type1) {
+                new window.dmapgl.Grade(result[0], map, timeId);
+                //console.log(new window.dmapgl.Grade(result[0], map, timeId))
               }
             }
           });
@@ -2318,7 +2320,7 @@ console.log(map)
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
 
-    } else if ('PointRLLayer' == type1) {
+    } else if ('PointRLLayer' === type1) {
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2355,7 +2357,7 @@ console.log(map)
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
 
-    } else if (type1 == "3Dheatmap") {
+    } else if (type1 === "3Dheatmap") {
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2399,8 +2401,8 @@ console.log(map)
             var showfield = data[0].myLegend.result[0].itemStyle.showfield;
             var showfieldarr = showfield.split(",");
             var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
-            var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
-            var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
+            //var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
+            //var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
 
             const layer = new window.L7.HeatmapLayer({});
             // var times = [];
@@ -2410,7 +2412,7 @@ console.log(map)
             //   times.push(d.properties.时间);
             //   return d;
             // });
-            if ("classicHeatType" == type) {//经典热力图
+            if ("classicHeatType" === type) {//经典热力图
               var intensity = data[0].myLegend.result[0].itemStyle.intensity;
               var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
               layer.source(sourcedata)
@@ -2435,7 +2437,7 @@ console.log(map)
               scene.addLayer(layer);
               var str = '<div style="height: 30px;background-image: linear-gradient(to right,' + data[0].myLegend.result[0].itemStyle.tubysfa + ');"></div>'
               $("#tulidiv").append(str);
-            } else if ("honeycombHeatType" == type) {//蜂窝热力图
+            } else if ("honeycombHeatType" === type) {//蜂窝热力图
               var coverage = data[0].myLegend.result[0].itemStyle.coverage;
               var angle = data[0].myLegend.result[0].itemStyle.angle;
               var valandcolors = data[0].myLegend.result[0].itemStyle.color;
@@ -2469,19 +2471,19 @@ console.log(map)
                       var color = valandcolor[i].split("-")[2];
                       if (v > minval && v <= maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
                   }
                 );
-              var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
-              var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
-              var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
-              var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
+              //var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
+              //var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
+              //var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
+              //var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
               //图例
               layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-                if (ev.feature == 'null') {
+                if (ev.feature === 'null') {
                   return false;
                 }
                 var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -2500,7 +2502,7 @@ console.log(map)
                 scene.addPopup(popup);
               });
               scene.addLayer(layer);
-            } else if ("gridHeatType" == type) {//网格热力图
+            } else if ("gridHeatType" === type) {//网格热力图
               var coverage = data[0].myLegend.result[0].itemStyle.coverage;
               var angle = data[0].myLegend.result[0].itemStyle.angle;
               var valandcolors = data[0].myLegend.result[0].itemStyle.color;
@@ -2536,7 +2538,7 @@ console.log(map)
                       var color = valandcolor[i].split("-")[2];
                       if (v >= minval && v < maxval) {
                         return color;
-                      } else if (v == maxval) {
+                      } else if (v === maxval) {
                         return color;
                       }
                     }
@@ -2544,7 +2546,7 @@ console.log(map)
                 );
               //图例
               layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-                if (ev.feature == 'null') {
+                if (ev.feature === 'null') {
                   return false;
                 }
                 var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -2574,7 +2576,7 @@ console.log(map)
         mapObjArr.push({ layerId: timeId, layerMap: map });
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
-    } else if (type1 == "qipao") {//气泡图
+    } else if (type1 === "qipao") {//气泡图
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2615,16 +2617,16 @@ console.log(map)
             var showfield = data[0].myLegend.result[0].itemStyle.showfield;
             var showfieldarr = showfield.split(",");
             var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
-            var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
-            var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
+            //var fontsize = data[0].myLegend.result[0].itemStyle.fontsize;
+            //var fontcolor = data[0].myLegend.result[0].itemStyle.fontcolor;
             var animate = data[0].myLegend.result[0].itemStyle.animate;
             var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-            if (animate == "true") {
+            if (animate === "true") {
               animate = true;
             } else {
               animate = false;
             }
-            var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+            //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
             const pointLayer = new window.L7.PointLayer({})
               .source(sourcedata)
               .shape('circle')
@@ -2637,7 +2639,7 @@ console.log(map)
                   var color = valandcolor[i].split("-")[2];
                   if (v >= minval && v < maxval) {
                     return color;
-                  } else if (v == maxval) {
+                  } else if (v === maxval) {
                     return color;
                   }
                 }
@@ -2677,7 +2679,7 @@ console.log(map)
       }).catch(e => console.log("error", e));
 
     }
-    else if (type1 == "juhe") {//聚合图
+    else if (type1 === "juhe") {//聚合图
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2736,7 +2738,7 @@ console.log(map)
                   var color = valandcolor[i].split("-")[2];
                   if (v >= minval && v < maxval) {
                     return color;
-                  } else if (v == maxval) {
+                  } else if (v === maxval) {
                     return color;
                   }
                 }
@@ -2746,12 +2748,12 @@ console.log(map)
                 strokeWidth: parseFloat(strokewidth),
               });
             //图例
-            var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
+            /*var fontsize = data[0].myLegend.result[0].itemStyle.legendFontSize;
             var fontcolor = data[0].myLegend.result[0].itemStyle.legendFontColor;
             var legendShow = data[0].myLegend.result[0].itemStyle.legendShow;
             var legendOpacity = data[0].myLegend.result[0].itemStyle.legendOpacity;
             var legendBackgroundColor = data[0].myLegend.result[0].itemStyle.legendBackgroundColor;
-            var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;
+            var legendPosition = data[0].myLegend.result[0].itemStyle.legendPosition;*/
             scene.addLayer(pointLayer);
           })
         }
@@ -2764,7 +2766,7 @@ console.log(map)
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
 
-    } else if ('3DARC' == type1) {//3D弧形图
+    } else if ('3DARC' === type1) {//3D弧形图
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2835,7 +2837,7 @@ console.log(map)
             var shape = data[0].myLegend.result[0].itemStyle.shape;
             var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
             var showfield = data[0].myLegend.result[0].itemStyle.showfield;
-            var field = data[0].myLegend.result[0].legendPosition.split(";")[0];
+            //var field = data[0].myLegend.result[0].legendPosition.split(";")[0];
             var showfieldarr = showfield.split(",");
             var animate = data[0].myLegend.result[0].itemStyle.animate;
             var flowgrap = data[0].myLegend.result[0].itemStyle.flowgrap;
@@ -2847,7 +2849,7 @@ console.log(map)
               .style({
                 opacity: parseInt(opacity)
               });
-              if (animate == "true") {
+              if (animate === "true") {
                 var duration = data[0].myLegend.result[0].itemStyle.duration;
                 var interval = data[0].myLegend.result[0].itemStyle.interval;
                 var trailLength = data[0].myLegend.result[0].itemStyle.trailLength;
@@ -2917,7 +2919,7 @@ console.log(map)
         mapObjArr.push({ layerId: timeId, layerMap: map });
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
-    } else if ('路径动画' == type1) {//路径动画
+    } else if ('路径动画' === type1) {//路径动画
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -2948,7 +2950,7 @@ console.log(map)
             }),
           });
 
-          var data = result;
+          //var data = result;
           scene.on('loaded', function () {
             var data = result;
             var sourcedata = data[0].myMapTable;
@@ -2973,7 +2975,7 @@ console.log(map)
               .style({
                 lineType: lineType,
               })
-            if (animate == "true") {
+            if (animate === "true") {
               animate = true;
               layer.animate({
                 interval: parseInt(interval), // 间隔
@@ -2984,7 +2986,7 @@ console.log(map)
               animate = false;
             }
             layer.on(mouseevent, ev => {
-              if (ev.feature == 'null') {
+              if (ev.feature === 'null') {
                 return false;
               }
               var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -3018,7 +3020,7 @@ console.log(map)
         window.mapObjArr = mapObjArr;
 
       }).catch(e => console.log("error", e));
-    } else if ('等值线图' == type1) {//等值线图
+    } else if ('等值线图' === type1) {//等值线图
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -3061,7 +3063,7 @@ console.log(map)
             var linewidth = data[0].myLegend.result[0].itemStyle.linewidth;
 
             var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-            var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+            //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
             const layer = new window.L7.LineLayer()
               .source(sourcedata)
               .scale(field, {
@@ -3081,7 +3083,7 @@ console.log(map)
                   var color = valandcolor[i].split("-")[2];
                   if (v > minval && v <= maxval) {
                     return color;
-                  } else if (v == maxval) {
+                  } else if (v === maxval) {
                     return color;
                   }
                 }
@@ -3091,7 +3093,7 @@ console.log(map)
             //   colorarr.reverse()
             // );
             layer.on(mouseevent, ev => {
-              if (ev.feature == 'null') {
+              if (ev.feature === 'null') {
                 return false;
               }
               var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -3128,7 +3130,7 @@ console.log(map)
         window.mapObjArr = mapObjArr;
 
       }).catch(e => console.log("error", e));
-    } else if (type1 == "liangdutu") {
+    } else if (type1 === "liangdutu") {
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -3153,7 +3155,7 @@ console.log(map)
 
           var times = [];
           var groupfield = result[0].myLegend.result[0].itemStyle.groupfield;
-          var timelidertime = result[0].myLegend.result[0].itemStyle.timelidertime;
+          //var timelidertime = result[0].myLegend.result[0].itemStyle.timelidertime;
           result.features = result[0].myMapTable.features.map(function (d) {
             /*times.push(d.properties.时间);*/
             times.push(d.properties[groupfield]);
@@ -3182,12 +3184,12 @@ console.log(map)
 
             //  var animate = data[0].myLegend.result[0].itemStyle.animate;
             var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-            /* if (animate == "true") {
+            /* if (animate === "true") {
                  animate = true;
              } else {
                  animate = false;
              }*/
-            var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+            //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
             const layer = new window.L7.PointLayer({})
               .source(sourcedata)
               .shape('dot')
@@ -3201,7 +3203,7 @@ console.log(map)
                   var color = valandcolor[i].split("-")[2];
                   if (v >= minval && v < maxval) {
                     return color;
-                  } else if (v == maxval) {
+                  } else if (v === maxval) {
                     return color;
                   }
                 }
@@ -3211,7 +3213,7 @@ console.log(map)
               });
 
             layer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
-              if (ev.feature == 'null') {
+              if (ev.feature === 'null') {
                 return false;
               }
               var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
@@ -3241,7 +3243,7 @@ console.log(map)
         mapObjArr.push({ layerId: timeId, layerMap: map });
         window.mapObjArr = mapObjArr;
       }).catch(e => console.log("error", e));
-    } else if (type1 == "timeslider") {
+    } else if (type1 === "timeslider") {
       getSpecifyGeojson(catalogId).then(function (result) {
         if (result.data) {
           console.log("接口没有数据")
@@ -3251,7 +3253,7 @@ console.log(map)
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
-          style = "zyzx://" + mapType + "/styles/style.json"
+          //style = "zyzx://" + mapType + "/styles/style.json"
           var mapType = ""
           var style = "zyzx://vector_standard/styles/style.json";
           if (result && result[0]) {
@@ -3272,16 +3274,16 @@ console.log(map)
           map.on('load', function () {
             addSKY(map);
             var data = result;
-            var sourcedata = data[0].myMapTable;
+            //var sourcedata = data[0].myMapTable;
             var field = data[0].myLegend.result[0].fieldName;
 
-            var radius = data[0].myLegend.result[0].itemStyle.radius;
+            //var radius = data[0].myLegend.result[0].itemStyle.radius;
             var opacity = data[0].myLegend.result[0].itemStyle.opacity;
-            var showfield = data[0].myLegend.result[0].itemStyle.showfield;
-            var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
+            //var showfield = data[0].myLegend.result[0].itemStyle.showfield;
+            //var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
 
-            var valandcolors = data[0].myLegend.result[0].itemStyle.color;
-            var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
+            //var valandcolors = data[0].myLegend.result[0].itemStyle.color;
+            //var colorarr = data[0].myLegend.result[0].itemStyle.tubysfa.split(",");
             var times = [];
 
             data.features = data[0].myMapTable.features.map(function (d) {
@@ -3355,13 +3357,13 @@ console.log(map)
       }).catch(e => console.log("error", e));
     }
 
-  } else if ("1" == thType) { //wms或wfs
-    var service = data.service;
+  } else if ("1" === thType) { //wms或wfs
+    /*var service = data.service;
     var layername = data.layername;
     var name = data.name;
     var renderer = data.renderer
       ? data.renderer
-      : ''; //wms样式
+      : ''; //wms样式*/
     map = new window.dmapgl.Map({
       container: timeId,
       zoom: 8,
@@ -3376,9 +3378,9 @@ console.log(map)
     });
     map.on('load', function () {
       addSKY(map);
-      if (data.show == "1") {
+      if (data.show === "1") {
         addLayerWFS(data, map);
-      } else if (data.show == "2") {
+      } else if (data.show === "2") {
         addLayerWMS(data, map);
       }
       /*getSpecify(catalogId).then(result => {
@@ -3415,7 +3417,7 @@ function addLayerWFS(obj, map) {
   var tagName = group1[0].firstChild.tagName;
 
   //var group2 = $(group1).find('GROUPRENDERER');
-  if ('GROUPRENDERER' == tagName) { //字体符号库
+  if ('GROUPRENDERER' === tagName) { //字体符号库
     var truettypemarkersymbol = $(group1).find('TRUETYPEMARKERSYMBOL');
     var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
       '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
@@ -3468,7 +3470,7 @@ function addLayerWFS(obj, map) {
   } else {
     var simplerenderer = $(group1).find('SIMPLERENDERER');
     var type = simplerenderer.attr('name');
-    if ('一般点样式' == type) {
+    if ('一般点样式' === type) {
       var grouperenderer = $(simplerenderer).find('GROUPRENDERER');
       var styleName = grouperenderer.attr('styleName');
       var fuhaokuName = grouperenderer.attr('fuhaokuName');
@@ -3488,7 +3490,7 @@ function addLayerWFS(obj, map) {
           var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
           var imgData = new Uint8Array(width * width * bytesPerPixel);
 
-          if (styleName == 'square') { //正方形
+          if (styleName === 'square') { //正方形
             for (var x = 0; x < width; x++) {
               for (var y = 0; y < width; y++) {
                 var offset = (y * width + x) * bytesPerPixel;
@@ -3498,11 +3500,11 @@ function addLayerWFS(obj, map) {
                 imgData[offset + 3] = 255; // alpha
               }
             }
-          } else if (styleName == 'cross') { //十字
+          } else if (styleName === 'cross') { //十字
             var half = Math.floor(width / 2);
             for (var x = 0; x < width; x++) {
               for (var y = 0; y < width; y++) {
-                if (x == half || y == half) {
+                if (x === half || y === half) {
                   var offset = (y * width + x) * bytesPerPixel;
                   imgData[offset + 0] = parseInt(carr[0]); // red
                   imgData[offset + 1] = parseInt(carr[1]); // green
@@ -3558,17 +3560,17 @@ function addLayerWFS(obj, map) {
         }
       });
 
-    } else if ('精准点样式' == type) {
+    } else if ('精准点样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var exacts = $(valuemaprenderer).find('EXACT');
       recursionJZFW(type, layername, map, exacts, lookupfield, 0);
-    } else if ('范围点样式' == type) {
+    } else if ('范围点样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var ranges = $(valuemaprenderer).find('RANGE');
       recursionJZFW(type, layername, map, ranges, lookupfield, 0);
-    } else if ('栅格点样式' == type) {
+    } else if ('栅格点样式' === type) {
       var symbol = $(simplerenderer).find('SIMPLEMARKERSYMBOL');
       var sbsj=symbol.attr("sbsj");
       var sbsjzszd=symbol.attr("sbsjzszd").split(",");
@@ -3630,7 +3632,7 @@ function addLayerWFS(obj, map) {
           map.on(sbsj,layername, function(e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
             var properties = e.features[0].properties;
-            console.log(properties)
+            //console.log(properties)
             var sbtable='<div style="padding-top:10px"><table style="text-align: center;font-size:12px; table-layout:fixed">'
             var flag=0
             for (var i = 0; i < sbsjzszd.length; i++) {
@@ -3653,7 +3655,7 @@ function addLayerWFS(obj, map) {
         }
       });
 
-    } else if ('一般线样式' == type) {
+    } else if ('一般线样式' === type) {
       var simplinesymbol = $(simplerenderer).find('SIMPLELINESYMBOL');
       var width = parseInt(simplinesymbol.attr('width'));
       var color = simplinesymbol.attr('color');
@@ -3709,24 +3711,24 @@ function addLayerWFS(obj, map) {
           });
         }
       });
-    } else if ('精准线样式' == type) {
+    } else if ('精准线样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var exacts = $(valuemaprenderer).find('EXACT');
       recursionJZFW(type, layername, map, exacts, lookupfield, 0);
-    } else if ('范围线样式' == type) {
+    } else if ('范围线样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var ranges = $(valuemaprenderer).find('RANGE');
       recursionJZFW(type, layername, map, ranges, lookupfield, 0);
-    } else if ('一般面样式' == type) {
+    } else if ('一般面样式' === type) {
       var simplepolygonsymbol = $(simplerenderer).find('SIMPLEPOLYGONSYMBOL');
       //var width = parseInt(simplepolygonsymbol.attr('width'));
       var fillcolor = simplepolygonsymbol.attr('fillcolor');
       var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
-      var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+      //var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
 
-      var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
+      url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
         '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
       $.ajax({
         type: "GET",
@@ -3779,12 +3781,12 @@ function addLayerWFS(obj, map) {
           });
         }
       });
-    } else if ('精准面样式' == type) {
+    } else if ('精准面样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var exacts = $(valuemaprenderer).find('EXACT');
       recursionJZFW(type, layername, map, exacts, lookupfield, 0);
-    } else if ('范围面样式' == type) {
+    } else if ('范围面样式' === type) {
       var valuemaprenderer = $(simplerenderer).find('VALUEMAPRENDERER');
       var lookupfield = $(valuemaprenderer).attr('lookupfield');
       var ranges = $(valuemaprenderer).find('RANGE');
@@ -3819,10 +3821,10 @@ function addLayerWMS(obj, map) {
  */
 function recursionJZFW(type, layername, map, arr, field, index) {
   var obj = arr[index];
-  if ('精准点样式' == type) {
+  if ('精准点样式' === type) {
     var value = $(obj).attr('value');
     var fuhaokuName = $(obj).attr('fuhaokuName');
-    var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
+    //var simplemarkersymbol = $(obj).find('SIMPLEMARKERSYMBOL');
     var truettypemarkersymbol = $(obj).find('TRUETYPEMARKERSYMBOL');
     var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
       '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername + '&Filter=' + encodeURIComponent('<Filter><PropertyIsEqualTo><PropertyName>' + field + '</PropertyName><Literal>' + value + '</Literal></PropertyIsEqualTo></Filter>');
@@ -3849,7 +3851,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         json += ']';
         var fatures = JSON.parse(json);
 
-        if (fuhaokuName == "基础符号库") {
+        if (fuhaokuName === "基础符号库") {
           var styleName = $(obj).attr("styleName");
           var grouperenderer = $(obj).find("GROUPRENDERER");
           var simplemarkersymbol = $(grouperenderer).find("SIMPLEMARKERSYMBOL");
@@ -3860,7 +3862,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
           var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
           var imgData = new Uint8Array(width * width * bytesPerPixel);
 
-          if (styleName == "square") {
+          if (styleName === "square") {
             //正方形
             for (var x = 0; x < width; x++) {
               for (var y = 0; y < width; y++) {
@@ -3871,12 +3873,12 @@ function recursionJZFW(type, layername, map, arr, field, index) {
                 imgData[offset + 3] = 255; // alpha
               }
             }
-          } else if (styleName == "cross") {
+          } else if (styleName === "cross") {
             //十字
             var half = Math.floor(width / 2);
             for (var x = 0; x < width; x++) {
               for (var y = 0; y < width; y++) {
-                if (x == half || y == half) {
+                if (x === half || y === half) {
                   var offset = (y * width + x) * bytesPerPixel;
                   imgData[offset + 0] = parseInt(carr[0]); // red
                   imgData[offset + 1] = parseInt(carr[1]); // green
@@ -3909,7 +3911,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
               "icon-image": layername + index,
             },
           });
-        } else if (fuhaokuName == '栅格图标') {
+        } else if (fuhaokuName === '栅格图标') {
           var icon = simplemarkersymbol.attr('icon');
           if (!map.hasImage(icon)) {
             map
@@ -3933,7 +3935,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
               'icon-allow-overlap': true
             }
           });
-        } else if (fuhaokuName == '字体符号库') {
+        } else if (fuhaokuName === '字体符号库') {
           var img = truettypemarkersymbol.attr('img');
           map.loadImage(img, (error, data) => {
             map.addImage(layername + index, data);
@@ -3961,7 +3963,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         }
       }
     });
-  } else if ('范围点样式' == type) {
+  } else if ('范围点样式' === type) {
     var lower = $(obj).attr('lower');
     var upper = $(obj).attr('upper');
     var fuhaokuName = $(obj).attr('fuhaokuName')
@@ -3992,7 +3994,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         json += ']';
         var fatures = JSON.parse(json);
 
-        if (fuhaokuName == '栅格图标') {
+        if (fuhaokuName === '栅格图标') {
           var icon = simplemarkersymbol.attr('icon');
           if (!map.hasImage(icon)) {
             map
@@ -4016,7 +4018,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
               'icon-allow-overlap': true
             }
           });
-        } else if (fuhaokuName == '字体符号库') {
+        } else if (fuhaokuName === '字体符号库') {
           var img = truettypemarkersymbol.attr('img');
           map.loadImage(img, (error, data) => {
             map.addImage(layername + index, data);
@@ -4044,7 +4046,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         }
       }
     });
-  } else if ('精准线样式' == type) {
+  } else if ('精准线样式' === type) {
     var value = $(obj).attr('value');
     var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
     var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
@@ -4105,7 +4107,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         }
       }
     });
-  } else if ('范围线样式' == type) {
+  } else if ('范围线样式' === type) {
     var lower = $(obj).attr('lower');
     var upper = $(obj).attr('upper');
     var simplelinesymbol = $(obj).find('SIMPLELINESYMBOL');
@@ -4167,7 +4169,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         }
       }
     });
-  } else if ('精准面样式' == type) {
+  } else if ('精准面样式' === type) {
     var value = $(obj).attr('value');
     var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
     var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
@@ -4231,7 +4233,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
         }
       }
     });
-  } else if ('范围面样式' == type) {
+  } else if ('范围面样式' === type) {
     var lower = $(obj).attr('lower');
     var upper = $(obj).attr('upper');
     var simplepolygonsymbol = $(obj).find('SIMPLEPOLYGONSYMBOL');
@@ -4311,7 +4313,7 @@ function initMapData(map, data) {
 var rxml = $.parseXML(renderer);
 var group1 = $(rxml).find('GROUPRENDERER');
   var tagName = group1[0].firstChild.tagName;
-  if('GROUPRENDERER' == tagName){
+  if('GROUPRENDERER' === tagName){
 
   }else{
 
@@ -4323,12 +4325,12 @@ function getCookie(cookie_name) {
   var allcookies = document.cookie;
   var cookie_pos = allcookies.indexOf(cookie_name); //索引的长度
   // 如果找到了索引，就代表cookie存在， 反之，就说明不存在。
-  if (cookie_pos != -1) {
+  if (cookie_pos !== -1) {
     // 把cookie_pos放在值的开始，只要给值加1即可。
     cookie_pos += cookie_name.length + 1; //这里容易出问题，所以请大家参考的时候自己好好研究一下
     var cookie_end = allcookies.indexOf(";", cookie_pos);
 
-    if (cookie_end == -1) {
+    if (cookie_end === -1) {
       cookie_end = allcookies.length;
     }
     var value = unescape(allcookies.substring(cookie_pos, cookie_end)); //这里就可以得到你想要的cookie的值了。。。
@@ -4336,7 +4338,7 @@ function getCookie(cookie_name) {
   return value;
 }
 function rgb2hex(rgb) {
-  if (rgb.charAt(0) == '#')
+  if (rgb.charAt(0) === '#')
     return rgb;
   var ds = rgb.split(/\D+/);
   var decimal = Number(ds[0]) * 65536 + Number(ds[1]) * 256 + Number(ds[2]);

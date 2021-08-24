@@ -7,14 +7,14 @@
  * @FilePath: \layout\src\router\router.js
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
-    useParams,
-    HashRouter,
+    //Link,
+    //useParams,
+    //HashRouter,
   } from "react-router-dom";
   import '../index.css';
   import ShowPage from '../component/ShowPage'
@@ -22,7 +22,7 @@ import {
 
   import typeObj from '../router/type';
   let model;
-  if ("/data/" == typeObj.project){
+  if ("/data/" === typeObj.project){
     model = App;
   }else {
     model = ShowPage;

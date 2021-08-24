@@ -148,16 +148,16 @@ class Content extends Component {
     let { left: tempStateLeft, top: tempStateTop } = this.props.obj.cptBorderObj;
     const { dx, dy } = e;
     let xl, xt;
-    if (tempStateLeft > 0 || (tempStateLeft == 0 && dx > 0)) {
+    if (tempStateLeft > 0 || (tempStateLeft === 0 && dx > 0)) {
       xl = tempStateLeft + dx;
-    } else if (dx == 0) {
+    } else if (dx === 0) {
       xl = tempStateLeft;
     } else {
       xl = 0;
     }
-    if (tempStateTop > 0 || (tempStateTop == 0 && dy > 0)) {
+    if (tempStateTop > 0 || (tempStateTop === 0 && dy > 0)) {
       xt = tempStateTop + dy;
-    } else if (dy == 0) {
+    } else if (dy === 0) {
       xt = tempStateTop;
     } else {
       xt = 0;

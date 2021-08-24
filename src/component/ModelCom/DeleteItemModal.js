@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import './css/DeleteItemModal.scss';
 import { Modal, Button } from 'antd';
 class DeleteItemModal extends React.Component {
@@ -8,9 +8,9 @@ class DeleteItemModal extends React.Component {
         this.state = {
             deleteAffirmFlag: false, //控制是否显示删除提示框
             delIndex: -1, //用来表示当前删除的是哪个id,方便提示框之后处理.
-        } 
+        }
     }
-   
+
     setDefaultValue(layerIndex){
         this.setState({
             deleteAffirmFlag: true,
@@ -24,7 +24,7 @@ class DeleteItemModal extends React.Component {
           deleteAffirmFlag: false
         });
       };
-    
+
     deleteAffirmOk = e => {
         this.setState(
           {

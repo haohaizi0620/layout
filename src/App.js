@@ -7,7 +7,7 @@
  * @FilePath: \layout\src\App.js
  */
 import React, { Fragment } from 'react';
-import ReactDome from 'react-dom';
+//import ReactDome from 'react-dom';
 import Layout from './component/Layout';
 
 function App() {

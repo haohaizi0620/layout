@@ -7,7 +7,7 @@
  * @FilePath: \layout\src\component\otherLayer\ContentBottom.js
  */
 import React, { Component } from "react";
-import { InputNumber, Slider } from "antd";
+import { Slider } from "antd";
 import "./ContentBottom.scss";
 class ContentBottom extends Component {
   static defaultProps = {
@@ -18,6 +18,7 @@ class ContentBottom extends Component {
   };
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   setCanvasScaleVal = value => {

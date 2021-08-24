@@ -12,7 +12,7 @@ import {
     editLayerSortNum,
     editLayerSortTopOrBottom,
     delOneOtherLayer,
-    getSpecify,
+    //getSpecify,
     editOneOtherLayer,
     getBgIndex,
     getOtherLayer,
@@ -26,7 +26,7 @@ import ContentBottom from './content/ContentBottom';
 import store from '../redux/store';
 //import cptIndexarr from '../redux/store';
 import { chartOption, showChartsOption } from '../utils/chart';
-import { Menu, Dropdown, Modal, Button, message } from 'antd';
+import { Menu, Dropdown, Modal, message } from 'antd';
 import {
     updateShowLayerFieldVal,
     replaceAllShowLayerFieldVal,
@@ -35,7 +35,7 @@ import {
     replaceGlobalBg,
     replaceOptionsList,
 } from '../redux/actions/showLayerDatas';
-import PageSetting from '../style-config/page-setting/PageSetting';
+//import PageSetting from '../style-config/page-setting/PageSetting';
 
 const chartData = require('../datasource/chartDatas.json');
 
@@ -167,10 +167,10 @@ class Layout extends Component {
                 "layerPosition": '{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"bg","cptType":""}'
             }]
         }
-        let resultObj = {
+        /*let resultObj = {
             "username": "public",
             "data": '[{"id":4,"parentid":2,"name":"断裂分布图","type":"THEMEVERTBAR_SORT","service":"KSH","layername":"test","renderer":null,"thType":"0","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":null,"serialize":"{\"col\":1,\"row\":5,\"size_x\":2,\"size_y\":2}","show":null},{"id":0,"parentid":2,"name":"水污染","type":null,"service":"KSH","layername":"testV4_水污染","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"circle\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"102,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"circle\" outline=\"102,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":1,\"row\":1,\"size_x\":3,\"size_y\":2}","show":"1"},{"id":0,"parentid":2,"name":"泥石流沟","type":null,"service":"CCC","layername":"泥石流沟","renderer":"<GROUPRENDERER><SIMPLERENDERER name=\"一般点样式\" minscale=\"1e-20\" maxscale=\"100000000000000000000\"><GROUPRENDERER  styleName=\"square\" fuhaokuName=\"基础符号库\"><SIMPLEMARKERSYMBOL antialiasing=\"true\" color=\"204,255,43\" overlap=\"true\" shadow=\"0,0,0\" transparency=\"1.0\" type=\"square\" outline=\"204,255,43\" usecentroid=\"true\" width=\"3\"></SIMPLEMARKERSYMBOL></GROUPRENDERER></SIMPLERENDERER></GROUPRENDERER>","thType":"1","type2":null,"desp":"","isText":null,"showType":null,"realtimeupdate":"false","serialize":"{\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":2}","show":"1"}]'
-        }
+        }*/
         // let showObjArr = JSON.parse(resultObj.data);
         let tempCptKeyList = [];
         let tempCptPropertyList = [];
@@ -186,6 +186,7 @@ class Layout extends Component {
                 thType: item.thType,
                 timeKey: timeKey
             });
+            return index;
         })
         this.setState({
             cptIndex: -1,
@@ -250,7 +251,7 @@ class Layout extends Component {
                     }
                     addOneOtherLayer(bgObj)
                         .then(res => {
-                            /*if (res.n == 1) {
+                            /*if (res.n === 1) {
                                 console.log("背景添加成功")
                             }*/
                         }).catch(error => console.log(error));
@@ -318,6 +319,7 @@ class Layout extends Component {
                 });
                 tempCptPropertyList.push(tempLayerPosition);
                 tempCptChartIdList.push(tempCptChartObj);
+                return index;
             })
             let resultData = otherData.list
             if (resultData && resultData.length > 0) {
@@ -371,6 +373,7 @@ class Layout extends Component {
                         tempCptPropertyList.push(positionObj);
                         tempCptChartIdList.push(tempCptChartObj);
                     }
+                    return layerIndex;
                 })
                 /*if(!bgObj.hasOwnProperty("bgColor")){
                       bgObj = {
@@ -462,7 +465,7 @@ class Layout extends Component {
         } else if (layerId === "button") {
             tempWidth = 160;
             tempHeight = 90;
-        } else if (layerId == 'singleBarProgress') {
+        } else if (layerId === 'singleBarProgress') {
             tempHeight = 80;
         } else if (layerId === 'carouselList') {
             tempWidth = 280;
@@ -492,10 +495,11 @@ class Layout extends Component {
         //对当前基本内容的全部替换
         store.dispatch(replaceAllShowLayerFieldVal(cptpObj));
         let chartId = -1;
-        chartData.map(item => {
-            if (item.id == layerId) {
+        chartData.map((item,index) => {
+            if (item.id === layerId) {
                 chartId = item.chartId;
             }
+            return index;
         });
         let thType = "0";
         let layerTempObj = {};
@@ -652,7 +656,7 @@ class Layout extends Component {
             }
             delOneOtherLayer(delObj)
                 .then(result => {
-                    if (result.flag == 1) {
+                    if (result.flag === 1) {
                         _this.ondelItem(cptIndex);
                         /*Modal.success({
                           title: '',
@@ -1147,7 +1151,7 @@ class Layout extends Component {
         }
         editOneOtherLayer(editObj)
             .then(result => {
-                /*if (result.n == "1") {
+                /*if (result.n === "1") {
                     console.info("编辑背景succeed");
                 } else {
                     console.info("编辑背景error");
@@ -1177,7 +1181,7 @@ class Layout extends Component {
             }
             editKSHChartPosition(editObj)
                 .then(result => {
-                    /*if (result.flag == "1") {
+                    /*if (result.flag === "1") {
                         console.info("编辑定位succeed");
                     } else {
                         console.info("编辑定位error");
@@ -1185,7 +1189,7 @@ class Layout extends Component {
                     var id = window.arr[window.cptIndex];
                     for (var i = 0; i < window.mapObjArr.length; i++) {
                         var key = window.mapObjArr[i];
-                        if (id == key.layerId) {
+                        if (id === key.layerId) {
                             if (key.layerMap._container) {
                                 key.layerMap.resize();
                             }
@@ -1195,7 +1199,7 @@ class Layout extends Component {
                         var grid = window.document.getElementById("grid" + id);
                         var width = grid.offsetWidth;
                         var height = grid.offsetHeight;
-                        var div = window.document.getElementById(id);
+                        //var div = window.document.getElementById(id);
                         var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
                         if (l7scene) {
                             //l7scene.firstChild.style({width:width,height:height});
@@ -1207,7 +1211,7 @@ class Layout extends Component {
                     var id = window.arr[window.cptIndex];
                     for (var i = 0; i < window.mapObjArr.length; i++) {
                         var key = window.mapObjArr[i];
-                        if (id == key.layerId) {
+                        if (id === key.layerId) {
                             if (key.layerMap._container) {
                                 key.layerMap.resize();
                             }
@@ -1217,7 +1221,7 @@ class Layout extends Component {
                         var grid = window.document.getElementById("grid" + id);
                         var width = grid.offsetWidth;
                         var height = grid.offsetHeight;
-                        var div = window.document.getElementById(id);
+                        //var div = window.document.getElementById(id);
                         var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
                         if (l7scene) {
                             //l7scene.firstChild.style({width:width,height:height});
@@ -1237,7 +1241,7 @@ class Layout extends Component {
             }
             editOneOtherLayer(editObj)
                 .then(result => {
-                    /*if (result.n == 1) {
+                    /*if (result.n === 1) {
                         console.info("编辑定位succeed");
                     } else {
                         console.info("编辑定位error");
@@ -1265,7 +1269,7 @@ class Layout extends Component {
         }
         editOneOtherLayer(editObj)
             .then(result => {
-                /*if (result.n == 1)
+                /*if (result.n === 1)
                     console.info("编辑其他图层success")*/
             }).catch(error => console.info("编辑其他图层error"));
     }
@@ -1290,7 +1294,7 @@ class Layout extends Component {
         }
         editKSHChartData(editObj)
             .then(result => {
-                /*if (result == "编辑成功!") {
+                /*if (result === "编辑成功!") {
                     console.info("编辑图层成功");
 
                 } else {
@@ -1321,24 +1325,24 @@ class Layout extends Component {
         let typeField = "OBJECTID";
         let chartPosition = "left";//图表位置
         let tongjituyszd = "运营商";
-        let tempLegendData = [];//保存legend对象的数组
-        let iscbtfVal = "";
+        //let tempLegendData = [];//保存legend对象的数组
+        //let iscbtfVal = "";
         /*  resultLegend.forEach((legendItem,legendIndex) => {
             var colorVal = legendItem.color;
             var fieldName = legendItem.value;
             let istitlebox = "";
             let addTempObj = {};
             if (
-              chartType == "THEMERING_CHART" ||
-              chartType == "THEMEPIE_CHART" ||
-              chartType == "THEMEFUNNEL_CHART" ||
-              chartType == "THEMEPYRAMID_CHART"
+              chartType === "THEMERING_CHART" ||
+              chartType === "THEMEPIE_CHART" ||
+              chartType === "THEMEFUNNEL_CHART" ||
+              chartType === "THEMEPYRAMID_CHART"
             ) {
               istitlebox = typeField;
               iscbtfVal= tongjituyszd;
             } else {
               iscbtfVal= typeField;
-              if (chartType == "THEMEHISTOGRAM" || chartType == "THEMEVERTBAR_SORT") {
+              if (chartType === "THEMEHISTOGRAM" || chartType === "THEMEVERTBAR_SORT") {
                 istitlebox = chartPosition;
               } else {
                 istitlebox = "";
@@ -1382,12 +1386,12 @@ class Layout extends Component {
             json += "{";
             var color = resultLegend[i].color;
             var fieldname = resultLegend[i].value;
-            var istitlebox = "";
-            if (chartType == "THEMERING_CHART" || chartType == "THEMEPIE_CHART" || chartType == "THEMEFUNNEL_CHART" || chartType == "THEMEPYRAMID_CHART") {
+            var istitlebox;
+            if (chartType === "THEMERING_CHART" || chartType === "THEMEPIE_CHART" || chartType === "THEMEFUNNEL_CHART" || chartType === "THEMEPYRAMID_CHART") {
                 istitlebox = typeField;
                 json += "\"name\":\"" + fieldname + "\",\"isText\":\"" + false + "\",\"istitlebox\":\"" + istitlebox + "\",\"iscbtf\":\"" + tongjituyszd + "\",\"isfacebox\":\"" + "" + "\",\"issizebox\":\"" + "" + "\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\"" + fieldname + "\",\"color\":\"" + color + "\",\"unit\":\"" + unitVal + "\"},";
             } else {
-                if (chartType == "THEMEHISTOGRAM" || chartType == "THEMEVERTBAR_SORT") {
+                if (chartType === "THEMEHISTOGRAM" || chartType === "THEMEVERTBAR_SORT") {
                     istitlebox = chartPosition;
                     json += "\"name\":\"" + fieldname + "\",\"isText\":\"" + false + "\",\"istitlebox\":\"" + istitlebox + "\",\"iscbtf\":\"" + typeField + "\",\"isfacebox\":\"" + "" + "\",\"issizebox\":\"" + "" + "\",\"minVal\":0,\"maxVal\":0,\"fieldname\":\"" + fieldname + "\",\"color\":\"" + color + "\",\"unit\":\"" + unitVal + "\"},";
                 } else {
@@ -1412,7 +1416,7 @@ class Layout extends Component {
         const id = e.currentTarget.firstElementChild.getAttribute('id');
         let cptkList = this.state.cptKeyList;
         let cptpList = this.state.cptPropertyList;
-        const cptkObj = cptkList[index];
+        //const cptkObj = cptkList[index];
         const cptpObj = cptpList[index];
         const t = cptpObj.cptType ? cptpObj.cptType : 'bg';
         //更新strore里卖弄的数据
@@ -1695,10 +1699,11 @@ class Layout extends Component {
         }
         let menuIndex = event.key;
         let updateFlag = "";
-        rightMenuData.map(item => {
+        rightMenuData.map((item,index) => {
             if (item.index === menuIndex) {
                 updateFlag = item.flag;
             }
+            return index;
         })
         if (["1", "2", "3", "4"].includes(menuIndex)) {
             this.refs.leftComponentList.moveShowLayer(null, updateFlag);

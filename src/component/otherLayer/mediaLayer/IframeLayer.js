@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 class IframeLayer extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
         }
     }
 
-    render() { 
+    render() {
        let {layerData} = this.props;
-        return ( 
+        return (
             <iframe
             className='iframeObj'
+            title=""
             src={layerData&&layerData.iframeUrl ? layerData.iframeUrl : ''}
             height='100%'
             width='100%'/>
          );
     }
 }
- 
+
 export default IframeLayer;

@@ -27,11 +27,11 @@ export function test() {
     method: 'get'
   });
 }
-var cptIndexarr=[];
+//var cptIndexarr=[];
 let url;
 let deployPrev;
 let localPrev;
-if ("/data/" == typeObj.project){
+if ("/data/" === typeObj.project){
   deployPrev = "http://172.26.50.89/data/";
   localPrev = "http://127.0.0.1:8080/data/";
 }else {
@@ -197,7 +197,7 @@ export function getShareById(shareID) {
 }
 export function getSpecify(catalogId) {
   var schema;
-  if ("/share/" == typeObj.project){
+  if ("/share/" === typeObj.project){
     var url = window.location.href;
     var par = url.substr(url.indexOf("sid=")+4,url.length);
     schema = par.substr(0,par.indexOf("_"));
@@ -212,7 +212,7 @@ export function getSpecify(catalogId) {
 
 export function getSpecifyGeojson(catalogId) {
   var schema;
-  if ("/share/" == typeObj.project){
+  if ("/share/" === typeObj.project){
     var url = window.location.href;
     var par = url.substr(url.indexOf("sid=")+4,url.length);
     schema = par.substr(0,par.indexOf("_"));

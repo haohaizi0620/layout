@@ -65,17 +65,17 @@ export default function reducer(state = cptPropertyObj, action) {
             let fieldEname = updateObj.fieldEname;
             let fieldValue = updateObj.fieldValue;
             //console.log(updateLayer,fieldEname,fieldValue)
-            if (updateLayer == "bg") {
-                if(fieldEname=="bgImageName"){
+            if (updateLayer === "bg") {
+                if(fieldEname === "bgImageName"){
                     newState.bgFieldObj.bgImageName = fieldValue;
-                    if(fieldValue!="无"){
+                    if(fieldValue !== "无"){
                         newState.bgFieldObj.bgImageIntegerUrl = "";
                     }
-                }else if(fieldEname=="bgImageIntegerUrl"){
+                }else if(fieldEname === "bgImageIntegerUrl"){
                     newState.bgFieldObj.bgImageName = "无";
                     newState.bgFieldObj.uploadImage = fieldValue;
                     newState.bgFieldObj[fieldEname] = fieldValue;
-                }else if(fieldEname=="uploadImage"){
+                }else if(fieldEname === "uploadImage"){
                     newState.bgFieldObj.uploadImage = fieldValue;
                 }else{
                     newState.bgFieldObj[fieldEname] = fieldValue

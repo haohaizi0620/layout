@@ -19,6 +19,7 @@ class SketchColor extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   state = {
@@ -45,7 +46,7 @@ class SketchColor extends React.Component {
     this.props.setBgColor(color,this.props.ename);
   }
 
-  
+
   render() {
     const styles = reactCSS({
       default: {

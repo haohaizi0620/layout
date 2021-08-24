@@ -6,7 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: \layout\src\component\globalCom\ImageUploading.js
  */
-import { Upload, Icon, message } from 'antd';
+import { Upload, message } from 'antd';
 import React from 'react'
 function getBase64(img, callback) {
   const reader = new FileReader();

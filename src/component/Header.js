@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as html2canvas from "html2canvas";
 import { addPageImage, addOneOtherLayer, getShareDesc } from "../api/api";
 import {getDefaultLayerData} from '../utils/globalAPI';
-import ShareItemModal from "./ModelCom/ShareItemModal";
-import store from "../redux/store";
+//import ShareItemModal from "./ModelCom/ShareItemModal";
+//import store from "../redux/store";
 import "../index.css";
 import {
   faCheckSquare,
@@ -26,7 +26,7 @@ import {
   faImage,
   faWindowRestore
 } from "@fortawesome/fontawesome-free-solid";
-import { Button, Tooltip } from "antd";
+import { Button } from "antd";
 import "antd/dist/antd.css";
 fontawesome.library.add(
   faCheckSquare,
@@ -58,11 +58,11 @@ class Header extends Component {
   };
   constructor(props) {
     super(props);
-    const tempCharsStr = "chart";
+    //const tempCharsStr = "chart";
     const tempTextStr = "text";
     const tempTableStr = "table";
     const tempMediaStr = "media";
-    const otherStr = "otherLayer";
+    //const otherStr = "otherLayer";
     const tempInteractionStr = "interaction";
     const tempMaterialStr = "material";
     this.state = {
@@ -314,7 +314,7 @@ class Header extends Component {
       };
       addOneOtherLayer(otherData)
         .then(result => {
-          if (result.flag == 1) {
+          if (result.flag === 1) {
             this.props.onClickAdd(layerObj, {
               data: {},
               state: "headerAdd",
@@ -350,7 +350,7 @@ class Header extends Component {
   handleMenuMouseEnter(item) {
     let ttype = "all";
     let typeName = item.typeName;
-    if (typeName == "otherLayer") {
+    if (typeName === "otherLayer") {
       ttype = "text";
     }
     this.setState({

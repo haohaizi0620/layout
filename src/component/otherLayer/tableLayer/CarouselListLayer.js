@@ -37,7 +37,7 @@ class CarouselList extends Component {
 
 
         _this.timeClose = setInterval(() => {
-            let {url, data} = _this.props.layerData;
+            let {url} = _this.props.layerData;
             if (url) {
                 fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
                     .then(data => this.setState({
@@ -72,7 +72,7 @@ class CarouselList extends Component {
                                 return (
                                     <tr>
                                         {
-                                            keyArr.map((item1) => {
+                                            keyArr.map((item1,index) => {
                                                 return (
                                                     <th style={{
                                                         textAlign: tableHeader.textAlign,
@@ -88,11 +88,13 @@ class CarouselList extends Component {
                                                         height:tableHeader.fontSize * 2 + 'px',
                                                     }}>{item1}</th>
                                                 )
+                                                //return index;
                                             })
                                         }
                                     </tr>
                                 )
                             }
+                            return i;
                         })
                     }
                     </thead>
@@ -146,7 +148,7 @@ class CarouselList extends Component {
     }
 
     update(options) {
-        var opts = $.extend({}, options), intId = [];
+        var opts = $.extend({}, options);
 
         function marquee(id, step) {
             var obj = $('#' + id);

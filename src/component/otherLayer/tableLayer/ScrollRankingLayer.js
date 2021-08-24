@@ -35,7 +35,7 @@ class ScrollRanking extends Component {
 
 
         _this.timeClose = setInterval(() => {
-            let {url, data} = _this.props.layerData;
+            let {url} = _this.props.layerData;
             if (url) {
                 fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
                     .then(data => this.setState({
