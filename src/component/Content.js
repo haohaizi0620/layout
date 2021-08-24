@@ -108,7 +108,7 @@ function Child1(props) {
                 </div>
               </>
               :null
-            }  
+            }
           </div>
           :null
         )
@@ -214,7 +214,7 @@ class Content extends Component {
     const mouseY = pageY - (scrollTop || BodyscrollTop);
     const angleRad = Math.atan2(mouseX - centerX, -(mouseY - centerY));
     const angleDeg = parseInt(angleRad * (180 / Math.PI));
-    console.log("angleRad:" + angleRad + "angleDeg:" + angleDeg)
+    //console.log("angleRad:" + angleRad + "angleDeg:" + angleDeg)
     this.props.updateLayerPosition([
       { fieldEname: "rotate", fieldValue: angleDeg }
     ]);
@@ -289,8 +289,10 @@ class Content extends Component {
               edges: {
                 left: true, top: true,
                 bottom: true, right: true,
-              }
+              },
+              margin: 4
             }}
+
             onDragMove={this.handleDragMove}
             onDragEnd={this.handleEnd}
             onDown={this.handleDown}

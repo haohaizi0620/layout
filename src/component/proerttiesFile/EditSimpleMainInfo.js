@@ -81,7 +81,7 @@ class EditSimpleMainInfo extends Component {
     if(showData.length===1){
        oneClassName = "pro-item-single";
     }
-    console.info(showData[0].type);
+    //console.info(showData[0].type);
     if(showData&&showData.length>0&&showData[0].type === 'EditJsonReactAjrm'){
         defaultOneColVal = 0;
         defaultTwoColVal = 24;

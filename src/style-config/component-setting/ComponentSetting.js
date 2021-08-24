@@ -14,11 +14,11 @@ export default class ComponentSetting extends Component {
   };
 
   widthChange = value => {
-    console.info(value);
+    //console.info(value);
   };
 
   heightChange = value => {
-    console.info(value);
+    //console.info(value);
   };
 
   render() {

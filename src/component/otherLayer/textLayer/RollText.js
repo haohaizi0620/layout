@@ -67,7 +67,7 @@ class RollText extends Component {
         return uuid;
     }
     update(uuid,playSpeed){
-        console.info('update uuid'+uuid);
+        //console.info('update uuid'+uuid);
         var speed = 20;
         function Marquee3() {
             var bg = document.getElementById(uuid+"bg");

@@ -64,7 +64,7 @@ export default function reducer(state = cptPropertyObj, action) {
             let updateLayer = updateObj.layerType;
             let fieldEname = updateObj.fieldEname;
             let fieldValue = updateObj.fieldValue;
-            console.log(updateLayer,fieldEname,fieldValue)
+            //console.log(updateLayer,fieldEname,fieldValue)
             if (updateLayer == "bg") {
                 if(fieldEname=="bgImageName"){
                     newState.bgFieldObj.bgImageName = fieldValue;

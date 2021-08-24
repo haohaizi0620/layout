@@ -16,7 +16,7 @@ axios.create({
         'Content-Type': 'application/x-www-form-urlencoded'
       }
 })
- 
+
 //开始请求设置，发起拦截处理
 axios.interceptors.request.use(config => {
     //得到参数中的requestname字段，用于决定下次发起请求，取消相应的  相同字段的请求
@@ -40,10 +40,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
     response => {
         const res = response.data;
- 
+
         //这里根据后台返回来设置
         if (res.msg === "success") {
-            console.log(response.data)
+            //console.log(response.data)
             return response.data;
         } else {
             return Promise.reject();//error
@@ -53,5 +53,5 @@ axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
- 
+
 export default axios

@@ -250,9 +250,9 @@ class Layout extends Component {
                     }
                     addOneOtherLayer(bgObj)
                         .then(res => {
-                            if (res.n == 1) {
+                            /*if (res.n == 1) {
                                 console.log("背景添加成功")
-                            }
+                            }*/
                         }).catch(error => console.log(error));
                 }
                 _this.initLayer(share[0], shareId, kshId)
@@ -643,7 +643,7 @@ class Layout extends Component {
                     title: '',
                     content: '删除图层失败,请求接口出错',
                 });
-                console.info(error);
+                //console.info(error);
             })
         } else {// if(thType==="text"||thType==="border"||thType==="iframe")
             let mainKey = chartObj.mainKey;
@@ -1147,11 +1147,11 @@ class Layout extends Component {
         }
         editOneOtherLayer(editObj)
             .then(result => {
-                if (result.n == "1") {
+                /*if (result.n == "1") {
                     console.info("编辑背景succeed");
                 } else {
                     console.info("编辑背景error");
-                }
+                }*/
             }).catch(error => console.info("编辑背景error"));
     }
     /**
@@ -1177,11 +1177,11 @@ class Layout extends Component {
             }
             editKSHChartPosition(editObj)
                 .then(result => {
-                    if (result.flag == "1") {
+                    /*if (result.flag == "1") {
                         console.info("编辑定位succeed");
                     } else {
                         console.info("编辑定位error");
-                    }
+                    }*/
                     var id = window.arr[window.cptIndex];
                     for (var i = 0; i < window.mapObjArr.length; i++) {
                         var key = window.mapObjArr[i];
@@ -1191,15 +1191,17 @@ class Layout extends Component {
                             }
                         }
                     }
-                    var grid = window.document.getElementById("grid" + id);
-                    var width = grid.offsetWidth;
-                    var height = grid.offsetHeight;
-                    var div = window.document.getElementById(id);
-                    var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
-                    if (l7scene) {
-                        //l7scene.firstChild.style({width:width,height:height});
-                        l7scene.firstChild.style.width = width + 'px';
-                        l7scene.firstChild.style.height = height + 'px';
+                    if (id){
+                        var grid = window.document.getElementById("grid" + id);
+                        var width = grid.offsetWidth;
+                        var height = grid.offsetHeight;
+                        var div = window.document.getElementById(id);
+                        var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
+                        if (l7scene) {
+                            //l7scene.firstChild.style({width:width,height:height});
+                            l7scene.firstChild.style.width = width + 'px';
+                            l7scene.firstChild.style.height = height + 'px';
+                        }
                     }
                 }).catch(error => {
                     var id = window.arr[window.cptIndex];
@@ -1211,16 +1213,17 @@ class Layout extends Component {
                             }
                         }
                     }
-
-                    var grid = window.document.getElementById("grid" + id);
-                    var width = grid.offsetWidth;
-                    var height = grid.offsetHeight;
-                    var div = window.document.getElementById(id);
-                    var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
-                    if (l7scene) {
-                        //l7scene.firstChild.style({width:width,height:height});
-                        l7scene.firstChild.style.width = width + 'px';
-                        l7scene.firstChild.style.height = height + 'px';
+                    if (id){
+                        var grid = window.document.getElementById("grid" + id);
+                        var width = grid.offsetWidth;
+                        var height = grid.offsetHeight;
+                        var div = window.document.getElementById(id);
+                        var l7scene = window.document.getElementById(id).querySelector(".l7-scene");
+                        if (l7scene) {
+                            //l7scene.firstChild.style({width:width,height:height});
+                            l7scene.firstChild.style.width = width + 'px';
+                            l7scene.firstChild.style.height = height + 'px';
+                        }
                     }
                 });
         } else {
@@ -1234,11 +1237,11 @@ class Layout extends Component {
             }
             editOneOtherLayer(editObj)
                 .then(result => {
-                    if (result.n == 1) {
+                    /*if (result.n == 1) {
                         console.info("编辑定位succeed");
                     } else {
                         console.info("编辑定位error");
-                    }
+                    }*/
                 }).catch(error => console.info("编辑定位error"));
             // }
         }
@@ -1262,8 +1265,8 @@ class Layout extends Component {
         }
         editOneOtherLayer(editObj)
             .then(result => {
-                if (result.n == 1)
-                    console.info("编辑其他图层success")
+                /*if (result.n == 1)
+                    console.info("编辑其他图层success")*/
             }).catch(error => console.info("编辑其他图层error"));
     }
 
@@ -1287,12 +1290,12 @@ class Layout extends Component {
         }
         editKSHChartData(editObj)
             .then(result => {
-                if (result == "编辑成功!") {
+                /*if (result == "编辑成功!") {
                     console.info("编辑图层成功");
 
                 } else {
                     console.info("编辑图层失败");
-                }
+                }*/
             }).catch(error => {
                 console.info("编辑图层失败");
             })

@@ -7,7 +7,7 @@ import '../styleConfig.css';
 /* 页面样式设置 */
 export default class PageSetting extends Component {
   constructor(props) {
-    console.info(props);
+    //console.info(props);
     super(props);
   }
 
@@ -17,11 +17,11 @@ export default class PageSetting extends Component {
   };
 
   widthChange = value => {
-    console.info(value);
+    //console.info(value);
   };
 
   heightChange = value => {
-    console.info(value);
+    //console.info(value);
   };
 
   render() {

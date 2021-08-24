@@ -58,10 +58,11 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
         .showLayerDatas
         .cptOptionsList[_this.state.cptIndex]
         .layerOption;
-      let tempThisObj = document.getElementById(timeKey);
+
 
       var thType = layerObj.thType;
       if ("0" === thType) { //图表
+        let tempThisObj = document.getElementById(timeKey);
         var e_instance = tempThisObj.getAttribute("_echarts_instance_");
         if (chartState === "update") {
           new window.dmapgl.commonlyCharts(timeKey, { data: newOptions });
@@ -155,8 +156,9 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
           .showLayerDatas
           .cptOptionsList[_this.state.cptIndex]
           .layerOption;
-        let tempThisObj = document.getElementById(timeKey);
+
         if (layerType === "chart") {
+          let tempThisObj = document.getElementById(timeKey);
           var e_instance = tempThisObj.getAttribute("_echarts_instance_");
           if (chartState === "update") {
             new window.dmapgl.commonlyCharts(timeKey, { data: newOptions });
@@ -556,7 +558,7 @@ export function showChartsOption(chartsList, keyList) {
           'COLORSCALE' == type1) {//3D柱、网格、等级颜色
 
           getSpecifyGeojson(chartId).then(function (result) {
-            console.log(result)
+            //console.log(result)
             if (result.data) {
               console.log("接口没有数据")
             } else {
@@ -566,7 +568,7 @@ export function showChartsOption(chartsList, keyList) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
               style = "zyzx://" + mapType + "/styles/style.json";
-              console.log(style)
+              //console.log(style)
               map = new window.dmapgl.Map({
                 container: timeKey,
                 zoom: 8,
@@ -577,7 +579,7 @@ export function showChartsOption(chartsList, keyList) {
                 preserveDrawingBuffer: true,
                 style: style,
               });
-              console.log(map)
+              //console.log(map)
               map.on('load', function () {
                 addSKY(map);
                 if (result && result[0]) {
@@ -799,7 +801,7 @@ export function showChartsOption(chartsList, keyList) {
                     // .size('sum', [ 0, 600 ])
                     .size('sum', function (v) {
                       v = Math.log(v + 1);
-                      console.log(v);
+                      //console.log(v);
                       return v * 1000;
                     })
                     .shape(shape)
@@ -3406,7 +3408,7 @@ console.log(map)
 function addLayerWFS(obj, map) {
   var userName = getCookie("userName");
   var renderer = obj.renderer;
-  console.info(renderer);
+  //console.info(renderer);
   var layername = userName + "." + obj.layername;
   var rxml = $.parseXML(renderer);
   var group1 = $(rxml).find('GROUPRENDERER');

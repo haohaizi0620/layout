@@ -287,7 +287,7 @@ class Header extends Component {
     let defaultShowVal = getDefaultLayerData(layerType,layerId);
     let defaultPosition = `{"cptBorderObj":{"width":280,"height":260,"left":450,"top":160,"rotate":0,"opacity":1,"layerBorderWidth":0,"layerBorderStyle":"solid","layerBorderColor":"rgba(0,0,0,1)"},"type":"${layerType}","cptType":"${layerId}"}`;
     defaultShowVal.positionObj = JSON.parse(defaultPosition);
-    console.log( defaultShowVal.positionObj)
+    //console.log( defaultShowVal.positionObj)
    /*  this.props.onClickAdd(layerObj, {
       data: {},
       state: "headerAdd",
@@ -397,7 +397,7 @@ class Header extends Component {
           })
           .catch(error => {
             this.returnPrePage();
-            console.info(error);
+            //console.info(error);
           });
       })
       .catch(error => console.log(error));
@@ -425,7 +425,7 @@ class Header extends Component {
       showData = show;
     }
 
-    console.info(this.state);
+    //console.info(this.state);
     return (
       <div className="custom-header">
         <div className="custom-header-title">

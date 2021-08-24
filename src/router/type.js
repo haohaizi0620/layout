@@ -4,7 +4,7 @@
  * issue：是否为正式版项目，true为服务器正式项目，false为本地调试项目
  */
 const typeObj = {
-    project: "/share/",
-    issue: true
+    project: "/data/",
+    issue: false
 };//
 export default typeObj;

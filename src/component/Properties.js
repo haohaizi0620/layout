@@ -20,7 +20,7 @@ const { Panel } = Collapse;
 class Properties extends Component {
   constructor(props) {
     super(props);
-    console.info("Properties...");
+    //console.info("Properties...");
     let {cptPropertyObj:cptBorderObj,globalBg:bgFieldObj} = this.props;
     let cptType = cptBorderObj.cptType;
     cptBorderObj = cptBorderObj.cptBorderObj;
