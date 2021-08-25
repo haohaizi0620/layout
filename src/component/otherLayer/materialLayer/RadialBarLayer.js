@@ -47,7 +47,11 @@ class RadialBarLayer extends Component {
     }
 
     render() {
-        let {positionObj, radialBar} = this.props.layerData;
+        let {positionObj, radialBar,url,textCenter} = this.props.layerData;
+        let data = textCenter.value;
+        if (url){
+            data = this.state.value;
+        }
 
         var config = {
             width: parseInt(positionObj.cptBorderObj.width),
@@ -55,7 +59,7 @@ class RadialBarLayer extends Component {
             autoFit: true,
             xField: 'name',
             yField: 'value',
-            data: this.state.value === ''?[{"name":"分类一","value":297},{"name":"分类二","value":604},{"name":"分类三","value":933}]:this.state.value,
+            data: data === ''?[{"name":"分类一","value":297},{"name":"分类二","value":604},{"name":"分类三","value":933}]:data,
             type: radialBar.type === 'normal' ? '' : radialBar.type,
             maxAngle: radialBar.maxAngle,
             innerRadius: radialBar.innerRadius ? radialBar.innerRadius : 0.2,

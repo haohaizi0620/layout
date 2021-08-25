@@ -280,7 +280,7 @@ class LeftComponentList extends Component {
         <div className="custom-left-list-p">
           <Tabs defaultActiveKey='1' size='large' onChange={this.switchTabs}>
             {tabKeys.map((item,index) => {
-              if (item.serialNumber === 1) {
+              if (parseInt(item.serialNumber) === 1) {
                 return (
                   <TabPane
                     tab={

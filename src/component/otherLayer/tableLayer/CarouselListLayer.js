@@ -50,8 +50,11 @@ class CarouselList extends Component {
 
 
     render() {
-        let {playSpeed, tableHeader, tableBody, border} = this.props.layerData;
-        let data = this.state.data;
+        let {playSpeed, tableHeader, tableBody, border,url,data} = this.props.layerData;
+        //let data = data;
+        if(url){
+            data = this.state.data;
+        }
         let uuid = this.uuid();
 
         var obj = {
@@ -88,13 +91,11 @@ class CarouselList extends Component {
                                                         height:tableHeader.fontSize * 2 + 'px',
                                                     }}>{item1}</th>
                                                 )
-                                                //return index;
                                             })
                                         }
                                     </tr>
                                 )
                             }
-                            return i;
                         })
                     }
                     </thead>

@@ -48,7 +48,12 @@ class RoseLayer extends Component {
     }
 
     render() {
-        let {positionObj, font,rose} = this.props.layerData;
+        let {positionObj, font,rose,url,textCenter} = this.props.layerData;
+        let data = textCenter.value;
+        if (url){
+            data = this.state.value;
+        }
+
 
         var config = {
             width: parseInt(positionObj.cptBorderObj.width),
@@ -57,7 +62,7 @@ class RoseLayer extends Component {
             xField: 'name',
             yField: 'value',
             seriesField: 'type',
-            data: this.state.value === ''?[{"name":"分类一","value":27,"type":"分类一"},{"name":"分类二","value":25,"type":"分类二"},{"name":"分类三","value":18,"type":"分类三"},{"name":"分类四","value":15,"type":"分类四"},{"name":"分类五","value":10,"type":"分类五"},{"name":"其他","value":5,"type":"其他"}]:this.state.value,
+            data: data === ''?[{"name":"分类一","value":27,"type":"分类一"},{"name":"分类二","value":25,"type":"分类二"},{"name":"分类三","value":18,"type":"分类三"},{"name":"分类四","value":15,"type":"分类四"},{"name":"分类五","value":10,"type":"分类五"},{"name":"其他","value":5,"type":"其他"}]:data,
             innerRadius: rose.innerRadius ? rose.innerRadius : 0,
             radius: rose.radius ? rose.radius : 1,
             label: {

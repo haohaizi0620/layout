@@ -55,12 +55,15 @@ class Statistic1 extends Component {
     }
 
     render() {
-        let {backgroundColor, fontFamily, fontSize, fontColor, fontWeight, textAlign, writingMode, title, precision, prefix, suffix} = this.props.layerData;
-
+        let {backgroundColor, fontFamily, fontSize, fontColor, fontWeight, textAlign, writingMode, title, precision, prefix, suffix,textCenter,url} = this.props.layerData;
+        let value = textCenter.value;
+        if (url){
+            value = this.state.value;
+        }
         return (
             <Statistic
                 title={title}
-                value={this.state.value}
+                value={value}
                 precision={precision}
                 valueStyle={{
                     color: fontColor,

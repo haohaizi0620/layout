@@ -47,8 +47,12 @@ class LiquidLayer extends Component {
     }
 
     render() {
-        let {format, font, liquid} = this.props.layerData;
-        let percent = this.state.percent / 100.00;
+        let {format, font, liquid,url,textCenter} = this.props.layerData;
+        let value = textCenter.value;
+        if (url){
+            value = this.state.percent;
+        }
+        let percent = value / 100.00;
         let config = {
             percent: percent,
             statistic: {

@@ -1095,6 +1095,9 @@ class Layout extends Component {
                 if (defaultFlag) {
                     cptOptionObj.layerOption[fieldEname] = fieldValue;
                     cptChartIdList[cptIndex].layerData[fieldEname] = fieldValue;
+
+                    cptOptionObj.layerOption['data'] = fieldValue;
+                    cptChartIdList[cptIndex].layerData['data'] = fieldValue;
                 }
                 this.setState({
                     cptChartIdList: cptChartIdList

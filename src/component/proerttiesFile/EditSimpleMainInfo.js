@@ -315,7 +315,6 @@ class EditSimpleMainInfo extends Component {
                 </div>
               );
             }
-            return i;
           })}
         </Col>
       </Row>

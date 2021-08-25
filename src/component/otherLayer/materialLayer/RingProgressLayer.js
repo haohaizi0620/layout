@@ -47,8 +47,12 @@ class RingProgressLayer extends Component {
     }
 
     render() {
-        let {positionObj, format, font, ringProgress} = this.props.layerData;
-        let percent = this.state.percent / 100.00;
+        let {positionObj, format, font, ringProgress,url,textCenter} = this.props.layerData;
+        let data = textCenter.value;
+        if (url){
+            data = this.state.percent;
+        }
+        let percent = data / 100.00;
 
         var config = {
             width: parseInt(positionObj.cptBorderObj.width),

@@ -47,8 +47,12 @@ class GaugeLayer extends Component {
     }
 
     render() {
-        let {format, font, gauge} = this.props.layerData;
-        let percent = this.state.percent / 100.00;
+        let {format, font, gauge,url,textCenter} = this.props.layerData;
+        let data = textCenter.value;
+        if (url){
+            data = this.state.percent;
+        }
+        let percent = data / 100.00;
         let begin = gauge.beginColor ? gauge.beginColor : 'rgba(180,226,255,1)';
         let end = gauge.endColor ? gauge.endColor : 'rgba(149,152,255,1)';
 

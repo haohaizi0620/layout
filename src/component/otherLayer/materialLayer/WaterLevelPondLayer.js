@@ -47,9 +47,13 @@ class WaterLevelPondLayer extends Component {
     }
 
     render() {
-        let {positionObj, waterLevel} = this.props.layerData;
+        let {positionObj, waterLevel,url,textCenter} = this.props.layerData;
+        let data = textCenter.value;
+        if (url){
+            data = this.state.percent;
+        }
         let config = {
-            data: [this.state.percent],
+            data: [data],
             shape: waterLevel.shape ? waterLevel.shape : 'rect',
             colors: [waterLevel.beginColor ? waterLevel.beginColor : '#00BAFF', waterLevel.endColor ? waterLevel.endColor : '#3DE7C9'],
             waveNum: waterLevel.waveNum,

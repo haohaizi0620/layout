@@ -47,9 +47,13 @@ class BarProgressLayer extends Component {
     }
 
     render() {
-        let {barProgress} = this.props.layerData;
+        let {url,barProgress,textCenter} = this.props.layerData;
+        let value = textCenter.value;
+        if (url){
+            value = this.state.percent;
+        }
         return (
-            <Progress percent={this.state.percent} status={barProgress.status} strokeColor={barProgress.strokeColor}
+            <Progress percent={value} status={barProgress.status} strokeColor={barProgress.strokeColor}
                       strokeWidth={barProgress.strokeWidth}/>
         );
     }

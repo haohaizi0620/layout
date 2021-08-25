@@ -2037,7 +2037,7 @@ class Properties extends Component {
           }
         }else if(otherLayerId === "carouselList" || otherLayerId === "scrollRanking"){
           if (dataObj) {
-            let showData = dataObj.data;
+            let showData = dataObj.textCenter;
             setDataValue = showData;
             setDataEname = "textCenter";
           }
