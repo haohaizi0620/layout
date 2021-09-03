@@ -5,6 +5,6 @@
  */
 const typeObj = {
     project: "/data/",
-    issue: false
+    issue: true
 };//
 export default typeObj;

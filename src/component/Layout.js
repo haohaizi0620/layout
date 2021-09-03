@@ -1192,9 +1192,11 @@ class Layout extends Component {
                     var id = window.arr[window.cptIndex];
                     for (var i = 0; i < window.mapObjArr.length; i++) {
                         var key = window.mapObjArr[i];
-                        if (id === key.layerId) {
+                        var flag = (id === key.layerId);
+                        if (flag) {
                             if (key.layerMap._container) {
                                 key.layerMap.resize();
+                                break;
                             }
                         }
                     }
@@ -1214,9 +1216,11 @@ class Layout extends Component {
                     var id = window.arr[window.cptIndex];
                     for (var i = 0; i < window.mapObjArr.length; i++) {
                         var key = window.mapObjArr[i];
-                        if (id === key.layerId) {
+                        var flag = (id === key.layerId);
+                        if (flag) {
                             if (key.layerMap._container) {
                                 key.layerMap.resize();
+                                break;
                             }
                         }
                     }
@@ -1691,8 +1695,9 @@ class Layout extends Component {
     savePagePrev = () => {
         let preState = this.state;
         let nameData = preState.nameData;
-        let sidVal = `${nameData.USERNAME}_${nameData.ID}_${preState.kshId}`;
-        this.refs.shareModel.setDefaultValue(`http://172.26.50.89/share/build/index.html?sid=${sidVal}`);
+        let username = `${nameData.USERNAME}`;
+        let sidVal = `${nameData.ID}_${preState.kshId}`;
+        this.refs.shareModel.setDefaultValue(`http://172.26.50.89/share/build/index.html?user=${username}&sid=${sidVal}`);
     }
 
     onRightClick = (event) => {

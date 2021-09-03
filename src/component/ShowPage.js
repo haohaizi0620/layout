@@ -100,13 +100,14 @@ class ShowPage extends Component {
   }
   initProxyShare() {
     //'ldjsc_54106330f9e64362932829669338a430_160'
+    let user = this.GetUrlParam("user");
     let sidVal = this.GetUrlParam("sid");
     let _this = this;
     if (sidVal) {
-      document.cookie = "userName=" + sidVal.split("_")[0];
+      document.cookie = "userName=" + user;
     }
     //console.log(document.cookie);
-    getShareObj({ sid: sidVal })
+    getShareObj({ sid: sidVal ,user: user})
       .then(result => {
         if (result.count === 1) {
           var tempData = JSON.parse(result.data);

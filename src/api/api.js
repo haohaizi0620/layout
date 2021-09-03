@@ -198,9 +198,7 @@ export function getShareById(shareID) {
 export function getSpecify(catalogId) {
   var schema;
   if ("/share/" === typeObj.project){
-    var url = window.location.href;
-    var par = url.substr(url.indexOf("sid=")+4,url.length);
-    schema = par.substr(0,par.indexOf("_"));
+    schema = getUrlParam("user");
   }else {
     schema = window.parent.document.getElementById("userName").innerHTML
   }
@@ -213,9 +211,7 @@ export function getSpecify(catalogId) {
 export function getSpecifyGeojson(catalogId) {
   var schema;
   if ("/share/" === typeObj.project){
-    var url = window.location.href;
-    var par = url.substr(url.indexOf("sid=")+4,url.length);
-    schema = par.substr(0,par.indexOf("_"));
+    schema = getUrlParam("user");
   }else {
     schema = window.parent.document.getElementById("userName").innerHTML
   }
@@ -259,3 +255,10 @@ export function getShareCells(shareObj) {
 
 
 
+function getUrlParam(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
+  var r = window.location.search.substr(1).match(reg); // 匹配目标参数
+  if (r != null)
+    return unescape(r[2]);
+  return null; // 返回参数值
+}

@@ -1,19 +1,3 @@
-.mapboxgl-popup-anchor-bottom{
-    width:350px !important;
-    max-width: 350px;
-    min-width: 350px;
-}
-.mapboxgl-popup-anchor-top{
-    width:350px !important;
-    max-width: 350px;
-    min-width: 350px;
-}
-.mapboxgl-popup-close-button {
-    font-size: 30px;
-    margin: -4px 5px;
-    color: black!important;
-}
-
 html,body{
     overflow: hidden;
 }
@@ -22,4 +6,66 @@ html,body{
 }
 .custom-content-canvs{
     overflow: hidden;
+}
+.l7-popup-content{
+    background: #fff0 !important;
+    padding: 0px 0px 0px !important;
+}
+.popudiv{
+    width: 270px !important;
+    overflow: auto !important;
+    font-size: 14px;
+    overflow-y:auto;
+    background: url('../img/keji.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.poputable{
+    width:100%;
+}
+.tdcolumnName{
+    width: 33% !important;
+    text-align: center;
+    vertical-align: top;
+    padding-right: 5px;
+    border:1px solid #26b3f7bd;
+    padding:5px;
+}
+.tdcolumnNamee{
+    width:40%;
+    text-align: center;
+    vertical-align: top;
+    padding-right: 5px;
+    border:1px solid #e6e6e6;
+    border-bottom:none;
+    padding:5px 20px;
+}
+.poputablee td{
+    padding:5px 20px;
+}
+.poputable{
+    width:92%;
+    border-bottom:1px solid #e6e6e6;
+    border-collapse: collapse;
+    margin: 10px 10px 10px 10px;
+}
+.poputable tr{
+    background-color:#1d6c93b0;
+    color: white;
+    border: 1px solid #e6e6e6;
+}
+.poputable tr:hover{
+    background-color:#1d6c93f5;
+}
+.poputable td{
+    text-align:center;
+    border:1px solid #26b3f7bd;
+}
+.popu_input{
+    border:none;
+    background:rgba(0,0,0,0);
+}
+.mapboxgl-popup-content{
+    background: #fff0 !important;
+    padding: 0px 0px 0px !important;
 }

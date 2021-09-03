@@ -195,6 +195,7 @@ export function chartOption(chartName, timeKey, _this, chartState, otherObj) {
  * @return:
  */
 export function showChartsOption(chartsList, keyList) {
+  var popup;
   if (chartsList && chartsList[0]) {
     var arr = window.arr
       ? window.arr
@@ -448,12 +449,14 @@ export function showChartsOption(chartsList, keyList) {
                     new window.dmapgl.EchartsTool(result[0], map);
                   }
                 }
-                let tempOptionObj = {
-                  cptIndex: index,
-                  layerOption: result
-                }
-                store.dispatch(editCptOptionsList(tempOptionObj));
               });
+              let tempOptionObj = {
+                cptIndex: index,
+                layerOption: result
+              }
+              store.dispatch(editCptOptionsList(tempOptionObj));
+              mapObjArr.push({ layerId: timeKey, layerMap: map });
+              window.mapObjArr = mapObjArr;
             }
           }).catch(e => console.log("error", e));
 
@@ -494,6 +497,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
 
           }).catch(e => console.log("error", e));
 
@@ -551,6 +556,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
 
           }).catch(e => console.log("error", e));
         }
@@ -590,8 +597,33 @@ export function showChartsOption(chartsList, keyList) {
                     new window.dmapgl.Grid(result[0], map, timeKey);
                   } else if ('COLORSCALE' === type1) {
                     new window.dmapgl.Grade(result[0], map, timeKey);
-                    console.log(new window.dmapgl.Grade(result[0], map, timeKey))
                   }
+
+                  var mouseevent = result[0].myLegend.result[0].itemStyle.mouseevent;
+                  var showfield  = result[0].myLegend.result[0].itemStyle.showfield;
+                  var showfieldarr = showfield.split(",");
+                  map.on(mouseevent,timeKey, function(e) {
+                    if(popup){
+                      popup.remove();
+                    }
+                    var properties;
+                    if (map.queryRenderedFeatures(e.point)[0] == 'null' || map.queryRenderedFeatures(e.point)[0] == undefined) {
+                      return false;
+                    } else {
+                      properties = map.queryRenderedFeatures(e.point)[0].properties;
+                    }
+                    var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
+                    for (var i = 0; i < showfieldarr.length; i++) {
+                      ddhtml += "<tr><th class = \"tdcolumnName\">" + showfieldarr[i] + ":</th>"
+                          + "<td><span class=\"popu_span\">" + properties[showfieldarr[i]] + "</span>"
+                          + "</td></tr>";
+                    }
+                    ddhtml += "</table></div>";
+                    popup = new window.dmapgl.Popup()
+                        .setLngLat(e.lngLat)
+                        .setHTML(ddhtml)
+                        .addTo(map);
+                  });
                 }
               });
 
@@ -601,6 +633,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
 
           }).catch(e => console.log("error", e));
 
@@ -638,6 +672,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
 
           }).catch(e => console.log("error", e));
 
@@ -860,6 +896,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         } else if (type1 === "qipao") {//气泡图
           getSpecifyGeojson(chartId).then(function (result) {
@@ -959,6 +997,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
 
           }).catch(e => console.log("error", e));
 
@@ -1200,7 +1240,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
-
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         } else if ('路径动画' === type1) {//路径动画
           getSpecifyGeojson(chartId).then(function (result) {
@@ -1302,7 +1343,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
-
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         } else if ('等值线图' === type1) {//等值线图
           getSpecifyGeojson(chartId).then(function (result) {
@@ -1406,7 +1448,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
-
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         } else if (type1 === "liangdutu") {
           getSpecifyGeojson(chartId).then(function (result) {
@@ -1518,6 +1561,8 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         } else if (type1 === "timeslider") {
           getSpecifyGeojson(chartId).then(function (result) {
@@ -1630,6 +1675,168 @@ export function showChartsOption(chartsList, keyList) {
               layerOption: result
             }
             store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
+          }).catch(e => console.log("error", e));
+        }else if ('3DARC' == type1) {
+          getSpecifyGeojson(chartId).then(function (result) {
+            if (result.data) {
+              console.log("接口没有数据")
+            } else {
+              var mapType = ""
+              var style = "zyzx://vector_new/styles/style.json";
+              if (result && result[0]) {
+                mapType = result[0].myLegend.result[0].itemStyle.maptype;
+              }
+              style = "zyzx://" + mapType + "/styles/style.json";
+              map = new window.dmapgl.Map({
+                container: timeKey,
+                zoom: 8,
+                minZoom: 8,
+                maxZoom: 20,
+                fadeDuration: 0,
+                center: [503428.7804260254, 345586.30670166016],
+                preserveDrawingBuffer: true,
+                style: style
+              });
+              //添加天空图层
+              addSKY(map);
+              const scene = new window.L7.Scene({
+                id: timeKey,
+                logoVisible: false,
+                preserveDrawingBuffer: true,
+                map: new window.L7.Mapbox({
+                  mapInstance: map,
+                }),
+              });
+
+              scene.on('loaded', function () {
+                var data = result;
+                //起始点坐标字段
+                var startpointX = data[0].myLegend.result[0].legendPosition.split(";")[1];
+                var startpointY = data[0].myLegend.result[0].legendPosition.split(";")[2];
+
+                var endpointX = data[0].myLegend.result[0].titlePosition.split(";")[1];
+                var endpointY = data[0].myLegend.result[0].titlePosition.split(";")[2];
+
+                var myMapTableFeatures = data[0].myMapTable.features;
+                var sourcedata = {};
+                sourcedata.type = "FeatureCollection";
+                var features = [];
+                for (var i = 0; i < myMapTableFeatures.length; i++) {
+                  var feature = {};
+                  feature.type = myMapTableFeatures[i].type;
+                  feature.properties = data[0].myMapTable.features[i].properties;
+                  var geometry = {};
+                  geometry.type = "LineString";
+                  var coordinates = [];
+                  var startcoordinates = [];
+                  startcoordinates[0] = myMapTableFeatures[i].properties[startpointX];
+                  startcoordinates[1] = myMapTableFeatures[i].properties[startpointY];
+                  var endcoordinates = [];
+                  endcoordinates[0] = myMapTableFeatures[i].properties[endpointX]
+                  endcoordinates[1] = myMapTableFeatures[i].properties[endpointY];
+                  coordinates.push(startcoordinates.map(Number));
+                  coordinates.push(endcoordinates.map(Number));
+                  geometry.coordinates = coordinates;
+                  feature.geometry = geometry;
+                  features.push(feature);
+                }
+                sourcedata.features = features;
+
+                var color = data[0].myLegend.result[0].color;
+                color = rgb2hex(color);
+                var size = data[0].myLegend.result[0].itemStyle.size;
+                var opacity = data[0].myLegend.result[0].itemStyle.opacity;
+                var shape = data[0].myLegend.result[0].itemStyle.shape;
+                var mouseevent = data[0].myLegend.result[0].itemStyle.mouseevent;
+                var field = data[0].myLegend.result[0].legendPosition.split(";")[0];
+                var showfield = data[0].myLegend.result[0].itemStyle.showfield;
+                var showfieldarr = showfield.split(",");
+                var animate = data[0].myLegend.result[0].itemStyle.animate;
+                var flowgrap = data[0].myLegend.result[0].itemStyle.flowgrap;
+                const linelayer = new window.L7.LineLayer({})
+                    .source(sourcedata)
+                    .size(parseInt(size))
+                    .shape(shape)
+                    .color(color)
+                    .style({
+                      opacity: parseInt(opacity)
+                    });
+                if(animate=="true"){
+                  var duration = data[0].myLegend.result[0].itemStyle.duration;
+                  var interval = data[0].myLegend.result[0].itemStyle.interval;
+                  var trailLength = data[0].myLegend.result[0].itemStyle.trailLength;
+                  linelayer.animate({
+                    interval: parseInt(interval),
+                    trailLength: parseInt(trailLength),
+                    duration: parseInt(duration)
+                  });
+                }else{
+                  linelayer.animate(false);
+                }
+                linelayer.on(mouseevent, (ev) => {//alert("鼠标左键点击图层事件");
+                  if(ev.feature=='null'){
+                    return false;
+                  }
+                  var ddhtml = "<div class=\"popudiv\"><table class=\"poputable\">"
+                  for (var i = 0; i < showfieldarr.length; i++) {
+                    ddhtml += "<tr><th class = \"tdcolumnName\">" + showfieldarr[i] + ":</th>"
+                        + "<td><span class=\"popu_span\">" + ev.feature.properties[showfieldarr[i]] + "</span>"
+                        + "</td></tr>";
+                  }
+                  ddhtml += "</table></div>";
+                  const popup = new window.L7.Popup({
+                    offsets: [0, 0],
+                    closeButton: false
+                  })
+                      .setLnglat(ev.lngLat)
+                      .setHTML(ddhtml);
+                  scene.addPopup(popup);
+
+                });
+                scene.addLayer(linelayer);
+                if(flowgrap=="true"){//流向图
+                  //点数据source
+                  var pointsourcedata = {};
+                  pointsourcedata.type = "FeatureCollection";
+                  var pointfeatures = [];
+                  for (var i = 0; i < myMapTableFeatures.length; i++) {
+                    var feature = {};
+                    feature.type = myMapTableFeatures[i].type;
+                    feature.properties = data[0].myMapTable.features[i].properties;
+                    var geometry = {};
+                    geometry.type = "Point";
+                    var coordinates = [];
+                    coordinates[0] = parseFloat(myMapTableFeatures[i].properties[endpointX])
+                    coordinates[1] = parseFloat(myMapTableFeatures[i].properties[endpointY]);
+                    geometry.coordinates = coordinates;
+                    feature.geometry = geometry;
+                    pointfeatures.push(feature);
+                  }
+                  pointsourcedata.features = pointfeatures;
+                  const pointlayer = new window.L7.PointLayer({})
+                      .source(pointsourcedata)
+                      .shape("circle")
+                      .color(color)
+                      .animate(true)
+                      .size(40)
+                      .style({
+                        opacity:parseInt(opacity)
+                      });
+                  scene.addLayer(pointlayer);
+                }
+
+
+              })
+            }
+            let tempOptionObj = {
+              cptIndex: index,
+              layerOption: result
+            }
+            store.dispatch(editCptOptionsList(tempOptionObj));
+            mapObjArr.push({ layerId: timeKey, layerMap: map });
+            window.mapObjArr = mapObjArr;
           }).catch(e => console.log("error", e));
         }
       } else if (layerType === "1") {
@@ -1649,22 +1856,15 @@ export function showChartsOption(chartsList, keyList) {
         map.on('load', function () {
           addSKY(map);
           let dataShowVal = data.show;
-          // let parentDom = window.parent.document;
-          // let dataShow = parentDom.getElementById("dataShow").contentWindow;
+          // let window.parentDom = window.window.parent.document;
+          // let dataShow = window.parentDom.getElementById("dataShow").contentWindow;
           if (dataShowVal === "1") {
             addLayerWFS(data, map);
           } else if (dataShowVal === "2") {
             addLayerWMS(data, map);
           }
-          /*getSpecify(chartId).then(result => {
-              let tempOptionObj = {
-                  cptIndex: index,
-                  layerOption: result
-              }
-              store.dispatch(editCptOptionsList(tempOptionObj));
-          }).catch(error => {
-              console.info(error);
-          });*/
+          mapObjArr.push({ layerId: timeKey, layerMap: map });
+          window.mapObjArr = mapObjArr;
         });
       } else {
         let tempSaveObj = {};
@@ -1951,8 +2151,8 @@ export function showChartsOption(chartsList, keyList) {
  * @param n 序号
  */
 function addChart(data, timeId, addIndex, _this) {
-  // let parentDom = window.parent.document;
-  // let dataShow = parentDom.getElementById("dataShow").contentWindow;
+  // let window.parentDom = window.window.parent.document;
+  // let dataShow = window.parentDom.getElementById("dataShow").contentWindow;
   timeId = timeId.toString();
   var thType = data.thType;
   //var type2 = data.type2;
@@ -3408,7 +3608,12 @@ function addChart(data, timeId, addIndex, _this) {
  * @returns
  */
 function addLayerWFS(obj, map) {
-  var userName = getCookie("userName");
+  var userName,popup;
+  if ("/data/" === typeObj.project) {
+    userName = window.parent.$(".userName")[0].innerText;
+  }else {
+    userName = getCookie("userName");
+  }
   var renderer = obj.renderer;
   //console.info(renderer);
   var layername = userName + "." + obj.layername;
@@ -3475,6 +3680,8 @@ function addLayerWFS(obj, map) {
       var styleName = grouperenderer.attr('styleName');
       var fuhaokuName = grouperenderer.attr('fuhaokuName');
       var simplemarkersymbol = $(grouperenderer).find('SIMPLEMARKERSYMBOL');
+      var sbsj=simplemarkersymbol.attr("sbsj");
+      var sbsjzszd=simplemarkersymbol.attr("sbsjzszd").split(",");
 
       var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
         '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
@@ -3557,6 +3764,36 @@ function addLayerWFS(obj, map) {
 						    'icon-allow-overlap' : true*/
             }
           });
+
+          map.on(sbsj,layername, function(e) {
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var properties = e.features[0].properties;
+            if(popup){
+              popup.remove();
+            }
+            var sbtable="<div class=\"popudiv\"><table class=\"poputable\">"
+            var flag=0
+            for (var i = 0; i < sbsjzszd.length; i++) {
+              var sbsjzszdd=sbsjzszd[i]
+              if(flag==0){
+                flag=1;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }else{
+                flag=0;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }
+
+            }
+            sbtable+='</table></div>'
+            popup =  new window.dmapgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(sbtable)
+                .addTo(map)
+          });
         }
       });
 
@@ -3632,22 +3869,28 @@ function addLayerWFS(obj, map) {
           map.on(sbsj,layername, function(e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
             var properties = e.features[0].properties;
-            //console.log(properties)
-            var sbtable='<div style="padding-top:10px"><table style="text-align: center;font-size:12px; table-layout:fixed">'
+            if(popup){
+              popup.remove();
+            }
+            var sbtable="<div class=\"popudiv\"><table class=\"poputable\">"
             var flag=0
             for (var i = 0; i < sbsjzszd.length; i++) {
               var sbsjzszdd=sbsjzszd[i]
               if(flag==0){
                 flag=1;
-                sbtable+='<tr><td width="120px" style="padding: 10px 0px;border: 1px solid #999;background-color: #f2f2f2;">'+sbsjzszd[i]+':'+'</td>'+'<td width="230px" style="border: 1px solid #999;background-color: #f2f2f2;">'+properties[sbsjzszdd]+'</td>'+'</tr>'
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
               }else{
                 flag=0;
-                sbtable+='<tr><td width="120px" style="padding: 10px 0px;border: 1px solid #999;background-color:#fff">'+sbsjzszd[i]+':'+'</td>'+'<td  width="230px" style="border: 1px solid #999;background-color: "#fff";>'+properties[sbsjzszdd]+'</td>'+'</tr>'
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
               }
 
             }
             sbtable+='</table></div>'
-            new window.dmapgl.Popup()
+            popup =  new window.dmapgl.Popup()
                 .setLngLat(coordinates)
                 .setHTML(sbtable)
                 .addTo(map)
@@ -3659,6 +3902,8 @@ function addLayerWFS(obj, map) {
       var simplinesymbol = $(simplerenderer).find('SIMPLELINESYMBOL');
       var width = parseInt(simplinesymbol.attr('width'));
       var color = simplinesymbol.attr('color');
+      var sbsj=simplinesymbol.attr("sbsj");
+      var sbsjzszd=simplinesymbol.attr("sbsjzszd").split(",");
 
       var url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
         '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
@@ -3709,6 +3954,34 @@ function addLayerWFS(obj, map) {
               'line-width': width
             }
           });
+          map.on(sbsj,layername, function(e) {
+            var properties = e.features[0].properties;
+            if(popup){
+              popup.remove();
+            }
+            var sbtable="<div class=\"popudiv\"><table class=\"poputable\">"
+            var flag=0
+            for (var i = 0; i < sbsjzszd.length; i++) {
+              var sbsjzszdd=sbsjzszd[i]
+              if(flag==0){
+                flag=1;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }else{
+                flag=0;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }
+
+            }
+            sbtable+='</table></div>'
+            popup = new window.dmapgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(sbtable)
+                .addTo(map)
+          });
         }
       });
     } else if ('精准线样式' === type) {
@@ -3727,6 +4000,8 @@ function addLayerWFS(obj, map) {
       var fillcolor = simplepolygonsymbol.attr('fillcolor');
       var boundarycolor = simplepolygonsymbol.attr('boundarycolor');
       //var filltransparency = parseInt(simplepolygonsymbol.attr('filltransparency'));
+      var sbsj=simplepolygonsymbol.attr("sbsj");
+      var sbsjzszd=simplepolygonsymbol.attr("sbsjzszd").split(",");
 
       url = typeObj.project + 'GIMSNEW?request=GetFeature&service=WFS&version=1.0.0&recbox=437442.469,257' +
         '025.703,582446.812,414679.125&searchType=recsearch&typename=' + layername;
@@ -3779,6 +4054,35 @@ function addLayerWFS(obj, map) {
               'fill-outline-color': 'rgb(' + boundarycolor + ')'
             }
           });
+
+          map.on(sbsj,layername, function(e) {
+            var properties = e.features[0].properties;
+            if(popup){
+              popup.remove();
+            }
+            var sbtable="<div class=\"popudiv\"><table class=\"poputable\">"
+            var flag=0
+            for (var i = 0; i < sbsjzszd.length; i++) {
+              var sbsjzszdd=sbsjzszd[i]
+              if(flag==0){
+                flag=1;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }else{
+                flag=0;
+                sbtable+='<tr>'
+                    +'<th class = \"tdcolumnName\">'+sbsjzszd[i]+':'+'</th>'
+                    +'<td><span class=\"popu_span\">'+properties[sbsjzszdd]+'</span></td>'+'</tr>'
+              }
+
+            }
+            sbtable+='</table></div>'
+            popup = new window.dmapgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(sbtable)
+                .addTo(map)
+          });
         }
       });
     } else if ('精准面样式' === type) {
@@ -3797,7 +4101,13 @@ function addLayerWFS(obj, map) {
 }
 
 function addLayerWMS(obj, map) {
-  var userName = getCookie("userName");
+  var userName;
+  if ("/data/" === typeObj.project) {
+    userName = window.parent.$(".userName")[0].innerText;
+  }else {
+    userName = getCookie("userName");
+  }
+
   var name = obj.name;
   var layername = userName + "." + obj.layername;
   var service = obj.service;
@@ -3807,7 +4117,7 @@ function addLayerWMS(obj, map) {
     'type': 'raster',
     'source': {
       'type': 'raster',
-      'tiles': ['zyzx://GovEMap/wms?service=' + service + '&request=GetMap&version=1.1.1&layers=&styles=&format=image%2Fpng&transparent=tru' +
+      'tiles': ['zyzx://GovEMap/wms?service=' + service + '&request=GetMap&version=1.1.1&layers=&styles=&format=image%2Fpng&transwindow.parent=tru' +
         'e&CapitalCharacter=false&crs=&height=256&width=256&layername=' + layername + '&name=' + name + '&continuousWorld=true&BBOX={bbox-epsg-3857}'],
       'tileSize': 256
     },
@@ -4307,7 +4617,12 @@ function recursionJZFW(type, layername, map, arr, field, index) {
  * @param data 地图加载的数据
  */
 function initMapData(map, data) {
-  var userName = getCookie("userName");
+  var userName;
+  if ("/data/" === typeObj.project) {
+    userName = window.parent.$(".userName")[0].innerText;
+  }else {
+    userName = getCookie("userName");
+  }
   /* var renderer = data.renderer;
   var layername = userName+"."+data.layername;
 var rxml = $.parseXML(renderer);
@@ -4337,6 +4652,7 @@ function getCookie(cookie_name) {
   }
   return value;
 }
+
 function rgb2hex(rgb) {
   if (rgb.charAt(0) === '#')
     return rgb;
