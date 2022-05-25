@@ -434,7 +434,8 @@ class Header extends Component {
             size="small"
             onClick={this.outRollbackPage}
           >
-            我的可视化
+            <img src={require('../img/icon/kshBak.png')}/>
+            返回
           </Button>
           <div className={'custom-header-title-name'}>
             <span>{KSHNAME}</span>

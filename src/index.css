@@ -57,6 +57,9 @@ body {
   transform: translateY(-50%);
   left: 10px;
 }
+.outRollback img {
+  width: 1.5em;
+}
 .outRollback:hover {
   background: #2e343c !important;
   color: white !important;
