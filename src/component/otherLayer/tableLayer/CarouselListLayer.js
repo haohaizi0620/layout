@@ -1,17 +1,43 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import './CarouselListLayer.css';
+import typeObj from '../../../router/type';
+
+let baseUrl;
+let deployPrev;
+let localPrev;
+if ("/data/" === typeObj.project) {
+    deployPrev = "http://172.26.50.89/data/";
+    localPrev = "http://127.0.0.1:8776/data/";
+} else {
+    deployPrev = "http://172.26.50.89/share/";
+    localPrev = "http://127.0.0.1:8777/share/";
+}
+
+if (typeObj.issue) {
+    baseUrl = deployPrev;
+} else {
+    baseUrl = localPrev;
+}
+
 
 class CarouselList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[]
+            data: {
+                "status": 1,
+                "info": "success",
+                "count": 0,
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": []
+                }
+            }
         }
     }
 
     componentDidMount() {
-        console.info(1);
         this.regular();
     }
 
@@ -24,10 +50,23 @@ class CarouselList extends Component {
 
         let {url, data} = _this.props.layerData;
         if (url) {
-            fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
-                .then(data => this.setState({
-                    data: data,
-                }))
+            let url1 = url;
+            if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+                url1 = url;
+            } else {
+                url1 = baseUrl + url;
+            }
+            fetch(url1).then(response => response.blob())
+                .then(data => {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        let text = reader.result;
+                        this.setState({
+                            data: JSON.parse(text),
+                        })
+                    }
+                    reader.readAsText(data, 'GBK');
+                })
                 .catch(e => console.log("error", e));
         } else {
             this.setState({
@@ -39,10 +78,23 @@ class CarouselList extends Component {
         _this.timeClose = setInterval(() => {
             let {url} = _this.props.layerData;
             if (url) {
-                fetch(url + "?time=" + new Date().getTime()).then(response => response.json())
-                    .then(data => this.setState({
-                        data: data,
-                    }))
+                let url1 = url;
+                if (url.indexOf('http://') > -1 || url.indexOf('https://') > -1) {
+                    url1 = url;
+                } else {
+                    url1 = baseUrl + url;
+                }
+                fetch(url1).then(response => response.blob())
+                    .then(data => {
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let text = reader.result;
+                            this.setState({
+                                data: JSON.parse(text),
+                            })
+                        }
+                        reader.readAsText(data, 'GBK');
+                    })
                     .catch(e => console.log("error", e));
             }
         }, 1000);
@@ -50,18 +102,28 @@ class CarouselList extends Component {
 
 
     render() {
-        let {playSpeed, tableHeader, tableBody, border,url,data} = this.props.layerData;
+        let {playSpeed, tableHeader, tableBody, border, url, data} = this.props.layerData;
         //let data = data;
-        if(url){
+        if (url) {
             data = this.state.data;
         }
         let uuid = this.uuid();
 
-        var obj = {
-            constructor: uuid,
-            speed: 99 / playSpeed,  //滚动速度,值越大速度越慢
-            rowHeight: tableBody.fontSize //每行的高度
-        };
+        var obj = {};
+        if (playSpeed === 0) {
+            obj = {
+                constructor: uuid,
+                speed: 0,  //滚动速度,值越大速度越慢
+                rowHeight: tableBody.fontSize //每行的高度
+            }
+        } else {
+            obj = {
+                constructor: uuid,
+                speed: 99 / playSpeed,  //滚动速度,值越大速度越慢
+                rowHeight: tableBody.fontSize //每行的高度
+            }
+        }
+
 
         this.update(obj);
         return (
@@ -69,13 +131,13 @@ class CarouselList extends Component {
                 <table className="gridtable">
                     <thead>
                     {
-                        data.map((item, i) => {
-                            let keyArr = Object.getOwnPropertyNames(item);
+                        data.data.features.map((item, i) => {
+                            let keyArr = Object.getOwnPropertyNames(item.properties);
                             if (i === 0) {
                                 return (
                                     <tr>
                                         {
-                                            keyArr.map((item1,index) => {
+                                            keyArr.map((item1, index) => {
                                                 return (
                                                     <th style={{
                                                         textAlign: tableHeader.textAlign,
@@ -87,8 +149,8 @@ class CarouselList extends Component {
                                                         borderWidth: border.borderWidth,
                                                         borderStyle: border.borderStyle,
                                                         borderColor: border.borderColor,
-                                                        lineHeight: tableHeader.fontSize * 2 + 'px',
-                                                        height:tableHeader.fontSize * 2 + 'px',
+                                                        //lineHeight: tableHeader.fontSize * 2 + 'px',
+                                                        //height: tableHeader.fontSize * 2 + 'px',
                                                     }}>{item1}</th>
                                                 )
                                             })
@@ -101,8 +163,8 @@ class CarouselList extends Component {
                     </thead>
                     <tbody>
                     {
-                        data.map((item) => {
-                            let keyArr = Object.getOwnPropertyNames(item);
+                        data.data.features.map((item) => {
+                            let keyArr = Object.getOwnPropertyNames(item.properties);
                             return (
                                 <tr>
                                     {
@@ -118,9 +180,9 @@ class CarouselList extends Component {
                                                     borderWidth: border.borderWidth,
                                                     borderStyle: border.borderStyle,
                                                     borderColor: border.borderColor,
-                                                    lineHeight: tableBody.fontSize * 2 + 'px',
-                                                    height:tableHeader.fontSize * 2 + 'px',
-                                                }}>{item[item1]}</td>
+                                                    //lineHeight: tableBody.fontSize * 2 + 'px',
+                                                    //height: tableHeader.fontSize * 2 + 'px',
+                                                }}>{item.properties[item1]}</td>
                                             )
                                         })
                                     }
@@ -165,14 +227,19 @@ class CarouselList extends Component {
         }
 
         var id1 = opts["constructor"], sh = opts["rowHeight"], speed = opts["speed"];
-        var a = window['' + id1];
-        if (a) {
-            clearInterval(a);
+        if (speed > 0) {
+            var a = window['' + id1];
+            if (a) {
+                clearInterval(a);
+            }
+            var MyMar3 = setInterval(function () {
+                marquee(id1, sh);
+            }, speed);
+            window['' + id1] = MyMar3;
+        } else {
+            //marquee(id1, sh);
         }
-        var MyMar3 = setInterval(function () {
-            marquee(id1, sh);
-        }, speed);
-        window['' + id1] = MyMar3;
+
     }
 
 }

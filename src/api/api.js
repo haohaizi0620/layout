@@ -33,10 +33,10 @@ let deployPrev;
 let localPrev;
 if ("/data/" === typeObj.project){
   deployPrev = "http://172.26.50.89/data/";
-  localPrev = "http://127.0.0.1:8080/data/";
+  localPrev = "http://127.0.0.1:8776/data/";
 }else {
   deployPrev = "http://172.26.50.89/share/";
-  localPrev = "http://127.0.0.1:8081/share/";
+  localPrev = "http://127.0.0.1:8777/share/";
 }
 
 if (typeObj.issue){

@@ -148,51 +148,68 @@ export function getDefaultLayerData(layerType,layerId) {
         };
       }else if(layerId === "carouselList"){
           returnObj = {
-              "data": [
-                  {
-                      "序号": "1",
-                      "名称": "标题1",
-                      "备注": "循环列表1"
-                  },
-                  {
-                      "序号": "2",
-                      "名称": "标题2",
-                      "备注": "循环列表2"
-                  },
-                  {
-                      "序号": "3",
-                      "名称": "标题3",
-                      "备注": "循环列表3"
-                  },
-                  {
-                      "序号": "4",
-                      "名称": "标题4",
-                      "备注": "循环列表4"
-                  },
-                  {
-                      "序号": "5",
-                      "名称": "标题5",
-                      "备注": "循环列表5"
+              "data": {
+                  "status": 1,
+                  "info": "success",
+                  "count": 4,
+                  "data": {
+                      "type": "FeatureCollection",
+                      "features": [
+                          {
+                              "type": "Feature",
+                              "geometry": null,
+                              "properties": {
+                                  "序号": 1,
+                                  "名称": "标题一"
+                              }
+                          },
+                          {
+                              "type": "Feature",
+                              "geometry": null,
+                              "properties": {
+                                  "序号": 2,
+                                  "名称": "标题二"
+                              }
+                          },
+                          {
+                              "type": "Feature",
+                              "geometry": null,
+                              "properties": {
+                                  "序号": 3,
+                                  "名称": "标题三"
+                              }
+                          },
+                          {
+                              "type": "Feature",
+                              "geometry": null,
+                              "properties": {
+                                  "序号": 4,
+                                  "名称": "标题四"
+                              }
+                          }
+                      ]
                   }
-              ],
+              },
               "url":"",
-              "playSpeed": 1,
+              "playSpeed": 0,
               "playFlag": true,
               "tableHeader": {
                   "textAlign": "center",
                   "fontFamily": "Microsoft Yahei",
                   "fontWeight": "bold",
                   "fontSize": 16,
-                  "fontColor": "rgba(255,255,255,1)",
-                  "backgroundColor": "rgba(111,149,247,1)"
+                  "fontColor": "rgba(24,24,24,1)",
+                  "backgroundColor": "rgba(255,255,255,1)"
+                  //"backgroundColor": "transparent"
               },
               "tableBody": {
                   "textAlign": "center",
                   "fontFamily": "Microsoft Yahei",
                   "fontWeight": "normal",
                   "fontSize": 14,
-                  "fontColor": "rgba(255,255,255,1)",
-                  "backgroundColor": "transparent"
+                  "fontColor": "rgba(24,24,24,1)",
+                  "backgroundColor": "rgba(255,255,255,1)"
+                  //"backgroundColor": "transparent"
               },
               "border": {
                   "borderWidth": 0,

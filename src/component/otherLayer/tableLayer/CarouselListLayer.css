@@ -3,7 +3,9 @@
     height: calc(100%);
     margin: 0 auto;
     line-height: 26px;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 
@@ -18,7 +20,7 @@ table.gridtable {
     height: 100%;
 }
 table.gridtable th {
-    padding: 8px;
+    padding: 0px;
     /*border-width: 1px;
     border-style: solid;
     border-color: #e7e7e7;*/
@@ -26,7 +28,7 @@ table.gridtable th {
     color: #fff;
 }
 table.gridtable td {
-    padding: 8px;
+    padding: 0px;
     /*border-width: 1px;
     border-style: solid;
     border-color: #e7e7e7;*/

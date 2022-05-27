@@ -424,7 +424,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -467,7 +467,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -508,7 +508,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -571,7 +571,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -644,7 +644,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -683,7 +683,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -905,7 +905,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1009,7 +1009,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1096,7 +1096,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1249,7 +1249,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1352,7 +1352,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1457,7 +1457,7 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1570,13 +1570,13 @@ export function showChartsOption(chartsList, keyList) {
               console.log("接口没有数据")
             } else {
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
               style = "zyzx://" + mapType + "/styles/style.json"
               var mapType = ""
-              var style = "zyzx://vector_standard/styles/style.json";
+              var style = "zyzx://vector_new/styles/style.json";
               if (result && result[0]) {
                 mapType = result[0].myLegend.result[0].itemStyle.maptype;
               }
@@ -1840,6 +1840,13 @@ export function showChartsOption(chartsList, keyList) {
           }).catch(e => console.log("error", e));
         }
       } else if (layerType === "1") {
+        var xmlDoc = $($.parseXML(item.layerObj.renderer));
+        var maptype = $(xmlDoc.find('GROUPRENDERER')[0]).attr('maptype');
+        if (maptype == "" || maptype == null || maptype == "null") {
+          maptype = "vector_new";
+        }
+
+
         map = new window.dmapgl.Map({
           container: timeKey,
           zoom: 8,
@@ -1850,7 +1857,7 @@ export function showChartsOption(chartsList, keyList) {
             503428.7804260254, 345586.30670166016
           ],
           preserveDrawingBuffer: true,
-          style: 'zyzx://vector_standard/styles/style.json',
+          style: 'zyzx://'+maptype+'/styles/style.json',
         });
 
         map.on('load', function () {
@@ -1935,7 +1942,9 @@ export function showChartsOption(chartsList, keyList) {
               config,
             }
           } else if (layerId === "carouselList") {
+            debugger;
             let { data, url, playSpeed, playFlag, tableHeader, tableBody, border } = layerData;
+            console.info(data);
             tempSaveObj = {
               data,
               url,
@@ -2343,7 +2352,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2382,7 +2391,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2420,7 +2429,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2480,7 +2489,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2526,7 +2535,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2563,7 +2572,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2782,7 +2791,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2885,7 +2894,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -2972,7 +2981,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3125,7 +3134,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3226,7 +3235,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3336,7 +3345,7 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3449,13 +3458,13 @@ function addChart(data, timeId, addIndex, _this) {
           console.log("接口没有数据")
         } else {
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
           //style = "zyzx://" + mapType + "/styles/style.json"
           var mapType = ""
-          var style = "zyzx://vector_standard/styles/style.json";
+          var style = "zyzx://vector_new/styles/style.json";
           if (result && result[0]) {
             mapType = result[0].myLegend.result[0].itemStyle.maptype;
           }
@@ -3558,6 +3567,12 @@ function addChart(data, timeId, addIndex, _this) {
     }
 
   } else if ("1" === thType) { //wms或wfs
+    var xmlDoc = $($.parseXML(data.renderer));
+    var maptype = $(xmlDoc.find('GROUPRENDERER')[0]).attr('maptype');
+    if (maptype == "" || maptype == null || maptype == "null") {
+      maptype = "vector_new";
+    }
+
     /*var service = data.service;
     var layername = data.layername;
     var name = data.name;
@@ -3574,7 +3589,7 @@ function addChart(data, timeId, addIndex, _this) {
         503428.7804260254, 345586.30670166016
       ],
       preserveDrawingBuffer: true,
-      style: 'zyzx://vector_standard/styles/style.json',
+      style: 'zyzx://'+maptype+'/styles/style.json',
     });
     map.on('load', function () {
       addSKY(map);
@@ -3696,22 +3711,18 @@ function addLayerWFS(obj, map) {
 
           var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
           var imgData = new Uint8Array(width * width * bytesPerPixel);
-
-          if (styleName === 'square') { //正方形
-            for (var x = 0; x < width; x++) {
-              for (var y = 0; y < width; y++) {
-                var offset = (y * width + x) * bytesPerPixel;
-                imgData[offset + 0] = parseInt(carr[0]); // red
-                imgData[offset + 1] = parseInt(carr[1]); // green
-                imgData[offset + 2] = parseInt(carr[2]); // blue
-                imgData[offset + 3] = 255; // alpha
-              }
+          var iconSize = 1;
+          if (styleName === 'circle') {
+            iconSize = width/30;
+            if (!map.hasImage(layername)) {
+              map.loadImage('../images/symbol/'+styleName+'.png', function (error, image) {
+                map.addImage(layername, image, {sdf: true});//加载气球图片
+              });
             }
-          } else if (styleName === 'cross') { //十字
-            var half = Math.floor(width / 2);
-            for (var x = 0; x < width; x++) {
-              for (var y = 0; y < width; y++) {
-                if (x === half || y === half) {
+          } else {
+            if (styleName === 'square') { //正方形
+              for (var x = 0; x < width; x++) {
+                for (var y = 0; y < width; y++) {
                   var offset = (y * width + x) * bytesPerPixel;
                   imgData[offset + 0] = parseInt(carr[0]); // red
                   imgData[offset + 1] = parseInt(carr[1]); // green
@@ -3719,16 +3730,30 @@ function addLayerWFS(obj, map) {
                   imgData[offset + 3] = 255; // alpha
                 }
               }
+            } else if (styleName === 'cross') { //十字
+              var half = Math.floor(width / 2);
+              for (var x = 0; x < width; x++) {
+                for (var y = 0; y < width; y++) {
+                  if (x === half || y === half) {
+                    var offset = (y * width + x) * bytesPerPixel;
+                    imgData[offset + 0] = parseInt(carr[0]); // red
+                    imgData[offset + 1] = parseInt(carr[1]); // green
+                    imgData[offset + 2] = parseInt(carr[2]); // blue
+                    imgData[offset + 3] = 255; // alpha
+                  }
+                }
+              }
+            }
+
+            if (!map.hasImage(layername)) {
+              map.addImage(layername, {
+                width: width,
+                height: width,
+                data: imgData
+              });
             }
           }
 
-          if (!map.hasImage(layername)) {
-            map.addImage(layername, {
-              width: width,
-              height: width,
-              data: imgData
-            });
-          }
 
           var listElements = $(data).find('gml\\:featureMember');
           var json = '[';
@@ -3737,33 +3762,109 @@ function addLayerWFS(obj, map) {
               .each(function () {
                 var id = $($(this).find('esri\\:OBJECTID')[0]).text();
                 var coord = $($(this).find('gml\\:coordinates')[0]).text();
-                var coord1 = coord
-                  .split(' ')
-                  .join(',');
-                json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' + coord1 + ']},"properties":{"icon":" point-h"}},';
+                var coord1 = coord.split(" ").join(",");
+                var sbsjzdarr=[]
+                json += '{"type":"Feature","geometry":{"type":"Point","coordinates":[' +
+                    coord1 +']},"properties":{';
+                for (var i = 0; i < sbsjzszd.length; i++) {
+                  sbsjzdarr[i]=$($(this).find("esri\\:"+sbsjzszd[i])[0]).text()
+                  json += '"'+sbsjzszd[i]+'":"'+sbsjzdarr[i]+'",'
+                }
+                json.substring(0, json.lastIndexOf(','))
+                json +=	'"icon":" point-h"}},';
               });
             json = json.substring(0, json.length - 1);
           }
 
           json += ']';
           var fatures = JSON.parse(json);
-
-          map.addLayer({
-            "id": layername,
-            "type": "symbol",
-            "source": {
-              "type": "geojson",
-              "data": {
-                "type": "FeatureCollection",
-                "features": fatures
+          if (styleName === 'circle') {
+            map.setLayoutProperty('区界面','visibility','visible');
+            map.moveLayer('区界面', 'drawLevel');
+            map.addLayer({
+              "id": layername,
+              "type": "symbol",
+              "source": {
+                "type": "geojson",
+                "data": {
+                  "type": "FeatureCollection",
+                  "features": fatures
+                }
+              },
+              "layout": {
+                'icon-image': layername,
+                'icon-size': iconSize,
+                "icon-allow-overlap": true,
+                "icon-rotation-alignment": "map",
+                "text-keep-upright": false,
+                "text-allow-overlap": true,
+                "text-anchor": "center",
+                "text-field": "{"+sbsjzszd[0]+"}",
+                "text-font": ['Microsoft YaHei Bold'],
+                "text-size": 12,
+                "text-max-width": 12,
+                "text-ignore-placement": false,
+                "text-justify": "left",
+                "text-max-angle": 0,
+                "text-rotate": 360,
+                "text-rotation-alignment": "viewport"
+              },
+              "paint": {
+                "icon-color": 'rgb('+color+')',
+                "text-color": '#ffffff',
+                "text-translate-anchor": "map",
               }
-            },
-            "layout": {
-              'icon-image': layername/*,
-						    'icon-size' : 1,
-						    'icon-allow-overlap' : true*/
+            });
+
+            if (sbsjzszd.length>1) {
+              map.addLayer({
+                "id": layername+"text",
+                "type": "symbol",
+                "source": {
+                  "type": "geojson",
+                  "data": {
+                    "type": "FeatureCollection",
+                    "features":fatures
+                  }
+                },
+                "layout": {
+                  "text-keep-upright": false,
+                  "text-allow-overlap": true,
+                  "text-anchor": "left",
+                  "text-field": "{"+sbsjzszd[1]+"}",
+                  "text-offset": [iconSize+0.25,0],
+                  "text-font": ['Microsoft YaHei Bold'],
+                  "text-size": 12,
+                  "text-max-width": 12,
+                  "text-ignore-placement": false,
+                  "text-justify": "left",
+                  "text-max-angle": 0,
+                  "text-rotate": 360,
+                  "text-rotation-alignment": "viewport"
+                },
+                "paint": {
+                  "text-color": '#2f2f2f',
+                  "text-translate-anchor": "map",
+                }
+              });
             }
-          });
+          } else {
+            map.addLayer({
+              "id": layername,
+              "type": "symbol",
+              "source": {
+                "type": "geojson",
+                "data": {
+                  "type": "FeatureCollection",
+                  "features": fatures
+                }
+              },
+              "layout": {
+                'icon-image': layername
+              }
+            });
+          }
+
 
           map.on(sbsj,layername, function(e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
@@ -4172,23 +4273,19 @@ function recursionJZFW(type, layername, map, arr, field, index) {
           var bytesPerPixel = 4; // Each pixel is represented by 4 bytes: red, green, blue, and alpha.
           var imgData = new Uint8Array(width * width * bytesPerPixel);
 
-          if (styleName === "square") {
-            //正方形
-            for (var x = 0; x < width; x++) {
-              for (var y = 0; y < width; y++) {
-                var offset = (y * width + x) * bytesPerPixel;
-                imgData[offset + 0] = parseInt(carr[0]); // red
-                imgData[offset + 1] = parseInt(carr[1]); // green
-                imgData[offset + 2] = parseInt(carr[2]); // blue
-                imgData[offset + 3] = 255; // alpha
-              }
+          var iconSize = 1;
+          if (styleName === 'circle') {
+            iconSize = width/30;
+            if (!map.hasImage(layername + index)) {
+              map.loadImage('../images/symbol/'+styleName+'.png', function (error, image) {
+                map.addImage(layername + index, image, {sdf: true});//加载气球图片
+              });
             }
-          } else if (styleName === "cross") {
-            //十字
-            var half = Math.floor(width / 2);
-            for (var x = 0; x < width; x++) {
-              for (var y = 0; y < width; y++) {
-                if (x === half || y === half) {
+          } else {
+            if (styleName === "square") {
+              //正方形
+              for (var x = 0; x < width; x++) {
+                for (var y = 0; y < width; y++) {
                   var offset = (y * width + x) * bytesPerPixel;
                   imgData[offset + 0] = parseInt(carr[0]); // red
                   imgData[offset + 1] = parseInt(carr[1]); // green
@@ -4196,16 +4293,31 @@ function recursionJZFW(type, layername, map, arr, field, index) {
                   imgData[offset + 3] = 255; // alpha
                 }
               }
+            } else if (styleName === "cross") {
+              //十字
+              var half = Math.floor(width / 2);
+              for (var x = 0; x < width; x++) {
+                for (var y = 0; y < width; y++) {
+                  if (x === half || y === half) {
+                    var offset = (y * width + x) * bytesPerPixel;
+                    imgData[offset + 0] = parseInt(carr[0]); // red
+                    imgData[offset + 1] = parseInt(carr[1]); // green
+                    imgData[offset + 2] = parseInt(carr[2]); // blue
+                    imgData[offset + 3] = 255; // alpha
+                  }
+                }
+              }
+            }
+
+            if (!map.hasImage(layername + index)) {
+              map.addImage(layername + index, {
+                width: width,
+                height: width,
+                data: imgData,
+              });
             }
           }
 
-          if (!map.hasImage(layername + index)) {
-            map.addImage(layername + index, {
-              width: width,
-              height: width,
-              data: imgData,
-            });
-          }
 
           map.addLayer({
             id: layername + index,
@@ -4219,6 +4331,7 @@ function recursionJZFW(type, layername, map, arr, field, index) {
             },
             layout: {
               "icon-image": layername + index,
+              "icon-size": iconSize
             },
           });
         } else if (fuhaokuName === '栅格图标') {

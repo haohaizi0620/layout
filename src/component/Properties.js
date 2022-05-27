@@ -173,7 +173,7 @@ class Properties extends Component {
               cname: '宽度',
               type: 'InputNumber',
               value: cptBorderObj.width,
-              maxNumber: 2000,
+              maxNumber: 20000,
               minNumber: 80
             },
             {
@@ -181,7 +181,7 @@ class Properties extends Component {
               cname: '高度',
               type: 'InputNumber',
               value: cptBorderObj.height,
-              maxNumber: 2000,
+              maxNumber: 20000,
               minNumber: 80
             }
           ],
@@ -196,7 +196,7 @@ class Properties extends Component {
               cname: '距左',
               type: 'InputNumber',
               value: cptBorderObj.left,
-              maxNumber: 2000,
+              maxNumber: 20000,
               minNumber: 0
             },
             {
@@ -204,7 +204,7 @@ class Properties extends Component {
               cname: '距上',
               type: 'InputNumber',
               value: cptBorderObj.top,
-              maxNumber: 2000,
+              maxNumber: 20000,
               minNumber: 0
             }
           ],
@@ -437,6 +437,7 @@ class Properties extends Component {
                 value: textFieldObj.playSpeed,
                 defaultOption: 'center',
                 optionValues: [
+                  { cname: '0', value: '0' },
                   { cname: '1', value: '1' },
                   { cname: '2', value: '2' },
                   { cname: '3', value: '3' },
@@ -914,8 +915,9 @@ class Properties extends Component {
                 cname: '滚动速度',
                 type: 'Select',
                 value: carouselListObj.playSpeed,
-                defaultOption: '2',
+                defaultOption: '0',
                 optionValues: [
+                  { cname: '0', value: '0' },
                   { cname: '1', value: '1' },
                   { cname: '2', value: '2' },
                   { cname: '3', value: '3' },
